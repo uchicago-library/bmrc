@@ -1,0 +1,147 @@
+@import 'variables';
+@import "../node_modules/bulma/bulma.sass";
+
+/*
+ * Navigation Customization
+ * --------------------------------------------------
+ */
+
+body.has-navbar-fixed-top {
+	padding-top: 4.25rem;
+}
+
+nav {
+	font-size: 0.9rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	box-shadow: 0 3px 10px 2px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-item img {
+    max-height: 3.4rem;
+}
+
+
+/*
+ * Fonts
+ * --------------------------------------------------
+ */
+
+h2 {
+	color: $secondary;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    font-weight: 100;
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
+h3 {
+	color: darken($primary, 10%);
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.5;
+    margin-bottom: 1.1rem;
+}
+
+p {
+	line-height: 1.75rem;
+	&+& {
+		margin-top: 1.5rem;
+	}
+}
+
+
+/*
+ * Sections
+ * --------------------------------------------------
+ */
+
+.section {
+	padding: 1.5rem;
+	&+& {
+		border-top: 1px solid #ebebeb;
+	}
+}
+
+section.hero {
+	h3 {
+		@extend h2;
+	}
+}
+
+section.featured-news {
+	img {
+	    height: 200px;
+	    width: 100%;
+	    object-fit: contain;
+	    object-position: 50% 30%;
+	    margin-right: auto;
+	    margin-left: auto;
+	    grid-column: span 1;
+	    object-fit: cover;
+	}
+}
+
+section.featured-modules {
+	.column {
+		// &+& {
+		// 	@include respond-to(medium) {
+		// 		padding-left: 2rem;
+		// 	}
+		// }
+	}
+	h3 {
+		color: darken($accent, 30%);
+	    font-size: 1.2rem;
+		font-weight: 600;
+		margin-bottom: 0;
+	}
+	.event-date {
+	    font-weight: 600;
+	    font-style: italic;
+	    padding-right: 1em;
+	}
+}
+
+
+/*
+ * Elements
+ * --------------------------------------------------
+ */
+
+.button {
+	&.is-search {
+		background-color: $primary;
+		color: white;
+		&:hover {
+			background-color: lighten($primary, 10%);
+		}
+	}
+}
+
+
+/*
+ * Footer
+ * --------------------------------------------------
+ */
+
+footer.footer {
+    background-color: $primary;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    p {
+    	color: white;
+    	font-size: 0.8rem;
+    	line-height: 1.1rem;
+    }
+    a {
+    	color: white;
+    	font-size: 1.3rem;
+    	padding: 0.5rem;
+    	&:hover, &:focus {
+    		color: $accent;
+    	}
+    }
+}
+

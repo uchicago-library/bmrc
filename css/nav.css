@@ -1,0 +1,18 @@
+@import url("https://fonts.googleapis.com/css?family=Muli:300,400,700&display=swap");
+/*
+ * Media Queries
+ * --------------------------------------------------
+ *
+ * Use as: @include respond-to(small) { ... }
+ *		@include respond-to(medium) { ... }
+ *		@include respond-to(large) { ... }
+ */
+nav {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase; }
+
+.navbar-item img {
+  max-height: 3.4rem; }
+
+/*# sourceMappingURL=nav.css.map */

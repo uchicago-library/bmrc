@@ -1,0 +1,29 @@
+{
+  "name": "bmrc",
+  "version": "1.0.0",
+  "description": "Black Metropolis Research Consortium",
+  "main": "sass/mystyles.scss",
+  "license": "ISC",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+chicago-library/bmrc"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/uchicago-library/bmrc/issues"
+  },
+  "homepage": "https://github.com/uchicago-library#readme",
+  "devDependencies": {
+    "browser-sync": "^2.26.7",
+    "bulma": "^0.7.5",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^2.3.2",
+    "node-sass": "^4.12.0",
+  },
+  "dependencies": {
+    "gulp-sourcemaps": "^2.6.5"
+  }
+}
