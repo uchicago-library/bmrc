@@ -1,6 +1,41 @@
 @import 'variables';
 @import "../node_modules/bulma/bulma.sass";
 
+
+/*
+ * Accessibility
+ * --------------------------------------------------
+ */
+
+.visually-hidden {  // For screen readers
+	position:absolute;
+	left:-10000px;
+	top:auto;
+	width:1px;
+	height:1px;
+	overflow:hidden;
+}
+
+#skip  {
+	background: #CDE078;
+	color: #222;
+	z-index: 40;
+	a { 
+		@extend .visually-hidden;
+		padding: 2rem;
+		line-height: 2em;
+		color: #222;
+		&:focus { 
+			position:static; 
+			width:auto; 
+			height:auto; 
+		} 
+	}
+}
+
+
+
+
 /*
  * Navigation Customization
  * --------------------------------------------------
@@ -46,10 +81,72 @@ h3 {
 
 p {
 	line-height: 1.75rem;
-	&+& {
-		margin-top: 1.5rem;
+	margin-bottom: 1.5rem;
+}
+
+.highlight {
+    color: darken($primary, 10%);
+    font-weight: 600;
+}
+
+
+/*
+ * Elements
+ * --------------------------------------------------
+ */
+
+span.centered {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+
+// Links
+
+a.read-more {  // Link version of "Read More"
+	color: darken($link, 5%);
+	padding-top: 1rem;
+	&:hover, &:focus {	
+	    color: lighten($link, 10%);
+    }
+}
+
+
+// Buttons
+
+.button {
+	&.is-search {
+		background-color: $primary;
+		color: white;
+		&:hover {
+			background-color: lighten($primary, 10%);
+		}
+	}
+	&.read-more { // Button version of "Read More"
+	    font-size: 1rem;
+	    text-transform: uppercase;
+	    font-weight: 400;
+	    height: 50px;
+	    color: $secondary;
+	    background-color: white;
+	    border-color: $secondary;
+	    border: 1px solid;
+	    border-radius: 2px;
+	    padding: 1rem;
+	    margin-top: 1rem;
+	    &:hover, &:focus {	
+		    color: $text;
+		    background-color: $accent;
+		    border-color: $accent;
+	    }
 	}
 }
+
+p + .button.read-more {
+	margin-top: 0;
+}
+
 
 
 /*
@@ -64,58 +161,35 @@ p {
 	}
 }
 
-section.hero {
-	h3 {
-		@extend h2;
+section {
+	&.hero {  // Homepage Carousel
+		h3 {
+			@extend h2;
+		}
 	}
-}
-
-section.featured-news {
-	img {
-	    height: 200px;
-	    width: 100%;
-	    object-fit: contain;
-	    object-position: 50% 30%;
-	    margin-right: auto;
-	    margin-left: auto;
-	    grid-column: span 1;
-	    object-fit: cover;
+	&.featured-news {  // Homepage News
+		img {
+		    height: 200px;
+		    width: 100%;
+		    object-fit: contain;
+		    object-position: 50% 30%;
+		    margin-right: auto;
+		    margin-left: auto;
+		    grid-column: span 1;
+		    object-fit: cover;
+		}
 	}
-}
-
-section.featured-modules {
-	.column {
-		// &+& {
-		// 	@include respond-to(medium) {
-		// 		padding-left: 2rem;
-		// 	}
-		// }
-	}
-	h3 {
-		color: darken($accent, 30%);
-	    font-size: 1.2rem;
-		font-weight: 600;
-		margin-bottom: 0;
-	}
-	.event-date {
-	    font-weight: 600;
-	    font-style: italic;
-	    padding-right: 1em;
-	}
-}
-
-
-/*
- * Elements
- * --------------------------------------------------
- */
-
-.button {
-	&.is-search {
-		background-color: $primary;
-		color: white;
-		&:hover {
-			background-color: lighten($primary, 10%);
+	&.featured-modules {  // Homepage Modules
+		h3 {
+			color: darken($accent, 30%);
+		    font-size: 1.2rem;
+			font-weight: 600;
+			margin-bottom: 0;
+		}
+		.event-date {
+		    font-weight: 600;
+		    font-style: italic;
+		    padding-right: 1em;
 		}
 	}
 }
