@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
-  config.vm.network "forwarded_port", guest: 80, host: 8000
+  config.vm.network "forwarded_port", guest: 3000, host: 3000
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
@@ -90,5 +90,10 @@ Vagrant.configure("2") do |config|
     # Pip install project dependencies
     echo "Pip installing project dependencies"
     source bmrc/bin/activate && cd /vagrant/ && pip install -r requirements.txt
+
+    # Run migrations, load the dev db and build a search index
+    echo "Running django migrations and loading the dev database"
+    su - vagrant -c "$PYTHON $PROJECT_DIR/manage.py migrate --noinput"
+
   SHELL
 end

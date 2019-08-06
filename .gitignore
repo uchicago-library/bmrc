@@ -7,3 +7,4 @@
 /.vagrant/
 
 node_modules
+local.py

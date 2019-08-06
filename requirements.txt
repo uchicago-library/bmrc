@@ -1,1 +1,4 @@
-wagtail
+Django>=2.2,<2.3
+wagtail==2.6.1
+
+psycopg2==2.7.1
