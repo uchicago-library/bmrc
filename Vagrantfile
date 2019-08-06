@@ -85,6 +85,10 @@ Vagrant.configure("2") do |config|
 
     # Create a Python virtualenv
     echo "Creating a Python virtualenv"
-    cd /home/vagrant && virtualenv bmrc 
+    cd /home/vagrant && virtualenv bmrc
+
+    # Pip install project dependencies
+    echo "Pip installing project dependencies"
+    source bmrc/bin/activate && cd /vagrant/ && pip install -r requirements.txt
   SHELL
 end
