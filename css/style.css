@@ -6974,6 +6974,27 @@ label.panel-block {
   padding: 3rem 1.5rem 6rem; }
 
 /*
+ * Global
+ * --------------------------------------------------
+ */
+html {
+  height: 100%;
+  box-sizing: border-box; }
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit; }
+
+body {
+  position: relative;
+  margin: 0;
+  min-height: 100%; }
+
+.columns {
+  align-items: flex-start; }
+
+/*
  * Accessibility
  * --------------------------------------------------
  */
@@ -7018,6 +7039,13 @@ nav {
  * Fonts
  * --------------------------------------------------
  */
+h1 {
+  color: #676438;
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-transform: uppercase; }
+
 h2, section.hero h3 {
   color: #6b1722;
   font-size: 1.4rem;
@@ -7041,6 +7069,12 @@ p {
   color: #56542f;
   font-weight: 600; }
 
+ul {
+  list-style: unset;
+  padding-left: 40px; }
+  ul li {
+    margin-bottom: 0.5rem; }
+
 /*
  * Elements
  * --------------------------------------------------
@@ -7055,6 +7089,9 @@ a.read-more {
   padding-top: 1rem; }
   a.read-more:hover, a.read-more:focus {
     color: #989453; }
+
+aside + aside {
+  padding-top: 2em; }
 
 .button.is-search {
   background-color: #777441;
@@ -7083,7 +7120,7 @@ p + .button.read-more {
   margin-top: 0; }
 
 /*
- * Sections
+ * Sections (Used in homepage only)
  * --------------------------------------------------
  */
 .section {
@@ -7111,6 +7148,34 @@ section.featured-modules .event-date {
   font-weight: 600;
   font-style: italic;
   padding-right: 1em; }
+
+/*
+ * Sidebar
+ * --------------------------------------------------
+ */
+.sidebar {
+  background-color: #e6e5d1; }
+  @media (min-width: 62em) {
+    .sidebar {
+      padding: 1.25em;
+      padding-bottom: 2em;
+      margin-left: 1em;
+      margin-right: -2rem; } }
+  .sidebar h2, .sidebar section.hero h3, section.hero .sidebar h3 {
+    color: #676438;
+    font-size: 1rem;
+    font-weight: 600; }
+  .sidebar a {
+    color: #3d3d3d;
+    text-decoration: underline; }
+    .sidebar a:hover {
+      color: #777441; }
+  .sidebar ul {
+    list-style: none;
+    padding-left: unset; }
+    .sidebar ul li {
+      padding-left: 1em;
+      text-indent: -1em; }
 
 /*
  * Footer

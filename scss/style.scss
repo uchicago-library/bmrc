@@ -1,6 +1,36 @@
 @import 'variables';
 @import "../node_modules/bulma/bulma.sass";
 
+/*
+ * Global
+ * --------------------------------------------------
+ */
+
+// START Footer at bottom for short pages
+
+html { // Also component in Footer section (mobile only)
+  height: 100%;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  min-height: 100%;
+}
+
+// END Footer at bottom for short pages
+
+.columns { // Allows columns to be content aware
+	align-items: flex-start;
+}
+
 
 /*
  * Accessibility
@@ -34,8 +64,6 @@
 }
 
 
-
-
 /*
  * Navigation Customization
  * --------------------------------------------------
@@ -57,10 +85,19 @@ nav {
 }
 
 
+
 /*
  * Fonts
  * --------------------------------------------------
  */
+
+h1 {
+    color: darken($primary, 5%);
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
 
 h2 {
 	color: $secondary;
@@ -89,6 +126,14 @@ p {
     font-weight: 600;
 }
 
+ul {
+	list-style: unset;
+	padding-left: 40px;
+	li {
+		margin-bottom: 0.5rem;
+	}
+}
+
 
 /*
  * Elements
@@ -110,6 +155,12 @@ a.read-more {  // Link version of "Read More"
 	&:hover, &:focus {	
 	    color: lighten($link, 10%);
     }
+}
+
+aside {
+	&+& {
+		padding-top: 2em;
+	}
 }
 
 
@@ -150,7 +201,7 @@ p + .button.read-more {
 
 
 /*
- * Sections
+ * Sections (Used in homepage only)
  * --------------------------------------------------
  */
 
@@ -196,6 +247,43 @@ section {
 
 
 /*
+ * Sidebar
+ * --------------------------------------------------
+ */
+
+.sidebar {
+	background-color: lighten($primary, 50%);
+	@include respond-to(medium) {
+		padding: 1.25em;
+		padding-bottom: 2em;
+		margin-left: 1em;
+		margin-right: -2rem;
+
+	}
+	h2 {
+		color: darken($primary, 5%);
+	    font-size: 1rem;
+	    font-weight: 600;
+	}
+	a {
+		color: lighten($text, 10%);
+		text-decoration: underline;
+		&:hover {
+			color: $link;
+		}
+	}
+	ul {
+		list-style: none;
+		padding-left: unset;
+		li {
+		    padding-left: 1em;
+		    text-indent: -1em;
+		}
+	}
+}
+
+
+/*
  * Footer
  * --------------------------------------------------
  */
@@ -204,6 +292,12 @@ footer.footer {
     background-color: $primary;
     padding: 1.5rem;
     margin-top: 2rem;
+  //   @include respond-to(medium) {
+	 //    position: absolute;
+		// right: 0;
+		// bottom: 0;
+		// left: 0;
+  //   } @todo - find better way to solve footer issue
     p {
     	color: white;
     	font-size: 0.8rem;
