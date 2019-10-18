@@ -1,21 +1,29 @@
 {% extends "base.html" %}
 {% load static %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-homepage{% endblock %}
 
-{% block extra_css %}
-
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-<link rel="stylesheet" href="{% static 'css/welcome_page.css' %}">
-{% endblock extra_css %}
-
 {% block content %}
 
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-{% include 'home/welcome_page.html' %}
+	{% for item_set in self.carousel_images.all %}
+		{% image item_set.carousel_image max-1000x500 as img %}
+		<!-- <div class="columns single-hero-post"> -->
+            <!-- Post Thumbnail -->
+            <img src="{{ img.url }}">
+             <h3>{{ item_set.carousel_title }}</h3>
+                {{ item_set.carousel_text|richtext }}
+           <!--  <div class="column is-three-fifths slide-post-thumbnail" style="background-image: url({{ img.url }});"></div> -->
+            <!-- Post Content -->
+           <!--  <div class="column slide-post-content">
+                <h3>{{ self.carousel_title }}</h3>
+                {{ self.carousel_text|richtext }} -->
+                <a href="#" class="button read-more">Find Out More</a>
+       <!--      </div>
+        </div> -->
+	{% endfor %}
 
-{% endblock content %}
+	{% for block in page.body %}
+		{% include_block block %}
+	{% endfor %}
+{% endblock %}
