@@ -6,24 +6,36 @@
 
 {% block content %}
 
-	{% for item_set in self.carousel_images.all %}
-		{% image item_set.carousel_image max-1000x500 as img %}
-		<!-- <div class="columns single-hero-post"> -->
-            <!-- Post Thumbnail -->
-            <img src="{{ img.url }}">
-             <h3>{{ item_set.carousel_title }}</h3>
-                {{ item_set.carousel_text|richtext }}
-           <!--  <div class="column is-three-fifths slide-post-thumbnail" style="background-image: url({{ img.url }});"></div> -->
-            <!-- Post Content -->
-           <!--  <div class="column slide-post-content">
-                <h3>{{ self.carousel_title }}</h3>
-                {{ self.carousel_text|richtext }} -->
-                <a href="#" class="button read-more">Find Out More</a>
-       <!--      </div>
-        </div> -->
-	{% endfor %}
+{% if self.carousel_images %}
+  <section class="hero hero-area">
+    <div class="hero-post-slides owl-carousel">
 
-	{% for block in page.body %}
-		{% include_block block %}
-	{% endfor %}
+    	{% for item_set in self.carousel_images.all %}
+    		{% image item_set.carousel_image original as img %}
+    		<div class="columns single-hero-post">
+          <div class="column is-three-fifths slide-post-thumbnail" style="background-image: url({{ img.url }});"></div>
+            <div class="column slide-post-content">
+              <h3>{{ item_set.carousel_title }}</h3>
+              {{ item_set.carousel_text|richtext }}
+              {% if item_set.button_link.url %}
+                <a href="{{ item_set.button_link.url }}" class="button read-more">{{ item_set.button_label }}</a>
+              {% endif %}
+            </div>
+          </div>
+    	{% endfor %}
+
+    </div>
+  </section>
+{% endif %}
+
+  <section class="featured-modules section">
+    <div class="container">
+      <div class="columns is-desktop is-variable">
+      	{% for block in page.body %}
+      		{% include_block block %}
+      	{% endfor %}
+      </div>
+    </div>
+  </section>
+
 {% endblock %}

@@ -29,19 +29,22 @@ class HomePageCarouselImages(Orderable):
 	)
 	carousel_title = models.CharField(max_length=100, blank=True, null=True)
 	carousel_text = RichTextField(blank=True, null=True)
-	carousel_button = models.ForeignKey(
+	button_link = models.ForeignKey(
 		"wagtailcore.Page",
 		null=True,
 		blank=True,
 		on_delete=models.SET_NULL,
+		help_text='Where you want the button to go',
 		related_name="+",
 	)
+	button_label = models.CharField(max_length=100, null=True, blank=True, help_text='Text that shows up in button')
 
 	panels = [
 		ImageChooserPanel("carousel_image"),
 		FieldPanel("carousel_title"),
 		FieldPanel("carousel_text"),
-		PageChooserPanel("carousel_button"),
+		PageChooserPanel("button_link"),
+		FieldPanel("button_label"),
 	]
 	heading="Carousel Images",
 
@@ -61,6 +64,9 @@ class HomePage(Page):
 	body = StreamField(
 		[
 			("richtext", blocks.RichtextBlock()),
+			("page_callout", blocks.PageCallout()),
+			("webfeed", blocks.WebFeedBlock()),
+			("new_row", blocks.NewRow()),
 		],
 		null=True,
 		blank=True,

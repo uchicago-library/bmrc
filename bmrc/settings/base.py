@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     'home',
     'search',
     'streams',
-
+    'compressor',
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.embeds',
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.admin',
     'wagtail.core',
-
+    # 'wagtail.contrib.styleguide'
     'modelcluster',
     'taggit',
 
@@ -137,6 +137,8 @@ USE_TZ = True
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+    'static_precompiler.finders.StaticPrecompilerFinder',
 ]
 
 STATICFILES_DIRS = [
@@ -154,6 +156,18 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+# django-compressor settings
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'django_libsass.SassCompiler'),
+)
+
+# django-static-precompilers
+STATIC_PRECOMPILER_COMPILERS = (
+    ('static_precompiler.compilers.libsass.SCSS', {
+        'load_paths': [os.path.join(BASE_DIR, 'static/css')],
+        'output_style': 'compressed'
+    }),
+)
 
 # Wagtail settings
 

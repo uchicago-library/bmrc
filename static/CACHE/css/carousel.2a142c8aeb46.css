@@ -1,0 +1,247 @@
+/*
+ * Hero Slider
+ * --------------------------------------------------
+ */
+/* line 6, bmrc/static/css/carousel.scss */
+.hero-area, .hero-post-slides {
+  position: relative;
+  width: 100%; }
+
+/* line 15, bmrc/static/css/carousel.scss */
+.hero-area .owl-nav, .hero-post-slides .owl-nav {
+  position: absolute;
+  width: auto;
+  height: auto;
+  bottom: 0;
+  left: 65%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+  /* line 24, bmrc/static/css/carousel.scss */
+  .hero-area .owl-nav .owl-prev, .hero-area .owl-nav .owl-next, .hero-post-slides .owl-nav .owl-prev, .hero-post-slides .owl-nav .owl-next {
+    -webkit-transition-duration: 500ms;
+    transition-duration: 500ms;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 50px;
+    flex: 0 0 50px;
+    max-width: 50px;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    background-color: #ebebeb;
+    line-height: 48px;
+    text-align: center;
+    font-size: 30px; }
+    /* line 38, bmrc/static/css/carousel.scss */
+    .hero-area .owl-nav .owl-prev:hover, .hero-area .owl-nav .owl-prev:focus, .hero-area .owl-nav .owl-next:hover, .hero-area .owl-nav .owl-next:focus, .hero-post-slides .owl-nav .owl-prev:hover, .hero-post-slides .owl-nav .owl-prev:focus, .hero-post-slides .owl-nav .owl-next:hover, .hero-post-slides .owl-nav .owl-next:focus {
+      background-color: #d1bb95; }
+
+/* line 44, bmrc/static/css/carousel.scss */
+.single-hero-post {
+  position: relative;
+  overflow: hidden; }
+  /* line 47, bmrc/static/css/carousel.scss */
+  .single-hero-post .slide-post-thumbnail {
+    width: auto;
+    height: 500px;
+    margin-left: 0.75em; }
+  /* line 52, bmrc/static/css/carousel.scss */
+  .single-hero-post .slide-post-content {
+    background-color: white;
+    padding: 2em 3em; }
+
+/*
+ * OWL Items
+ * --------------------------------------------------
+ * Owl Carousel v2.2.1
+ * Copyright 2013-2017 David Deutsch
+ * Licensed under  ()
+ *
+ */
+/* line 68, bmrc/static/css/carousel.scss */
+.owl-carousel {
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  display: none;
+  width: 100%; }
+  /* line 73, bmrc/static/css/carousel.scss */
+  .owl-carousel.owl-loaded {
+    display: block; }
+  /* line 76, bmrc/static/css/carousel.scss */
+  .owl-carousel .owl-item {
+    -webkit-tap-highlight-color: transparent;
+    position: relative; }
+    /* line 79, bmrc/static/css/carousel.scss */
+    .owl-carousel .owl-item .owl-lazy {
+      opacity: 0;
+      transition: opacity 0.4s ease; }
+    /* line 83, bmrc/static/css/carousel.scss */
+    .owl-carousel .owl-item img.owl-lazy {
+      transform-style: preserve-3d; }
+  /* line 87, bmrc/static/css/carousel.scss */
+  .owl-carousel .owl-stage {
+    position: relative;
+    -ms-touch-action: pan-Y;
+    -moz-backface-visibility: hidden; }
+    /* line 91, bmrc/static/css/carousel.scss */
+    .owl-carousel .owl-stage:after {
+      content: ".";
+      display: block;
+      clear: both;
+      visibility: hidden;
+      line-height: 0;
+      height: 0; }
+  /* line 100, bmrc/static/css/carousel.scss */
+  .owl-carousel .owl-stage-outer {
+    position: relative;
+    overflow: hidden;
+    -webkit-transform: translate3d(0, 0, 0); }
+  /* line 105, bmrc/static/css/carousel.scss */
+  .owl-carousel .owl-item {
+    min-height: 1px;
+    float: left;
+    -webkit-backface-visibility: hidden;
+    -webkit-touch-callout: none; }
+    /* line 110, bmrc/static/css/carousel.scss */
+    .owl-carousel .owl-item img {
+      display: block;
+      width: 100%; }
+  /* line 115, bmrc/static/css/carousel.scss */
+  .owl-carousel .owl-item, .owl-carousel .owl-wrapper {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0); }
+  /* line 124, bmrc/static/css/carousel.scss */
+  .owl-carousel .owl-nav .owl-next, .owl-carousel .owl-nav .owl-prev {
+    cursor: pointer;
+    cursor: hand;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
+  /* line 133, bmrc/static/css/carousel.scss */
+  .owl-carousel .owl-nav.disabled {
+    display: none; }
+  /* line 137, bmrc/static/css/carousel.scss */
+  .owl-carousel.owl-loading {
+    opacity: 0;
+    display: block; }
+  /* line 141, bmrc/static/css/carousel.scss */
+  .owl-carousel.owl-hidden {
+    opacity: 0; }
+  /* line 144, bmrc/static/css/carousel.scss */
+  .owl-carousel.owl-refresh .owl-item {
+    visibility: hidden; }
+  /* line 147, bmrc/static/css/carousel.scss */
+  .owl-carousel.owl-drag .owl-item {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
+  /* line 153, bmrc/static/css/carousel.scss */
+  .owl-carousel.owl-grab {
+    cursor: move;
+    cursor: grab; }
+  /* line 157, bmrc/static/css/carousel.scss */
+  .owl-carousel.owl-rtl {
+    direction: rtl; }
+    /* line 159, bmrc/static/css/carousel.scss */
+    .owl-carousel.owl-rtl .owl-item {
+      float: right; }
+  /* line 163, bmrc/static/css/carousel.scss */
+  .owl-carousel .animated {
+    animation-duration: 1s;
+    animation-fill-mode: both; }
+  /* line 167, bmrc/static/css/carousel.scss */
+  .owl-carousel .fadeOut {
+    animation-name: fadeOut; }
+
+/* line 172, bmrc/static/css/carousel.scss */
+.no-js .owl-carousel {
+  display: block; }
+
+/* line 176, bmrc/static/css/carousel.scss */
+.owl-height {
+  transition: height 0.5s ease-in-out; }
+
+@-webkit-keyframes fadeOut {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+/*
+ * Animation
+ * --------------------------------------------------
+ */
+/* line 196, bmrc/static/css/carousel.scss */
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both; }
+
+/* line 203, bmrc/static/css/carousel.scss */
+.animated.hinge {
+  -webkit-animation-duration: 2s;
+  animation-duration: 2s; }
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+/* line 228, bmrc/static/css/carousel.scss */
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn; }
+
+@-webkit-keyframes fadeOut {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+/* line 255, bmrc/static/css/carousel.scss */
+.fadeOut {
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut; }
+
+@-webkit-keyframes fadeOutDown {
+  0% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0); }
+  100% {
+    opacity: 0;
+    -webkit-transform: translateY(20px);
+    transform: translateY(20px); } }
+
+@keyframes fadeOutDown {
+  0% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0); }
+  100% {
+    opacity: 0;
+    -webkit-transform: translateY(20px);
+    -ms-transform: translateY(20px);
+    transform: translateY(20px); } }

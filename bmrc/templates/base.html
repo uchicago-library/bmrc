@@ -1,3 +1,5 @@
+{% load cache compress static wagtailuserbar %}
+{% load wagtailcore_tags %}
 {% load static wagtailuserbar %}
 
 <!DOCTYPE html>
@@ -18,7 +20,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {# Global stylesheets #}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/bmrc.css' %}">
+            <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"></script>
+        {% compress css %}
+        {# SCSS compilation relies on django compressor #}
+            <link rel="stylesheet" type="text/x-scss" href="{% static 'css/carousel.scss' %}">
+            <link rel="stylesheet" type="text/x-scss" href="{% static 'css/style.scss' %}">
+        {% endcompress %}
 
         {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
@@ -28,10 +35,64 @@
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
 
-        {% block content %}{% endblock %}
+        <div id="skip">
+            <a href="#content">Skip to Main Content</a>
+            <a href="#sidebar">Skip to Side Bar</a>
+            <a href="#footer">Skip to Footer</a>
+        </div>
+
+        <nav class="navbar is-fixed-top" role="navigation" aria-label="Main Navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="#"><img class="nav-brand" src="static/img/BMRC-Logo.png" alt=""></a>
+                <div class="navbar-burger burger" data-target="navbarExampleTransparentExample" onclick="toggleBurger()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <div id="navbarExampleTransparentExample" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="#">Search Member Collections</a>
+                    <a class="navbar-item" href="#">Programs</a>
+                    <a class="navbar-item" href="#">News</a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link" href="#">About</a>
+                        <div class="navbar-dropdown is-boxed">
+                            <a class="navbar-item" href="#">About the BMRC</a>
+                            <a class="navbar-item" href="#">Staff &amp; Board Members</a>
+                            <a class="navbar-item" href="#">Membership</a>
+                        </div>
+                    </div>  
+                    <a class="navbar-item" href="#">Contact</a>
+                </div>
+
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="field has-addons">
+                          <div class="control">
+                            <input class="input" type="text" placeholder="Site search">
+                          </div>
+                          <div class="control">
+                            <a class="button is-search">
+                              <i class="fa fa-search"></i>
+                            </a>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <main id="content" role="main">
+            {% block content %}{% endblock %}
+        </main>
 
         {# Global javascript #}
-        <script type="text/javascript" src="{% static 'js/bmrc.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery/jquery-2.2.4.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/plugins/plugins.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/nav.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/active.js' %}"></script> <!-- For Hero Slider -->
 
         {% block extra_js %}
             {# Override this in templates to add extra javascript #}

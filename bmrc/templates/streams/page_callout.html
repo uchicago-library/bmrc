@@ -1,0 +1,8 @@
+<div class="column">
+    <h2>{{ self.callout_title }}</h2>
+    {{ self.callout_text }}
+	
+	{% if self.button_link.url %}
+	    <a class="button read-more" href="{{ self.button_link.url }}">{{ self.button_label }}</a>
+    {% endif %}
+</div>
