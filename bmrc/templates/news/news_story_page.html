@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}news_story{% endblock %}
+
+{% block content %}
+
+<div class="container section">
+    <h1>{{self.title}}</h1>
+    <div class="columns is-desktop is-variable">
+
+	{% image self.lead_image original as img %}
+        <div class="column is-full-mobile is-four-fifths-desktop">
+        	{% if self.lead_image %}
+				<img src="{{ img.url }}" class="news-lead-img" alt="{{ img.alt }}">
+			{% endif %}
+
+			{% for block in page.body %}
+	      		{% include_block block %}
+	      	{% endfor %}
+        </div>
+
+    </div>  <!-- // END columns -->
+
+</div>  <!-- // END container -->
+
+{% endblock %}

@@ -27,6 +27,9 @@ INSTALLED_APPS = [
     'home',
     'search',
     'streams',
+    'standard',
+    'news',
+
     'compressor',
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
@@ -39,7 +42,6 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.admin',
     'wagtail.core',
-    # 'wagtail.contrib.styleguide'
     'modelcluster',
     'taggit',
 

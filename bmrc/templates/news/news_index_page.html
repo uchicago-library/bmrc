@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}news_index{% endblock %}
+
+{% block content %}
+
+<div class="container section">
+	<h1>{{self.title}}</h1>
+
+	{% for post in posts %}
+	{% image post.lead_image original as img %}
+		{% if post.lead_image %}
+		<a href="{{ post.url }}">
+			<img src="{{ img.url }}" alt="{{ img.alt }}">
+		</a>
+		{% endif %}
+
+		<h2 class="h3">{{post.title}}</h2>
+		<p>{{ post.excerpt }}</p>
+
+        <a href="{{ post.url }}" class="read-more">Read full story <span class="visually-hidden">on {{post.title}}</span><i class="fas fa-long-arrow-alt-right"></i></a>
+	{% endfor %}
+
+</div>  <!-- // END container -->
+
+{% endblock %}
