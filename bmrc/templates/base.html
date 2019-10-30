@@ -43,7 +43,7 @@
 
         <nav class="navbar is-fixed-top" role="navigation" aria-label="Main Navigation">
             <div class="navbar-brand">
-                <a class="navbar-item" href="#"><img class="nav-brand" src="{% static 'img/BMRC-Logo.png' %}" alt=""></a>
+                <a class="navbar-item" href="/"><img class="nav-brand" src="{% static 'img/BMRC-Logo.png' %}" alt=""></a>
                 <div class="navbar-burger burger" data-target="navbarExampleTransparentExample" onclick="toggleBurger()">
                     <span></span>
                     <span></span>
@@ -85,6 +85,20 @@
         </nav>
         
         <main id="content" role="main">
+
+            {% if self.get_ancestors|length > 1 %}
+            <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+              <ul>
+                {% for page in self.get_ancestors %}
+                {% if page.is_root == False %}
+                <li><a href="{% pageurl page %}">{{ page.title }}</a></li>
+                {% endif %}
+                {% endfor %}
+                <li class="is-active"><a href="#" aria-current="page">{{ self.title }}</a></li>
+              </ul>
+            </nav>
+            {% endif %}
+
             {% block content %}{% endblock %}
         </main>
 

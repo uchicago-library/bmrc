@@ -38,6 +38,14 @@ main {
 	align-items: flex-start;
 }
 
+nav.breadcrumb {
+	padding-top: 1em;
+	margin-bottom: 0!important;
+	ul {
+		padding-left: 15px;
+	}
+}
+
 
 /*
  * Accessibility
@@ -168,6 +176,15 @@ aside {
 	&+& {
 		padding-top: 2em;
 	}
+}
+
+.fellows-block {
+    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+    color: #232323;
+    margin-top: 0.5em;
+    p {
+    	margin-bottom: 0;
+    }
 }
 
 

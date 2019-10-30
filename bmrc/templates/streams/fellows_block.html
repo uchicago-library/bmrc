@@ -1,0 +1,17 @@
+{% load wagtailimages_tags %}
+{% image value.image fill-200x200 as tmp_img %}
+
+
+<div class="columns is-desktop fellows-block">
+  
+  <div class="column is-one-quarter">
+    <figure class="image">
+      <img src="{{ tmp_img.url }}" alt="{{ value.image }}">
+    </figure>
+  </div>
+
+  <div class="column content">
+    {{ value.profile_text }}
+  </div>
+
+</div>

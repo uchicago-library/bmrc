@@ -2,11 +2,12 @@
 *.pyc
 *.swp
 .sass-cache
+db.sqlite3
 
 .vagrant/
 /.vagrant/
 
 node_modules
 local.py
-
-# home/migrations
+/static
+/media

@@ -7,8 +7,6 @@ from django.utils import timezone
 
 from wagtail.admin.edit_handlers import (
 	FieldPanel,
-	# InlinePanel,
-	# MultiFieldPanel,
 	StreamFieldPanel,
 )
 from wagtail.core.fields import StreamField
@@ -28,6 +26,7 @@ class NewsIndexPage(Page):
 
 	def get_context(self, request, *args, **kwargs):
 		"""Custom items to context."""
+
 		context = super().get_context(request, *args, **kwargs)
 		# Get all posts
 		all_posts = NewsStoryPage.objects.live().public().order_by('-story_date')

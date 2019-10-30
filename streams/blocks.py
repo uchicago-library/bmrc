@@ -79,3 +79,19 @@ class NewRow(blocks.StructBlock):
 		template = "streams/new_row.html"
 		icon = "horizontalrule"
 		label = "New Row"
+
+
+class FellowsBlock(blocks.StructBlock):
+	"""Image streamfield block."""
+
+	image = ImageChooserBlock(required=False, label='Profile Photo')
+	profile_text = RichtextBlock(
+		required=False,
+		features=["bold", "italic", "link"],
+		label='Profile Text',
+	)
+
+	class Meta:
+		icon = 'user'
+		template = 'streams/fellows_block.html'
+

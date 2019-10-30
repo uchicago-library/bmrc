@@ -45,6 +45,7 @@ class StandardPage(Page):
 			("page_callout", blocks.PageCallout()),
 			("image_block", blocks.ImageBlock()),
 			("new_row", blocks.NewRow()),
+			("fellows_block", blocks.FellowsBlock()),
 		],
 		null=True,
 		blank=True,
