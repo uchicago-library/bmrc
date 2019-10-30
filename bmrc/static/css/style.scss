@@ -80,7 +80,7 @@ body.has-navbar-fixed-top {
 	padding-top: 4.25rem;
 }
 
-nav {
+nav.navbar {
 	font-size: 0.9rem;
 	font-weight: 600;
 	text-transform: uppercase;
@@ -278,7 +278,7 @@ section {
 			@extend h2;
 		}
 	}
-	&.featured-news {  // Homepage News
+	&.featured-news, .news-index {  // Homepage News
 		img {
 		    height: 200px;
 		    width: 100%;
@@ -304,6 +304,44 @@ section {
 		}
 	}
 }
+
+
+/*
+ * News
+ * --------------------------------------------------
+ */
+
+.news-index {  // News Index Page
+	img {
+	    height: 200px;
+	    width: 100%;
+	    object-fit: contain;
+	    object-position: 50% 30%;
+	    margin-right: auto;
+	    margin-left: auto;
+	    grid-column: span 1;
+	    object-fit: cover;
+	}
+	article {
+		margin-bottom: 2em;
+	}
+}
+
+body.news_story {
+	h1 {
+		margin-bottom: 0;
+	}
+	.news-date {
+		font-size: 0.85rem; 
+	}
+}
+
+nav.pagination {
+	ul.pagination-list {
+	    list-style: none;
+	}
+}
+
 
 
 /*

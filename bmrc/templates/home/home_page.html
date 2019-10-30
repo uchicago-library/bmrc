@@ -28,14 +28,44 @@
   </section>
 {% endif %}
 
+  <section class="featured-news section">
+    <div class="container">
+      <h2>Recent News</h2>
+      <div class="columns is-desktop is-variable is-4">
+      {% for post in page.news_feed %}
+        <div class="column is-full-mobile is-one-third-desktop">
+        {% image post.lead_image original as img %}
+        <article>
+          {% if post.lead_image %}
+          <figure>
+            <a href="{{ post.url }}">
+            <img src="{{ img.url }}" alt="{{ img.alt }}">
+            </a>
+          </figure>
+          {% endif %}
+
+        <h2 class="h3">{{post.title}}</h2>
+        <p>{{ post.excerpt }}</p>
+
+        <a href="{{ post.url }}" class="read-more">Read full story <span class="visually-hidden">on {{post.title}}</span><i class="fas fa-long-arrow-alt-right"></i></a>
+        </article>
+        </div>
+      {% endfor %}
+    </div>
+
+    </div>
+  </section>
+
+
   <section class="featured-modules section">
     <div class="container">
-      <div class="columns is-desktop is-variable">
+      <div class="columns is-desktop">
       	{% for block in page.body %}
       		{% include_block block %}
       	{% endfor %}
       </div>
     </div>
   </section>
+
 
 {% endblock %}

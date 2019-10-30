@@ -6,22 +6,51 @@
 
 {% block content %}
 
-<div class="container section">
+<div class="container section news-index">
 	<h1>{{self.title}}</h1>
 
+	<div class="columns is-desktop is-multiline is-variable is-4">
+
 	{% for post in posts %}
-	{% image post.lead_image original as img %}
-		{% if post.lead_image %}
-		<a href="{{ post.url }}">
-			<img src="{{ img.url }}" alt="{{ img.alt }}">
-		</a>
+		<div class="column is-full-mobile is-one-third-desktop">
+			{% image post.lead_image original as img %}
+			<article>
+				{% if post.lead_image %}
+				<figure>
+					<a href="{{ post.url }}">
+						<img src="{{ img.url }}" alt="{{ img.alt }}">
+					</a>
+				</figure>
+				{% endif %}
+
+				<h2 class="h3">{{post.title}}</h2>
+				<p>{{ post.excerpt }}</p>
+
+		        <a href="{{ post.url }}" class="read-more">Read full story <span class="visually-hidden">on {{post.title}}</span><i class="fas fa-long-arrow-alt-right"></i></a>
+		    </article>
+	    </div>
+	{% endfor %}
+
+	</div>  <!-- // END columns -->
+
+	{% if posts.paginator.num_pages > 1 %}
+	<nav class="pagination" role="navigation" aria-label="pagination">
+		{% if posts.has_previous %}
+			<a href="?page={{ posts.previous_page_number }}" class="pagination-previous" aria-label="Go to Previous Page">Previous</a>
+		{% endif %}
+		{% if posts.has_next %}
+			<a href="?page={{ posts.next_page_number }}" class="pagination-next" aria-label="Go to Next Page">Next page</a>
 		{% endif %}
 
-		<h2 class="h3">{{post.title}}</h2>
-		<p>{{ post.excerpt }}</p>
-
-        <a href="{{ post.url }}" class="read-more">Read full story <span class="visually-hidden">on {{post.title}}</span><i class="fas fa-long-arrow-alt-right"></i></a>
-	{% endfor %}
+		<ul class="pagination-list">
+			{% for page_num in posts.paginator.page_range %}
+			<li>
+				<a href="?page={{ page_num }}" class="pagination-link {% if page_num == posts.number %}is-current{% endif %}" aria-label="Page {{ page_num }}" {% if page_num == posts.number %}aria-current="page"{% endif %}>{{ page_num }}</a>
+			</li>
+			{% endfor %}
+		</ul>
+	</nav>
+	{% endif %}
 
 </div>  <!-- // END container -->
 

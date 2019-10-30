@@ -8,7 +8,8 @@
 
 <div class="container section">
     <h1>{{self.title}}</h1>
-    <div class="columns is-desktop is-variable">
+    <p class="news-date">{{ self.story_date|date:"F j, Y" }}</p>
+    <div class="columns is-desktop">
 
 	{% image self.lead_image original as img %}
         <div class="column is-full-mobile is-four-fifths-desktop">

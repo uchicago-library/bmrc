@@ -14,6 +14,7 @@ from wagtail.core.models import Page, Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from streams import blocks
+from news.models import NewsStoryPage
 
 
 class HomePageCarouselImages(Orderable):
@@ -48,10 +49,6 @@ class HomePageCarouselImages(Orderable):
 	]
 	heading="Carousel Images",
 
-	# api_fields = [
-	# 	APIField("carousel_image"),
-	# ]
-
 
 class HomePage(Page):
 	"""Home page model"""
@@ -80,6 +77,18 @@ class HomePage(Page):
 		),
 		StreamFieldPanel("body"),
 	]
+
+	# News Feed
+	def get_context(self, request):
+		context = super(HomePage, self).get_context(request)
+		context["news_feed"] = self.news_feed()
+		return context
+
+	def news_feed(self):
+		# Order by most recent date first
+		news_feed = NewsStoryPage.objects.live().public().order_by('-story_date')[:3]
+
+		return news_feed
 
 	class Meta:
 
