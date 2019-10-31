@@ -3,6 +3,7 @@
 *.swp
 .sass-cache
 db.sqlite3
+*.sqlite3
 
 .vagrant/
 /.vagrant/
@@ -10,4 +11,4 @@ db.sqlite3
 node_modules
 local.py
 /static
-/media
+/media/
