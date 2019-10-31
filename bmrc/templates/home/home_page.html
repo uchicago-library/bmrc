@@ -7,7 +7,7 @@
 {% block content %}
 
 {% if self.carousel_images %}
-  <section class="hero hero-area">
+  <section class="hero hero-area section">
     <div class="hero-post-slides owl-carousel">
 
     	{% for item_set in self.carousel_images.all %}
@@ -23,7 +23,6 @@
             </div>
           </div>
     	{% endfor %}
-
     </div>
   </section>
 {% endif %}

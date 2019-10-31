@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags %}
+
+{% block body_class %}contact_page{% endblock %}
+
+{% block content %}
+
+<div class="container section">
+    <h1>{{ page.title }}</h1>
+
+    {{ self.thank_you_text|richtext }}
+
+</div>
+
+
+{% endblock %}

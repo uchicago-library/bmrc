@@ -187,6 +187,27 @@ aside {
     }
 }
 
+body.contact_page form {
+	input[type="text"], input[type="email"], select, textarea {
+	    font-family: "Muli", sans-serif;
+	    box-shadow: inset 0 0.0625em 0.125em rgba(10,10,10,.05);
+	    max-width: 100%;
+	    width: 100%;
+	    background-color: #fff;
+	    border-color: #dbdbdb;
+	    border-radius: 4px;
+	    color: #363636;
+	    font-size: 1.2rem;
+	}
+	ul {
+		list-style: none;
+		padding-left: 0;
+		input {
+			box-shadow: none;
+		}
+	}
+
+}
 
 // Images
 

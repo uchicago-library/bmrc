@@ -53,15 +53,15 @@
 
             <div id="navbarExampleTransparentExample" class="navbar-menu">
                 <div class="navbar-start">
-                    <a class="navbar-item" href="#">Search Member Collections</a>
-                    <a class="navbar-item" href="#">Programs</a>
-                    <a class="navbar-item" href="#">News</a>
+                    <a class="navbar-item" href="/collections/">Search Collections</a>
+                    <a class="navbar-item" href="/programs/">Programs</a>
+                    <a class="navbar-item" href="/news/">News</a>
                     <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link" href="#">About</a>
+                        <a class="navbar-link" href="/about/">About</a>
                         <div class="navbar-dropdown is-boxed">
-                            <a class="navbar-item" href="#">About the BMRC</a>
-                            <a class="navbar-item" href="#">Staff &amp; Board Members</a>
-                            <a class="navbar-item" href="#">Membership</a>
+                            <a class="navbar-item" href="/about/">About the BMRC</a>
+                            <a class="navbar-item" href="/about/staff/">Staff &amp; Board Members</a>
+                            <a class="navbar-item" href="/about/membership">Membership</a>
                         </div>
                     </div>  
                     <a class="navbar-item" href="#">Contact</a>
@@ -101,6 +101,27 @@
 
             {% block content %}{% endblock %}
         </main>
+
+        <footer id="footer" class="footer" role="contentinfo">
+            <div class="container">
+                <div class="content has-text-centered">
+                    {% if settings.site_settings.FooterSettings.facebook %}
+                        <a href="{{ settings.site_settings.FooterSettings.facebook }}"><i class="fab fa-facebook-square"></i></a>
+                    {% endif %}
+                    {% if settings.site_settings.FooterSettings.twitter %}
+                        <a href="{{ settings.site_settings.FooterSettings.twitter }}"><i class="fab fa-twitter-square"></i></a>
+                    {% endif %}
+                    {% if settings.site_settings.FooterSettings.instagram %}
+                        <a href="{{ settings.site_settings.FooterSettings.instagram }}"><i class="fab fa-instagram"></i></a>
+                    {% endif %}
+
+                    {% if settings.site_settings.FooterSettings.address %}
+                        {{ settings.site_settings.FooterSettings.address|richtext }}
+                    {% endif %}
+
+                </div>
+            </div>
+        </footer>
 
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/jquery/jquery-2.2.4.min.js' %}"></script>
