@@ -1,5 +1,5 @@
 {% load cache compress static wagtailuserbar %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags cache %}
 {% load static wagtailuserbar %}
 
 <!DOCTYPE html>
@@ -41,48 +41,50 @@
             <a href="#footer">Skip to Footer</a>
         </div>
 
-        <nav class="navbar is-fixed-top" role="navigation" aria-label="Main Navigation">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="/"><img class="nav-brand" src="{% static 'img/BMRC-Logo.png' %}" alt=""></a>
-                <div class="navbar-burger burger" data-target="navbarExampleTransparentExample" onclick="toggleBurger()">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-
-            <div id="navbarExampleTransparentExample" class="navbar-menu">
-                <div class="navbar-start">
-                    <a class="navbar-item" href="/collections/">Search Collections</a>
-                    <a class="navbar-item" href="/programs/">Programs</a>
-                    <a class="navbar-item" href="/news/">News</a>
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link" href="/about/">About</a>
-                        <div class="navbar-dropdown is-boxed">
-                            <a class="navbar-item" href="/about/">About the BMRC</a>
-                            <a class="navbar-item" href="/about/staff/">Staff &amp; Board Members</a>
-                            <a class="navbar-item" href="/about/membership">Membership</a>
-                        </div>
-                    </div>  
-                    <a class="navbar-item" href="#">Contact</a>
+        {% cache 604800 navigation %}
+            <nav class="navbar is-fixed-top" role="navigation" aria-label="Main Navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="/"><img class="nav-brand" src="{% static 'img/BMRC-Logo.png' %}" alt=""></a>
+                    <div class="navbar-burger burger" data-target="navbarExampleTransparentExample" onclick="toggleBurger()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
                 </div>
 
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="field has-addons">
-                          <div class="control">
-                            <input class="input" type="text" placeholder="Site search">
-                          </div>
-                          <div class="control">
-                            <a class="button is-search">
-                              <i class="fa fa-search"></i>
-                            </a>
-                          </div>
+                <div id="navbarExampleTransparentExample" class="navbar-menu">
+                    <div class="navbar-start">
+                        <a class="navbar-item" href="/collections/">Search Collections</a>
+                        <a class="navbar-item" href="/programs/">Programs</a>
+                        <a class="navbar-item" href="/news/">News</a>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link" href="/about/">About</a>
+                            <div class="navbar-dropdown is-boxed">
+                                <a class="navbar-item" href="/about/">About the BMRC</a>
+                                <a class="navbar-item" href="/about/staff/">Staff &amp; Board Members</a>
+                                <a class="navbar-item" href="/about/membership">Membership</a>
+                            </div>
+                        </div>  
+                        <a class="navbar-item" href="#">Contact</a>
+                    </div>
+
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            <div class="field has-addons">
+                              <div class="control">
+                                <input class="input" type="text" placeholder="Site search">
+                              </div>
+                              <div class="control">
+                                <a class="button is-search">
+                                  <i class="fa fa-search"></i>
+                                </a>
+                              </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        {% endcache %}
         
         <main id="content" role="main">
 
@@ -102,26 +104,28 @@
             {% block content %}{% endblock %}
         </main>
 
-        <footer id="footer" class="footer" role="contentinfo">
-            <div class="container">
-                <div class="content has-text-centered">
-                    {% if settings.site_settings.FooterSettings.facebook %}
-                        <a href="{{ settings.site_settings.FooterSettings.facebook }}"><i class="fab fa-facebook-square"></i></a>
-                    {% endif %}
-                    {% if settings.site_settings.FooterSettings.twitter %}
-                        <a href="{{ settings.site_settings.FooterSettings.twitter }}"><i class="fab fa-twitter-square"></i></a>
-                    {% endif %}
-                    {% if settings.site_settings.FooterSettings.instagram %}
-                        <a href="{{ settings.site_settings.FooterSettings.instagram }}"><i class="fab fa-instagram"></i></a>
-                    {% endif %}
+        {% cache 604800 footer %}
+            <footer id="footer" class="footer" role="contentinfo">
+                <div class="container">
+                    <div class="content has-text-centered">
+                        {% if settings.site_settings.FooterSettings.facebook %}
+                            <a href="{{ settings.site_settings.FooterSettings.facebook }}"><i class="fab fa-facebook-square"></i></a>
+                        {% endif %}
+                        {% if settings.site_settings.FooterSettings.twitter %}
+                            <a href="{{ settings.site_settings.FooterSettings.twitter }}"><i class="fab fa-twitter-square"></i></a>
+                        {% endif %}
+                        {% if settings.site_settings.FooterSettings.instagram %}
+                            <a href="{{ settings.site_settings.FooterSettings.instagram }}"><i class="fab fa-instagram"></i></a>
+                        {% endif %}
 
-                    {% if settings.site_settings.FooterSettings.address %}
-                        {{ settings.site_settings.FooterSettings.address|richtext }}
-                    {% endif %}
+                        {% if settings.site_settings.FooterSettings.address %}
+                            {{ settings.site_settings.FooterSettings.address|richtext }}
+                        {% endif %}
 
+                    </div>
                 </div>
-            </div>
-        </footer>
+            </footer>
+        {% endcache %}
 
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/jquery/jquery-2.2.4.min.js' %}"></script>

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags cache %}
 
 {% block body_class %}news_index{% endblock %}
 
@@ -12,23 +12,25 @@
 	<div class="columns is-desktop is-multiline is-variable is-4">
 
 	{% for post in posts %}
-		<div class="column is-full-mobile is-one-third-desktop">
-			{% image post.lead_image original as img %}
-			<article>
-				{% if post.lead_image %}
-				<figure>
-					<a href="{{ post.url }}">
-						<img src="{{ img.url }}" alt="{{ img.alt }}">
-					</a>
-				</figure>
-				{% endif %}
+		{% cache 604800 news_post_preview post.id %}
+			<div class="column is-full-mobile is-one-third-desktop">
+				{% image post.lead_image original as img %}
+				<article>
+					{% if post.lead_image %}
+					<figure>
+						<a href="{{ post.url }}">
+							<img src="{{ img.url }}" alt="{{ img.alt }}">
+						</a>
+					</figure>
+					{% endif %}
 
-				<h2 class="h3">{{post.title}}</h2>
-				<p>{{ post.excerpt }}</p>
+					<h2 class="h3">{{post.title}}</h2>
+					<p>{{ post.excerpt }}</p>
 
-		        <a href="{{ post.url }}" class="read-more">Read full story <span class="visually-hidden">on {{post.title}}</span><i class="fas fa-long-arrow-alt-right"></i></a>
-		    </article>
-	    </div>
+			        <a href="{{ post.url }}" class="read-more">Read full story <span class="visually-hidden">on {{post.title}}</span><i class="fas fa-long-arrow-alt-right"></i></a>
+			    </article>
+		    </div>
+	    {% endcache %}
 	{% endfor %}
 
 	</div>  <!-- // END columns -->
