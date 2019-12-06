@@ -19,8 +19,6 @@ from streams import blocks
 class NewsIndexPage(Page):
     """Lists all news story pages."""
 
-    # template = "blog/blog_listing_page.html"
-    # ajax_template = "blog/blog_listing_page_ajax.html"
     max_count = 1
     subpage_types = ['news.NewsStoryPage']
 
@@ -52,8 +50,6 @@ class NewsIndexPage(Page):
 
 class NewsStoryPage(Page):
     """News story page model"""
-
-    # template = "standard/standard_page.html"
 
     subpage_types = []
     parent_page_types = ['news.NewsIndexPage']

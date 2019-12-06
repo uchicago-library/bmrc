@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'news',
     'contact',
     'site_settings',
+    'memb_collections',
 
     'compressor',
     'wagtail.contrib.forms',

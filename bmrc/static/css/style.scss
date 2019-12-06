@@ -345,6 +345,26 @@ section {
 
 
 /*
+ * Member Collection Search
+ * --------------------------------------------------
+ */
+
+.memb_coll {
+	.input {
+		max-width: 80%;
+	}
+	.button {
+		background-color: $primary;
+		color: white;
+		&:hover {
+			background-color: lighten($primary, 10%);
+		}
+	}
+}
+
+
+
+/*
  * News
  * --------------------------------------------------
  */

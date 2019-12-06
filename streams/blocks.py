@@ -2,7 +2,7 @@
 
 from django import forms
 from wagtail.core import blocks
-from wagtail.core.blocks import (FieldBlock, RawHTMLBlock)
+from wagtail.core.blocks import (CharBlock, FieldBlock, RawHTMLBlock)
 from wagtail.images.blocks import ImageChooserBlock
 
 
@@ -94,4 +94,19 @@ class FellowsBlock(blocks.StructBlock):
     class Meta:
         icon = 'user'
         template = 'streams/fellows_block.html'
+
+
+class MembCollSearchBlock(blocks.StructBlock):
+    """Search box for Member Collections."""
+
+    label = CharBlock(required=False, help_text="Optional: Label placed above search box")
+    # placeholder_text = CharBlock(required=False, help_text="Defaults to 'Search Member Collections'")
+    search_help_text = CharBlock(required=False, help_text="Optional: Placed below search box")
+
+    class Meta:
+        template = "streams/memb_coll_search_block.html"
+        icon = "search"
+        label = "Collections Search Box"
+
+
 
