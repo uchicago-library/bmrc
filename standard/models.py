@@ -39,6 +39,8 @@ class StandardPage(Page):
 
     template = "standard/standard_page.html"
 
+    search_fields = Page.search_fields
+
     body = StreamField(
         [
             ("richtext", blocks.RichtextBlock()),
