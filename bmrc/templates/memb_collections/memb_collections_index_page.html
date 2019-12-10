@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}standard_page{% endblock %}
+
+{% block content %}
+
+    <div class="container section">
+        <h1>{{self.title}}</h1>
+        <div class="columns is-desktop is-variable">
+
+            <div class="column is-full-mobile is-four-fifths-desktop">
+                {% for block in page.body %}
+                    {% include_block block %}
+                {% endfor %}
+            </div>
+
+            {% if self.sidebar.all %}
+                <div class="column sidebar" role="complementary">
+                    {% for item_set in self.sidebar.all %}
+                    <aside>
+                        <h2>{{ item_set.sidebar_title }}</h2>
+                        {{ item_set.sidebar_text|richtext }}
+                    </aside>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+        </div>  <!-- // END columns -->
+
+    </div>  <!-- // END container -->
+
+{% endblock %}

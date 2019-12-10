@@ -16,7 +16,7 @@
 	      	{% endfor %}
         </div>
 
-		{% if self.sidebar %}
+		{% if self.sidebar.all %}
 	        <div class="column sidebar" role="complementary">
 	        	{% for item_set in self.sidebar.all %}
 	            <aside>

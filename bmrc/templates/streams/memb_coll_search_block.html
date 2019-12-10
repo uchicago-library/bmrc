@@ -1,0 +1,16 @@
+<div class="column">
+	<div class="field">
+		{% if self.label %}
+			<label class="label">Label</label>
+		{% endif %}
+
+		<form class="memb_coll" action="https://www.lib.uchicago.edu/bmrc/search.php" method="get">
+		    <input class="input control" type="text" placeholder="Search member collections" name="searchq" aria-label="Search Member Collections" aria-describedby="coll_help">
+		    <button class="button" type="submit">Search</button>
+
+		    {% if self.search_help_text %}
+			    <p class="help" id="coll_help">This is a help text</p>
+		    {% endif %}
+		</form>
+	</div>
+</div>
