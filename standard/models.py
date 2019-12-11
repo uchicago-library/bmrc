@@ -12,6 +12,7 @@ from wagtail.admin.edit_handlers import (
 )
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page, Orderable
+from wagtail.search import index
 
 from streams import blocks
 
@@ -39,7 +40,9 @@ class StandardPage(Page):
 
     template = "standard/standard_page.html"
 
-    search_fields = Page.search_fields
+    search_fields = Page.search_fields + [
+        index.SearchField('search_description')
+    ]
 
     body = StreamField(
         [
