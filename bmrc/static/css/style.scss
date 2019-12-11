@@ -1,51 +1,6 @@
 @import 'variables';
 @import "bulma/bulma.sass";
 
-/*
- * Global
- * --------------------------------------------------
- */
-
-// START Footer at bottom for short pages
-
-html { // Also component in Footer section (mobile only)
-  height: 100%;
-  box-sizing: border-box;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-
-// body {
-//   position: relative;
-//   margin: 0;
-//   min-height: 100%;
-// }
-
-// END Footer at bottom for short pages
-
-main {
-    margin-top: 3em;
-	@include respond-to(small) {
-	    margin-top: 4em;
-	}
-}
-
-.columns { // Allows columns to be content aware
-	align-items: flex-start;
-}
-
-nav.breadcrumb {
-	padding-top: 1em;
-	margin-bottom: 0!important;
-	ul {
-		padding-left: 15px;
-	}
-}
-
 
 /*
  * Accessibility
@@ -80,25 +35,36 @@ nav.breadcrumb {
 
 
 /*
- * Navigation Customization
+ * Global
  * --------------------------------------------------
  */
 
-body.has-navbar-fixed-top {
-	padding-top: 4.25rem;
+body { // Part 1 for Footer at bottom for short pages
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
-nav.navbar {
-	font-size: 0.9rem;
-	font-weight: 600;
-	text-transform: uppercase;
-	box-shadow: 0 3px 10px 2px rgba(0, 0, 0, 0.15);
+#content { // Part 2 for Footer at bottom for short pages
+	flex: 1;
 }
 
-.navbar-item img {
-    max-height: 2rem;
+main {
+    margin-top: 3em;
 	@include respond-to(small) {
-	    max-height: 3rem;
+	    margin-top: 4em;
+	}
+}
+
+.columns { // Allows columns to be content aware
+	align-items: flex-start;
+}
+
+nav.breadcrumb {
+	padding-top: 1em;
+	margin-bottom: 0!important;
+	ul {
+		padding-left: 15px;
 	}
 }
 
@@ -160,9 +126,68 @@ blockquote {
     margin-left: 1em;
 }
 
+// Links
+a.read-more {  // Link version of "Read More"
+	color: darken($link, 5%);
+	padding-top: 1rem;
+	&:hover, &:focus {	
+	    color: lighten($link, 10%);
+    }
+}
+
+// Buttons
+.button {
+	&.read-more { // Button version of "Read More"
+	    font-size: 1rem;
+	    text-transform: uppercase;
+	    font-weight: 400;
+	    height: 50px;
+	    color: $secondary;
+	    background-color: white;
+	    border-color: $secondary;
+	    border: 1px solid;
+	    border-radius: 2px;
+	    padding: 1rem;
+	    margin-top: 1rem;
+	    &:hover, &:focus {	
+		    color: $text;
+		    background-color: $accent;
+		    border-color: $accent;
+	    }
+	}
+}
+
+p + .button.read-more {
+	margin-top: 0;
+}
+
 
 /*
- * Elements
+ * Navigation Customization
+ * --------------------------------------------------
+ */
+
+body.has-navbar-fixed-top {
+	padding-top: 4.25rem;
+}
+
+nav.navbar {
+	font-size: 0.9rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	box-shadow: 0 3px 10px 2px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-item img {
+    max-height: 2rem;
+	@include respond-to(small) {
+	    max-height: 3rem;
+	}
+}
+
+
+/*
+ * Layout Elements
  * --------------------------------------------------
  */
 
@@ -209,7 +234,11 @@ body.contact_page form {
 
 }
 
-// Images
+
+/*
+ * Images
+ * --------------------------------------------------
+ */
 
 img {
 	&.richtext-image {
@@ -249,51 +278,6 @@ figure {
 	    	margin-bottom: 0.5em;
 	    }
 	}
-}
-
-
-// Links
-
-a.read-more {  // Link version of "Read More"
-	color: darken($link, 5%);
-	padding-top: 1rem;
-	&:hover, &:focus {	
-	    color: lighten($link, 10%);
-    }
-}
-
-// Buttons
-
-.button {
-	&.is-search {
-		background-color: $primary;
-		color: white;
-		&:hover {
-			background-color: lighten($primary, 10%);
-		}
-	}
-	&.read-more { // Button version of "Read More"
-	    font-size: 1rem;
-	    text-transform: uppercase;
-	    font-weight: 400;
-	    height: 50px;
-	    color: $secondary;
-	    background-color: white;
-	    border-color: $secondary;
-	    border: 1px solid;
-	    border-radius: 2px;
-	    padding: 1rem;
-	    margin-top: 1rem;
-	    &:hover, &:focus {	
-		    color: $text;
-		    background-color: $accent;
-		    border-color: $accent;
-	    }
-	}
-}
-
-p + .button.read-more {
-	margin-top: 0;
 }
 
 
@@ -340,6 +324,42 @@ section {
 		    font-style: italic;
 		    padding-right: 1em;
 		}
+	}
+}
+
+
+
+/*
+ * Site Search
+ * --------------------------------------------------
+ */
+
+.is-search {
+	.input {  // Important needed to apply styling to Contact form template
+		width: unset!important;
+		font-size: 1rem!important;
+	}
+	button {
+		background-color: $primary;
+		color: white;
+		&:hover {
+			background-color: lighten($primary, 10%);
+		}
+	}
+}
+
+.search-results {
+	padding-bottom: 3em;
+	p.search-term {
+		font-size: 0.9rem;
+		font-style: italic;
+	}
+	div.result-item {
+		padding-bottom: 1em;
+	}
+	p.no-results {
+		font-size: 1.25rem;
+		font-weight: 600;
 	}
 }
 

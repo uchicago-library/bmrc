@@ -1,7 +1,7 @@
 <div class="column">
 	<div class="field">
 		{% if self.label %}
-			<label class="label">Label</label>
+			<label class="label">{{ self.label }}</label>
 		{% endif %}
 
 		<form class="memb_coll" action="https://www.lib.uchicago.edu/bmrc/search.php" method="get">
@@ -9,7 +9,7 @@
 		    <button class="button" type="submit">Search</button>
 
 		    {% if self.search_help_text %}
-			    <p class="help" id="coll_help">This is a help text</p>
+			    <p class="help" id="coll_help">{{ self.search_help_text }}</p>
 		    {% endif %}
 		</form>
 	</div>

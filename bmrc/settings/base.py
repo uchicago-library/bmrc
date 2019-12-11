@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 
     'compressor',
     'wagtail.contrib.forms',
+    'wagtail.contrib.postgres_search',
     'wagtail.contrib.redirects',
     'wagtail.contrib.settings',
     'wagtail.embeds',
@@ -102,6 +103,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+}
+
+WAGTAILSEARCH_BACKENDS = {
+    'default': {
+        'BACKEND': 'wagtail.contrib.postgres_search.backend',
+    },
 }
 
 

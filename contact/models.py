@@ -9,6 +9,7 @@ from wagtail.admin.edit_handlers import (
 )
 from wagtail.core.fields import RichTextField
 from wagtail.contrib.forms.models import AbstractFormField, AbstractEmailForm
+from wagtail.search import index
 
 
 class FormField(AbstractFormField):
@@ -26,6 +27,10 @@ class ContactPage(AbstractEmailForm):
     subpage_types = []
     parent_page_types = ['home.HomePage']
     landing_page_template = "contact/contact_page_landing.html"
+
+    search_fields = [
+        index.SearchField('search_description')
+    ]
 
     intro = RichTextField(blank=True)
     thank_you_text = RichTextField(blank=True)
