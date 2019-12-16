@@ -13,3 +13,5 @@ node_modules
 local.py
 /static
 /media/
+
+sftp-config.json
