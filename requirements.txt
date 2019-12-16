@@ -4,3 +4,5 @@ django-compressor
 django-libsass
 django-static-precompiler
 psycopg2==2.7.1
+
+-e git+https://github.com/Brown-University-Library/django-shibboleth-remoteuser.git#egg=django_shibboleth_remoteuser
