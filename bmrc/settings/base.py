@@ -78,6 +78,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'bmrc.urls'
 
+LOGIN_URL = 'https://bmrc-test.lib.uchicago.edu/Shibboleth.sso/Login'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
