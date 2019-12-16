@@ -104,10 +104,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'bmrc.wsgi.application'
 
 SHIBBOLETH_ATTRIBUTE_MAP = {
-    "shib-user": (True, "username"),
-    "shib-given-name": (True, "first_name"),
-    "shib-sn": (True, "last_name"),
-    "shib-mail": (False, "email"),
+    "uid": (True, "username"),
+    "givenName": (True, "first_name"),
+    "sn": (True, "last_name"),
+    "mail": (False, "email"),
 }
 
 # Database
