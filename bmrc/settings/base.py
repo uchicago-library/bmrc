@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'contact',
     'site_settings',
     'memb_collections',
+    'shibboleth',
 
     'compressor',
     'wagtail.contrib.forms',
@@ -67,6 +68,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
 
+    # Required for shibboleth
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'shibboleth.middleware.ShibbolethRemoteUserMiddleware',
+
     'wagtail.core.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]
@@ -86,6 +91,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'shibboleth.context_processors.login_link',
+                'shibboleth.context_processors.logout_link',
                 'wagtail.contrib.settings.context_processors.settings',
             ],
         },
@@ -94,6 +101,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bmrc.wsgi.application'
 
+SHIBBOLETH_ATTRIBUTE_MAP = {
+    "shib-user": (True, "username"),
+    "shib-given-name": (True, "first_name"),
+    "shib-sn": (True, "last_name"),
+    "shib-mail": (False, "email"),
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
