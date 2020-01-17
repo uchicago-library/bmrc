@@ -75,6 +75,12 @@ nav.breadcrumb {
  * --------------------------------------------------
  */
 
+h1, h2, h3, h4, h5 {
+	a {
+		text-decoration: underline; // ADA compliance: over-writing Bulma's settings
+	}
+}
+
 h1 {
     color: darken($primary, 5%);
     font-size: 1.6rem;
@@ -127,12 +133,11 @@ blockquote {
 }
 
 // Links
-a.read-more {  // Link version of "Read More"
-	color: darken($link, 5%);
-	padding-top: 1rem;
-	&:hover, &:focus {	
-	    color: lighten($link, 10%);
-    }
+a {
+	.read-more {  // Link version of "Read More"
+		color: $link;
+		padding-top: 1rem;
+	}
 }
 
 // Buttons
@@ -402,6 +407,16 @@ section {
 	}
 	article {
 		margin-bottom: 2em;
+		a { // ADA compliance side effect: Needed due to linking entire article block
+			text-decoration: none;
+			h2 {
+				@extend h3;
+				margin-bottom: 0.25rem
+			}
+			p {
+				color: $text;
+			}
+		}
 	}
 }
 

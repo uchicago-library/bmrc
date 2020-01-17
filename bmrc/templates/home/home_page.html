@@ -30,9 +30,9 @@
   <section class="featured-news section">
     <div class="container">
       <h2>Recent News</h2>
-      <div class="columns is-desktop is-variable is-4">
+      <div class="columns">
         {% for post in page.news_feed %}
-        <div class="column is-full-mobile is-one-third-desktop">
+        <div class="column is-one-third-tablet is-one-third-desktop">
           {% image post.lead_image original as img %}
           <article>
             {% if post.lead_image %}

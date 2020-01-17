@@ -9,29 +9,42 @@
 <div class="container section news-index">
 	<h1>{{self.title}}</h1>
 
-	<div class="columns is-desktop is-multiline is-variable is-4">
-
+	<div class="columns is-desktop">
+	  <div class="column">
+	  	<div class="columns is-mobile is-multiline">
 	{% for post in posts %}
 		{% cache 604800 news_post_preview post.id %}
-			<div class="column is-full-mobile is-one-third-desktop">
+			<div class="column is-half-mobile is-half-tablet is-one-third-desktop">
 				{% image post.lead_image original as img %}
 				<article>
+					<a href="{{ post.url }}" aria-label="Read full post for {{post.title}}">
 					{% if post.lead_image %}
 					<figure>
-						<a href="{{ post.url }}">
+						
 							<img src="{{ img.url }}" alt="{{ img.alt }}">
-						</a>
+						
 					</figure>
 					{% endif %}
 
-					<h2 class="h3">{{post.title}}</h2>
+					<h2>{{post.title}}</h2>
 					<p>{{ post.excerpt }}</p>
-
-			        <a href="{{ post.url }}" class="read-more">Read full story <span class="visually-hidden">on {{post.title}}</span><i class="fas fa-long-arrow-alt-right"></i></a>
+				</a>
 			    </article>
 		    </div>
 	    {% endcache %}
 	{% endfor %}
+</div></div>
+
+	{% if self.news_sidebar.all %}
+	    <div class="column sidebar is-full-mobile is-one-fifth-desktop" role="complementary">
+	    	{% for item_set in self.news_sidebar.all %}
+	        <aside>
+	            <h2>{{ item_set.sidebar_title }}</h2>
+	            {{ item_set.sidebar_text|richtext }}
+	        </aside>
+	        {% endfor %}
+	    </div>
+	{% endif %}
 
 	</div>  <!-- // END columns -->
 
