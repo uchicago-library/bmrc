@@ -92,7 +92,7 @@ h1 {
 h2 {
 	color: $secondary;
     font-size: 1.4rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
     font-weight: 100;
     text-transform: uppercase;
     line-height: 1.3;
@@ -104,7 +104,7 @@ h3, .h3 {
     font-weight: 400;
     text-transform: unset;
     line-height: 1.5;
-    margin-bottom: 1.1rem;
+    margin-bottom: 0.25rem;
 }
 
 p {
@@ -263,8 +263,14 @@ img {
 }
 
 figure {
+    display: table;
+    &.fullwidth {
+    	max-width: 1000px;
+    }
 	&.imgcaption {
-
+		&.fullwidth {
+			margin-bottom: 20px;
+		}
 		&.pull-left {
 			float: left;
 		    margin: 10px 20px 0 0;
@@ -279,6 +285,8 @@ figure {
 	    font-size: 0.8em;
 	    background: lighten($accent, 15%);
 	    margin-top: -0.5em;
+	    display: table-caption;
+	    caption-side: bottom;
 	    p {
 	    	margin-bottom: 0.5em;
 	    }
@@ -305,7 +313,7 @@ section {
 			@extend h2;
 		}
 	}
-	&.featured-news, .news-index {  // Homepage News
+	&.featured-news {  // Homepage News
 		img {
 		    height: 200px;
 		    width: 100%;
@@ -315,6 +323,16 @@ section {
 		    margin-left: auto;
 		    grid-column: span 1;
 		    object-fit: cover;
+		}
+		article a { // ADA compliance side effect: Needed due to linking entire article block
+			text-decoration: none;
+			h2 {
+				@extend h3;
+				margin-bottom: 0.25rem
+			}
+			p {
+				color: $text;
+			}
 		}
 	}
 	&.featured-modules {  // Homepage Modules

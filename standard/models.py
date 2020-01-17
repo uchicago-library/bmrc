@@ -47,10 +47,10 @@ class StandardPage(Page):
     body = StreamField(
         [
             ("richtext", blocks.RichtextBlock()),
-            ("page_callout", blocks.PageCallout()),
             ("image_block", blocks.ImageBlock()),
-            ("new_row", blocks.NewRow()),
+            ("page_callout", blocks.PageCallout()),
             ("fellows_block", blocks.FellowsBlock()),
+            ("new_row", blocks.NewRow()),
         ],
         null=True,
         blank=True,

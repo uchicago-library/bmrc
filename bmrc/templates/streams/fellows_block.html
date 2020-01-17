@@ -1,14 +1,15 @@
 {% load wagtailimages_tags %}
-{% image value.image fill-200x200 as tmp_img %}
+{% image value.image fill-500x500 as tmp_img %}
 
 
-<div class="columns is-desktop fellows-block">
-  
-  <div class="column is-one-quarter">
-    <figure class="image">
-      <img src="{{ tmp_img.url }}" alt="{{ value.image }}">
-    </figure>
-  </div>
+<div class="columns is-mobile fellows-block">
+  {% if self.image %}
+	  <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+	    <figure class="image">
+	      <img src="{{ tmp_img.url }}" alt="{{ value.image }}">
+	    </figure>
+	  </div>
+  {% endif %}
 
   <div class="column content">
     {{ value.profile_text }}

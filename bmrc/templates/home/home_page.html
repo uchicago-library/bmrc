@@ -35,18 +35,16 @@
         <div class="column is-one-third-tablet is-one-third-desktop">
           {% image post.lead_image original as img %}
           <article>
-            {% if post.lead_image %}
-            <figure>
-              <a href="{{ post.url }}">
-              <img src="{{ img.url }}" alt="{{ img.alt }}">
-              </a>
-            </figure>
-            {% endif %}
+            <a href="{{ post.url }}" aria-label="Read full post for {{post.title}}">
+              {% if post.lead_image %}
+              <figure>
+                <img src="{{ img.url }}" alt="{{ img.alt }}">
+              </figure>
+              {% endif %}
 
-            <h2 class="h3">{{post.title}}</h2>
-            <p>{{ post.excerpt }}</p>
-
-            <a href="{{ post.url }}" class="read-more">Read full story <span class="visually-hidden">on {{post.title}}</span><i class="fas fa-long-arrow-alt-right"></i></a>
+              <h2 class="h3">{{post.title}}</h2>
+              <p>{{ post.excerpt }}</p>
+            </a>
           </article>
         </div>
         {% endfor %}
