@@ -87,7 +87,7 @@ class FellowsBlock(blocks.StructBlock):
     image = ImageChooserBlock(required=False, label='Profile Photo')
     profile_text = RichtextBlock(
         required=False,
-        features=["bold", "italic", "link"],
+        features=["h2", "h3", "bold", "italic", "link"],
         label='Profile Text',
     )
 
