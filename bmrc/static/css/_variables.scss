@@ -7,7 +7,9 @@ $primary: #777441;
 $secondary: #6b1722;
 $accent: #d1bb95;
 
-$link: $primary;
+$link: darken($primary, 5%);
+$link-hover: $primary;
+
 
 /*
  * Media Queries

@@ -5,16 +5,38 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.utils import timezone
 
+from modelcluster.fields import ParentalKey
+
 from wagtail.admin.edit_handlers import (
     FieldPanel,
+    InlinePanel,
+    MultiFieldPanel,
     StreamFieldPanel,
 )
-from wagtail.core.fields import StreamField
-from wagtail.core.models import Page
+from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core.models import Page, Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from streams import blocks
+
+
+class NewsSideBar(Orderable):
+    """Sidebar for Newsletters."""
+
+    page = ParentalKey("news.NewsIndexPage", related_name="news_sidebar")
+    sidebar_title = models.CharField(max_length=100, blank=True, null=True)
+    sidebar_text = RichTextField(
+        blank=True,
+        null=True,
+        features=["bold", "italic", "ol", "ul", "link", "document-link", "image"],
+    )
+
+    panels = [
+        FieldPanel("sidebar_title"),
+        FieldPanel("sidebar_text"),
+    ]
+    heading="Sidebar Section",
 
 
 class NewsIndexPage(Page):
@@ -47,6 +69,13 @@ class NewsIndexPage(Page):
 
         context["posts"] = posts
         return context
+
+    content_panels = Page.content_panels + [
+        MultiFieldPanel(
+            [InlinePanel("news_sidebar", max_num=3, label="Sidebar Section")],
+            heading="Sidebar",
+        ),
+    ]
 
 
 class NewsStoryPage(Page):
