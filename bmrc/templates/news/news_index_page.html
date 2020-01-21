@@ -15,7 +15,7 @@
 	{% for post in posts %}
 		{% cache 604800 news_post_preview post.id %}
 			<div class="column is-half-mobile is-half-tablet is-one-third-desktop">
-				{% image post.lead_image original as img %}
+				{% image post.lead_image width-500 as img %}
 				<article>
 					<a href="{{ post.url }}" aria-label="Read full post for {{post.title}}">
 					{% if post.lead_image %}
