@@ -120,6 +120,7 @@ p {
 ul {
 	list-style: unset;
 	padding-left: 40px;
+	padding-bottom: 1rem;
 	li {
 		margin-bottom: 0.5rem;
 	}
@@ -214,6 +215,9 @@ aside {
     margin-top: 0.5em;
     p {
     	margin-bottom: 0;
+    }
+    .rich-text + & {
+		margin-bottom: 2em;
     }
 }
 
@@ -312,6 +316,8 @@ section {
 		h3 {
 			@extend h2;
 		}
+		padding-left: 0;
+		padding-top: 0;
 	}
 	&.featured-news {  // Homepage News
 		img {
@@ -511,6 +517,10 @@ footer.footer {
     	color: white;
     	font-size: 0.8rem;
     	line-height: 1.1rem;
+    	& a {
+	    	font-size: 0.8rem;
+	    	text-decoration: underline;
+    	}
     }
     a {
     	color: white;
@@ -520,5 +530,16 @@ footer.footer {
     		color: $accent;
     	}
     }
+}
+
+
+/*
+ * Other Elements
+ * --------------------------------------------------
+ */
+
+p.timeline-Tweet-text {
+    font-size: 1.15rem!important;
+    line-height: 2rem!important;
 }
 
