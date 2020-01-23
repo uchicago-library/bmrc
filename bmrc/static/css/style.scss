@@ -261,8 +261,15 @@ img {
 		}
 	}
 	&.news-lead-img {
-		float: left;
-	    margin: 0 20px 10px 0;
+	    max-width: 200px;
+	    @include respond-to(small) {	
+			max-width: 250px;
+			float: left;
+		    margin: 0 20px 10px 0;
+	    }
+	    @include respond-to(medium) {	
+			max-width: 350px;
+	    }
 	}
 }
 
