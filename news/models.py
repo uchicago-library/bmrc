@@ -43,7 +43,7 @@ class NewsIndexPage(Page):
     """Lists all news story pages."""
 
     max_count = 1
-    subpage_types = ['news.NewsStoryPage']
+    subpage_types = ['news.NewsStoryPage', 'news.NewsletterSignupPage']
 
     def get_context(self, request, *args, **kwargs):
         """Custom items to context."""
@@ -119,3 +119,35 @@ class NewsStoryPage(Page):
 
         verbose_name = "News Story"
         verbose_name_plural = "News Stories"
+
+
+class NewsletterSignupPage(Page):
+    """Page for embedded Newsletter form code"""
+
+    max_count = 1
+    subpage_types = []
+    parent_page_types = ['news.NewsIndexPage']
+
+    search_fields = Page.search_fields + [
+        index.SearchField('search_description')
+    ]
+
+    body = StreamField(
+        [
+            ("richtext", blocks.RichtextBlock()),
+            ("webfeed", blocks.WebFeedBlock()),
+            ("image_block", blocks.ImageBlock()),
+            ("new_row", blocks.NewRow()),
+        ],
+        null=True,
+        blank=True,
+    )
+
+    content_panels = Page.content_panels + [
+        StreamFieldPanel("body"),
+    ]
+
+    class Meta:
+
+        verbose_name = "Newsletter Form"
+        verbose_name_plural = "Newsletter Forms"
