@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}newsletter_form{% endblock %}
+
+{% block content %}
+
+<div class="container section">
+    <h1>{{self.title}}</h1>
+    <div class="columns is-desktop">
+
+        <div class="column is-four-fifths-desktop">
+        	{% for block in page.body %}
+	      		{% include_block block %}
+	      	{% endfor %}
+        </div>
+
+    </div>  <!-- // END columns -->
+
+    <div class="columns">
+        <div class="column return-news">
+        	<hr>
+        	<a href="/news/" class="return-link"><i class="fa fa-angle-double-left"></i> Return to News</a>
+        </div>
+    </div>
+
+</div>  <!-- // END container -->
+
+{% endblock %}

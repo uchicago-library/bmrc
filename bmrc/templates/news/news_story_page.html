@@ -12,7 +12,7 @@
     <div class="columns is-desktop">
 
 	{% image self.lead_image original as img %}
-        <div class="column is-full-mobile is-four-fifths-desktop">
+        <div class="column">
         	{% if self.lead_image %}
 				<img src="{{ img.url }}" class="news-lead-img" alt="{{ img.alt }}">
 			{% endif %}
@@ -23,6 +23,13 @@
         </div>
 
     </div>  <!-- // END columns -->
+
+    <div class="columns">
+        <div class="column return-news">
+            <hr>
+            <a href="/news/" class="return-link"><i class="fa fa-angle-double-left"></i> Return to News</a>
+        </div>
+    </div>
 
 </div>  <!-- // END container -->
 

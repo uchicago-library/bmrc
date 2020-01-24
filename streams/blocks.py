@@ -107,6 +107,3 @@ class MembCollSearchBlock(blocks.StructBlock):
         template = "streams/memb_coll_search_block.html"
         icon = "search"
         label = "Collections Search Box"
-
-
-
