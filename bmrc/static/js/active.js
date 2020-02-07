@@ -27,8 +27,9 @@
             navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
             dots: false,
             autoplay: true,
-            autoplayTimeout: 3000,
-            smartSpeed: 2000,
+            autoplayTimeout: 7000,
+            smartSpeed: 7000,
+            stopOnHover: true,
             animateIn: 'fadeIn',
             animateOut: 'fadeOut'
         });
