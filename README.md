@@ -15,4 +15,18 @@ Mocks for approval process can be found at: [uchicago-library.github.io/bmrc](ht
 
 ## Making Changes
 - **Model Changes:** Run `python manage.py makemigrations`, then `python manage.py migrate` to update the database with your model changes. You must run the above commands each time you make changes to the model definition.
+- **CSS and JS Changes:** Kill the server, `./manage.py collectstatic`, restart server
 - **Other Errors:** Try running `pip install -r requirements.txt`
+
+## Pushing to Production
+- ssh to aerie
+- `cd /data/aerie`
+- `source venv3.7/bin/activate`
+- `cd sites/bmrc/bmrc`
+- `git remote update`
+- `git status`
+- `git pull origin master`
+- `./manage.py migrate _only` needed if made migrations_
+- `./manage.py collectstatic`
+- `sudo service apache24 restart`
+
