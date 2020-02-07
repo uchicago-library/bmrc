@@ -3,7 +3,23 @@
 {% block body_class %}template-404{% endblock %}
 
 {% block content %}
-    <h1>Page not found</h1>
 
-    <h2>Sorry, this page could not be found.</h2>
+<div class="container section">
+    <h1>Page not found</h1>
+    
+    <div class="columns is-desktop">
+		<div class="column">
+		    <p>This page could not be found.</p>
+		    <p>Please try:
+		    	<ul>
+		    		<li>Returning to our <a href="/">homepage</a></li>
+		    		<li>Searching <a href="/collections/">our collections</a></li>
+		    		<li>Reading about <a href="/programs/">our Fellowships</a></li>
+		    	</ul>
+		    Feel free to <a href="/contact/">contact us</a> if you cannot find what you are looking for.</p>
+		</div>
+    </div>  <!-- // END columns -->
+
+</div>  <!-- // END container -->
+
 {% endblock %}
