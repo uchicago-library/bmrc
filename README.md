@@ -18,6 +18,11 @@ Mocks for approval process can be found at: [uchicago-library.github.io/bmrc](ht
 - **CSS and JS Changes:** Kill the server, `./manage.py collectstatic`, restart server
 - **Other Errors:** Try running `pip install -r requirements.txt`
 
+## Test Instance
+- The test instance should mirror the production site, less any features being tested at the time
+- The test server is bmrc-test
+- It is hosted on crib
+
 ## Pushing to Production
 - ssh to aerie
 - `cd /data/aerie`
@@ -26,7 +31,7 @@ Mocks for approval process can be found at: [uchicago-library.github.io/bmrc](ht
 - `git remote update`
 - `git status`
 - `git pull origin master`
-- `./manage.py migrate _only` needed if made migrations_
+- `./manage.py migrate` _only needed if made migrations_
 - `./manage.py collectstatic`
 - `sudo service apache24 restart`
 
