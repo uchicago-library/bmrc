@@ -11,6 +11,8 @@ from wagtail.core.fields import RichTextField
 from wagtail.contrib.forms.models import AbstractFormField, AbstractEmailForm
 from wagtail.search import index
 
+from wagtailcaptcha.models import WagtailCaptchaEmailForm
+
 
 class FormField(AbstractFormField):
     page = ParentalKey(
@@ -20,7 +22,7 @@ class FormField(AbstractFormField):
     )
 
 
-class ContactPage(AbstractEmailForm):
+class ContactPage(WagtailCaptchaEmailForm):
 
     template = "contact/contact_page.html"
     max_count = 1
