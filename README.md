@@ -30,3 +30,6 @@ Mocks for approval process can be found at: [uchicago-library.github.io/bmrc](ht
 - `./manage.py collectstatic`
 - `sudo service apache24 restart`
 
+## ReCaptcha Info
+- KZ is the owner of the reCaptcha "site" via [google.com/recaptcha/admin](https://www.google.com/recaptcha/admin)
+- Ownership can be moved to a different google account if needed; the admin console allows for abuse alerts, etc.
