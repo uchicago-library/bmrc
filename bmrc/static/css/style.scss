@@ -380,8 +380,11 @@ section {
 
 .is-search {
 	.input {  // Important needed to apply styling to Contact form template
-		width: unset!important;
+		width: 70%;
 		font-size: 1rem!important;
+		@include respond-to(large) {
+			width: unset;
+		}
 	}
 	button {
 		background-color: $primary;
