@@ -25,14 +25,16 @@ class SideBar(Orderable):
     sidebar_text = RichTextField(
         blank=True,
         null=True,
-        features=["bold", "italic", "ol", "ul", "link", "document-link", "image"],
+        features=[
+            "bold", "italic", "ol", "ul", "link", "document-link", "image"
+        ],
     )
 
     panels = [
         FieldPanel("sidebar_title"),
         FieldPanel("sidebar_text"),
     ]
-    heading="Sidebar Section",
+    heading = "Sidebar Section",
 
 
 class StandardPage(Page):
@@ -46,10 +48,11 @@ class StandardPage(Page):
 
     body = StreamField(
         [
-            ("richtext", blocks.RichtextBlock()),
-            ("image_block", blocks.ImageBlock()),
-            ("page_callout", blocks.PageCallout()),
-            ("fellows_block", blocks.FellowsBlock()),
+            ("richtext", blocks.RichtextBlock(group="Format and Text")),
+            ("two_column_block", blocks.ColumnsBlock(group="Format and Text")),
+            ("image_block", blocks.ImageBlock(group="Layout and Images")),
+            ("page_callout", blocks.PageCallout(group="Layout and Images")),
+            ("fellows_block", blocks.FellowsBlock(group="Layout and Images")),
         ],
         null=True,
         blank=True,
