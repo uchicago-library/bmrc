@@ -62,22 +62,22 @@
 
 .alert-info {
   @extend .alert-banner-base;
-  color: #1d4355;
-  background-color: #d9edf7;
+  color: #000;
+  background-color: lighten($primary, 50%);
   padding: 0.5em;
   a {
-    color: #224e64;
+    color: $link;
     text-decoration: underline;
   }
 }
 
 .alert-low {
   @extend .alert-banner-base;
-  color: #fff;
+  color: #000;
   font-weight: 600;
-  background-color: #9A5324;
+  background-color: lighten($secondary, 65%);
   a {
-    color: #f9f9f9;
+    color: $link;
     text-decoration: underline;
   }
 }
@@ -85,10 +85,10 @@
 .alert-high {
   @extend .alert-banner-base;
   font-weight: 600;
-  color: #000;
-  background-color: #f9b64e;
+  color: #fff;
+  background-color: $secondary;
   a {
-    color: #575757;
+    color: #eee;
     text-decoration: underline;
   }
   @include respond-to(small) {
@@ -128,6 +128,15 @@ nav.breadcrumb {
 	margin-bottom: 0!important;
 	ul {
 		padding-left: 15px;
+		a {
+			color: $accentlink;
+		}
+	}
+}
+
+.rich-text {
+	a {
+		text-decoration: underline;
 	}
 }
 
@@ -260,6 +269,14 @@ nav.navbar {
 	@include respond-to(small) {
 	    max-height: 3rem;
 	}
+}
+
+.navbar-link:not(.is-arrowless)::after {
+    border-color: #4a4a4a;
+}
+
+a.navbar-item:hover, .navbar-link:hover {
+	color: $accentlink;
 }
 
 
@@ -569,7 +586,7 @@ nav.pagination {
 		color: lighten($text, 10%);
 		text-decoration: underline;
 		&:hover {
-			color: $link;
+			color: $accentlink;
 		}
 	}
 	ul {
