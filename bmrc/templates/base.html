@@ -101,6 +101,12 @@
         
         <main id="content" role="main">
 
+            {% if settings.site_settings.AlertBanner.enable %}
+            <div class="alert {{settings.site_settings.AlertBanner.alert_level}}" role="alert">
+                {{settings.site_settings.AlertBanner.alert_message|richtext}}
+            </div>
+            {% endif %}
+
             {% if self.get_ancestors|length > 1 %}
             <nav class="breadcrumb is-small" aria-label="breadcrumbs">
               <ul>
