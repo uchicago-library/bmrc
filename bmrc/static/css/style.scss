@@ -33,6 +33,69 @@
 	}
 }
 
+/*
+ * Alerts
+ * --------------------------------------------------
+ */
+
+.alert {
+  text-align: center;
+  padding: 1em;
+  margin-bottom: 0.5em;
+  border: 1px solid gray;
+  background: #f9f9f9;
+  & p {
+    margin-bottom: 0;
+  }
+  .rich-text {
+    display: inline-block;
+  }
+}
+
+.alert-banner-base { // styling for @extend purposes only
+  font-size: 1em;
+  text-align: center;
+  padding: 0.5em;
+  margin-bottom: 0em;
+  border: none;
+}
+
+.alert-info {
+  @extend .alert-banner-base;
+  color: #1d4355;
+  background-color: #d9edf7;
+  padding: 0.5em;
+  a {
+    color: #224e64;
+    text-decoration: underline;
+  }
+}
+
+.alert-low {
+  @extend .alert-banner-base;
+  color: #fff;
+  font-weight: 600;
+  background-color: #9A5324;
+  a {
+    color: #f9f9f9;
+    text-decoration: underline;
+  }
+}
+
+.alert-high {
+  @extend .alert-banner-base;
+  font-weight: 600;
+  color: #000;
+  background-color: #f9b64e;
+  a {
+    color: #575757;
+    text-decoration: underline;
+  }
+  @include respond-to(small) {
+    padding: 1em;
+  }
+}
+
 
 /*
  * Global
