@@ -50,9 +50,11 @@ class StandardPage(Page):
         [
             ("richtext", blocks.RichtextBlock(group="Format and Text")),
             ("two_column_block", blocks.ColumnsBlock(group="Format and Text")),
+            ("info_box_block", blocks.InfoBoxBlock(group="Format and Text")),
+            ("footnote_block", blocks.FootnoteBlock(group="Format and Text")),
             ("image_block", blocks.ImageBlock(group="Layout and Images")),
-            ("page_callout", blocks.PageCallout(group="Layout and Images")),
             ("fellows_block", blocks.FellowsBlock(group="Layout and Images")),
+            ("clear_block", blocks.ClearBlock(group="Layout and Images")),
         ],
         null=True,
         blank=True,

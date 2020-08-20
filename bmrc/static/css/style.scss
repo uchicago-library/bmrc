@@ -297,6 +297,14 @@ aside {
 	}
 }
 
+.footnotes {
+	padding: 0.5em 1em 0 1.25em;
+	margin-right: -0.5em;
+	margin-left: -0.5em;
+	border-top: 1px solid lighten($primary, 35%);
+
+}
+
 .fellows-block {
     box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
     color: #232323;
@@ -307,6 +315,37 @@ aside {
     .rich-text + & {
 		margin-bottom: 2em;
     }
+}
+
+.box {
+	box-shadow: 2px 5px 7px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+	&.basic-box {
+		color: #000;
+		h2, h3 {
+			color: $secondary;
+		}
+	}
+	&.info-box {
+		color: #0b2d44;
+		background-color: #eef6fc;
+		h2, h3 {
+			color: #082233;
+		}
+	}
+	&.general-box {
+		color: darken($primary, 20%);
+		background-color: lighten($primary, 57%);
+		h2, h3 {
+			color: darken($primary, 15%);
+		}
+	}
+	&.warning-box {
+		color: $secondary;
+		background-color: lighten($secondary, 70%);
+		h2, h3 {
+			color: #cc0f35;
+		}
+	}
 }
 
 body.contact_page form {

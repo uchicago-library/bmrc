@@ -29,14 +29,16 @@ class NewsSideBar(Orderable):
     sidebar_text = RichTextField(
         blank=True,
         null=True,
-        features=["bold", "italic", "ol", "ul", "link", "document-link", "image"],
+        features=[
+            "bold", "italic", "ol", "ul", "link", "document-link", "image"
+        ],
     )
 
     panels = [
         FieldPanel("sidebar_title"),
         FieldPanel("sidebar_text"),
     ]
-    heading="Sidebar Section",
+    heading = "Sidebar Section",
 
 
 class NewsIndexPage(Page):
@@ -50,7 +52,8 @@ class NewsIndexPage(Page):
 
         context = super().get_context(request, *args, **kwargs)
         # Get all posts
-        all_posts = NewsStoryPage.objects.live().public().order_by('-story_date')
+        all_posts = NewsStoryPage.objects.live().public().order_by(
+            '-story_date')
 
         # Paginate all posts by 9 per page
         paginator = Paginator(all_posts, 9)
@@ -84,9 +87,7 @@ class NewsStoryPage(Page):
     subpage_types = []
     parent_page_types = ['news.NewsIndexPage']
 
-    search_fields = Page.search_fields + [
-        index.SearchField('excerpt')
-    ]
+    search_fields = Page.search_fields + [index.SearchField('excerpt')]
 
     lead_image = models.ForeignKey(
         "wagtailimages.Image",
@@ -98,15 +99,22 @@ class NewsStoryPage(Page):
     excerpt = models.TextField(max_length=300, blank=True, null=True)
     body = StreamField(
         [
-            ("richtext", blocks.RichtextBlock()),
-            ("page_callout", blocks.PageCallout()),
-            ("image_block", blocks.ImageBlock()),
-            ("new_row", blocks.NewRow()),
+            ("richtext", blocks.RichtextBlock(group="Format and Text")),
+            ("two_column_block", blocks.ColumnsBlock(group="Format and Text")),
+            ("info_box_block", blocks.InfoBoxBlock(group="Format and Text")),
+            ("footnote_block", blocks.FootnoteBlock(group="Format and Text")),
+            ("image_block", blocks.ImageBlock(group="Layout and Images")),
+            ("fellows_block", blocks.FellowsBlock(group="Layout and Images")),
+            ("clear_block", blocks.ClearBlock(group="Layout and Images")),
         ],
         null=True,
         blank=True,
     )
-    story_date = models.DateField(default=timezone.now, help_text='Defaults to date page was created. If you plan to publish in the future post, change to publish date here.')
+    story_date = models.DateField(
+        default=timezone.now,
+        help_text=
+        'Defaults to date page was created. If you plan to publish in the future post, change to publish date here.'
+    )
 
     content_panels = Page.content_panels + [
         ImageChooserPanel("lead_image"),
@@ -137,7 +145,6 @@ class NewsletterSignupPage(Page):
             ("richtext", blocks.RichtextBlock()),
             ("webfeed", blocks.WebFeedBlock()),
             ("image_block", blocks.ImageBlock()),
-            ("new_row", blocks.NewRow()),
         ],
         null=True,
         blank=True,

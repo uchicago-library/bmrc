@@ -3,7 +3,7 @@
 from django import forms
 from wagtail.core import blocks
 from wagtail.core.blocks import (CharBlock, FieldBlock, RawHTMLBlock,
-                                 StreamBlock)
+                                 StaticBlock, StreamBlock)
 from wagtail.images.blocks import ImageChooserBlock
 
 
@@ -16,7 +16,7 @@ class RichtextBlock(blocks.RichTextBlock):
 
 
 class PageCallout(blocks.StructBlock):
-    """Half-width callout page with text and button."""
+    """Homepage: Half-width callout page with text and button."""
 
     callout_title = blocks.CharBlock(required=False,
                                      help_text="Title for callout section")
@@ -31,9 +31,17 @@ class PageCallout(blocks.StructBlock):
                                     help_text='Text that shows up in button')
 
     class Meta:  # noqa
-        template = "streams/page_callout.html"
+        template = "home/page_callout.html"
         icon = "placeholder"
         label = "Page Callout"
+
+
+class NewRow(blocks.StructBlock):
+    """Homepage: Force a row break between columns."""
+    class Meta:
+        template = "home/new_row.html"
+        icon = "horizontalrule"
+        label = "New Row"
 
 
 class WebFeedBlock(blocks.StructBlock):
@@ -60,7 +68,6 @@ class ImageFormatChoiceBlock(FieldBlock):
 
 class ImageBlock(blocks.StructBlock):
     """Image streamfield block."""
-
     image = ImageChooserBlock(required=False, )
     caption = RichtextBlock(
         required=False,
@@ -74,17 +81,17 @@ class ImageBlock(blocks.StructBlock):
         template = 'streams/image_block.html'
 
 
-class NewRow(blocks.StructBlock):
-    """Force a row break between columns."""
+class ClearBlock(blocks.StaticBlock):
+    """Adds a clear between floated elements."""
     class Meta:
-        template = "streams/new_row.html"
-        icon = "horizontalrule"
-        label = "New Row"
+        icon = 'cross'
+        template = 'streams/clear.html'
+        label = 'Stop Float'
+        admin_text = 'Stops text floating around images where placed. Use with floating images and Rich Text blocks.'
 
 
 class FellowsBlock(blocks.StructBlock):
     """Image streamfield block."""
-
     image = ImageChooserBlock(required=False, label='Profile Photo')
     profile_text = RichtextBlock(
         required=False,
@@ -95,11 +102,11 @@ class FellowsBlock(blocks.StructBlock):
     class Meta:
         icon = 'user'
         template = 'streams/fellows_block.html'
+        help_text = 'Content box with image to right and text to left.'
 
 
 class MembCollSearchBlock(blocks.StructBlock):
     """Search box for Member Collections."""
-
     label = CharBlock(required=False,
                       help_text="Optional: Label placed above search box")
     # placeholder_text = CharBlock(required=False, help_text="Defaults to 'Search Member Collections'")
@@ -113,7 +120,7 @@ class MembCollSearchBlock(blocks.StructBlock):
 
 
 class ColumnsBlock(blocks.StreamBlock):
-
+    """Flexbox to create columns of text; variable column count."""
     new_column = RichtextBlock(
         label="New Column",
         icon="arrow-right",
@@ -124,3 +131,48 @@ class ColumnsBlock(blocks.StreamBlock):
         icon = "form"
         label = "Text Columns"
         help_text = "Recommend 2-3 columns max"
+
+
+class InfoBoxStyleChoiceBlock(FieldBlock):
+    """Style options to use with the InfoBoxBlock."""
+    field = forms.ChoiceField(choices=(
+        ('basic-box', 'Basic'),
+        ('info-box', 'Informative'),
+        ('general-box', 'General'),
+        ('warning-box', 'Warning'),
+    ))
+
+
+class InfoBoxBlock(blocks.StructBlock):
+    """In page text box that stands out and shows off links or important info."""
+    text = RichtextBlock(
+        required=True,
+        features=[
+            "h2", "h3", "bold", "ol", "ul", "hr", "italic", "link",
+            "document-link"
+        ],
+        label='Featured Text',
+    )
+    style_type = InfoBoxStyleChoiceBlock(required=True)
+
+    class Meta:
+        icon = 'doc-empty-inverse'
+        template = 'streams/info_box_block.html'
+        label = 'Info Box'
+        help_text = 'Places text in box that stands out from rest of page content.'
+
+
+class FootnoteBlock(blocks.StructBlock):
+    """Small text for authorship or citation information."""
+
+    text = RichtextBlock(
+        required=False,
+        features=["bold", "ol", "ul", "italic", "link", "document-link"],
+        label='Footnote Text',
+    )
+
+    class Meta:
+        icon = 'pick'
+        template = 'streams/footnote_block.html'
+        label = 'Footnote'
+        help_text = 'For author credit or to list citations.'
