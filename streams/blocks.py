@@ -31,7 +31,7 @@ class PageCallout(blocks.StructBlock):
                                     help_text='Text that shows up in button')
 
     class Meta:  # noqa
-        template = "home/page_callout.html"
+        template = "streams/page_callout.html"
         icon = "placeholder"
         label = "Page Callout"
 
@@ -39,7 +39,7 @@ class PageCallout(blocks.StructBlock):
 class NewRow(blocks.StructBlock):
     """Homepage: Force a row break between columns."""
     class Meta:
-        template = "home/new_row.html"
+        template = "streams/new_row.html"
         icon = "horizontalrule"
         label = "New Row"
 
