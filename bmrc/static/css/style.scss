@@ -679,8 +679,16 @@ footer.footer {
  * --------------------------------------------------
  */
 
-p.timeline-Tweet-text {
-    font-size: 1.15rem!important;
+.timeline-Tweet-text {
+    font-size: 10px!important;
     line-height: 2rem!important;
+}
+
+.SandboxRoot.env-bp-550 .timeline-Tweet-text {
+	font-size: 10px!important;
+}
+
+.timeline-TweetList p {
+    font-size: 10px!important;
 }
 
