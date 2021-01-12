@@ -258,10 +258,17 @@ body.has-navbar-fixed-top {
 }
 
 nav.navbar {
+	background-color: #fffcf2;
 	font-size: 0.9rem;
 	font-weight: 600;
 	text-transform: uppercase;
 	box-shadow: 0 3px 10px 2px rgba(0, 0, 0, 0.15);
+	@include respond-to(medium) {
+	    font-size: 0.8rem;
+	}
+	@include respond-to(large) {
+	    font-size: 0.9rem;
+	}
 }
 
 .navbar-item img {
@@ -269,14 +276,30 @@ nav.navbar {
 	@include respond-to(small) {
 	    max-height: 3rem;
 	}
+	@include respond-to(medium) {
+	    max-height: 2rem;
+	}
 }
 
 .navbar-link:not(.is-arrowless)::after {
-    border-color: #4a4a4a;
+    border-color: #333333;
 }
 
-a.navbar-item:hover, .navbar-link:hover {
-	color: $accentlink;
+a.navbar-item, a.navbar-link, .navbar-dropdown a.navbar-item {
+	color: #333333;
+	&:hover, &:focus {
+		color: #ffffff;
+		background-color: $accentlink;
+	}
+}
+
+.navbar-item.has-dropdown:focus .navbar-link, .navbar-item.has-dropdown:hover .navbar-link, .navbar-item.has-dropdown.is-active .navbar-link {
+	color: #ffffff;
+	background-color: $accentlink;
+}
+
+.navbar-dropdown {
+	background-color: #fffcf2;
 }
 
 
@@ -501,15 +524,19 @@ section {
 	.input {  // Important needed to apply styling to Contact form template
 		width: 70%;
 		font-size: 1rem!important;
+		@include respond-to(medium) {
+			width: 55%;
+		}
 		@include respond-to(large) {
 			width: unset;
 		}
 	}
 	button {
-		background-color: $primary;
+		background-color: $accentlink;
 		color: white;
-		&:hover {
-			background-color: lighten($primary, 10%);
+		&:hover, &:focus {
+			color: #333333;
+			background-color: lighten($primary, 15%);
 		}
 	}
 }
@@ -624,7 +651,7 @@ nav.pagination {
 	a {
 		color: lighten($text, 10%);
 		text-decoration: underline;
-		&:hover {
+		&:hover, &:focus {
 			color: $accentlink;
 		}
 	}
