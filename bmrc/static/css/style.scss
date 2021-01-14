@@ -114,9 +114,6 @@ body { // Part 1 for Footer at bottom for short pages
 
 main {
     margin-top: 3em;
-	@include respond-to(small) {
-	    margin-top: 4em;
-	}
 }
 
 .columns { // Allows columns to be content aware
@@ -258,7 +255,7 @@ body.has-navbar-fixed-top {
 }
 
 nav.navbar {
-	background-color: #fffcf2;
+	background-color: #f3f2e8; //#fffcf2
 	font-size: 0.9rem;
 	font-weight: 600;
 	text-transform: uppercase;
