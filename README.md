@@ -19,11 +19,6 @@ Mocks for approval process can be found at: [uchicago-library.github.io/bmrc](ht
 - **Other Errors:** Try running `pip install -r requirements.txt`
 - **If running vagrant on local:** Installing pip packages & upgrades require adding package to requirements.txt, `vagrant destroy`, and `vagrant up` rather than the regular pip install method.
 
-## Test Instance
-- The test instance should mirror the production site, less any features being tested at the time
-- The test server is bmrc-test
-- It is hosted on crib
-
 ## Pushing to Production
 - ssh to aerie
 - `cd /data/aerie`
@@ -32,6 +27,19 @@ Mocks for approval process can be found at: [uchicago-library.github.io/bmrc](ht
 - `git remote update`
 - `git status`
 - `git pull origin master`
+- `./manage.py migrate` _only needed if made migrations_
+- `./manage.py compress`
+- `./manage.py collectstatic`
+- `sudo service apache24 restart`
+
+## Pushing to the Test Site
+The test instance should mirror the production site, less any features being tested at the time. The test server is bmrc-test ; it is hosted on crib
+- ssh to crib
+- `cd /data/crib/ ; source venv3.7/bin/activate ; cd sites/bmrc-test/bmrc`
+- `git remote update`
+- `git status`
+- `git checkout {{ branch-name }}`
+- `git pull origin {{ branch-name }}`
 - `./manage.py migrate` _only needed if made migrations_
 - `./manage.py compress`
 - `./manage.py collectstatic`
