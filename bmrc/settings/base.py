@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'streams',
     'standard',
     'news',
+    'contact',
     'site_settings',
     'memb_collections',
     'shibboleth',
