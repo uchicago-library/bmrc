@@ -55,6 +55,7 @@ class StandardPage(Page):
             ("image_block", blocks.ImageBlock(group="Layout and Images")),
             ("fellows_block", blocks.FellowsBlock(group="Layout and Images")),
             ("clear_block", blocks.ClearBlock(group="Layout and Images")),
+            ("webfeed", blocks.WebFeedBlock(group="Layout and Images")),
         ],
         null=True,
         blank=True,
