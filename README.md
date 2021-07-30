@@ -21,9 +21,7 @@ Mocks for approval process can be found at: [uchicago-library.github.io/bmrc](ht
 
 ## Pushing to Production
 - ssh to aerie
-- `cd /data/aerie`
-- `source venv3.7/bin/activate`
-- `cd sites/bmrc/bmrc`
+- `cd /data/aerie/ ; source venv3.7/bin/activate ; cd sites/bmrc/bmrc`
 - `git remote update`
 - `git status`
 - `git pull origin master`
