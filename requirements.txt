@@ -1,9 +1,9 @@
-Django>=2.0,<2.3
-wagtail==2.8
+Django==3.2.11
+wagtail==2.15.2
 django-compressor
 django-libsass
 django-static-precompiler
-psycopg2>=2.7.1,<2.9
+psycopg2==2.8.6
 wagtail-django-recaptcha
 
 -e git+https://github.com/Brown-University-Library/django-shibboleth-remoteuser.git#egg=django_shibboleth_remoteuser

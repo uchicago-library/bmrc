@@ -24,6 +24,7 @@ from streams import blocks
 class NewsSideBar(Orderable):
     """Sidebar for Newsletters."""
 
+    id = models.AutoField(primary_key=True)
     page = ParentalKey("news.NewsIndexPage", related_name="news_sidebar")
     sidebar_title = models.CharField(max_length=100, blank=True, null=True)
     sidebar_text = RichTextField(

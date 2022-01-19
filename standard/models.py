@@ -20,6 +20,7 @@ from streams import blocks
 class SideBar(Orderable):
     """Optional Sidebar."""
 
+    id = models.AutoField(primary_key=True)
     page = ParentalKey("standard.StandardPage", related_name="sidebar")
     sidebar_title = models.CharField(max_length=100, blank=True, null=True)
     sidebar_text = RichTextField(

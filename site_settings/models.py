@@ -9,6 +9,7 @@ from wagtail.core.fields import RichTextField
 class FooterSettings(BaseSetting):
     """Social media settings for our custom website."""
 
+    id = models.AutoField(primary_key=True)
     facebook = models.URLField(blank=True, null=True, help_text="Facebook URL")
     twitter = models.URLField(blank=True, null=True, help_text="Twitter URL")
     instagram = models.URLField(blank=True,
@@ -40,6 +41,7 @@ class AlertBanner(BaseSetting):
         (HIGH, 'Critical Alert'),
     )
 
+    id = models.AutoField(primary_key=True)
     enable = models.BooleanField(
         default=False,
         help_text='Checking this box will enable the alert on all web pages.')

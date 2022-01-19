@@ -20,6 +20,7 @@ from news.models import NewsStoryPage
 class HomePageCarouselImages(Orderable):
     """Up to 3 images for the home page carousel."""
 
+    id = models.AutoField(primary_key=True)
     page = ParentalKey("home.HomePage", related_name="carousel_images")
     carousel_image = models.ForeignKey(
         "wagtailimages.Image",
