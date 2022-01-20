@@ -86,7 +86,7 @@ class Archive(models.Model):
         month_number = (d.year - unix_epoch.year) * 12 \
                      + (d.month - unix_epoch.month)
         # adjust so that lowest order index appears in Feb 2022. 
-        month_number += 4
+        month_number += 21
         members = Archive.objects.filter(is_member=True).exclude(finding_aid_prefix='BMRC').order_by('order')
         try:
             return members[month_number % len(members)]
