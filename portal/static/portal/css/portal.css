@@ -6,11 +6,17 @@
 [id] {
     scroll-margin-top: 3.75rem;
 }
-
+.tag:not(body).is-success.is-light {
+    background-color: #effaf3;
+    color: #257942;
+}
 a {
     color: #224e64;
     outline: 0;
     text-decoration: underline;
+}
+nav.navbar a {
+    text-decoration: none;
 }
 
 a:hover, a:focus {
