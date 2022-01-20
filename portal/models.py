@@ -434,7 +434,8 @@ class PortalHomePage(Page):
 
     subpage_types = [
         'portal.CuratedTopicIndexPage',
-        'portal.ExhibitIndexPage'
+        'portal.ExhibitIndexPage',
+        'standard.StandardPage',
     ]
 
     max_count = 1

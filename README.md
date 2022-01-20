@@ -59,14 +59,14 @@ cache.clear()
 The following URLs are hardcoded in templates. In cases where these URLs point
 to editable Page objects, moving these pages will result in 404 errors. 
 
-- /about/
-- /curated/
-- /help/
 - /news/
 - /news/newsletter-signup/
 - /news/support-bmrc/
 - /portal/
+- /portal/about/
 - /portal/browse/
+- /portal/curated/
+- /portal/help/
 - /portal/search/
 - /portal/view/
 
