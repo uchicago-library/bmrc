@@ -56,5 +56,6 @@ class Command(BaseCommand):
                 logo=logo,
                 spotlight=a['member_spotlight_html'],
                 finding_aid_prefix=a['finding_aid_prefix'],
-                is_member=True
+                is_member=True,
+                order=a['order']
             ).save()

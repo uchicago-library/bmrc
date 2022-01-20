@@ -14,8 +14,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # Load logos into Wagtail, if they don't already exist. 
+
         for i in os.listdir(options['image_dir'][0]):
             path = os.path.join(options['image_dir'][0], i)
+
+            for j in Image.objects.filter(title=i):
+                j.delete()
+
             if not Image.objects.filter(title=i).exists():
                 with open(
                     os.path.join(
