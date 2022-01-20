@@ -113,6 +113,10 @@
         
         <main id="content" role="main">
 
+            {% block extra_header %}
+                {# Override this in templates (e.g. portal templates) to add extra content between the top nav and breadcrumbs #}
+            {% endblock %}
+
             {% if settings.site_settings.AlertBanner.enable %}
             <div class="alert {{settings.site_settings.AlertBanner.alert_level}}" role="alert">
                 {{settings.site_settings.AlertBanner.alert_message|richtext}}
@@ -134,6 +138,10 @@
 
             {% block content %}{% endblock %}
         </main>
+
+        {% block extra_footer %}
+            {# Override this in templates (e.g. portal templates) to add extra content between main content area and the sitewide footer #}
+        {% endblock %}
 
         {% cache 604800 footer %}
             <footer id="footer" class="footer" role="contentinfo">

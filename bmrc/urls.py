@@ -6,6 +6,7 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
+from portal import views as portal_views
 from search import views as search_views
 
 urlpatterns = [
@@ -13,6 +14,11 @@ urlpatterns = [
 
     url(r'^admin/', include(wagtailadmin_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
+
+    url(r'^portal/browse/', portal_views.browse, name='portal_browse'),
+    url(r'^portal/facet_view_all/', portal_views.facet_view_all, name='portal_facet_view_all'),
+    url(r'^portal/search/', portal_views.search, name='portal_search'),
+    url(r'^portal/view/', portal_views.view, name='portal_view'),
 
     url(r'^search/$', search_views.search, name='search'),
 

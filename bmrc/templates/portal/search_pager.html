@@ -1,0 +1,10 @@
+{% if total_pages > 1 %}
+    <nav class="pagination" role="navigation" aria-label="pagination">
+        <a class="pagination-next"{% if page == total_pages %} disabled{% endif %} href="/portal/search/?{{ search_results.query_string_without_page }}&page={{ page|add:1 }}&sort={{ sort }}">Next page</a>
+        <ul class="pagination-list">
+            {% for i in page_links %}
+                <li><a class="button pagination-link{% if i == page %} is-current{% endif %}" href="/portal/search/?{{ search_results.query_string_without_page }}&page={{ i }}&sort={{ sort }}">{{ i }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endif %}

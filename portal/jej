@@ -1,0 +1,458 @@
+from django import forms
+from django.utils import translation
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
+from pygments import highlight
+from wagtail.contrib.table_block.blocks import TableBlock
+from wagtail.core.blocks import (
+    BooleanBlock, CharBlock, ChoiceBlock, ChooserBlock, FieldBlock, ListBlock,
+    PageChooserBlock, RawHTMLBlock, RichTextBlock, StreamBlock, StructBlock,
+    TextBlock, TimeBlock, URLBlock
+)
+from wagtail.documents.blocks import DocumentChooserBlock
+from wagtail.embeds.blocks import EmbedBlock
+from wagtail.images.blocks import ImageChooserBlock
+from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.snippets.blocks import SnippetChooserBlock
+from wagtailmedia.blocks import AbstractMediaChooserBlock
+
+
+# Helper functions and constants
+BUTTON_CHOICES = (
+    ('btn-primary', 'Primary'),
+    ('btn-default', 'Secondary'),
+    ('btn-reserve', 'Reservation'),
+)
+
+
+# Global streamfield definitions
+class AgendaInnerBlock(StructBlock):
+    """
+    Block definition for the repeatable inner
+    portion of the AgendaItem streamfield.
+    """
+    title = CharBlock(
+        required=False, help_text='Talk title, workshop title, etc.'
+    )
+    presenters = CharBlock(
+        required=False,
+        help_text='Comma separated list of presenters \
+            (if more than one)'
+    )
+    room_number = CharBlock(required=False)
+    description = RichTextBlock(required=False)
+
+
+class AgendaItemFields(StructBlock):
+    """
+    Make the AgendaInnerBlock repeatable.
+    """
+    start_time = TimeBlock(required=False, icon='time')
+    end_time = TimeBlock(required=False, icon='time')
+    session_title = CharBlock(
+        required=False,
+        icon='title',
+        help_text='Title of the session. \
+            Can be used as title of the talk in some situations.'
+    )
+    event = ListBlock(
+        AgendaInnerBlock(),
+        icon="edit",
+        help_text='A talk or event with a title, presenter \
+            room number, and description',
+        label=' '
+    )
+
+
+class AnchorTargetBlock(StructBlock):
+    """
+    Allows authors to add an ID target for Wagtail's anchor link.
+    """
+    anchor_id_name = CharBlock(max_length=50)
+
+    class Meta:
+        icon = 'tag'
+        template = 'portal/blocks/anchor_target.html'
+        label = 'Anchor link target'
+
+
+class BlockQuoteBlock(StructBlock):
+    """
+    Blockquote streamfield block.
+    """
+    quote = TextBlock('quote title')
+    attribution = CharBlock(required=False)
+
+    class Meta:
+        icon = 'openquote'
+        template = 'portal/blocks/blockquote.html'
+ 
+
+class ButtonBlock(StructBlock):
+    """
+    Button streamfield block.
+    """
+    button_type = ChoiceBlock(
+        choices=BUTTON_CHOICES, default=BUTTON_CHOICES[0][0]
+    )
+    button_text = CharBlock(max_length=20)
+    link_external = URLBlock(required=False)
+    link_page = PageChooserBlock(required=False)
+    link_document = DocumentChooserBlock(required=False)
+
+    class Meta:
+        icon = 'plus-inverse'
+        template = 'portal/blocks/button.html'
+
+
+class ClearBlock(StructBlock):
+    """
+    Allows authors to add a clear between floated elements.
+    """
+
+    class Meta:
+        icon = 'horizontalrule'
+        template = 'portal/blocks/clear.html'
+
+
+class CodeBlock(StructBlock):
+    """
+    Code Highlighting Block
+    """
+
+    LANGUAGE_CHOICES = (
+        ('bash', 'Bash/Shell'),
+        ('css', 'CSS'),
+        ('html', 'HTML'),
+        ('javascript', 'Javascript'),
+        ('json', 'JSON'),
+        ('ocaml', 'OCaml'),
+        ('php5', 'PHP'),
+        ('html+php', 'PHP/HTML'),
+        ('python', 'Python'),
+        ('scss', 'SCSS'),
+        ('yaml', 'YAML'),
+    )
+
+    language = ChoiceBlock(choices=LANGUAGE_CHOICES)
+    code = TextBlock()
+
+    class Meta:
+        icon = 'cog'
+        label = '_SRC'
+
+    def render(self, value, context=None):
+        src = value['code'].strip('\n')
+        lang = value['language']
+
+        lexer = get_lexer_by_name(lang)
+        formatter = get_formatter_by_name(
+            'html',
+            linenos=None,
+            cssclass='codehilite',
+            style='default',
+            noclasses=False,
+        )
+        return mark_safe(highlight(src, lexer, formatter))
+
+
+class ColumnsBlock(StreamBlock):
+    """
+    Panel to add columns of rich text. Uses Flex box.
+    """
+    new_column = RichTextBlock(label="New Column", icon="arrow-right")
+
+    class Meta:
+        template = "portal/blocks/columns_block.html"
+        icon = "form"
+        label = "Text Columns"
+        help_text = "Recommend 2-3 columns max"
+
+
+class ImageBlock(StructBlock):
+    """
+    Image streamfield block.
+    """
+    image = ImageChooserBlock()
+    title = CharBlock(required=False)
+    citation = CharBlock(
+        required=False,
+        help_text='Photographer, artist, or creator of image',
+    )
+    caption = TextBlock(
+        required=False,
+        help_text='Details about or description of image',
+    )
+    alt_text = CharBlock(
+        required=True,
+        help_text='Required for ADA compliance',
+    )
+    alignment = ImageFormatChoiceBlock()
+    source = URLBlock(
+        required=False,
+        help_text='Link to image source (needed for Creative Commons)',
+    )
+    lightbox = BooleanBlock(
+        default=False,
+        required=False,
+        help_text='Link to a larger version of the image',
+    )
+
+    class Meta:
+        icon = 'image'
+        template = 'portal/blocks/img.html'
+
+
+class ImageFormatChoiceBlock(FieldBlock):
+    """
+    Alignment options to use with the ImageBlock.
+    """
+    field = forms.ChoiceField(
+        choices=(
+            ('pull-left', 'Wrap left'),
+            ('pull-right', 'Wrap right'),
+            ('fullwidth', 'Full width'),
+        )
+    )
+
+
+class ImageLink(StructBlock):
+    """
+    Normal image for web exhibits.
+    """
+    image = ImageChooserBlock(required=False)
+    alt_text = CharBlock(
+        required=False,
+        help_text='Required if no link text supplied for ADA compliance',
+    )
+    icon = CharBlock(
+        required=False,
+        help_text="Font Awesome icon name if you're not using an image"
+    )
+    link_text = CharBlock(
+        required=False,
+        help_text='Text to display below the image or icon',
+    )
+    link_external = URLBlock(required=False)
+    link_page = PageChooserBlock(required=False)
+    link_document = DocumentChooserBlock(required=False)
+
+    class Meta:
+        icon = 'image'
+        template = 'portal/blocks/image_link.html'
+
+
+class LocalMediaBlock(AbstractMediaChooserBlock):
+
+    def render_basic(self, value, context=None):
+        if not value:
+            return ''
+
+        if value.type == 'video':
+            player_code = '''
+            <div>
+                <video width="320" height="240" controls>
+                    <source src="{0}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            '''
+        else:
+            player_code = '''
+            <div>
+                <audio controls>
+                    <source src="{0}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            '''
+
+        return format_html(player_code, value.file.url)
+
+    class Meta:
+        icon = 'media'
+
+
+class ParagraphBlock(StructBlock):
+    """
+    Paragraph streamfield block.
+    """
+    paragraph = RichTextBlock()
+
+    class Meta:
+        icon = 'pilcrow'
+        form_classname = 'paragraph-block struct-block'
+        template = 'portal/blocks/paragraph.html'
+
+
+class PullQuoteBlock(StructBlock):
+    """
+    Pullquote streamfield block.
+    """
+    quote = RichTextBlock()
+
+    class Meta:
+        icon = 'arrow-left'
+        template = 'portal/blocks/pullquote.html'
+
+
+class ReusableContentBlock(StructBlock):
+    """
+    Stream block for adding "reusable content" snippets.
+    """
+    content = SnippetChooserBlock('reusable_content.ReusableContent')
+
+    class Meta:
+        icon = 'folder-inverse'
+        template = 'portal/blocks/reusable_content.html'
+
+
+class SoloImage(StructBlock):
+    """
+    Normal image for web exhibits.
+    """
+    image = ImageChooserBlock()
+    citation = RichTextBlock(blank=True, null=True, required=False)
+    caption = RichTextBlock(blank=True, null=True, required=False)
+    alt_text = CharBlock(
+        required=False,
+        help_text=
+        'Required for ADA compliance if no caption or citation is provided',
+    )
+
+    class Meta:
+        icon = 'image'
+        template = 'portal/blocks/solo_img.html'
+
+
+class DuoImage(StructBlock):
+    """
+    Panel of two images stacked side
+    by side. Used in web exhibits.
+    """
+    image_one = SoloImage(
+        help_text='First of two images displayed \
+            side by side'
+    )
+    image_two = SoloImage(
+        help_text='Second of two images displayed \
+            side by side'
+    )
+
+    class Meta:
+        icon = 'image'
+        template = 'portal/blocks/duo_img.html'
+
+
+class DefaultBodyFields(StreamBlock):
+    """
+    Standard default streamfield options to be shared
+    across content types.
+    """
+    paragraph = ParagraphBlock(group="Format and Text")
+    h2 = CharBlock(
+        icon='title',
+        classname='title',
+        template='portal/blocks/h2.html',
+        group='Format and Text'
+    )
+    h3 = CharBlock(
+        icon='title',
+        classname='title',
+        template='portal/blocks/h3.html',
+        group='Format and Text'
+    )
+    h4 = CharBlock(
+        icon='title',
+        classname='title',
+        template='portal/blocks/h4.html',
+        group='Format and Text'
+    )
+    h5 = CharBlock(
+        icon='title',
+        classname='title',
+        template='portal/blocks/h5.html',
+        group='Format and Text'
+    )
+    columns_block = ColumnsBlock(group='Format and Text')
+    blockquote = BlockQuoteBlock(group='Format and Text')
+    pullquote = PullQuoteBlock(group='Format and Text')
+    reusable_content = ReusableContentBlock(group='Format and Text')
+    image = ImageBlock(label='Image', group="Images and Media")
+    solo_image = SoloImage(
+        help_text='Single image with caption on the right',
+        group="Images and Media"
+    )
+    duo_image = DuoImage(
+        help_text='Two images side by side with captions below',
+        group="Images and Media"
+    )
+    local_media = LocalMediaBlock(
+        label="Video or Audio",
+        help_text='Audio or video files that have been uploaded into Wagtail',
+        group="Images and Media"
+    )
+    video = EmbedBlock(
+        icon='media',
+        label='External Video Embed',
+        help_text='Embed video that is hosted on YouTube or Vimeo',
+        group="Images and Media"
+    )
+    button = ButtonBlock(group="Links")
+    image_link = ImageLink(
+        label="Linked Image",
+        help_text='A fancy link made out of a thumbnail and simple text',
+        group="Links"
+    )
+    anchor_target = AnchorTargetBlock(
+        help_text=
+        'Where you want an anchor link to jump to. Must exactly match the "#" label supplied in anchor link (found in Paragraph streamfield).',
+        group="Links"
+    )
+
+    # Begin TableBlock Setup
+    language = translation.get_language()
+    if language is not None and len(language) > 2:
+        language = language[:2]
+
+    options = {
+        'minSpareRows': 0,
+        'startRows': 3,
+        'startCols': 3,
+        'colHeaders': False,
+        'rowHeaders': False,
+        'contextMenu': True,
+        'editor': 'text',
+        'stretchH': 'all',
+        'height': 108,
+        'language': language,
+        'renderer': 'html',
+        'autoColumnSize': False,
+    }
+    table = TableBlock(
+        table_options=options,
+        template='portal/blocks/table.html',
+        help_text='Right + click in a table cell for more options. \
+Use <em>text</em> for italics, <strong>text</strong> for bold, and \
+<a href="https://duckduckgo.com">text</a> for links.',
+        group="Layout and Data"
+    )
+    agenda_item = AgendaItemFields(
+        icon='date',
+        template='portal/blocks/agenda.html',
+        group="Layout and Data"
+    )
+    clear = ClearBlock(
+        lable="Clear Formatting",
+        help_text='Resets layout before or after floated images.',
+        group="Layout and Data"
+    )
+    code = CodeBlock(group="Layout and Data")
+    html = RawHTMLBlock(
+        help_text='Display code as text for tutorial or documentation purposes',
+        group="Layout and Data"
+    )
+
+    class Meta:
+        required = False
+

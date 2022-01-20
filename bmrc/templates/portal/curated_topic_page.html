@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags cache %}
+
+{% block body_class %}curated_topic{% endblock %}
+
+{% block extra_css %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'portal/css/bulma.min.css' %}">
+    <link rel="stylesheet" href="{% static 'portal/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'portal/css/portal.css' %}">
+{% endblock %}
+
+{% block extra_header %}
+    {% include "portal/portal_searchbar.html" %}
+{% endblock %}
+
+{% block content %}
+    <div class="container section browse-view">
+        <div class="columns is-variable is-8">
+            <div class="column is-one-quarter browse-sidebar">
+                <h2>Browse</h2>
+                <ul>
+                    <li><a href="/browse/?b=topics">Topics</a></li>
+                    <li><a href="/browse/?b=people">People</a></li>
+                    <li><a href="/browse/?b=places">Places</a></li>
+                    <li><a href="/browse/?b=organizations">Organizations</a></li>
+                    <li><a href="/browse/?b=decades">Decades</a></li>
+                    <li><a href="/browse/?b=archives">Archives</a></li>
+                </ul>
+                    
+                <h2>Featured Topic</h2>
+                {% image self.featured_curated_topic.image original class="is-hidden-mobile" %}
+                <p><a href="{{ self.featured_curated_topic.url }}">{{ self.featured_curated_topic.title }}</a></p>
+                <p><a href="{{ self.url }}">Explore all curated topics &gt;&gt;</a></p>
+            </div>
+    
+            <div class="column">
+                <h1>{{ self.title }}</h1>
+    
+                <div class="topic_image">
+                    {% image self.image original %}
+                    <p>{{ self.caption }}</p>
+                </div>
+    
+                {{ self.body|safe }}
+   
+                {% if self.byline %}
+                    <p class="byline">— {{ self.byline }}</p>
+                {% endif %}
+    
+                <p><a href="{{ self.search_url }}">View search results for this topic &gt;&gt;</a></p>
+                <p><a href="{{ self.get_parent.url }}">Explore all curated topics &gt;&gt;</a></p>
+                {{ self.bottom_text|safe }}
+            </div> 
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_footer %}
+        {% include "portal/portal_extrafooter.html" %}
+{% endblock %}
+

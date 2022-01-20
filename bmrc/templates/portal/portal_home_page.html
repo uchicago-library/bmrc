@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags cache %}
+
+{% block body_class %}portal_homepage{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'portal/css/portal.css' %}">
+{% endblock %}
+
+{% block extra_header %}
+    {% include "portal/portal_searchbar.html" %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <section class="featured-browse section">
+            <div class="home-header">Browse by</div>
+            <ul>
+                <li><a href="/portal/browse/?b=topics">Topics</a></li>
+                <li><a href="/portal/browse/?b=people">People</a></li>
+                <li><a href="/portal/browse/?b=organizations">Organizations</a></li>
+                <li><a href="/portal/browse/?b=places">Places</a></li>
+                <li><a href="/portal/browse/?b=decades">Decades</a></li>
+                <li><a href="/portal/browse/?b=archives">Archives</a></li>
+            </ul>
+        </section>
+
+        <section class="portal-summary section">
+            <h1>{{ self.title }}</h1>
+
+            {{ self.introduction|safe }}
+        </section>
+
+        <section class="featured-news portal-feature section">
+            <div class="container is-fluid">
+                <div class="columns">
+                    <div class="column has-text-centered is-one-third-tablet is-one-third-desktop">
+                        <a href="{{ self.featured_curated_topic.url }}">
+                            {% image self.featured_curated_topic.image original %}
+                            <div class="header curated"><h2>{{ self.featured_curated_topic.title }}</h2></div>
+                        </a>
+                        <a href="{{ self.curated_topic_index_page.url }}">Explore all curated topics &gt;&gt;</a>
+                    </div>
+                    
+                    <div class="column has-text-centered is-one-third-tablet is-one-third-desktop">
+                        <a href="{{ self.featured_exhibit.url }}">
+                            {% image self.featured_exhibit.image original %}
+                            <div class="header exhibits"><h2>{{ self.featured_exhibit.title }}</h2></div>
+                        </a>
+                        <a href="{{ self.exhibit_index_page.url }}">View all exhibits &gt;&gt;</a>
+                    </div>
+
+                    <div class="column has-text-centered is-one-third-tablet is-one-third-desktop">
+                        <a href="/portal/search/?f={{ discover_more_topic_uri|urlencode }}">
+                            {% image discover_more_facet_image original %}
+                            <div class="header discover"><h2>{{ discover_more_topic }}</h2></div>
+                        </a>
+                        <a href="/portal/browse/?b={{ discover_more_facet|urlencode }}">Discover more {{ discover_more_facet }} &gt;&gt;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-modules portal section">
+            <div class="container">
+                <div class="columns is-desktop is-8">
+                    <div class="column is-full-tablet is-three-fifths-desktop">
+                        <div class="columns">
+                            <div class="column is-narrow">
+                                <div style="width: 6rem;">
+                                    {% image self.featured_archive.logo original class="is-square" style="height: auto; width: 100%;" %}
+                                </div>
+                            </div>
+                            <div class="column">
+                                <h2>Member Highlight</h2>
+                                <h3>{{ self.featured_archive.name }}</h3>
+                                {{ self.featured_archive.spotlight|safe }}
+                                <a href="/portal/search/?f={{ self.featured_archive.uri|urlencode }}">View collections from {{ self.featured_archive.name }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-full-tablet is-two-fifths-desktop">
+                        {{ self.about_the_bmrc|safe }}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block extra_footer %}
+    {% include "portal/portal_extrafooter.html" %}
+{% endblock %}

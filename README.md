@@ -53,3 +53,29 @@ If your changes aren't loading into production, try:
 from django.core.cache import cache
 cache.clear()
 ```
+
+### Fixed Pages
+
+The following URLs are hardcoded in templates. In cases where these URLs point
+to editable Page objects, moving these pages will result in 404 errors. 
+
+- /about/
+- /curated/
+- /help/
+- /news/
+- /news/newsletter-signup/
+- /news/support-bmrc/
+- /portal/
+- /portal/browse/
+- /portal/search/
+- /portal/view/
+
+## Connecting to our MarkLogic server from a dev machine
+
+If you're running the site on a development machine, you'll need to set up a 
+tunnel for SSH connections. Run a command like the one below in a new console
+window:
+
+```console
+ssh -D 9090 -q -C -N <cnetid>@stax.lib.uchicago.edu
+```

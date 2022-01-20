@@ -1,0 +1,10 @@
+<section class="section portal-search" style="background-color: #e5e7d2;">
+    <form action="/portal/search/" method="get">
+        <div class="field has-addons">
+            <label class="is-sr-only" for="portal-search-query">Finding Aid Search</label>
+            <input class="input control is-medium" id="portal-search-query" placeholder="search member collections" type="text" name="q"{% if search_results.q %} value="{{ search_results.q }}"{% endif %}>
+            <button type="submit" value="Search" class="button is-medium">Search</button>
+        </div>
+    </form>
+    <div class="search-help level-right"><a href="/help/">Research Help</a></div>
+</section>

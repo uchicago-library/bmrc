@@ -3,7 +3,13 @@ wagtail==2.15.2
 django-compressor
 django-libsass
 django-static-precompiler
+lxml
 psycopg2==2.8.6
+Pygments==2.11.2
+pysocks
+requests_cache
+requests_toolbelt
 wagtail-django-recaptcha
+wagtailmedia==0.8.0
 
 -e git+https://github.com/Brown-University-Library/django-shibboleth-remoteuser.git#egg=django_shibboleth_remoteuser

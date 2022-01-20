@@ -1,0 +1,40 @@
+<div class="modal-header level">
+  <h2>Viewing all relevant {{ title }}</h2>
+</div>
+
+<div class="sort-browse level-left" data-a={{ a }} data-collections-active={{ collections_active }} data-q={{ q }}>
+    <div class="sort-label">Sort by:</div>
+    {% if fsort == 'relevance' %}
+        <button class="button is-link is-light facet_overlay_sort" data-sort="relevance" href="#">Relevance</button>
+    {% else %}
+        <a class="button is-text facet_overlay_sort" data-sort="relevance" href="#">Relevance</a>
+    {% endif %}
+
+    {% if fsort == 'alpha' %}
+        <button class="button is-link is-light facet_overlay_sort" data-sort="alpha" href="#">A-Z &darr;</button>
+    {% else %}
+        <a class="button is-text facet_overlay_sort" data-sort="alpha" href="#">A-Z &darr;</a>
+    {% endif %}
+
+    {% if fsort == 'alpha-dsc' %}
+        <button class="button is-link is-light facet_overlay_sort" data-sort="alpha-dsc" href="#">Z-A &uarr;</button>
+    {% else %}
+        <a class="button is-text facet_overlay_sort" data-sort="alpha-dsc" href="#">Z-A &uarr;</a>
+    {% endif %}
+
+    {% if fsort == 'shuffle' %}
+        <a data-sort="shuffle" href="#" style="text-decoration: none;"><button class="button is-link is-light facet_overlay_sort" data-sort="shuffle">Shuffle <span class="material-icons">shuffle</span></button></a>
+    {% else %}
+        <a class="button is-text facet_overlay_sort" data-sort="shuffle" href="#">Shuffle <span class="material-icons">shuffle</span></a>
+    {% endif %}
+</div>
+
+<ul>
+    {% for c in collection %}
+        {% if c.3 %}
+            <li data-count="{{ c.2 }}" data-title="{{ c.0 }}">{{ c.1 }} ({{ c.2 }})</li>
+        {% else %}
+            <li data-count="{{ c.2 }}" data-title="{{ c.0 }}"><a href="/portal/search/?{{ c.4 }}">{{ c.1 }} ({{ c.2 }})</a></li>
+        {% endif %}
+    {% endfor %}
+</ul>

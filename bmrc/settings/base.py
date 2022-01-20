@@ -23,6 +23,7 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 INSTALLED_APPS = [
     'home',
+    'portal',
     'search',
     'streams',
     'standard',
@@ -35,6 +36,7 @@ INSTALLED_APPS = [
     'wagtail.contrib.postgres_search',
     'wagtail.contrib.redirects',
     'wagtail.contrib.settings',
+    'wagtail.contrib.modeladmin',
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -68,7 +70,6 @@ MIDDLEWARE = [
     # Required for shibboleth
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'shibboleth.middleware.ShibbolethRemoteUserMiddleware',
-    'wagtail.contrib.legacy.sitemiddleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]
 
@@ -199,3 +200,5 @@ WAGTAIL_SITE_NAME = "bmrc"
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = 'http://example.com'
+
+TEST_RUNNER = 'portal.tests.NoDbDjangoTestSuiteRunner'

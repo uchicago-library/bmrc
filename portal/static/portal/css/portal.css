@@ -1,0 +1,528 @@
+/* See https://github.com/johnjung/bmrcportal/issues/21.
+   TODO: evaluate link styling on bmrc.lib and the portal
+   when we combine the two sites. */
+
+/* keep anchor links visible with fixed top nav. */
+[id] {
+    scroll-margin-top: 3.75rem;
+}
+
+a {
+    color: #224e64;
+    outline: 0;
+    text-decoration: underline;
+}
+
+a:hover, a:focus {
+    color: #777441;
+    outline-offset: 1px;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+}
+
+body {
+    display: relative;
+    line-height: 1.75rem;
+}
+
+.material-icons {
+    font-size: 1.2em;
+    margin-left: 0.25em;
+}
+
+nav.breadcrumb ul {
+    padding-bottom:  0;
+}
+
+h1 {
+    text-transform: none;
+}
+
+.button.is-dark {
+    background-color: #6b1722;
+}
+
+.section.subfooter {
+    margin-top: 2rem;
+    margin-bottom: 0;
+    background-color: #e5e7d2;
+}
+
+.subfooter ul {
+    list-style: none;
+    padding-left: 0;
+    padding-bottom: 0;
+}
+
+@media (min-width: 62em) {
+    .subfooter li {
+        display: inline-block;
+    }
+}
+
+@media (min-width: 62em) {
+    .subfooter li+li::before {
+      content: " | ";
+    }
+}
+
+footer.footer {
+    margin-top: 0;
+}
+
+
+/*
+ * Homepage
+ * --------------------------------------------------
+ */
+
+.home-header {
+    color: #fff;
+    font-weight: 600;
+}
+
+@media (min-width: 62em) {
+    .home-header {
+        background-color: #676438;
+        padding: 1em 3em;
+        margin-left: -70px;      
+        display: inline-block;
+    }
+}
+
+.featured-browse {
+    color: #fff;
+    background-color: #676438;
+    padding: 1rem;
+}
+
+.featured-browse a {
+    color: #fff;
+}
+
+@media (min-width: 62em) {
+    .featured-browse a {
+        color: #224e64;
+    }
+}
+
+@media (min-width: 62em) {
+    .featured-browse {
+        color: unset;
+        background-color: unset;
+    }
+}
+
+.featured-browse ul {
+    padding-left: 0;
+    padding-bottom: 0;
+    padding-top: 0.5em;
+}
+
+@media (min-width: 62em) {
+    .featured-browse ul {
+        padding-left: 0.5em;
+        display: inline-block;
+    }
+}
+
+.featured-browse li {
+    display: inline-block;
+}
+
+.featured-browse li+li::before {
+  content: " | ";
+}
+
+.portal-summary h1, .portal-summary p{
+    margin-bottom: 0;
+}
+
+.portal-feature {
+    background-color: #e5e7d2;
+}
+
+.portal-feature .header {
+    width:  100%;
+    margin-top: -10px;
+    padding: 0.55em 0.5em;
+    margin-bottom: 0.35em;
+}
+
+.portal-feature h2 {
+    color: #fff;
+    font-size: 1em;
+    margin-bottom: 0;
+    font-weight: 600;
+    text-transform: none;
+}
+
+.portal-feature .curated {
+    background-color: #676438;
+}
+
+.portal-feature .exhibits {
+    background-color: #7C391B;
+}
+
+.portal-feature .discover {
+    background-color: #663434;
+}
+
+.featured-modules.portal h2 {
+    color: #676438;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.featured-modules.portal h3 {
+    color: #6b1722;
+    font-size: 1.05rem;
+}
+
+.featured-modules img {
+    max-width:  150px;
+}
+
+/*
+ * Search
+ * --------------------------------------------------
+ */
+
+.portal-search {
+    padding: 1em 1em 0;
+}
+
+@media (min-width: 62em) {
+    .portal-search {
+        padding: 2.5em 6em 0.5em;
+    }
+}
+
+.portal-search button {
+    color: #ffffff;
+    background-color: #676438;
+}
+
+.portal-search button:hover {
+    color: #333333;
+    background-color: #a7a35e;
+}
+
+.search-help {
+    font-size: 0.9rem;
+    font-style: italic;
+    padding: 10px;
+}
+
+
+/*
+ * Browse and Search
+ * --------------------------------------------------
+ */
+
+.archivebox_serp {
+    background-color: #676438;
+    color: white;
+    display: flex;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+}
+.archivebox_serp a:link,
+.archivebox_serp a:visited,
+.archivebox_serp a:hover,
+.archivebox_serp a:focus,
+.archivebox_serp a:active {
+    color: inherit;
+}
+.archivebox_serp strong {
+    color: inherit;
+}
+.archivebox_serp_image {
+    width: 6rem;
+}
+.archivebox_serp_image img {
+    height: auto;
+    width: 100%;
+}
+.archivebox_serp_text {
+    padding-left: 1rem;
+}
+.archivebox_address {
+    margin-bottom: .5rem;
+}
+
+
+#results_header + .active-facets {
+    margin-top: -15px;
+}
+
+@media (min-width: 62em) {
+    #search_results {
+        padding-top: 0;
+    }
+}
+
+#search_results h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.result-description {
+    margin-bottom: 0.5rem;
+}
+
+.result-metadata span {
+    font-style: italic;
+    font-weight: 600;
+}
+
+.active-facets + .sort-browse {
+    margin-top: 1em;
+}
+
+.sort-label {
+    color: #6b1722;
+    font-weight: 600;
+    padding-right: 1em;
+    display:inline-block;
+}
+
+.pagination-list {
+    padding-left: 0;
+}
+
+.pagination-link.is-current {
+    background-color: #224e64;
+    border-color: #224e64;
+    color: #fff;
+}
+.pagination-link.is-current:hover {
+    border-color: #224e64;
+    color: #fff;
+}
+ 
+.pagination a {
+    text-decoration: none;
+}
+
+.pagination a:hover {
+    border-color: #b5b5b5;
+    color: #777441;
+}
+
+/* See: https://github.com/johnjung/bmrcportal/issues/20
+        https://github.com/johnjung/bmrcportal/issues/58 */
+.active {
+    font-style: italic;
+}
+
+.view_more {
+    display: none;
+}
+
+.view_link {
+    font-style: italic;
+}
+
+.section.browse-view {
+    margin-left: 0;
+}
+
+.browse-sidebar {
+    background-color: #f5f5eb;
+    hyphens: auto;
+}
+.browse-sidebar a {
+    hyphens: none;
+    overflow-wrap: anywhere;
+}
+
+.browse-sidebar h2 {
+    color: #676438;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.browse-sidebar ul {
+    list-style: none;
+    padding-left: 1em;
+    text-indent: -1em;
+}
+.browse-sidebar ul ul {
+    padding-bottom: 0;
+}
+
+.sort-browse {
+    padding-bottom: 1em;
+}
+
+.sort-browse .button {
+    margin-left: 0.5em;
+    text-decoration: none;
+}
+
+.sort-browse .button.is-text:hover {
+    background-color:  #e3ecfa;
+    border-color: transparent;
+    color: #2160c4;
+}
+
+ul.browse-results {
+    list-style: none;
+    padding-left: 0;
+}
+
+.browse-results li {
+    margin-bottom: 0.75em;
+}
+
+.loader-wrapper {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+/* remove "height: calc(100vh - 40px);" so that the modal is short while
+   loading, to make the spinner more noticeable. */
+.modal-content {
+    background-color: white;
+    padding: 1rem;
+}
+
+.modal-content ul {
+    list-style-type: none;
+    margin-left: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+/* selected facet values in the popup are italic. avaliable facet values are
+   normal. */
+.modal-content li {
+    font-style: italic;
+}
+
+.modal-content li a {
+    font-style: normal;
+}
+
+
+/*
+ * Curated Topics
+ * --------------------------------------------------
+ */
+
+.topic_image p {
+    font-size: .8rem;
+    font-style: italic;
+    line-height: 1.4rem;
+} 
+
+p.byline {
+    font-style: italic;
+}
+
+/*
+ * Finding Aid Viewer
+ * --------------------------------------------------
+ */
+
+.archivebox_findingaidviewer {
+    margin-bottom: 1rem;
+}
+.archivebox_findingaidviewer_image img {
+    height: auto;
+    width: 6rem;
+}
+
+dd {
+    padding-left: 1em;
+}
+
+/* descriptive summary */
+.ead_archdesc > dl.ead_did {
+    margin-bottom: 1.5rem;
+}
+.ead_archdesc > dl.ead_did dt {
+    float: left;
+    font-style:italic;
+}
+.ead_archdesc > dl.ead_did dt::after {
+    content: ':\00a0'; 
+}
+.ead_archdesc > dl.ead_did dd {
+    margin: 0;
+    padding: 0;
+}
+
+/* hide descriptive summary address */
+.ead_archdesc > dl > dd.ead_repository > .ead_address {
+    display: none;
+}
+
+.ead_dsc .ead_c:not(:last-child),
+.ead_dsc .ead_did:not(:last-child),
+.ead_dsc .ead_arrangement:not(:last-child),
+.ead_dsc .ead_scopecontent:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+}
+.ead_dsc .ead_did_1,
+.ead_dsc .ead_did_2,
+.ead_dsc .ead_did_3,
+.ead_dsc .ead_did_4,
+.ead_dsc .ead_did_5,
+.ead_dsc .ead_did_6 {
+    display: grid;
+}
+.ead_dsc .ead_did_1 {
+    grid-template-columns: auto;
+}
+.ead_dsc .ead_did_2 {
+    grid-template-columns: 6em auto;
+}
+.ead_dsc .ead_did_3 {
+    grid-template-columns: 6em 6em auto;
+}
+.ead_dsc .ead_did_4 {
+    grid-template-columns: 6em 6em 6em auto;
+}
+.ead_dsc .ead_did_5 {
+    grid-template-columns: 6em 6em 6em 6em auto;
+}
+.ead_dsc .ead_did_6 {
+    grid-template-columns: 6em 6em 6em 6em 6em auto;
+}
+
+.ead_dsc .ead_head {
+    font-style: italic;
+}
+.ead_dsc > .ead_head {
+    font-style: normal;
+}
+
+.ead_dsc .ead_c_superseries > .ead_did > .ead_unittitle,
+.ead_dsc .ead_c_series > .ead_did > .ead_unittitle,
+.ead_dsc .ead_c_subseries > .ead_did > .ead_unittitle {
+    font-weight: bold;
+}
+
+/* .visually-hidden */
+.ead_dsc dl.ead_did dt {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+}
+.ead_dsc dl.ead_did dd {
+    padding-left: 0;
+}
+.ead_dsc p {
+    margin-bottom: 0;
+}

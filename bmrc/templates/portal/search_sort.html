@@ -1,0 +1,29 @@
+<div class="sort-browse level-left">
+    <div class="sort-label">Sort by:</div>
+
+    {% if search_results.sort == 'relevance' %}
+        {% if search_results.b or search_results.q %} 
+            <button class="button is-link is-light">Relevance</button>
+        {% endif %}
+    {% else %}
+        <a class="button is-text" href="/portal/search/?{{ search_results.query_string_without_sort }}">Relevance</a>
+    {% endif %}
+    
+    {% if search_results.sort == 'alpha' %}
+        <button class="button is-link is-light">A-Z &darr;</button> 
+    {% else %}
+        <a class="button is-text" href="/portal/search/?{{ search_results.query_string_without_sort }}&sort=alpha">A-Z &darr;</a>
+    {% endif %}
+    
+    {% if search_results.sort == 'alpha-dsc' %}
+        <button class="button is-link is-light">Z-A &uarr;</button>
+    {% else %}
+        <a class="button is-text" href="/portal/search/?{{ search_results.query_string_without_sort }}&sort=alpha-dsc">Z-A &uarr;</a>
+    {% endif %}
+
+    {% if search_results.sort == 'shuffle' %}
+        <a href="/portal/search/?{{ search_results.query_string_without_sort }}&sort=shuffle" style="text-decoration: none;"><button class="button is-link is-light">Shuffle <span class="material-icons">shuffle</span></button></a>
+    {% else %}
+        <a class="button is-text" href="/portal/search/?{{ search_results.query_string_without_sort }}&sort=shuffle">Shuffle    <span class="material-icons">shuffle</span></a>
+    {% endif %}
+</div>
