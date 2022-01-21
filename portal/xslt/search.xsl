@@ -18,7 +18,7 @@
       <a>
         <xsl:attribute name="href">
           <xsl:value-of select="concat(
-            '/search/?q=',
+            '/portal/search/?q=',
             '',
             '&amp;start=',
             @start - @page-length)"/>
@@ -31,7 +31,7 @@
       <a>
         <xsl:attribute name="href">
           <xsl:value-of select="concat(
-            '/search/?q=',
+            '/portal/search/?q=',
             '',
             '&amp;start=',
             @start + @page-length)"/>
