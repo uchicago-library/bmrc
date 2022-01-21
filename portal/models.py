@@ -316,7 +316,7 @@ class ExhibitPage(Page):
         "wagtailimages.Image",
         blank=True,
         help_text='A small version of this image will display on the portal \
-                   homepage. It does NOT appera on the ExhibitPage itself.',
+                   homepage. It does NOT appear on the ExhibitPage itself.',
         null=True,
         on_delete=models.SET_NULL,
         related_name="+",
