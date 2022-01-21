@@ -36,7 +36,7 @@ def bmrc_search_url(context, ns, s):
 
     # to streamline the XSLT, return the entire search URL. (note
     # double-quoting.)
-    return '/search/?f={}'.format(
+    return '/portal/search/?f={}'.format(
         urllib.parse.quote_plus(uri)
     )
     
