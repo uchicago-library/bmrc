@@ -348,11 +348,10 @@ class ExhibitPage(Page):
 
     parent_page_types = [
         'portal.ExhibitIndexPage',
-        'portal.ExhibitPage'
     ]
 
     subpage_types = [
-        'portal.ExhibitPage'
+        'portal.PortalStandardPage',
     ]
 
 
@@ -447,7 +446,7 @@ class PortalHomePage(Page):
     subpage_types = [
         'portal.CuratedTopicIndexPage',
         'portal.ExhibitIndexPage',
-        'standard.StandardPage',
+        'portal.PortalStandardPage',
     ]
 
     max_count = 1
@@ -511,3 +510,59 @@ class PortalHomePage(Page):
     def featured_curated_topic(self):
         """Get featured curated topic."""
         return CuratedTopicPage.featured_curated_topic
+
+
+class PortalStandardPage(Page):
+    body = StreamField(
+        [
+            ("richtext", blocks.RichtextBlock(group="Format and Text")),
+            ("two_column_block", blocks.ColumnsBlock(group="Format and Text")),
+            ("info_box_block", blocks.InfoBoxBlock(group="Format and Text")),
+            ("footnote_block", blocks.FootnoteBlock(group="Format and Text")),
+            ("image_block", blocks.ImageBlock(group="Layout and Images")),
+            ("fellows_block", blocks.FellowsBlock(group="Layout and Images")),
+            ("clear_block", blocks.ClearBlock(group="Layout and Images")),
+            ("webfeed", blocks.WebFeedBlock(group="Layout and Images")),
+        ],
+        null=True,
+        blank=True,
+    )
+
+    content_panels = Page.content_panels + [
+        StreamFieldPanel('body'),
+        MultiFieldPanel(
+            [InlinePanel('sidebar', max_num=3, label='Sidebar Section')],
+            heading='Sidebar',
+        ),
+    ]
+
+    parent_page_types = [
+        'portal.ExhibitPage',
+        'portal.PortalHomePage',
+        'portal.PortalStandardPage',
+    ]
+
+    subpage_types = [
+        'portal.PortalStandardPage'
+    ]
+
+
+class PortalStandardSideBar(Orderable):
+    """Optional Sidebar."""
+
+    id = models.AutoField(primary_key=True)
+    page = ParentalKey("portal.PortalStandardPage", related_name="sidebar")
+    sidebar_title = models.CharField(max_length=100, blank=True, null=True)
+    sidebar_text = RichTextField(
+        blank=True,
+        null=True,
+        features=[
+            "bold", "italic", "ol", "ul", "link", "document-link", "image"
+        ],
+    )
+
+    panels = [
+        FieldPanel("sidebar_title"),
+        FieldPanel("sidebar_text"),
+    ]
+    heading = "Sidebar Section"
