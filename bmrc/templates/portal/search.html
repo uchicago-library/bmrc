@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load wagtailimages_tags %}
 
 {% block extra_css %}
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -110,7 +111,7 @@
                             <div class="archivebox_serp">
                                 <div class="archivebox_serp_image">
                                     {% if archivebox_logo %}
-                                        <img src="/static{{ archivebox_logo }}"/>
+                                        {% image archivebox_logo original %}
                                     {% endif %}
                                 </div>
                                 <div class="archivebox_serp_text">
