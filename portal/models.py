@@ -420,6 +420,18 @@ class PortalHomePage(Page):
                      homepage_facet_image_decades.jpg.',
             heading='Featured Topic'
         ),
+        HelpPanel(
+            content='The member highlight section of the PortalHomePage \
+                     cycles through Archive objects that have is_member \
+                     attributes set to true. The member highlight will be \
+                     updated on the first day of each month. The rotation \
+                     order is determined by the order attribute of each \
+                     Archive object. You can edit the content that appears \
+                     for each Archive and the order they appear in by \
+                     selecting the Archives link in the Wagtail admin \
+                     sidebar.',
+            heading='Member Highlight'
+        ),
         FieldPanel('about_the_bmrc')
     ]
 
