@@ -41,7 +41,7 @@
                     <p>{{ self.caption }}</p>
                 </div>
     
-                {{ self.body|safe }}
+                {{ self.body|richtext }}
    
                 {% if self.byline %}
                     <p class="byline">— {{ self.byline }}</p>
@@ -49,7 +49,9 @@
     
                 <p><a href="{{ self.search_url }}">View search results for this topic &gt;&gt;</a></p>
                 <p><a href="{{ self.get_parent.url }}">Explore all curated topics &gt;&gt;</a></p>
-                {{ self.bottom_text|safe }}
+
+                {{ self.bottom_text|richtext }}
+
             </div> 
         </div>
     </div>
