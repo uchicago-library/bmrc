@@ -70,7 +70,7 @@ to editable Page objects, moving these pages will result in 404 errors.
 - /portal/search/
 - /portal/view/
 
-### Search Portal
+# Search Portal
 
 Site visitors can search and browse member finding aids using the website.
 Currently the site accepts EAD 2002 finding aids only. Documents that do not
@@ -86,11 +86,11 @@ finding aids currently on the site, use the following management command:
 python manage.py browse https://bmrc.lib.uchicago.edu/
 ```
 
-#### MarkLogic Settings
+## MarkLogic Settings
 
 See your local settings for database connection configuration.
 
-##### Connecting to our MarkLogic server from a dev machine
+### Connecting to our MarkLogic server from a dev machine
 
 If you're running the site on a development machine, you'll need to set up a 
 tunnel for SSH connections. Run a command like the one below in a new console
@@ -100,7 +100,7 @@ window:
 ssh -D 9090 -q -C -N <cnetid>@stax.lib.uchicago.edu
 ```
 
-##### Deleting all finding aids
+### Deleting all finding aids
 
 To delete all finding aids in the database:
 
@@ -108,27 +108,27 @@ To delete all finding aids in the database:
 python manage.py delete-all-finding-aids
 ```
 
-##### Loading new finding aids
+### Loading new finding aids
 
 ```console
 python manage.py load-finding-aids <finding_aid_dir>
 ```
 
-#### Portal Homepage
+## Portal Homepage
 
 The portal homepage includes several content areas that change. 
 
-##### Curated Topics and Featured Curated Topic
+### Curated Topics and Featured Curated Topic
 
 The featured curated topic changes automatically every week. To add new featured curated topics, add new child pages under /portal/curated/ in the Wagtail admin. To chnage the image that appears on the portal homepage for a specific curated
 topic, edit the curated topic page.  
 
-##### Exhibits and Featured Exhibit
+### Exhibits and Featured Exhibit
 
 The featured exhibit is set manually- to change it, log into the Wagtail admin and edit the portal home page. To add new featured exhibits, add child pages to /portal/exhibits/. To change the image that appears on the portal homepage for a specific featured
 exhibit, edit the exhibit page.
 
-##### Topics and Featured Topic
+### Topics and Featured Topic
 
 The featured topic changes every time the portal homepage is reloaded. Featured topics are extracted from the database itself. To see how different EAD tags translate into specific topics, see the source code behind the load-finding-aids management command. The image that appears on the portal homepage is editable. Log into the Wagtail admin and look for images with the rollowing filenames:
 
@@ -138,7 +138,7 @@ The featured topic changes every time the portal homepage is reloaded. Featured 
 - homepage_facet_image_places.jpg
 - homepage_facet_image_topics.jpg
 
-##### Featured Archive
+### Featured Archive
 The portal homepage includes a featured archive which rotates automatically
 once a month. Archives are editable in the Wagtail admin- see the "Archives"
 section of the Wagtail admin sidebar. To change the rotation order, see the
