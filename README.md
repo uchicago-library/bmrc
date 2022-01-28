@@ -120,35 +120,17 @@ The portal homepage includes several content areas that change.
 
 ##### Curated Topics and Featured Curated Topic
 
-The featured curated topic changes automatically every week.
-
-To add new featured curated topics, add new child pages under /portal/curated/
-in the Wagtail admin. 
-
-To cnnage the image that appears on the portal homepage for a specific curated
+The featured curated topic changes automatically every week. To add new featured curated topics, add new child pages under /portal/curated/ in the Wagtail admin. To chnage the image that appears on the portal homepage for a specific curated
 topic, edit the curated topic page.  
 
 ##### Exhibits and Featured Exhibit
 
-The featured exhibit is set manually- to change it, log into the Wagtail admin
-and edit the portal home page. 
-
-To add new featured exhibits, add child pages to /portal/exhibits/. 
-
-To change the image that appears on the portal homepage for a specific featured
+The featured exhibit is set manually- to change it, log into the Wagtail admin and edit the portal home page. To add new featured exhibits, add child pages to /portal/exhibits/. To change the image that appears on the portal homepage for a specific featured
 exhibit, edit the exhibit page.
 
 ##### Topics and Featured Topic
 
-The featured topic changes every time the portal homepage is
-reloaded.
-
-Featured topics are extracted from the database itself. To see how different
-EAD tags translate into specific topics, see the source code behind the
-load-finding-aids management command.
-
-The image that appears on the portal homepage is editable. Log into the 
-Wagtail admin and look for images with the rollowing filenames:
+The featured topic changes every time the portal homepage is reloaded. Featured topics are extracted from the database itself. To see how different EAD tags translate into specific topics, see the source code behind the load-finding-aids management command. The image that appears on the portal homepage is editable. Log into the Wagtail admin and look for images with the rollowing filenames:
 
 - homepage_facet_image_decades.jpg
 - homepage_facet_image_organizations.jpg
