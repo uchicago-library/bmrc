@@ -29,7 +29,7 @@
         <section class="portal-summary section">
             <h1>{{ self.title }}</h1>
 
-            {{ self.introduction|safe }}
+            {{ self.introduction|richtext }}
         </section>
 
         <section class="featured-news portal-feature section">
@@ -81,7 +81,7 @@
                         </div>
                     </div>
                     <div class="column is-full-tablet is-two-fifths-desktop">
-                        {{ self.about_the_bmrc|safe }}
+                        {{ self.about_the_bmrc|richtext }}
                     </div>
                 </div>
             </div>
