@@ -19,15 +19,9 @@
             <div class="column">
                 <h1>{{ self.title }}</h1>
 
-                {{ self.body|richtext }}
-
-                {% if self.exhibits %}
-                    <ul>
-                        {% for e in self.exhibits %}
-                            <li><a href="{{ e.url }}">{{ e.title }}</a></li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+                {% for block in page.body %}
+                    {% include_block block %}
+                {% endfor %}
             </div>
 
             {% if self.sidebar.all %}
