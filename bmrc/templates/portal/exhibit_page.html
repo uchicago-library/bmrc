@@ -19,7 +19,9 @@
             <div class="column">
                 <h1>{{ self.title }}</h1>
 
-                {{ self.body|richtext }}
+                {% for block in page.body %}
+                    {% include_block block %}
+                {% endfor %}
 
                 {% if self.exhibits %}
                     <ul>
