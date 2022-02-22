@@ -468,7 +468,12 @@ dd {
 }
 
 /* hide descriptive summary address */
-.ead_archdesc > dl > dd.ead_repository > .ead_address {
+/* hide every .ead_addressline instead of the first one. */
+/* .ead_archdesc > dl > dd.ead_repository > .ead_address { */
+.ead_archdesc > dl > dd.ead_repository > address.ead_address {
+    font-style: normal;
+}
+.ead_archdesc > dl > dd.ead_repository > .ead_address > .ead_addressline:not(:first-child) {
     display: none;
 }
 
