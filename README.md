@@ -97,7 +97,7 @@ tunnel for SSH connections. Run a command like the one below in a new console
 window:
 
 ```console
-ssh -D 9090 -q -C -N <cnetid>@stax.lib.uchicago.edu
+ssh -D 9090 -q -C -N <cnetid>@<staff-host>.lib.uchicago.edu
 ```
 
 ### Deleting all finding aids
