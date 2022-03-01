@@ -474,6 +474,11 @@
 <!-- * PROJECT-SPECIFIC OVERRIDES * -->
 <!-- ****************************** -->
 
+<!-- SKIP EMPTY ELEMENTS -->
+
+<xsl:template match="ead:physloc[not(*) and not(text())]" priority="2.0">
+</xsl:template>
+
 <!-- CONTROLACCESS
      For the portal, <controlaccess> elements should always be given the
      heading "Indexed Terms", even if a different heading was used in the
@@ -487,6 +492,28 @@
     <ead:head>Indexed Terms</ead:head>
     <xsl:apply-templates select="*[not(self::ead:head)]|text()"/>
   </xsl:copy>
+</xsl:template>
+
+<!-- CORPNAME
+     In the descriptive summary, sometimes the origination contains a sequence
+     of corpname and persname elements. In these cases, add commas after them. -->
+
+<xsl:template match="ead:archdesc/ead:did/ead:origination/ead:corpname" priority="2.0">
+  <xsl:copy>
+    <xsl:apply-templates select="@*|*|text()"/>
+  </xsl:copy>
+  <xsl:if test="following-sibling::ead:corpname | following-sibling::ead:persname">, </xsl:if>
+</xsl:template>
+
+<!-- PERSNAME
+     In the descriptive summary, sometimes the origination contains a sequence
+     of corpname and persname elements. In these cases, add commas after them. -->
+
+<xsl:template match="ead:archdesc/ead:did/ead:origination/ead:persname" priority="2.0">
+  <xsl:copy>
+    <xsl:apply-templates select="@*|*|text()"/>
+  </xsl:copy>
+  <xsl:if test="following-sibling::ead:corpname | following-sibling::ead:persname">, </xsl:if>
 </xsl:template>
 
 </xsl:stylesheet>
