@@ -198,11 +198,11 @@
 </xsl:template>
 
 <!-- DID -->
-<xsl:template match="ead:archdesc/ead:did[not(ead:head)]">
+<xsl:template match="ead:archdesc/ead:did">
   <xsl:copy>
     <xsl:apply-templates select="@*"/>
     <ead:head>Descriptive Summary</ead:head>
-    <xsl:apply-templates select="node()"/>
+    <xsl:apply-templates select="*[not(local-name()='head')]|text()"/>
   </xsl:copy>
 </xsl:template>
 
