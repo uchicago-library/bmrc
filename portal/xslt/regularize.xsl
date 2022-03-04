@@ -256,6 +256,13 @@
   </xsl:if>
 </xsl:template>
 
+<!-- EXTENT -->
+<xsl:template match="ead:extent[@label]">
+  <xsl:copy>
+    <xsl:apply-templates select="@*[name()!='label']|node()"/>
+  </xsl:copy>
+</xsl:template>
+
 <!-- FILEPLAN -->
 <xsl:template match="ead:fileplan[not(ead:head)]">
   <xsl:copy>
@@ -322,7 +329,14 @@
 </xsl:template>
 
 <!-- PHYSDESC -->
-<xsl:template match="ead:physdesc[not(@label)]">
+<xsl:template match="ead:physdesc[not(@label) and ead:extent/@label]">
+  <xsl:copy>
+    <xsl:attribute name="label"><xsl:value-of select="ead:extent/@label"/></xsl:attribute>
+    <xsl:apply-templates select="@*|node()"/>
+  </xsl:copy>
+</xsl:template>
+
+<xsl:template match="ead:physdesc[not(@label) and not(ead:extent/@label)]">
   <xsl:copy>
     <xsl:attribute name="label">Size</xsl:attribute>
     <xsl:apply-templates select="@*|node()"/>
