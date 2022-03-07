@@ -1552,6 +1552,13 @@
   </span>
 </xsl:template>
 
+<!-- omit the label when unitdate is a child of unittitle. -->
+<xsl:template match="ead:unittitle/ead:unitdate">
+  <span class="ead_unitdate">
+    <xsl:apply-templates select="@*[name() != 'label']|node()"/>
+  </span>
+</xsl:template>
+
 <!-- top of archival description, or inventory with container -->
 <xsl:template match="ead:archdesc/ead:did/ead:unitdate |
                      ead:dsc//ead:did[ead:container]/ead:unitdate" priority="1.1">
