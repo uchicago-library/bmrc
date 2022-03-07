@@ -691,6 +691,14 @@
   </div>
 </xsl:template>
 
+<!-- If extent has a type attribute, output the attribute as text. -->
+<xsl:template match="ead:extent[@type]">
+  <div class="ead_extent">
+    <xsl:apply-templates select="@*[name() != 'type']|node()"/>
+    <xsl:value-of select='concat(" ", @type)'/>
+  </div>
+</xsl:template>
+
 <!-- EXTPTR -->
 <xsl:template match="ead:extptr[@href]">
   <a class="ead_extptr" href="{@href}">
