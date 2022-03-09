@@ -30,7 +30,7 @@
                 <h2>Featured Topic</h2>
                 {% image self.featured_curated_topic.image original class="is-hidden-mobile" %}
                 <p><a href="{{ self.featured_curated_topic.url }}">{{ self.featured_curated_topic.title }}</a></p>
-                <p><a href="{{ self.url }}">Explore all curated topics &gt;&gt;</a></p>
+                <p><a href="{{ self.get_parent.url }}">Explore all curated topics &gt;&gt;</a></p>
             </div>
     
             <div class="column">
