@@ -401,8 +401,17 @@ class PortalHomePage(Page):
         HelpPanel(
             content='The featured curated topic automatically changes every \
                      week, cycling through all live CuratedTopicPages. \
-                     Set the image that appears for the currently selected \
-                     curated topic on that specific CuratedTopicPage.',
+                     Only currently live curated topics are considered \
+                     for this display. Curated topics are arranged in the \
+                     order in which they appear in the database. To \
+                     determine the curated topic that should appear, \
+                     the system counts the number of weeks since January \
+                     1, 1970. Then it calculates that week number modulo \
+                     the number of live curated topic pages. That number is \
+                     the zero-based index of the curated topic page to \
+                     display. Set the image that appears for the currently \
+                     selected curated topic on that specific \
+                     CuratedTopicPage.',
             heading='Curated Topics'
         ),
         PageChooserPanel('featured_exhibit', 'portal.ExhibitPage'),
