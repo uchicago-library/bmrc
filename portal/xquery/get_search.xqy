@@ -417,8 +417,17 @@ declare function extent($doc) {
 
        Returns
          a string, the document's extent.
+
+       Notes
+         collect the <physdesc> instead of the <extent> because there are a
+         substantial number of cases where extent isn't actually present.
     :)
-    ($doc//ead:extent)[1]/text()
+    fn:normalize-space(
+        fn:string-join(
+            $doc/ead:ead/ead:archdesc[1]/ead:did[1]/ead:physdesc[1]//text(),
+            ' '
+        )
+    )
 };
 
 declare function page-results(

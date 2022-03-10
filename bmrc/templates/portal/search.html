@@ -182,7 +182,7 @@
                 {% for r in search_results.results %}
                     <h3><a href="/portal/view/?id={{ r.uri }}">{{ r.title }}</a></h3>
                     <p class="result-description">{{ r.abstract }}</p>
-                    <p class="result-metadata"><span>Dates:</span> {{ r.date }} &nbsp; | &nbsp; <span>Extent:</span> {{ r.extent }}<br/>
+                    <p class="result-metadata"><span>Dates:</span> {{ r.date }} {% if r.extent %} &nbsp; | &nbsp; <span>Extent:</span> {{ r.extent }}{% endif %}<br/>
                     <span>Archives:</span> <a href="/portal/search/?f={{ r.archive_uri|urlencode }}">{{ r.archive }}</a></p>
                 {% endfor %}
 
