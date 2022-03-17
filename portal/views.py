@@ -9,6 +9,7 @@ from .models import (
 )
 from .models import Archive
 from django.conf import settings
+from django.http import Http404
 from django.shortcuts import render
 
 server_args = (
@@ -436,6 +437,9 @@ def search(request):
 def view(request):
     id = request.GET.get('id', '')
 
+    if id == '':
+        raise Http404()
+
     def t(filename):
         return etree.XSLT(
             etree.parse(
@@ -451,11 +455,16 @@ def view(request):
     tr = t('regularize.xsl')
     tv = t('view.xsl')
 
+    try:
+        xml = get_findingaid(*server_args + (id,))
+    except ValueError:
+        raise Http404()
+
     findingaid = tv(
         tr(
             etree.fromstring(
                 ElementTree.tostring(
-                    get_findingaid(*server_args + (id,)),
+                    xml,
                     encoding='utf8', 
                     method='xml'
                 )
