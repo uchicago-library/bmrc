@@ -422,11 +422,18 @@ declare function extent($doc) {
          collect the <physdesc> instead of the <extent> because there are a
          substantial number of cases where extent isn't actually present.
     :)
-    fn:normalize-space(
-        fn:string-join(
-            $doc/ead:ead/ead:archdesc[1]/ead:did[1]/ead:physdesc[1]//text(),
-            ' '
-        )
+    let $physdesc_string_list :=
+        for $p in $doc/ead:ead/ead:archdesc[1]/ead:did[1]/ead:physdesc
+        return
+            fn:normalize-space(
+                fn:string-join(
+                    $p//text(),
+                    ' '
+                )
+            )
+    return fn:string-join(
+        $physdesc_string_list,
+        '; '
     )
 };
 
