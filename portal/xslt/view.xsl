@@ -686,9 +686,9 @@
 
 <!-- EXTENT -->
 <xsl:template match="ead:extent">
-  <div class="ead_extent">
+  <span class="ead_extent">
     <xsl:apply-templates select="@*|node()"/>
-  </div>
+  </span>
 </xsl:template>
 
 <!-- EXTPTR -->
