@@ -257,9 +257,12 @@
 </xsl:template>
 
 <!-- EXTENT -->
-<xsl:template match="ead:extent[@label]">
+<xsl:template match="ead:extent">
   <xsl:copy>
-    <xsl:apply-templates select="@*[name()!='label']|node()"/>
+    <xsl:apply-templates select="@*[name()!='label' and name()!='type']|node()"/>
+    <xsl:if test="@type">
+      <xsl:value-of select="concat(' ', @type)"/>
+    </xsl:if>
   </xsl:copy>
 </xsl:template>
 
