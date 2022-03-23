@@ -1749,6 +1749,41 @@
   </a>
 </xsl:template>
 
+<!-- GENREFORM -->
+<!-- usually outputs an inline element, unless it is a child of namegrp, in
+     which case it outputs an <li>, or controlaccess or indexentry, in which
+     case it outputs a div. -->
+<xsl:template match="ead:genreform" priority="2.0">
+  <span class="ead_genreform">
+    <xsl:call-template name="genreform"/>
+  </span>
+</xsl:template>
+
+<xsl:template match="ead:namegrp/ead:genreform" priority="2.1">
+  <li class="ead_genreform">
+    <xsl:call-template name="genreform"/>
+  </li>
+</xsl:template>
+
+<xsl:template match="*[   self::ead:controlaccess
+                       or self::ead:indexentry   ]/ead:genreform" priority="2.1">
+  <div class="ead_genreform">
+    <xsl:call-template name="genreform"/>
+  </div>
+</xsl:template>
+
+<xsl:template name="genreform">
+  <a class="ead_genreform">
+    <xsl:attribute name="href">
+      <xsl:call-template name="build_search_link">
+        <xsl:with-param name="ns" select="'https://bmrc.lib.uchicago.edu/topics/'"/>
+        <xsl:with-param name="s" select="string(.)"/>
+      </xsl:call-template>
+    </xsl:attribute>
+    <xsl:apply-templates select="@*|node()"/>
+  </a>
+</xsl:template>
+
 <!-- GEOGNAME
      outputs a span, unless the parent is ead:indexentry or ead:namegrp. -->
 <xsl:template match="ead:geogname" priority="2.0">

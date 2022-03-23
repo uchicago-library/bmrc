@@ -70,6 +70,7 @@ class Command(BaseCommand):
             options['finding_aid_dir'][0],
             'https://bmrc.lib.uchicago.edu/topics/{}',
             ' | '.join((
+                '//ead:genreform',
                 '//ead:occupation',
                 '//ead:subject'
             )),
