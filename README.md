@@ -110,8 +110,17 @@ python manage.py delete-all-finding-aids
 
 ### Loading new finding aids
 
+First, create a local directory of regularized finding aids (i.e., run
+the regularize.xsl transform before loading.)
+
 ```console
-python manage.py load-finding-aids <finding_aid_dir>
+python manage.py regularize_finding_aids <finding_aid_dir> <regularized_finding_aid_dir>
+
+Then create browse indexes based on regularized finding aids and upload
+everything to the server:
+
+```console
+python manage.py load-finding-aids <regularized_finding_aid_dir>
 ```
 
 ## Portal Homepage
