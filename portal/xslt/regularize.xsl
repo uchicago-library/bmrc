@@ -304,6 +304,10 @@
   </xsl:choose>
 </xsl:template>
 
+<!-- NUM -->
+<xsl:template match="ead:titleproper//ead:num |
+                     ead:unittitle//ead:num"/>
+
 <!-- ODD -->
 <xsl:template match="ead:odd[not(ead:head)]">
   <xsl:copy>

@@ -570,7 +570,7 @@ declare function title($doc) {
          a string, the document's title.
      :)
 
-     fn:normalize-space(($doc//ead:archdesc//ead:unittitle)[1])
+     fn:normalize-space($doc/ead:ead[1]/ead:frontmatter[1]/ead:titlepage[1]/ead:titleproper[1])
 };
 
 (:::::::::::
