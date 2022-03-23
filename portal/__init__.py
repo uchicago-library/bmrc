@@ -26,36 +26,7 @@ def clear_cache():
 
 def get_transformed_xml(fname):
     '''Add a namespace to the given EAD 2002 and return an ElementTree.'''
-
-    return_lxml = True
-
-    transform_xsd = etree.XSLT(
-        etree.parse(
-            os.path.join(
-                os.path.dirname(__file__), 
-                'xslt',
-                'dtd2schema.xsl'
-            )
-        )
-    )
-    try:
-        transformed_xml = transform_xsd(
-            etree.parse(fname)
-        )
-    except etree.XMLSyntaxError:
-        raise ValueError
-
-    if return_lxml:
-        return etree.fromstring(str(transformed_xml))
-    else:
-        with io.BytesIO(
-            etree.tostring(
-                transformed_xml, 
-                encoding='utf-8', 
-                method='xml'
-            )
-        ) as fh:
-            return ElementTree.parse(fh)
+    return etree.parse(fname).getroot()
 
 def get_archives_for_xml(archive_config, dir, uri_format_str):
     '''Get a dict of finding aids grouped by archive.

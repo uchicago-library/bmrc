@@ -77,27 +77,12 @@ class Command(BaseCommand):
         )
         browses = {**archives, **decades, **organizations, **people, **places, **topics}
     
-        transform_xsd = etree.XSLT(
-            etree.parse(
-                os.path.join(
-                    settings.BASE_DIR,
-                    'portal',
-                    'xslt',
-                    'dtd2schema.xsl'
-                )
-            )
-        )
-        
         for d in os.listdir(options['finding_aid_dir'][0]):
             for eadid in os.listdir(
                 os.path.join(options['finding_aid_dir'][0], d)
             ):
                 try:
-                    transformed_xml = transform_xsd(
-                        etree.parse(
-                            os.path.join(options['finding_aid_dir'][0], d, eadid)
-                        )
-                    )
+                    transformed_xml = etree.parse(os.path.join(options['finding_aid_dir'][0], d, eadid))
                 except etree.XMLSyntaxError:
                     continue
     
