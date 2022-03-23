@@ -452,7 +452,6 @@ def view(request):
         )
 
     tn = t('navigation.xsl')
-    tr = t('regularize.xsl')
     tv = t('view.xsl')
 
     try:
@@ -461,13 +460,11 @@ def view(request):
         raise Http404()
 
     findingaid = tv(
-        tr(
-            etree.fromstring(
-                ElementTree.tostring(
-                    xml,
-                    encoding='utf8', 
-                    method='xml'
-                )
+        etree.fromstring(
+            ElementTree.tostring(
+                xml,
+                encoding='utf8', 
+                method='xml'
             )
         )
     )
