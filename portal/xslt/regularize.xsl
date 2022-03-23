@@ -246,10 +246,7 @@
   <xsl:if test="not(//ead:frontmatter)">
     <ead:frontmatter>
       <ead:titlepage>
-        <ead:titleproper>
-          <!-- omit <num> elements embedded inside <titleproper> -->
-          <xsl:value-of select="//ead:titleproper[1]/text()"/>
-        </ead:titleproper>
+        <xsl:apply-templates select="//ead:titleproper[1]"/>
         <xsl:copy-of select="//ead:author[1]"/>
       </ead:titlepage>
     </ead:frontmatter>
@@ -436,6 +433,13 @@
     <xsl:apply-templates select="@*"/>
     <ead:head>Separated Material</ead:head>
     <xsl:apply-templates select="node()"/>
+  </xsl:copy>
+</xsl:template>
+
+<!-- TITLEPROPER -->
+<xsl:template match="ead:titleproper">
+  <xsl:copy>
+    <xsl:apply-templates select="@*|node()"/>
   </xsl:copy>
 </xsl:template>
 
