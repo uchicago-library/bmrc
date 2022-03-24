@@ -436,7 +436,10 @@ class PortalHomePage(Page):
                      Archive object. You can edit the content that appears \
                      for each Archive and the order they appear in by \
                      selecting the Archives link in the Wagtail admin \
-                     sidebar.',
+                     sidebar. Shown under the highlight is a standard, \
+                     non-editable link to view collections at that \
+                     institution. It is formed behind the scenes as a \
+                     search function.',
             heading='Member Highlight'
         ),
         FieldPanel('about_the_bmrc')
