@@ -432,6 +432,8 @@ ul.browse-results {
 
 p.byline {
     font-style: italic;
+    margin-top: -1.5rem;
+    text-align: right;
 }
 
 /*
