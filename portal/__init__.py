@@ -1,18 +1,79 @@
-import io, json, os, re, requests, requests_cache, requests_toolbelt, sys, urllib
+import functools, io, json, os, re, requests, requests_cache, requests_toolbelt, sys, urllib
 import lxml.etree as etree
 
 #import config.default
 
 from xml.etree import ElementTree
 from collections import namedtuple
-#ElementTree.register_namespace('ead', 'urn:isbn:1-931666-22-9')
 ElementTree.register_namespace('search', 'http://marklogic.com/appservices/search')
 
-# load global variables to connect to marklogic (e.g. username,
-# password)
+def merge_dicts_with_lists(a, b):
+    '''Merge dicts of lists. Given two dicts with list values, return
+    a new dict with keys from either input list, and values containing
+    a unique list of elements from either input dict.
 
-# get config.yaml. 
-# get institutions.
+       Params:
+           a, b - dicts of lists, e.g.:
+           {
+             'one': ['a', 'b', 'c']
+             'two': ['c', 'd', 'e']
+           },
+           {
+             'one': ['c', 'd', 'e'],
+             'three': ['f', 'g', 'h']
+           }
+       Returns:
+           A new dict, e.g.:
+           {
+             'one': ['a', 'b', 'c', 'd', 'e'],
+             'two': ['c', 'd', 'e'],
+             'three': ['f', 'g', 'h']
+           }
+    '''
+    assert all([type(v) == list for v in a.values()])
+    assert all([type(v) == list for v in b.values()])
+
+    d = {}
+    for k in set(a.keys()) | set(b.keys()):
+        d[k] = list(set(a.get(k, [])) | set(b.get(k, [])))
+    return d
+
+def merge_most_frequently_occurring_capitalizations(d):
+    '''Collapse entries in a browse list based on their most popular
+    capitalizations.
+
+       Params:
+           d - a browse dict, e.g.:
+           {
+             'https://bmrc.lib.uchicago.edu/Clark%20Kent': ['id_1', 'id_2', 'id_3'],
+             'https://bmrc.lib.uchicago.edu/clark%20kent': ['id_3', 'id_4', 'id_5']
+           }
+        Returns:
+           A new dict, e.g.:
+           {
+             'https://bmrc.lib.uchicago.edu/clark%20kent': ['id_1', 'id_2', id_3', 'id_4', 'id_5']
+           }
+    '''
+    lookup = {}
+    for k in d.keys():
+        lookup_key = k.upper()
+        if not lookup_key in lookup:
+            lookup[lookup_key] = []
+        lookup[lookup_key].append(k)
+
+    output = {}
+    for keys in lookup.values():
+        # the key with the most entries in dict is the most common
+        # capitalization.
+        cap_k = sorted([(len(d[k]), k) for k in keys])[-1][1]
+
+        output[cap_k] = []
+
+        for k in keys:
+            for ead_id_title_pair in d[k]:
+                if ead_id_title_pair not in output[cap_k]:
+                    output[cap_k].append(ead_id_title_pair)
+    return output
 
 def setup_cache():
     return
@@ -24,11 +85,18 @@ def setup_cache():
 def clear_cache():
     requests_cache.clear()
 
-def get_transformed_xml(fname):
-    '''Add a namespace to the given EAD 2002 and return an ElementTree.'''
-    return etree.parse(fname).getroot()
+def get_finding_aid_from_disk(filepath):
+    '''Get the XML for a given finding aid from disk.
 
-def get_archives_for_xml(archive_config, dir, uri_format_str):
+    Params:
+        filepath - a string, the path to an EAD file on disk.
+
+    Returns:
+        An lxml XML document. 
+    '''
+    return etree.parse(filepath).getroot()
+
+def get_browse_archives_from_file(archive_config, filepath, uri_format_str):
     '''Get a dict of finding aids grouped by archive.
 
        Params:
@@ -55,39 +123,58 @@ def get_archives_for_xml(archive_config, dir, uri_format_str):
     bmrc_uri = uri_format_str.format(
         urllib.parse.quote_plus('BMRC Portal')
     )
-    archives = {
-        bmrc_uri: []
-    }
+    archives = {bmrc_uri: []}
 
+    eadid = os.path.basename(filepath)
+
+    xml = get_finding_aid_from_disk(filepath)
+    
+    # Confirm that the document passed to this function is namespaced
+    # EAD 2002.
+    assert xml.tag == '{urn:isbn:1-931666-22-9}ead'
+
+    prefix = '.'.join(eadid.split('.')[:2])
+    
+    uri = uri_format_str.format(
+        urllib.parse.quote_plus(archive_lookup[prefix])
+    )
+    if not uri in archives:
+        archives[uri] = []
+    if not eadid in archives[uri]:
+        archives[uri].append(eadid)
+    if not eadid in archives[bmrc_uri]:
+        archives[bmrc_uri].append(eadid)
+
+    return archives
+
+def get_browse_archives_from_dir(archive_config, dir, uri_format_str):
+    '''Process finding aids to get Marklogic collection data for decade browses.
+
+       Args:
+         dir             e.g. 'findingaids'
+         uri_format_str  e.g. 'https://bmrc.lib.uchicago.edu/decades/{}'
+
+       Returns: 
+         dict
+    '''
+    browses = []
     for root, subdirs, filenames in os.walk(dir):
         for filename in filenames:
             if filename.startswith('BMRC') and filename.endswith('.xml'):
                 eadid = filename
-
                 try:
-                    xml = get_transformed_xml(
-                        os.path.join(root, eadid)
+                    browses.append(
+                        get_browse_archives_from_file(
+                            archive_config,
+                            os.path.join(root, filename),
+                            uri_format_str
+                        )
                     )
                 except ValueError:
                     continue
-    
-                # Confirm that the document passed to this function is namespaced
-                # EAD 2002.
-                assert xml.tag == '{urn:isbn:1-931666-22-9}ead'
+    return functools.reduce(merge_dicts_with_lists, browses)
 
-                prefix = '.'.join(eadid.split('.')[:2])
-    
-                uri = uri_format_str.format(
-                    urllib.parse.quote_plus(archive_lookup[prefix])
-                )
-                if not uri in archives:
-                    archives[uri] = []
-                archives[uri].append(eadid)
-                archives[bmrc_uri].append(eadid)
-
-    return archives
-
-def get_collections_for_xml(dir, uri_format_str, xpath, namespaces):
+def get_browse_from_file(filepath, uri_format_str, xpath, namespaces):
     '''Process finding aids to get Marklogic collection data for browses.
 
        Args:
@@ -114,61 +201,76 @@ def get_collections_for_xml(dir, uri_format_str, xpath, namespaces):
          might be 'https://bmrc.lib.uchicago.edu/people/Jane+Doe'.
     '''
 
-    browse_label_candidates = {}
+    xml = get_finding_aid_from_disk(filepath)
+    assert xml.tag == '{urn:isbn:1-931666-22-9}ead'
+
+    eadid = os.path.basename(filepath)
+
     browse = {}
+    for el in xml.xpath(xpath, namespaces=namespaces):
+        # get all descendant text nodes, normalize and trim whitespace.
+        k = ' '.join(''.join(el.itertext()).split())
+        if k == '':
+            continue
 
-    for collection in os.listdir(dir):
-        for eadid in os.listdir(os.path.join(dir, collection)):
-            try:
-                xml = get_transformed_xml(
-                    os.path.join(dir, collection, eadid)
-                )
-            except ValueError:
-                continue
+        u = uri_format_str.format(urllib.parse.quote_plus(k))
+        if not u in browse:
+            browse[u] = []
+        if not eadid in browse[u]:
+            browse[u].append(eadid)
+    return browse
 
-            # Confirm that the document passed to this function is namespaced
-            # EAD 2002.
-            assert xml.tag == '{urn:isbn:1-931666-22-9}ead'
 
-            for el in xml.xpath(xpath, namespaces=namespaces):
-                # get all descendant text nodes, normalize and trim whitespace.
-                label_candidate = ' '.join(''.join(el.itertext()).split())
-
-                if label_candidate == '':
-                    continue
-
-                # convert the candidate string to uppercase for a temporary key.
-                key = label_candidate.upper()
-
-                if not key in browse_label_candidates:
-                    browse_label_candidates[key] = []
-                browse_label_candidates[key].append(label_candidate)
-
-                if not key in browse:
-                    browse[key] = []
-                if not eadid in browse[key]:
-                    browse[key].append(eadid)
-
-    # find the most frequently occuring capitalization, and use that to build a
-    # definitive URI for the keys of the output dictionary.
-    def most_frequent(l): 
-        return max(set(l), key = l.count)
-
-    output = {}
-    for key, eadids in browse.items():
-        uri = uri_format_str.format(
-            urllib.parse.quote_plus(
-                most_frequent(browse_label_candidates[key])
-            )
-        )
-        output[uri] = eadids
-    return output
-
-def get_decades_for_xml(dir, uri_format_str):
-    '''Process finding aids to get Marklogic collection data for decade browses.
+def get_browse_from_dir(dir, uri_format_str, xpath, namespaces):
+    '''Process finding aids to get Marklogic collection data for browses.
 
        Args:
          dir             e.g. 'findingaids'
+         uri_format_str  e.g. 'https://bmrc.lib.uchicago.edu/places/{}'
+         xpath           e.g. '//ead:geogname'
+
+       Returns: 
+         A Python dictionary-
+
+         Keys are a URI built from a normalized version of the browse value,
+         using the most frequently occurring capitalization. Dictionary 
+         values are a list of EADIDs containing that key.
+
+         Values are normalized by first concatenating all descendant text nodes
+         (not just immediate children) of each found element. Strip leading and
+         trailing whitespace, and replace all whitespace inside each string
+         with a single space. 
+
+         The most often occurring capitalization of that normalized value
+         is quoted with urllib.parse.quote_plus() and embedded in the
+         uri_format_str param. For example, with a uri_format_str of
+         'https://bmrc.lib.uchicago.edu/people/{}', a resulting browse URI
+         might be 'https://bmrc.lib.uchicago.edu/people/Jane+Doe'.
+    '''
+
+    browses = []
+    for collection in os.listdir(dir):
+        for eadid in os.listdir(os.path.join(dir, collection)):
+            try:
+                browses.append(
+                    get_browse_from_file(
+                        os.path.join(dir, collection, eadid),
+                        uri_format_str,
+                        xpath,
+                        namespaces
+                    )
+                )
+            except ValueError:
+                continue
+    output = functools.reduce(merge_dicts_with_lists, browses)
+    output = merge_most_frequently_occurring_capitalizations(output)
+    return output
+
+def get_browse_decades_from_file(filepath, uri_format_str):
+    '''Process finding aids to get Marklogic collection data for decade browses.
+
+       Args:
+         filepath        path to EAD file on disk. 
          uri_format_str  e.g. 'https://bmrc.lib.uchicago.edu/decades/{}'
 
        Returns: 
@@ -203,57 +305,74 @@ def get_decades_for_xml(dir, uri_format_str):
 
     decade_browse = {}
 
+    xml = get_finding_aid_from_disk(filepath)
+
+    eadid = os.path.basename(filepath)
+
+    # Confirm that the document passed to this function is namespaced
+    # EAD 2002.
+    assert xml.tag == '{urn:isbn:1-931666-22-9}ead'
+
+    for el in xml.xpath('//ead:unitdate[not(@type="bulk")]', namespaces={'ead': 'urn:isbn:1-931666-22-9'}):
+        # get all descendant text nodes, normalize and trim whitespace.
+        node_text = ' '.join(''.join(el.itertext()).split())
+
+        # get tokens.
+        tokens = []
+        for token in lexer(node_text):
+            tokens.append(token)
+
+        # convert tokens to a list of years.
+        years = []
+        for t in range(len(tokens)):
+            if tokens[t].type == 'YEAR':
+                if len(years) == 0:
+                    years.append(int(tokens[t].value))
+                elif tokens[t-1].type == 'COMMA':
+                    years.append(int(tokens[t].value))
+                elif tokens[t-1].type == 'DASH':
+                    y = years[-1] + 1
+                    while y <= int(tokens[t].value):
+                        years.append(y)
+                        y += 1
+
+        # convert to list of decades.
+        decades = []
+        for year in years:
+            decades.append('{}0s'.format(str(year)[:3]))
+        decades = sorted(list(set(decades)))
+ 
+        for decade in decades:
+            uri = uri_format_str.format(decade)
+            if not uri in decade_browse:
+                decade_browse[uri] = []
+            if not eadid in decade_browse[uri]:
+                decade_browse[uri].append(eadid)
+    return decade_browse
+
+def get_browse_decades_from_dir(dir, uri_format_str):
+    '''Process finding aids to get Marklogic collection data for decade browses.
+
+       Args:
+         dir             e.g. 'findingaids'
+         uri_format_str  e.g. 'https://bmrc.lib.uchicago.edu/decades/{}'
+
+       Returns: 
+         dict
+    '''
+    browses = []
     for collection in os.listdir(dir):
         for eadid in os.listdir(os.path.join(dir, collection)):
             try:
-                xml = get_transformed_xml(
-                    os.path.join(dir, collection, eadid)
+                browses.append(
+                    get_browse_decades_from_file(
+                        os.path.join(dir, collection, eadid),
+                        uri_format_str
+                    )
                 )
             except ValueError:
                 continue
-
-            # Confirm that the document passed to this function is namespaced
-            # EAD 2002.
-            assert xml.tag == '{urn:isbn:1-931666-22-9}ead'
-
-            # what is xpath for dates?
-            # ignore type=bulk?
-            # check normal attribute?
-            for el in xml.xpath('//ead:unitdate[not(@type="bulk")]', namespaces={'ead': 'urn:isbn:1-931666-22-9'}):
-                # get all descendant text nodes, normalize and trim whitespace.
-                node_text = ' '.join(''.join(el.itertext()).split())
-
-                # get tokens.
-                tokens = []
-                for token in lexer(node_text):
-                    tokens.append(token)
-
-                # convert tokens to a list of years.
-                years = []
-                for t in range(len(tokens)):
-                    if tokens[t].type == 'YEAR':
-                        if len(years) == 0:
-                            years.append(int(tokens[t].value))
-                        elif tokens[t-1].type == 'COMMA':
-                            years.append(int(tokens[t].value))
-                        elif tokens[t-1].type == 'DASH':
-                            y = years[-1] + 1
-                            while y <= int(tokens[t].value):
-                                years.append(y)
-                                y += 1
-
-                # convert to list of decades.
-                decades = []
-                for year in years:
-                    decades.append('{}0s'.format(str(year)[:3]))
-                decades = sorted(list(set(decades)))
- 
-                for decade in decades:
-                    uri = uri_format_str.format(decade)
-                    if not uri in decade_browse:
-                        decade_browse[uri] = []
-                    decade_browse[uri].append(eadid)
-    return decade_browse
+    return functools.reduce(merge_dicts_with_lists, browses)
 
 def get_findingaid(server, username, password, proxy_server, uri):
     """Get a finding aid from Marklogic.

@@ -2,8 +2,8 @@ import io, json, os, sys
 import lxml.etree as etree
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
-from portal import (get_archives_for_xml, get_collections_for_xml,
-                    get_decades_for_xml, load_findingaid)
+from portal import (get_browse_archives_from_dir, get_browse_from_dir,
+                    get_browse_decades_from_dir, load_findingaid)
 from portal.models import Archive
 
 server_args = (
@@ -30,25 +30,25 @@ class Command(BaseCommand):
             })
 
         sys.stdout.write('Building organization name browse...\n')
-        organizations = get_collections_for_xml(
+        organizations = get_browse_from_dir(
             options['finding_aid_dir'][0],
             'https://bmrc.lib.uchicago.edu/organizations/{}',
             '//ead:corpname[not(ancestor::ead:publisher) and not(ancestor::ead:repository)]',
             {'ead': 'urn:isbn:1-931666-22-9'}
         )
         sys.stdout.write('Building decade browse...\n')
-        decades = get_decades_for_xml(
+        decades = get_browse_decades_from_dir(
             options['finding_aid_dir'][0],
             'https://bmrc.lib.uchicago.edu/decades/{}'
         )
         sys.stdout.write('Building archives browse...\n')
-        archives = get_archives_for_xml(
+        archives = get_browse_archives_from_dir(
             ARCHIVES,
             options['finding_aid_dir'][0],
             'https://bmrc.lib.uchicago.edu/archives/{}'
         )
         sys.stdout.write('Building person browse...\n')
-        people = get_collections_for_xml(
+        people = get_browse_from_dir(
             options['finding_aid_dir'][0],
             'https://bmrc.lib.uchicago.edu/people/{}',
             ' | '.join((
@@ -59,14 +59,14 @@ class Command(BaseCommand):
             {'ead': 'urn:isbn:1-931666-22-9'}
         )
         sys.stdout.write('Building place browse...\n')
-        places = get_collections_for_xml(
+        places = get_browse_from_dir(
             options['finding_aid_dir'][0],
             'https://bmrc.lib.uchicago.edu/places/{}',
             '//ead:geogname',
             {'ead': 'urn:isbn:1-931666-22-9'}
         )
         sys.stdout.write('Building topic browse...\n')
-        topics = get_collections_for_xml(
+        topics = get_browse_from_dir(
             options['finding_aid_dir'][0],
             'https://bmrc.lib.uchicago.edu/topics/{}',
             ' | '.join((
