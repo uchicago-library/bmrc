@@ -451,6 +451,46 @@ def delete_findingaid(server, username, password, proxy_server, uri):
 
     assert r.status_code == 204
 
+def delete_findingaids(server, username, password, proxy_server):
+    """Delete all finding aids in the system.
+
+    Args:
+        server:          The Marklogic server, with port number. 
+        username:        Username for Marklogic.
+        password:        Password for Marklogic.
+        proxy_server:    A proxy server for connecting to Marklogic (You may
+                         find this useful for local development.)
+    """
+    if proxy_server:
+        proxies = {
+            'http': 'socks5://{}'.format(proxy_server),
+            'https': 'socks5://{}'.format(proxy_server)
+        }
+    else:
+        proxies = {}
+
+    with open(
+        os.path.join(
+            os.path.dirname(__file__),
+            'xquery',
+            'delete_findingaids.xqy'
+        )
+    ) as f:
+        r = requests.post(
+            '{}/v1/eval'.format(
+                server
+            ),
+            auth = (username, password),
+            data = {
+                'xquery': f.read()
+            },
+            headers = {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            proxies=proxies
+        )
+        return r.status_code
+
 def load_findingaid(server, username, password, proxy_server, fh, uri, collections):
     """Load a finding aid into Marklogic.
 
