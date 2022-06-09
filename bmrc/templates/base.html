@@ -103,7 +103,8 @@
                             <form action="{% url 'search' %}" method="get">
                                 <label class="visually-hidden">Site Search</label>
                                 <input class="input control" placeholder="search website" type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
-                                <button type="submit" value="Search" class="button"><i class="fa fa-search" aria-hidden="true" aria-label="Submit site search"></i></button>
+                                <button id="search_website" type="submit" value="Search" class="button"><i class="fa fa-search" aria-hidden="true" aria-label="Submit site search"></i></button>
+                                <label class="is-hidden" for="search_website">search website</label>
                             </form>
                         </div>
                     </div>
