@@ -44,7 +44,7 @@
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
 
-        <div id="skip">
+        <div aria-label="Skip Navigation" id="skip" role="region">
             <a href="#content">Skip to Main Content</a>
             <a href="#sidebar">Skip to Side Bar</a>
             <a href="#footer">Skip to Footer</a>
@@ -103,7 +103,7 @@
                             <form action="{% url 'search' %}" method="get">
                                 <label class="visually-hidden">Site Search</label>
                                 <input class="input control" placeholder="search website" type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
-                                <button type="submit" value="Search" class="button"><i class="fa fa-search" aria-hidden="true" aria-label="Submit site search"></i></button>
+                                <button type="submit" value="Search" class="button" aria-label="search website"><i class="fa fa-search" aria-hidden="true"></i></button>
                             </form>
                         </div>
                     </div>
@@ -148,13 +148,13 @@
                 <div class="container">
                     <div class="content has-text-centered">
                         {% if settings.site_settings.FooterSettings.facebook %}
-                            <a alt="Follow the BMRC on Facebook" href="{{ settings.site_settings.FooterSettings.facebook }}"><i class="fab fa-facebook-square"></i></a>
+                            <a aria-label="Follow the BMRC on Facebook" href="{{ settings.site_settings.FooterSettings.facebook }}"><i class="fab fa-facebook-square"></i></a>
                         {% endif %}
                         {% if settings.site_settings.FooterSettings.twitter %}
-                            <a alt="Follow the BMRC on Twitter" href="{{ settings.site_settings.FooterSettings.twitter }}"><i class="fab fa-twitter-square"></i></a>
+                            <a aria-label="Follow the BMRC on Twitter" href="{{ settings.site_settings.FooterSettings.twitter }}"><i class="fab fa-twitter-square"></i></a>
                         {% endif %}
                         {% if settings.site_settings.FooterSettings.instagram %}
-                            <a alt="Follow the BMRC on Instagram" href="{{ settings.site_settings.FooterSettings.instagram }}"><i class="fab fa-instagram"></i></a>
+                            <a aria-label="Follow the BMRC on Instagram" href="{{ settings.site_settings.FooterSettings.instagram }}"><i class="fab fa-instagram"></i></a>
                         {% endif %}
 
                         {% if settings.site_settings.FooterSettings.address %}
