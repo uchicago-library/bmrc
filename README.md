@@ -100,21 +100,34 @@ window:
 ssh -D 9090 -q -C -N <cnetid>@<staff-host>.lib.uchicago.edu
 ```
 
-### Deleting all finding aids
+### Loading new finding aids
 
-To delete all finding aids in the database:
+Because the finding aid loading script refers to Archive objects,
+you should load finding aids from either the production system or
+a clone of the production system that includes the most recent updates
+to these objects.
+
+Copy all finding aids to a temporary location:
+
+```console
+cp -R <finding_aid_dir> <temporary_finding_aid_dir>
+```
+
+Remove all non-xml files from that directory and use xmllint 
+--noout to confirm that all finding aids are well-formed XML. 
+
+Create a local directory of regularized finding aids (i.e., run
+the regularize.xsl transform before loading.)
+
+```console
+python manage.py regularize_finding_aids <temporary_finding_aid_dir> <regularized_finding_aid_dir>
+```
+
+Delete all finding aids in the MarkLogic database:
 
 ```console
 python manage.py delete-all-finding-aids
 ```
-
-### Loading new finding aids
-
-First, create a local directory of regularized finding aids (i.e., run
-the regularize.xsl transform before loading.)
-
-```console
-python manage.py regularize_finding_aids <finding_aid_dir> <regularized_finding_aid_dir>
 
 Then create browse indexes based on regularized finding aids and upload
 everything to the server:
