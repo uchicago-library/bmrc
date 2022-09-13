@@ -581,7 +581,7 @@ declare function title($doc) {
 let $collections-active :=
     for $c in json:array-values($collections_active_raw)
     return
-        if (fn:exists($c))
+        if (fn:exists(fn:collection($c)))
         then $c
         else ()
 

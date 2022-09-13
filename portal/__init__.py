@@ -808,10 +808,12 @@ def get_search(server, username, password, proxy_server, q, sort, start, page_le
     try:
         multipart_data = requests_toolbelt.multipart.decoder.MultipartDecoder.from_response(r)
     except requests_toolbelt.multipart.decoder.NonMultipartContentTypeException:
-        print(r.content)
-        sys.exit()
+        raise
+        #print(r.content)
+        #sys.exit()
     try:  
         return json.loads(multipart_data.parts[0].content.decode('utf-8'))
     except json.decoder.JSONDecodeError:
-        print(r.content)
-        sys.exit()
+        raise
+        #print(r.content)
+        #sys.exit()
