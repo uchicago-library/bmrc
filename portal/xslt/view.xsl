@@ -532,6 +532,11 @@
 <!-- EAD -->
 <xsl:template match="ead:ead">
   <div class="ead_ead">
+    <h1 class="ead_titleproper">
+      <xsl:call-template name="trim_trailing_commas">
+        <xsl:with-param name="text" select="/ead:ead[1]/ead:archdesc[1]/ead:did[1]/ead:unittitle[1]"/>
+      </xsl:call-template>
+    </h1>
     <xsl:apply-templates select="@*|node()"/>
   </div>
 </xsl:template>
@@ -1531,11 +1536,7 @@
 </xsl:template>
 
 <!-- TITLEPROPER -->
-<xsl:template match="ead:titleproper">
-  <h1 class="ead_titleproper">
-    <xsl:apply-templates select="@*|node()"/>
-  </h1>
-</xsl:template>
+<xsl:template match="ead:titleproper"/>
 
 <!-- TITLESTMT -->
 <xsl:template match="ead:titlestmt">
@@ -1967,6 +1968,20 @@
     </xsl:choose>
   </xsl:variable>
   <xsl:value-of select="$id"/>
+</xsl:template>
+
+<!-- TRIM TRAILING COMMAS -->
+<xsl:template name="trim_trailing_commas">
+  <xsl:param name="text"/>
+  <xsl:variable name="s" select="normalize-space($text)"/>
+  <xsl:choose>
+    <xsl:when test="substring($s, string-length($s)) = ','">
+        <xsl:value-of select="substring($s, 1, string-length($s) - 1)"/>
+    </xsl:when>
+    <xsl:otherwise>
+        <xsl:value-of select="$s"/>
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>

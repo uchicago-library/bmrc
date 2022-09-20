@@ -569,8 +569,16 @@ declare function title($doc) {
        Returns
          a string, the document's title.
      :)
-
-     fn:normalize-space($doc/ead:ead[1]/ead:frontmatter[1]/ead:titlepage[1]/ead:titleproper[1])
+     let $title := 
+         fn:replace(
+             fn:normalize-space($doc/ead:ead[1]/ead:archdesc[1]/ead:did[1]/ead:unittitle[1]),
+             ',[ ]*$',
+             ''
+         )
+     return 
+         if ($title)
+         then $title
+         else "Untitled"
 };
 
 (:::::::::::
