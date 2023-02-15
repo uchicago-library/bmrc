@@ -1,4 +1,4 @@
-Django==3.2.15
+Django==3.2.18
 wagtail==2.15.2
 django-compressor
 django-libsass
