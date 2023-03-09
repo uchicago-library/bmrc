@@ -1,18 +1,46 @@
 {% load wagtailimages_tags %}
-{% image value.image fill-500x500 as tmp_img %}
+{% image value.image fill-150x150 as sm_img %}
+{% image value.image fill-250x250 as md_img %}
+{% image value.image fill-500x500 as lg_img %}
 
 
-<div class="columns is-mobile fellows-block">
-  {% if self.image %}
-	  <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
-	    <figure class="image">
-	      <img src="{{ tmp_img.url }}" alt="{{ value.image }}">
-	    </figure>
-	  </div>
-  {% endif %}
+{% if self.size == 'SM' or self.size == 'MD' %}
+    <div class="media fellows-block m-1">
+      {% if self.image %}
+          {% if self.size == 'SM' %}
+            <div class="media-left">
+              <figure class="image is-128x128">
+                <img src="{{ sm_img.url }}" alt="{{ value.image }}">
+              </figure>
+            </div>
+          {% elif self.size == 'MD' %}
+            <div class="media-left">
+              <figure class="image is-210x210">
+                <img src="{{ md_img.url }}" alt="{{ value.image }}">
+              </figure>
+            </div>
+          {% endif %}
+      {% endif %}
 
-  <div class="column content">
-    {{ value.profile_text }}
-  </div>
+      <div class="media-content">
+        {{ value.profile_text }}
+      </div>
 
-</div>
+    </div>
+{% else %}
+    <div class="columns is-mobile fellows-block">
+      {% if self.image %}
+          <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+            <figure class="image">
+              <img src="{{ lg_img.url }}" alt="{{ value.image }}">
+            </figure>
+          </div>
+      {% endif %}
+
+      <div class="column content">
+        {{ value.profile_text }}
+      </div>
+
+    </div>
+
+{% endif %}

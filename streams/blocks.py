@@ -2,8 +2,8 @@
 
 from django import forms
 from wagtail.core import blocks
-from wagtail.core.blocks import (CharBlock, FieldBlock, RawHTMLBlock,
-                                 StaticBlock, StreamBlock)
+from wagtail.core.blocks import (CharBlock, ChoiceBlock, FieldBlock,
+                                 RawHTMLBlock, StaticBlock, StreamBlock)
 from wagtail.images.blocks import ImageChooserBlock
 
 
@@ -98,6 +98,15 @@ class FellowsBlock(blocks.StructBlock):
         features=["h2", "h3", "bold", "italic", "link"],
         label='Profile Text',
     )
+    LARGE = 'LG'
+    MEDIUM = 'MD'
+    SMALL = 'SM'
+    FELLOW_SIZE_CHOICES = [
+        (LARGE, 'Large'),
+        (MEDIUM, 'Medium'),
+        (SMALL, 'Small'),
+    ]
+    size = ChoiceBlock(choices=FELLOW_SIZE_CHOICES, default=LARGE)
 
     class Meta:
         icon = 'user'
