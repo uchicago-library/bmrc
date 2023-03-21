@@ -351,6 +351,11 @@ aside {
 
 }
 
+.is-160x160 {
+    height: 160px;
+    width: 160px;
+}
+
 .fellows-block {
     box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
     color: #232323;
@@ -361,6 +366,11 @@ aside {
     .rich-text + & {
 		margin-bottom: 2em;
     }
+}
+
+.media.fellows-block {
+    margin: 0 -0.7em 0 -0.75em;
+    padding: 0.75em;
 }
 
 .box {
