@@ -102,6 +102,10 @@
  * --------------------------------------------------
  */
 
+html {
+    scroll-padding: 4rem;
+}
+
 body { // Part 1 for Footer at bottom for short pages
   display: flex;
   min-height: 100vh;
