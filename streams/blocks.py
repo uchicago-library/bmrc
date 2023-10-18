@@ -1,6 +1,8 @@
 """Streamfields live in here"""
 
 from django import forms
+from django.core.validators import validate_slug
+from django.db.models.fields import SlugField
 from wagtail.core import blocks
 from wagtail.core.blocks import (CharBlock, ChoiceBlock, FieldBlock,
                                  RawHTMLBlock, StaticBlock, StreamBlock)
@@ -107,6 +109,12 @@ class FellowsBlock(blocks.StructBlock):
         (SMALL, 'Small'),
     ]
     size = ChoiceBlock(choices=FELLOW_SIZE_CHOICES, default=LARGE)
+    anchor = CharBlock(
+        required=False,
+        max_length=50,
+        help_text='Slug for anchor link',
+        validators=[validate_slug]
+    )
 
     class Meta:
         icon = 'user'

@@ -5,7 +5,7 @@
 
 
 {% if self.size == 'SM' or self.size == 'MD' %}
-    <div class="media fellows-block m-1">
+    <div class="media fellows-block m-1" {% if self.anchor %}id={{ self.anchor }}{% endif %}>
       {% if self.image %}
           {% if self.size == 'SM' %}
             <div class="media-left">
@@ -28,7 +28,7 @@
 
     </div>
 {% else %}
-    <div class="columns is-mobile fellows-block">
+    <div class="columns is-mobile fellows-block" {% if self.anchor %}id={{ self.anchor }}{% endif %}>
       {% if self.image %}
           <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
             <figure class="image">
