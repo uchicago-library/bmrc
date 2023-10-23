@@ -11,8 +11,10 @@ Vagrant.configure("2") do |config|
   # https://docs.vagrantup.com.
 
   # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "torchbox/wagtail-stretch64"
+  # boxes at https://atlas.hashicorp.com/search.
+  # https://app.vagrantup.com/ubuntu/boxes/jammy64
+  config.vm.box = "ubuntu/jammy64"
+  config.vm.box_version = "20230720.0.0"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -67,33 +69,63 @@ Vagrant.configure("2") do |config|
     PROJECT_DIR=/vagrant
     VIRTUALENV_DIR=/home/vagrant/bmrc
     PYTHON=$VIRTUALENV_DIR/bin/python
+    VAGRANT_HOME=/home/vagrant
 
     # Create the django error log
-    echo "Creating /var/log/django-errors.log"
+    echo ""
+    echo "=========== Creating /var/log/django-errors.log ==========="
     touch /var/log/django-errors.log
     chown vagrant /var/log/django-errors.log
     chgrp vagrant /var/log/django-errors.log
 
     # Install dependencies
-    echo "Installing dependencies" 
+    echo ""
+    echo "=========== Installing dependencies ===========" 
     apt-get update
+    apt-get install -y postgresql libpq-dev python3-pip python3.10-dev python3.10-distutils python3.10-venv
 
     # Create a Postgres user and database
-    echo "Creating Postgres user and database"
-    sudo -u postgres createuser owning_user
+    su - postgres -c "createuser -s vagrant"
     sudo -u postgres createdb -O vagrant bmrc_dev
 
     # Create a Python virtualenv
-    echo "Creating a Python virtualenv"
-    cd /home/vagrant && virtualenv bmrc
+    echo ""
+    echo "=========== Creating a Python virtualenv ==========="
+    echo "..."
+    cd /home/vagrant && python3 -m venv bmrc
+
+    echo ""
+    echo "============== Installing linting and dev tools =============="
+    apt-get install -y vim git curl gettext build-essential
+    mkdir -p $VAGRANT_HOME/.vim/pack/git-plugins/start
+    git clone --depth 1 https://github.com/dense-analysis/ale.git $VAGRANT_HOME/.vim/pack/git-plugins/start/ale
+    apt-get install -y libjpeg-dev libtiff-dev zlib1g-dev libfreetype6-dev liblcms2-dev libllvm11
+    apt-get install -y postgresql libpq-dev
+    touch $VAGRANT_HOME/.vimrc
+    echo "let g:ale_linters_explicit = 1" >> $VAGRANT_HOME/.vimrc
+    echo "let g:ale_linters = { 'python': ['flake8'], 'javascript': ['eslint'] }" >> $VAGRANT_HOME/.vimrc
+    echo "let g:ale_python_flake8_options = '--ignore=D100,D101,D202,D204,D205,D400,D401,E303,E501,W503,N805,N806'" >> $VAGRANT_HOME/.vimrc
+    echo "let g:ale_fixers = { 'python': ['isort', 'autopep8', 'black'], 'javascript': ['eslint'] }" >> $VAGRANT_HOME/.vimrc
+    echo "let g:ale_python_black_options = '--skip-string-normalization'" >> $VAGRANT_HOME/.vimrc
+    echo "let g:ale_python_isort_options = '--profile black'" >> $VAGRANT_HOME/.vimrc
+
 
     # Pip install project dependencies
-    echo "Pip installing project dependencies"
-    source bmrc/bin/activate && cd /vagrant/ && pip install -r requirements.txt
+    echo ""
+    echo "=========== Pip installing project dependencies ==========="
+    source bmrc/bin/activate && cd /vagrant/ && pip install -r requirements.txt && pip install -r requirements-dev.txt
 
     # Run migrations, load the dev db and build a search index
-    echo "Running django migrations and loading the dev database"
-    su - vagrant -c "$PYTHON $PROJECT_DIR/manage.py migrate --noinput"
+    echo ""
+    echo "=========== Running django migrations and loading the dev database ==========="
+    su - vagrant -c "$PYTHON $PROJECT_DIR/manage.py migrate --noinput && \
+                     $PYTHON $PROJECT_DIR/manage.py loaddata /vagrant/home/fixtures/dev.json"
 
+    # Add some dev sweetness
+    echo ""
+    echo "============== Simplicity for developers =============="
+    echo "..."
+    echo "source bmrc/bin/activate" >> /home/vagrant/.bashrc
+    echo "cd /vagrant/" >> /home/vagrant/.bashrc
   SHELL
 end

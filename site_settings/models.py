@@ -1,12 +1,12 @@
 from django.db import models
 
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
-from wagtail.contrib.settings.models import BaseSetting, register_setting
+from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.core.fields import RichTextField
 
 
 @register_setting
-class FooterSettings(BaseSetting):
+class FooterSettings(BaseSiteSetting):
     """Social media settings for our custom website."""
 
     id = models.AutoField(primary_key=True)
@@ -29,7 +29,7 @@ class FooterSettings(BaseSetting):
 
 
 @register_setting
-class AlertBanner(BaseSetting):
+class AlertBanner(BaseSiteSetting):
     """Create and toggle a site-wide alert banner."""
 
     INFO = 'alert-info'

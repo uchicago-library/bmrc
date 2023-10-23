@@ -9,9 +9,8 @@ Mocks for approval process can be found at: [uchicago-library.github.io/bmrc](ht
 
 ## Running an Instance of the Site
 1. Start the dev environment from the root of the project directory: `vagrant up`
-5. ssh to the guest machine: `vagrant ssh`
-6. Activate the virualenv and navigate to the root directory: `source bmrc/bin/activate && cd /vagrant/`
-7. Start the Django dev server: `./manage.py runserver 0.0.0.0:3000`
+2. ssh to the guest machine: `vagrant ssh`. The virualenv will automatically be activated and you will be dropped into the working directory.
+3. Start the Django dev server: `./manage.py runserver 0.0.0.0:3000`
 
 ## Making Changes
 - **Model Changes:** Run `python manage.py makemigrations`, then `python manage.py migrate` to update the database with your model changes. You must run the above commands each time you make changes to the model definition.
@@ -21,7 +20,7 @@ Mocks for approval process can be found at: [uchicago-library.github.io/bmrc](ht
 
 ## Pushing to Production
 - ssh to aerie
-- `cd /data/aerie/ ; source venv3.8/bin/activate ; cd sites/bmrc/bmrc`
+- `cd /data/aerie/ ; source venv3.9/bin/activate ; cd sites/bmrc/bmrc`
 - `git remote update`
 - `git status`
 - `git pull origin master`
@@ -33,7 +32,7 @@ Mocks for approval process can be found at: [uchicago-library.github.io/bmrc](ht
 ## Pushing to the Test Site
 The test instance should mirror the production site, less any features being tested at the time. The test server is bmrc-test ; it is hosted on crib
 - ssh to crib
-- `cd /data/crib/ ; source venv3.8/bin/activate ; cd sites/bmrc-test/bmrc`
+- `cd /data/crib/ ; source venv3.9/bin/activate ; cd sites/bmrc-test/bmrc`
 - `git remote update`
 - `git status`
 - `git checkout {{ branch-name }}`
@@ -57,7 +56,7 @@ cache.clear()
 ### Fixed Pages
 
 The following URLs are hardcoded in templates. In cases where these URLs point
-to editable Page objects, moving these pages will result in 404 errors. 
+to editable Page objects, moving these pages will result in 404 errors.
 
 - /news/
 - /news/newsletter-signup/
@@ -75,11 +74,11 @@ to editable Page objects, moving these pages will result in 404 errors.
 Site visitors can search and browse member finding aids using the website.
 Currently the site accepts EAD 2002 finding aids only. Documents that do not
 use the EAD namespace will be converted to a form that uses the namespace
-when they're ingested. EAD 3 is currently not supported. 
+when they're ingested. EAD 3 is currently not supported.
 
 To facilitate browsing, the site uses MarkLogic Collections. Collections are
 represented by URIs, e.g. https://bmrc.lib.uchicago.edu/topics/Jazz, and each
-collection contains one or more finding aids. To browse all collections and 
+collection contains one or more finding aids. To browse all collections and
 finding aids currently on the site, use the following management command:
 
 ```console
@@ -92,7 +91,7 @@ See your local settings for database connection configuration.
 
 ### Connecting to our MarkLogic server from a dev machine
 
-If you're running the site on a development machine, you'll need to set up a 
+If you're running the site on a development machine, you'll need to set up a
 tunnel for SSH connections. Run a command like the one below in a new console
 window:
 
@@ -113,8 +112,8 @@ Copy all finding aids to a temporary location:
 cp -R <finding_aid_dir> <temporary_finding_aid_dir>
 ```
 
-Remove all non-xml files from that directory and use xmllint 
---noout to confirm that all finding aids are well-formed XML. 
+Remove all non-xml files from that directory and use xmllint
+--noout to confirm that all finding aids are well-formed XML.
 
 Create a local directory of regularized finding aids (i.e., run
 the regularize.xsl transform before loading.)
@@ -138,12 +137,12 @@ python manage.py load-finding-aids <regularized_finding_aid_dir>
 
 ## Portal Homepage
 
-The portal homepage includes several content areas that change. 
+The portal homepage includes several content areas that change.
 
 ### Curated Topics and Featured Curated Topic
 
 The featured curated topic changes automatically every week. To add new featured curated topics, add new child pages under /portal/curated/ in the Wagtail admin. To chnage the image that appears on the portal homepage for a specific curated
-topic, edit the curated topic page.  
+topic, edit the curated topic page.
 
 ### Exhibits and Featured Exhibit
 
@@ -170,5 +169,3 @@ of order indexes for all archives, see the following management command:
 
 ```console
 python manage.py report-member-highlight-monthly-display
-```
-

@@ -1,15 +1,15 @@
-Django==3.2.15
-wagtail==2.15.2
+Django==4.1.12
+wagtail==4.1.9
 django-compressor
 django-libsass
 django-static-precompiler
 lxml
-psycopg2==2.9.3
-Pygments==2.11.2
+psycopg2
+Pygments==2.7.4
 pysocks
 requests_cache
 requests_toolbelt
 wagtail-django-recaptcha
-wagtailmedia==0.8.0
+wagtailmedia==0.11.0
 
--e git+https://github.com/Brown-University-Library/django-shibboleth-remoteuser.git#egg=django_shibboleth_remoteuser
+-e git+https://github.com/rev138/django-shibboleth-remoteuser.git#egg=django_shibboleth_remoteuser

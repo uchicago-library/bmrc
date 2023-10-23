@@ -7,11 +7,9 @@ from wagtail.admin.edit_handlers import (
     InlinePanel,
     MultiFieldPanel,
     PageChooserPanel,
-    StreamFieldPanel,
 )
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page, Orderable
-from wagtail.images.edit_handlers import ImageChooserPanel
 
 from streams import blocks
 from news.models import NewsStoryPage
@@ -42,7 +40,7 @@ class HomePageCarouselImages(Orderable):
     button_label = models.CharField(max_length=100, null=True, blank=True, help_text='Text that shows up in button')
 
     panels = [
-        ImageChooserPanel("carousel_image"),
+        FieldPanel("carousel_image"),
         FieldPanel("carousel_title"),
         FieldPanel("carousel_text"),
         PageChooserPanel("button_link"),
@@ -69,6 +67,7 @@ class HomePage(Page):
         ],
         null=True,
         blank=True,
+        use_json_field=True,
     )
 
     content_panels = Page.content_panels + [
@@ -76,7 +75,7 @@ class HomePage(Page):
             [InlinePanel("carousel_images", max_num=3, label="Image")],
             heading="Carousel Images",
         ),
-        StreamFieldPanel("body"),
+        FieldPanel("body"),
     ]
 
     # News Feed
