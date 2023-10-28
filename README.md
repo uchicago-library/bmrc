@@ -53,6 +53,13 @@ from django.core.cache import cache
 cache.clear()
 ```
 
+### Making changes to the dev database
+The dev database is loaded when the Vagrant image builds. If you need to create a new page and you want it to persist in the dev database, just generate fixtures and check them in:
+
+```
+./manage.py dumpdata > home/fixtures/dev.json
+```
+
 ### Fixed Pages
 
 The following URLs are hardcoded in templates. In cases where these URLs point
