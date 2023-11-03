@@ -11,11 +11,9 @@ from wagtail.admin.edit_handlers import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
-    StreamFieldPanel,
 )
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page, Orderable
-from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from streams import blocks
@@ -110,6 +108,7 @@ class NewsStoryPage(Page):
         ],
         null=True,
         blank=True,
+        use_json_field=True,
     )
     story_date = models.DateField(
         default=timezone.now,
@@ -118,9 +117,9 @@ class NewsStoryPage(Page):
     )
 
     content_panels = Page.content_panels + [
-        ImageChooserPanel("lead_image"),
+        FieldPanel("lead_image"),
         FieldPanel("excerpt"),
-        StreamFieldPanel("body"),
+        FieldPanel("body"),
         FieldPanel('story_date'),
     ]
 
@@ -149,10 +148,11 @@ class NewsletterSignupPage(Page):
         ],
         null=True,
         blank=True,
+        use_json_field=True,
     )
 
     content_panels = Page.content_panels + [
-        StreamFieldPanel("body"),
+        FieldPanel("body"),
     ]
 
     class Meta:

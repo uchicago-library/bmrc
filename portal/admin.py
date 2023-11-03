@@ -1,10 +1,7 @@
-from portal.models import Archive
 from wagtail.admin.edit_handlers import FieldPanel
-from wagtail.contrib.modeladmin.options import (
-    ModelAdmin, 
-    modeladmin_register,
-)
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
+
+from portal.models import Archive
 
 
 class ArchiveAdmin(ModelAdmin):
@@ -38,11 +35,12 @@ class ArchiveAdmin(ModelAdmin):
         FieldPanel('name'),
         FieldPanel('address'),
         FieldPanel('link'),
-        ImageChooserPanel('logo'),
+        FieldPanel('logo'),
         FieldPanel('spotlight'),
         FieldPanel('finding_aid_prefix'),
         FieldPanel('is_member'),
         FieldPanel('order'),
     )
+
 
 modeladmin_register(ArchiveAdmin)

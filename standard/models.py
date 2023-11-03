@@ -8,7 +8,6 @@ from wagtail.admin.edit_handlers import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
-    StreamFieldPanel,
 )
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page, Orderable
@@ -60,10 +59,11 @@ class StandardPage(Page):
         ],
         null=True,
         blank=True,
+        use_json_field=True,
     )
 
     content_panels = Page.content_panels + [
-        StreamFieldPanel("body"),
+        FieldPanel("body"),
         MultiFieldPanel(
             [InlinePanel("sidebar", max_num=3, label="Sidebar Section")],
             heading="Sidebar",

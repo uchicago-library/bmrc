@@ -15,6 +15,9 @@ import os
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
+WAGTAILADMIN_BASE_URL = 'https://bmrc.lib.uchicago.edu/'
+
+WAGTAIL_ENABLE_UPDATE_CHECK = 'lts'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -33,7 +36,7 @@ INSTALLED_APPS = [
     'shibboleth',
     'compressor',
     'wagtail.contrib.forms',
-    'wagtail.contrib.postgres_search',
+    'wagtail.search.backends.database',
     'wagtail.contrib.redirects',
     'wagtail.contrib.settings',
     'wagtail.contrib.modeladmin',
@@ -119,7 +122,7 @@ DATABASES = {
 
 WAGTAILSEARCH_BACKENDS = {
     'default': {
-        'BACKEND': 'wagtail.contrib.postgres_search.backend',
+        'BACKEND': 'wagtail.search.backends.database',
     },
 }
 
