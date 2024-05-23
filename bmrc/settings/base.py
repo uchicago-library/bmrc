@@ -25,6 +25,7 @@ WAGTAIL_ENABLE_UPDATE_CHECK = 'lts'
 # Application definition
 
 INSTALLED_APPS = [
+    'bmrc',
     'home',
     'portal',
     'search',

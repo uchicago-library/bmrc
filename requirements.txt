@@ -11,5 +11,6 @@ requests_cache
 requests_toolbelt
 wagtail-django-recaptcha
 wagtailmedia==0.11.0
+watchfiles
 
 -e git+https://github.com/rev138/django-shibboleth-remoteuser.git#egg=django_shibboleth_remoteuser
