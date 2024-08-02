@@ -1,5 +1,5 @@
-Django==4.1.12
-wagtail==4.1.9
+Django==5.0.7
+wagtail==6.1.3
 django-compressor
 django-libsass
 django-static-precompiler
@@ -10,6 +10,5 @@ pysocks
 requests_cache
 requests_toolbelt
 wagtail-django-recaptcha
-wagtailmedia==0.11.0
-
+wagtailmedia==0.15.2
 -e git+https://github.com/rev138/django-shibboleth-remoteuser.git#egg=django_shibboleth_remoteuser

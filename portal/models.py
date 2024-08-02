@@ -7,15 +7,15 @@ from django.db import models
 from modelcluster.fields import ParentalKey
 from pygments import highlight
 from streams import blocks
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     HelpPanel,
     InlinePanel,
     MultiFieldPanel,
     PageChooserPanel,
 )
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Orderable, Page
+from wagtail.fields import RichTextField, StreamField
+from wagtail.models import Orderable, Page
 from wagtail.images.models import Image
 from wagtail.search import index
 
@@ -108,7 +108,6 @@ class CuratedTopicIndexPage(Page):
         ],
         null=True,
         blank=True,
-        use_json_field=True,
     )
 
     content_panels = Page.content_panels + [
@@ -230,7 +229,6 @@ class ExhibitIndexPage(Page):
         ],
         null=True,
         blank=True,
-        use_json_field=True,
     )
 
     content_panels = Page.content_panels + [
@@ -295,7 +293,6 @@ class ExhibitPage(Page):
         ],
         null=True,
         blank=True,
-        use_json_field=True,
     )
 
     content_panels = Page.content_panels + [
@@ -482,7 +479,6 @@ class PortalStandardPage(Page):
         ],
         null=True,
         blank=True,
-        use_json_field=True,
     )
 
     content_panels = Page.content_panels + [

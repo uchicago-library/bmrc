@@ -2,7 +2,7 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-import wagtail.core.fields
+import wagtail.fields
 
 
 class Migration(migrations.Migration):
@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('facebook', models.URLField(blank=True, help_text='Facebook URL', null=True)),
                 ('twitter', models.URLField(blank=True, help_text='Twitter URL', null=True)),
                 ('instagram', models.URLField(blank=True, help_text='Instagram profile URL', null=True)),
-                ('address', wagtail.core.fields.RichTextField(blank=True, help_text='Mailing address', null=True)),
+                ('address', wagtail.fields.RichTextField(blank=True, help_text='Mailing address', null=True)),
                 ('site', models.OneToOneField(editable=False, on_delete=django.db.models.deletion.CASCADE, to='wagtailcore.Site')),
             ],
             options={

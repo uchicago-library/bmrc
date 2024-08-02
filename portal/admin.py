@@ -1,15 +1,16 @@
-from wagtail.admin.edit_handlers import FieldPanel
-from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
+from wagtail.admin.panels import FieldPanel
+from wagtail.snippets.models import register_snippet
+from wagtail.snippets.views.snippets import SnippetViewSet
 
 from portal.models import Archive
 
 
-class ArchiveAdmin(ModelAdmin):
+class AcrchiveAdminViewSet(SnippetViewSet):
     """Archive admin."""
 
     model = Archive
     menu_label = 'Archives'
-    menu_icon = 'group'
+    icon = 'group'
     menu_order = 290
     add_to_settings_menu = False
     exclude_from_explorer = False
@@ -43,4 +44,4 @@ class ArchiveAdmin(ModelAdmin):
     )
 
 
-modeladmin_register(ArchiveAdmin)
+register_snippet(AcrchiveAdminViewSet)
