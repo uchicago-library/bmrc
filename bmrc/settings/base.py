@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'wagtail.search.backends.database',
     'wagtail.contrib.redirects',
     'wagtail.contrib.settings',
-    'wagtail.contrib.modeladmin',
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -48,7 +47,7 @@ INSTALLED_APPS = [
     'wagtail.images',
     'wagtail.search',
     'wagtail.admin',
-    'wagtail.core',
+    'wagtail',
     'modelcluster',
     'taggit',
     'django.contrib.admin',
@@ -57,7 +56,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'captcha',
     'wagtailcaptcha',
 ]
 
@@ -199,9 +197,5 @@ STATIC_PRECOMPILER_COMPILERS = (('static_precompiler.compilers.libsass.SCSS', {
 # Wagtail settings
 
 WAGTAIL_SITE_NAME = "bmrc"
-
-# Base URL to use when referring to full URLs within the Wagtail admin backend -
-# e.g. in notification emails. Don't include '/admin' or a trailing slash
-BASE_URL = 'http://example.com'
 
 TEST_RUNNER = 'portal.tests.NoDbDjangoTestSuiteRunner'

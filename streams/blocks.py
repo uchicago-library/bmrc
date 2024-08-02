@@ -2,9 +2,8 @@
 
 from django import forms
 from django.core.validators import validate_slug
-from django.db.models.fields import SlugField
-from wagtail.core import blocks
-from wagtail.core.blocks import (CharBlock, ChoiceBlock, FieldBlock,
+from wagtail import blocks
+from wagtail.blocks import (CharBlock, ChoiceBlock, FieldBlock,
                                  RawHTMLBlock, StaticBlock, StreamBlock)
 from wagtail.images.blocks import ImageChooserBlock
 

@@ -3,8 +3,8 @@
 from django.db import migrations, models
 import django.db.models.deletion
 import streams.blocks
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 import wagtail.images.blocks
 
 
@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
             name='NewsletterSignupPage',
             fields=[
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
-                ('body', wagtail.core.fields.StreamField([('richtext', streams.blocks.RichtextBlock()), ('webfeed', wagtail.core.blocks.StructBlock([('webfeed_title', wagtail.core.blocks.CharBlock(help_text='Title for callout section', required=False)), ('webfeed_code', wagtail.core.blocks.RawHTMLBlock(required=False))])), ('image_block', wagtail.core.blocks.StructBlock([('image', wagtail.images.blocks.ImageChooserBlock(required=False)), ('caption', streams.blocks.RichtextBlock(features=['bold', 'italic', 'link'], label='Caption', required=False)), ('alignment', streams.blocks.ImageFormatChoiceBlock(required=False))])), ('new_row', wagtail.core.blocks.StructBlock([]))], blank=True, null=True)),
+                ('body', wagtail.fields.StreamField([('richtext', streams.blocks.RichtextBlock()), ('webfeed', wagtail.blocks.StructBlock([('webfeed_title', wagtail.blocks.CharBlock(help_text='Title for callout section', required=False)), ('webfeed_code', wagtail.blocks.RawHTMLBlock(required=False))])), ('image_block', wagtail.blocks.StructBlock([('image', wagtail.images.blocks.ImageChooserBlock(required=False)), ('caption', streams.blocks.RichtextBlock(features=['bold', 'italic', 'link'], label='Caption', required=False)), ('alignment', streams.blocks.ImageFormatChoiceBlock(required=False))])), ('new_row', wagtail.blocks.StructBlock([]))], blank=True, null=True)),
             ],
             options={
                 'verbose_name': 'Newsletter Form',

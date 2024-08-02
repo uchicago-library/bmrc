@@ -4,3 +4,4 @@ curlylint==0.13.1
 djhtml==1.5.2
 flake8==6.0.0
 isort==5.11.4
+tblib

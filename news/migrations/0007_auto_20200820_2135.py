@@ -2,8 +2,8 @@
 
 from django.db import migrations
 import streams.blocks
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 import wagtail.images.blocks
 
 
@@ -17,11 +17,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='newslettersignuppage',
             name='body',
-            field=wagtail.core.fields.StreamField([('richtext', streams.blocks.RichtextBlock()), ('webfeed', wagtail.core.blocks.StructBlock([('webfeed_title', wagtail.core.blocks.CharBlock(help_text='Title for callout section', required=False)), ('webfeed_code', wagtail.core.blocks.RawHTMLBlock(required=False))])), ('image_block', wagtail.core.blocks.StructBlock([('image', wagtail.images.blocks.ImageChooserBlock(required=False)), ('caption', streams.blocks.RichtextBlock(features=['bold', 'italic', 'link'], label='Caption', required=False)), ('alignment', streams.blocks.ImageFormatChoiceBlock(required=False))]))], blank=True, null=True),
+            field=wagtail.fields.StreamField([('richtext', streams.blocks.RichtextBlock()), ('webfeed', wagtail.blocks.StructBlock([('webfeed_title', wagtail.blocks.CharBlock(help_text='Title for callout section', required=False)), ('webfeed_code', wagtail.blocks.RawHTMLBlock(required=False))])), ('image_block', wagtail.blocks.StructBlock([('image', wagtail.images.blocks.ImageChooserBlock(required=False)), ('caption', streams.blocks.RichtextBlock(features=['bold', 'italic', 'link'], label='Caption', required=False)), ('alignment', streams.blocks.ImageFormatChoiceBlock(required=False))]))], blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='newsstorypage',
             name='body',
-            field=wagtail.core.fields.StreamField([('richtext', streams.blocks.RichtextBlock(group='Format and Text')), ('two_column_block', wagtail.core.blocks.StreamBlock([('new_column', streams.blocks.RichtextBlock(icon='arrow-right', label='New Column'))], group='Format and Text')), ('info_box_block', wagtail.core.blocks.StructBlock([('text', streams.blocks.RichtextBlock(features=['h2', 'h3', 'bold', 'ol', 'ul', 'hr', 'italic', 'link', 'document-link'], label='Featured Text', required=True)), ('style_type', streams.blocks.InfoBoxStyleChoiceBlock(required=True))], group='Format and Text')), ('footnote_block', wagtail.core.blocks.StructBlock([('text', streams.blocks.RichtextBlock(features=['bold', 'ol', 'ul', 'italic', 'link', 'document-link'], label='Footnote Text', required=False))], group='Format and Text')), ('image_block', wagtail.core.blocks.StructBlock([('image', wagtail.images.blocks.ImageChooserBlock(required=False)), ('caption', streams.blocks.RichtextBlock(features=['bold', 'italic', 'link'], label='Caption', required=False)), ('alignment', streams.blocks.ImageFormatChoiceBlock(required=False))], group='Layout and Images')), ('fellows_block', wagtail.core.blocks.StructBlock([('image', wagtail.images.blocks.ImageChooserBlock(label='Profile Photo', required=False)), ('profile_text', streams.blocks.RichtextBlock(features=['h2', 'h3', 'bold', 'italic', 'link'], label='Profile Text', required=False))], group='Layout and Images')), ('clear_block', streams.blocks.ClearBlock(group='Layout and Images'))], blank=True, null=True),
+            field=wagtail.fields.StreamField([('richtext', streams.blocks.RichtextBlock(group='Format and Text')), ('two_column_block', wagtail.blocks.StreamBlock([('new_column', streams.blocks.RichtextBlock(icon='arrow-right', label='New Column'))], group='Format and Text')), ('info_box_block', wagtail.blocks.StructBlock([('text', streams.blocks.RichtextBlock(features=['h2', 'h3', 'bold', 'ol', 'ul', 'hr', 'italic', 'link', 'document-link'], label='Featured Text', required=True)), ('style_type', streams.blocks.InfoBoxStyleChoiceBlock(required=True))], group='Format and Text')), ('footnote_block', wagtail.blocks.StructBlock([('text', streams.blocks.RichtextBlock(features=['bold', 'ol', 'ul', 'italic', 'link', 'document-link'], label='Footnote Text', required=False))], group='Format and Text')), ('image_block', wagtail.blocks.StructBlock([('image', wagtail.images.blocks.ImageChooserBlock(required=False)), ('caption', streams.blocks.RichtextBlock(features=['bold', 'italic', 'link'], label='Caption', required=False)), ('alignment', streams.blocks.ImageFormatChoiceBlock(required=False))], group='Layout and Images')), ('fellows_block', wagtail.blocks.StructBlock([('image', wagtail.images.blocks.ImageChooserBlock(label='Profile Photo', required=False)), ('profile_text', streams.blocks.RichtextBlock(features=['h2', 'h3', 'bold', 'italic', 'link'], label='Profile Text', required=False))], group='Layout and Images')), ('clear_block', streams.blocks.ClearBlock(group='Layout and Images'))], blank=True, null=True),
         ),
     ]
