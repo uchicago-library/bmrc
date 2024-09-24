@@ -1,6 +1,56 @@
 @import 'variables';
 @import "bulma/bulma.sass";
 
+/* TABLE OF CONTENTS
+ * Quick fix
+ * Accessibility
+ * Alerts
+ * Global
+ * Fonts
+ * Navigation Customization
+ * Layout Elements
+ * Images
+ * Sections (Used in homepage only)
+ * Site Search
+ * Member Collection Search
+ * News
+ * Sidebar
+ * Footer
+ * Other Elements
+ */
+:root{
+	// BMRC palette
+	--bmrc-blue: #2aa9e0; 
+	--bmrc-dark-green: #0d331f;
+	--bmrc-dark-gray: #241f21;
+	--bmrc-yellow: #fdd900;	
+	--bmrc-white: #ffffff;	
+	// BMRC palette
+	$bmrc-blue: #2aa9e0; 
+	$bmrc-dark-green: #0d331f;
+	$bmrc-dark-gray: #241f21;
+	$bmrc-yellow: #fdd900;	
+	$bmrc-white: #ffffff;	
+	
+	// Color System
+	// Why can't I use SCSS variables from _variables.scss here?
+	--cs-body-background: var(--bmrc-white);
+	--cs-body-color: var(--bmrc-dark-gray);
+	--cs-body-color-muted: lighten($bmrc-dark-gray, 10%);
+	--cs-navbar-background: var(--bmrc-dark-gray);
+	--cs-navbar-color: var(--bmrc-white);
+	--cs-footer-background: var(--bmrc-dark-gray);
+	--cs-sidebar-background: lighten($bmrc-dark-gray, 10%);
+	--cs-sidebar-color: var(--bmrc-white);
+}
+
+/*
+ * Quick fix
+ * --------------------------------------------------
+ */
+ input{
+	color: var(--cs-body-color-muted);
+ }
 
 /*
  * Accessibility
@@ -262,7 +312,7 @@ body.has-navbar-fixed-top {
 }
 
 nav.navbar {
-	background-color: #f3f2e8;
+	background-color: var(--cs-navbar-background);
 	font-size: 1rem;
 	font-weight: 600;
 	text-transform: uppercase;
@@ -270,16 +320,16 @@ nav.navbar {
 	@include respond-to(small) {
 	    font-size: 0.9rem;
 	}
-	@include respond-to(medium) {
-	    font-size: 1.2vw;
-	}
 	@include respond-to(large) {
 	    font-size: 0.85rem;
 	}
 }
-
+.navbar-burger{
+	color: var(--cs-navbar-color);
+}
 .navbar-item img {
     max-height: 2rem;
+	max-width: 150px;
 	@include respond-to(small) {
 	    max-height: 3rem;
 	}
@@ -293,11 +343,13 @@ nav.navbar {
 }
 
 .navbar-link:not(.is-arrowless)::after {
-    border-color: #333333;
+    border-color: var(--cs-navbar-color)
 }
 
 a.navbar-item, a.navbar-link, .navbar-dropdown a.navbar-item {
-	color: #333333;
+	color: var(--cs-navbar-color);
+	font-weight: 400;
+	font-size: 12px;
 	&:hover, &:focus {
 		color: #ffffff;
 		background-color: $accentlink;
@@ -311,11 +363,11 @@ a.navbar-item, a.navbar-link, .navbar-dropdown a.navbar-item {
 
 .navbar-dropdown {
 	color: #333333;
-	background-color: #f3f2e8;
+	background-color:  var(--cs-navbar-background);
 }
 
 .navbar-menu.is-active { //drop down menu in mobile view
-	background-color: #f3f2e8;
+	background-color:  var(--cs-navbar-background);
 }
 
 .navbar-end { // div that nav search is in
@@ -387,7 +439,7 @@ aside {
 	}
 	&.info-box {
 		color: #0b2d44;
-		background-color: #eef6fc;
+		background-color: var(--cs-body-background);
 		h2, h3 {
 			color: #082233;
 		}
@@ -414,10 +466,10 @@ body.contact_page form {
 	    box-shadow: inset 0 0.0625em 0.125em rgba(10,10,10,.05);
 	    max-width: 100%;
 	    width: 100%;
-	    background-color: #fff;
+	    background-color: var(--cs-body-background);
 	    border-color: #dbdbdb;
 	    border-radius: 4px;
-	    color: #363636;
+	    color: var(--cs-body-color-muted);
 	    font-size: 1.2rem;
 	}
 	ul {
@@ -673,7 +725,8 @@ nav.pagination {
  */
 
 .sidebar {
-	background-color: lighten($primary, 50%);
+	background-color: var(--cs-sidebar-background);
+	color: var(--cs-sidebar-color);
 	@include respond-to(medium) {
 		padding: 1.25em;
 		padding-bottom: 2em;
@@ -682,7 +735,7 @@ nav.pagination {
 
 	}
 	h2 {
-		color: darken($primary, 5%);
+		color: var(--cs-sidebar-color);
 	    font-size: 1rem;
 	    font-weight: 600;
 	}
@@ -710,7 +763,7 @@ nav.pagination {
  */
 
 footer.footer {
-    background-color: $primary;
+    background-color: var(--cs-footer-background);
     padding: 1.5rem;
     margin-top: 2rem;
   //   @include respond-to(medium) {
