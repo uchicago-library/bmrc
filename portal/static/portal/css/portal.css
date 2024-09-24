@@ -45,7 +45,7 @@ h1 {
 }
 
 .button.is-dark {
-    background-color: #6b1722;
+    background-color: #0d331f;
 }
 
 .section.subfooter {
@@ -83,13 +83,11 @@ footer.footer {
  */
 
 .home-header {
-    color: #fff;
     font-weight: 600;
 }
 
 @media (min-width: 62em) {
     .home-header {
-        background-color: #676438;
         padding: 1em 3em;
         margin-left: -70px;      
         display: inline-block;
@@ -97,18 +95,18 @@ footer.footer {
 }
 
 .featured-browse {
+    background-color: #241f21;
     color: #fff;
-    background-color: #676438;
     padding: 1rem;
 }
 
 .featured-browse a {
-    color: #fff;
+    color: #1f9cd2;
 }
 
 @media (min-width: 62em) {
     .featured-browse a {
-        color: #224e64;
+        color: #1f9cd2;
     }
 }
 
@@ -164,7 +162,7 @@ footer.footer {
 }
 
 .portal-feature .curated {
-    background-color: #676438;
+    background-color: #241f21;
 }
 
 .portal-feature .exhibits {
@@ -176,13 +174,13 @@ footer.footer {
 }
 
 .featured-modules.portal h2 {
-    color: #676438;
+    color: #241f21;
     font-size: 1.1em;
     font-weight: 600;
 }
 
 .featured-modules.portal h3 {
-    color: #6b1722;
+    color: #0d331f;
     font-size: 1.05rem;
 }
 
@@ -197,6 +195,7 @@ footer.footer {
 
 .portal-search {
     padding: 1em 1em 0;
+    background: linear-gradient(45deg, #2aa9e0, #fdd900);
 }
 
 @media (min-width: 62em) {
@@ -206,13 +205,12 @@ footer.footer {
 }
 
 .portal-search button {
+    background-color: #241f21;
     color: #ffffff;
-    background-color: #676438;
 }
 
 .portal-search button:hover {
-    color: #333333;
-    background-color: #a7a35e;
+    background-color: #3E393B;
 }
 
 .search-help {
@@ -228,7 +226,7 @@ footer.footer {
  */
 
 .archivebox_serp {
-    background-color: #676438;
+    background-color: #241f21;
     color: white;
     display: flex;
     margin-bottom: 1.5rem;
@@ -288,7 +286,7 @@ footer.footer {
 }
 
 .sort-label {
-    color: #6b1722;
+    color: #0d331f;
     font-weight: 600;
     padding-right: 1em;
     display:inline-block;
@@ -345,7 +343,7 @@ footer.footer {
 }
 
 .browse-sidebar h2 {
-    color: #676438;
+    color: #241f21;
     font-size: 1.05rem;
     font-weight: 600;
 }
