@@ -31,16 +31,18 @@
 	$bmrc-dark-gray: #241f21;
 	$bmrc-yellow: #fdd900;	
 	$bmrc-white: #ffffff;	
+	// variations
+	--bmrc-dark-gray-l10: #3E393B; // lighten 10%
 	
 	// Color System
 	// Why can't I use SCSS variables from _variables.scss here?
 	--cs-body-background: var(--bmrc-white);
 	--cs-body-color: var(--bmrc-dark-gray);
-	--cs-body-color-muted: lighten($bmrc-dark-gray, 10%);
+	--cs-body-color-muted: var(--bmrc-dark-gray-l10);
 	--cs-navbar-background: var(--bmrc-dark-gray);
 	--cs-navbar-color: var(--bmrc-white);
 	--cs-footer-background: var(--bmrc-dark-gray);
-	--cs-sidebar-background: lighten($bmrc-dark-gray, 10%);
+	--cs-sidebar-background: var(--bmrc-dark-gray-l10);
 	--cs-sidebar-color: var(--bmrc-white);
 }
 
@@ -740,7 +742,6 @@ nav.pagination {
 	    font-weight: 600;
 	}
 	a {
-		color: lighten($text, 10%);
 		text-decoration: underline;
 		&:hover, &:focus {
 			color: $accentlink;
