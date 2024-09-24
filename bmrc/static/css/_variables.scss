@@ -1,71 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Muli:300,400,700&display=swap');
 
 $family-primary: 'Muli', sans-serif;
 $text: #232323;
 
-$primary: #777441;
-$secondary: #6b1722;
-$accent: #d1bb95;
+$primary: #2aa9e0;
+$secondary: #0d331f;
+$accent: #fdd900;
 
-$link: #224e64;
+$link: #2aa9e0;
 $accentlink: darken($primary, 5%);
 $link-hover: $primary;
-
-
-/*
- * Media Queries
- * --------------------------------------------------
- *
- * Use as: @include respond-to(small) { ... }
- *		@include respond-to(medium) { ... }
- *		@include respond-to(large) { ... }
- */
-
-@mixin respond-to($breakpoint) {
-  // Extra small devices (phones, 544px and up)
-  @if $breakpoint == "xsmall" {
-    @media (min-width: 34em) {
-      @content;
-    }
-  }
-
-  // Small devices (landscape phones, 768px and up)
-  @else if $breakpoint == "small" {
-    @media (min-width: 48em) {
-      @content;
-    }
-  }
-  // Medium devices (crappy laptops, tablets, 992px and up)
-  @else if $breakpoint == "medium" {
-    @media (min-width: 62em) {
-      @content;
-    }
-  }
-  // Large devices (desktops, 1200px and up)
-  @else if $breakpoint == "large" {
-    @media (min-width: 75em) {
-      @content;
-    }
-  }
-
-  //Extra large devices (large desktops, 1900px and up)
-  @else if $breakpoint == "xlarge" {
-    @media (min-width: 118em) {
-      @content;
-    }
-  }
-  
-  // Short-cut to target extra small devices *only* (544px and below)
-  @else if $breakpoint == "smallonly" {
-    @media (max-width: 34em) {
-      @content;
-    }
-  }
-
-  // Short-cut to target extra small AND small devices *only* (768px and below)
-  @else if $breakpoint == "mobileonly" {
-    @media (max-width: 48em) {
-      @content;
-    }
-  }
-}

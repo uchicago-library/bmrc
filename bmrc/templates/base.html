@@ -31,7 +31,6 @@
             <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"></script>
         {% compress css %}
         {# SCSS compilation relies on django compressor #}
-            <link rel="stylesheet" type="text/x-scss" href="{% static 'css/carousel.scss' %}">
             <link rel="stylesheet" type="text/x-scss" href="{% static 'css/style.scss' %}">
         {% endcompress %}
 
@@ -50,55 +49,75 @@
         </div>
 
         {% cache 604800 navigation %}
-            <nav class="navbar is-fixed-top" role="navigation" aria-label="Main Navigation">
-                <div class="navbar-brand">
-                    <a class="navbar-item" href="/"><img class="nav-brand" src="{% static 'img/BMRC-Logo.png' %}" alt="BMRC logo shows archival file box, with folders inside"></a>
-                    <div class="navbar-burger burger" data-target="navbarExampleTransparentExample" onclick="toggleBurger()">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
+        {% endcache %}
+            <nav class="navbar navbar-light navbar-expand-md bg-primary" data-bs-theme="dark">
+                <div class="container-fluid">
+                <a class="navbar-brand" href="/">
+                    <img src="{% static 'img/Final BMRC_logo invert horizontal.png' %}" alt="BMRC logo" width="100" class="d-inline-block align-text-top"/>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end text-end" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-lg-0 align-items-center justify-content-end">
+                        <li class="nav-item dropdown">
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/programs/">All Programs</a></li>
+                                <li><a class="dropdown-item" href="/programs/summer-short-term-fellowship/">Summer Short-term Fellowship</a></li>
+                                <li><a class="dropdown-item" href="/programs/archie-motley-archival-internship-program/">Archie Motley Archival Internship Program</a></li>
+                                <li><a class="dropdown-item" href="/programs/color-curtain-processing-project/">Color Curtain Processing Project</a></li>
+                                <li><a class="dropdown-item" href="/programs/survey-initiative/">Survey Initiative</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/news/">News</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            About
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/about/">About the BMRC</a></li>
+                                <li><a class="dropdown-item" href="/about/membership-information/">Membership Information</a></li>
+                                <li><a class="dropdown-item" href="/about/membership">Current Members</a></li>
+                                <li><a class="dropdown-item" href="/about/partnerships/">Partnerships</a></li>
+                                <li><a class="dropdown-item" href="/about/board-committees/">Board &amp; Committees</a></li>
+                                <li><a class="dropdown-item" href="/about/staff/">Staff</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Resources
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/resources/">All Resources</a></li>
+                                <li><a class="dropdown-item" href="/resources/archives-awareness/">Archives Awareness</a></li>
+                                <li><a class="dropdown-item" href="/resources/legacy-management-resources-portal/">Legacy Management Resource Portal</a></li>
+                                <li><a class="dropdown-item" href="/resources/protest-archives/">Protest in the Archives</a></li>
+                                <li><a class="dropdown-item" href="/resources/workshops">Workshops</a></li>
+                                <li><a class="dropdown-item" href="/resources/jobs">Jobs and Opportunities</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/contact/">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/news/support-bmrc/">Support Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-sm btn-outline-light" href="/portal/">Archives Portal</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex" role="search">
+                        <input class="form-control form-control-sm me-2 bg-light" type="search" placeholder="Search" aria-label="Search" style="width: 100px">
+                        <button class="btn btn-sm btn-outline-light" type="submit">O.</button>
+                    </form>
                 </div>
+                </div>
+            </nav>
+            <!-- ====================================================================================== -->
 
-                <div id="navbarExampleTransparentExample" class="navbar-menu">
-                    <div class="navbar-start">
-                        <a class="navbar-item" href="/portal/"><span class="is-hidden-desktop-only">Search&nbsp;</span>Collections</a>
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link" href="/programs/">Programs</a>
-                            <div class="navbar-dropdown is-boxed">
-                                <a class="navbar-item" href="/programs/summer-short-term-fellowship/">Summer Short-term Fellowship</a>
-                                <a class="navbar-item" href="/programs/archie-motley-archival-internship-program/">Archie Motley Archival Internship Program</a>
-                                <a class="navbar-item" href="/programs/color-curtain-processing-project/">Color Curtain Processing Project</a>
-                                <a class="navbar-item" href="/programs/survey-initiative/">Survey Initiative</a>
-                            </div>
-                        </div>
-                        <a class="navbar-item" href="/news/">News</a>
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link" href="/about/">About</a>
-                            <div class="navbar-dropdown is-boxed">
-                                <a class="navbar-item" href="/about/">About the BMRC</a>
-                                <a class="navbar-item" href="/about/membership-information/">Membership Information</a>
-                                <a class="navbar-item" href="/about/membership">Current Members</a>
-                                <a class="navbar-item" href="/about/partnerships/">Partnerships</a>
-                                <a class="navbar-item" href="/about/board-committees/">Board &amp; Committees</a>
-                                <a class="navbar-item" href="/about/staff/">Staff</a>
-                            </div>
-                        </div>
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link" href="/resources/">Resources</a>
-                            <div class="navbar-dropdown is-boxed">
-                                <a class="navbar-item" href="/resources/archives-awareness/">Archives Awareness</a>
-                                <a class="navbar-item" href="/resources/legacy-management-resources-portal/">Legacy Management Resource Portal</a>
-                                <a class="navbar-item" href="/resources/protest-archives/">Protest in the Archives</a>
-                                <a class="navbar-item" href="/resources/workshops">Workshops</a>
-                                <a class="navbar-item" href="/resources/jobs">Jobs and Opportunities</a>
-                            </div>
-                        </div> 
-                        <a class="navbar-item" href="/contact/">Contact</a>
-                        <a class="navbar-item" href="/news/support-bmrc/">Support Us</a>
-                    </div>
-
-                    <div class="navbar-end">
+                    <!-- <div class="navbar-end">
                         <div class="navbar-item is-search">
                             <form action="{% url 'search' %}" method="get">
                                 <label class="visually-hidden">Site Search</label>
@@ -108,8 +127,7 @@
                         </div>
                     </div>
                 </div>
-            </nav>
-        {% endcache %}
+            </nav> -->
         
         <main id="content" role="main">
 
@@ -167,10 +185,11 @@
         {% endcache %}
 
         {# Global javascript #}
-        <script type="text/javascript" src="{% static 'js/jquery/jquery-2.2.4.min.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/plugins/plugins.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/nav.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/active.js' %}"></script> <!-- For Hero Slider -->
+        <script type="text/javascript" src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <!-- <script type="text/javascript" src="{% static 'js/jquery/jquery-2.2.4.min.js' %}"></script> -->
+        <!-- <script type="text/javascript" src="{% static 'js/plugins/plugins.js' %}"></script> -->
+        <!-- <script type="text/javascript" src="{% static 'js/nav.js' %}"></script> -->
+        <!-- <script type="text/javascript" src="{% static 'js/active.js' %}"></script> --> <!-- For Hero Slider -->
 
         {% block extra_js %}
             {# Override this in templates to add extra javascript #}
