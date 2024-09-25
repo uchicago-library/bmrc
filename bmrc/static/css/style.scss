@@ -3,6 +3,7 @@
 
 /* TABLE OF CONTENTS
  * Quick fix
+ * Portal
  * Accessibility
  * Alerts
  * Global
@@ -45,6 +46,7 @@
 	--cs-sidebar-background: var(--bmrc-dark-gray-l10);
 	--cs-sidebar-color: var(--bmrc-white);
 }
+$bmrc-banner-gradient: linear-gradient(257.92deg, rgba(36, 169, 224, 0.9) 51.83%, rgba(250, 205, 15, 0.9) 95.83%);
 
 /*
  * Quick fix
@@ -54,6 +56,14 @@
 	color: var(--cs-body-color-muted);
  }
 
+/*
+ * Portal
+ * --------------------------------------------------
+ */
+ .portal-search {
+    padding: 1em 1em 0;
+	background: $bmrc-banner-gradient;
+}
 /*
  * Accessibility
  * --------------------------------------------------

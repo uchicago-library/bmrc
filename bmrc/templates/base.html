@@ -38,6 +38,10 @@
         {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
         {% endblock %}
+
+        {{ edit_1 }}
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon32.png' %}">
+        <link rel="icon" type="image/png" sizes="144x144" href="{% static 'img/favicon144.png' %}">
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
@@ -52,7 +56,7 @@
         {% cache 604800 navigation %}
             <nav class="navbar is-fixed-top" role="navigation" aria-label="Main Navigation">
                 <div class="navbar-brand">
-                    <a class="navbar-item" href="/"><img class="nav-brand" src="{% static 'img/BMRC-Logo.png' %}" alt="BMRC logo shows archival file box, with folders inside"></a>
+                    <a class="navbar-item" href="/"><img class="nav-brand" src="{% static 'img/Final BMRC_logo square.png' %}" alt="BMRC logo"></a>
                     <div class="navbar-burger burger" data-target="navbarExampleTransparentExample" onclick="toggleBurger()">
                         <span></span>
                         <span></span>
