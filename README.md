@@ -15,6 +15,7 @@ Mocks for approval process can be found at: [uchicago-library.github.io/bmrc](ht
 ## Making Changes
 - **Model Changes:** Run `python manage.py makemigrations`, then `python manage.py migrate` to update the database with your model changes. You must run the above commands each time you make changes to the model definition.
 - **CSS and JS Changes:** Kill the server, `./manage.py collectstatic`, restart server
+- **databse reset leading to broken images:** Kill the server, `./manage.py regenerate_renditions`, restart server
 - **Other Errors:** Try running `pip install -r requirements.txt`
 - **If running vagrant on local:** Installing pip packages & upgrades require adding package to requirements.txt, `vagrant destroy`, and `vagrant up` rather than the regular pip install method.
 
