@@ -380,6 +380,7 @@ p {
 	line-height: 1.75rem;
 	margin-bottom: 1.5rem;
 }
+b{ font-size: larger; font-size: 1.15em; }
 
 .highlight {
     color: darken($primary, 10%);
@@ -480,8 +481,6 @@ nav.navbar {
 			.navbar-start,
 			.navbar-end{
 				margin: 0;
-			}
-			.navbar-start{
 				align-items: center;
 			}
 		}
@@ -521,10 +520,18 @@ nav.navbar {
 .navbar{
 	.navbar-menu{
 		a.navbar-item.archives,
-		a.navbar-item.donate{
+		a.navbar-item.donate,
+		.is-search .input,
+		.is-search button{
 			border-radius: 50px;
 			width: fit-content;
 			padding: 5px 15px;
+			line-height: 1.2;
+			font-size: .9em;
+			height: 30px;
+		}
+		a.navbar-item.archives,
+		a.navbar-item.donate{
 			@media screen and (max-width: 1023px) {
 				margin-left: 0.75rem;
 			}
@@ -799,14 +806,10 @@ section {
  */
 
 .is-search {
-	.imput,
-	button{
-		height: 34px;
-		padding: 14px 20px;
-	}
+	align-items: center;
 	.input {  // Important needed to apply styling to Contact form template
 		width: 70%;
-		margin-right: -30px;
+		margin-right: -38px;
 		border: 1px solid var(--bmrc-dark-gray);
 		width: 180px;
 	}
