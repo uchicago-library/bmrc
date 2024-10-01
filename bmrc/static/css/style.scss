@@ -119,6 +119,11 @@ img:not(.nav-brand){
 .featured-modules .columns{
 	display: flex !important;
 	flex-direction: column;
+	align-items: stretch;
+}
+.homepage .columns{
+	margin-left: 0 !important;
+	margin-right: 0 !important;
 }
 .section + .section {
 	border-top: 0 !important;
@@ -315,13 +320,13 @@ main {
 }
 
 nav.breadcrumb {
-	padding: 0.5em 0;
+	width: 100%;
+	padding: 0.5rem 1rem;
 	margin-bottom: 0!important;
-	padding-left: 9em;
     text-wrap: wrap;
     text-wrap: pretty;
 	ul {
-		padding-left: 15px;
+		padding: 0;
 		li{
 			line-height: .9;
 		}
@@ -505,10 +510,10 @@ nav.navbar {
 .navbar-brand{
 	align-self: start;
 	a.navbar-item{
-		padding: .2rem;
+		padding: .3rem;
 		img.nav-brand{
 			max-height: 6em;
-			max-width: 150px;
+			max-width: 170px;
 		}
 	}
 }
@@ -519,16 +524,25 @@ nav.navbar {
 
 .navbar{
 	.navbar-menu{
+		a.navbar-item,
+		a.navbar-link, 
+		.navbar-dropdown a.navbar-item,
+		.is-search .input,
+		.is-search button{
+			font-size: 1rem;
+		}
 		a.navbar-item.archives,
 		a.navbar-item.donate,
 		.is-search .input,
 		.is-search button{
 			border-radius: 50px;
 			width: fit-content;
-			padding: 5px 15px;
+			padding: 5px 12px;
 			line-height: 1.2;
-			font-size: .9em;
 			height: 30px;
+		}
+		.is-search input{
+			width: 160px;
 		}
 		a.navbar-item.archives,
 		a.navbar-item.donate{
@@ -747,7 +761,7 @@ figure {
  */
 
 .section {
-	padding: 1.5rem;
+	padding: 1rem;
 	&+& {
 		border-top: 1px solid #ebebeb;
 	}
