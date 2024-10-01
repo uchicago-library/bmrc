@@ -20,10 +20,10 @@ class Command(BaseCommand):
                     if verbose:
                         self.stdout.write(self.style.SUCCESS(f'Regenerated renditions for {image.title}'))
                 except Exception as e:
-                    error_message = str(e)
-                    error_count[error_message] = error_count.get(error_message, 0) + 1
+                    error_class = type(e).__name__  # Get the exception class name
+                    error_count[error_class] = error_count.get(error_class, 0) + 1
                     if verbose:
-                        self.stderr.write(self.style.ERROR(f"Error generating rendition for {image.title}: {error_message}"))
+                        self.stderr.write(self.style.ERROR(f"Error generating rendition for {image.title}: {str(e)}"))  # Use str(e) for the error message
 
         # Summary output
         self.stdout.write(self.style.SUCCESS(f'Successfully regenerated {success_count} renditions.'))
