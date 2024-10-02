@@ -5,27 +5,13 @@
 {% block body_class %}homepage{% endblock %}
 
 {% block content %}
-
-{% if self.carousel_images %}
-  <section class="hero hero-area section">
-    <div class="hero-post-slides owl-carousel">
-
-    	{% for item_set in self.carousel_images.all %}
-    		{% image item_set.carousel_image width-900 as img %}
-    		<div class="columns single-hero-post">
-          <div class="column is-three-fifths-desktop is-two-fifths-fullhd slide-post-thumbnail" style="background-image: url({{ img.url }}); background-position: center center; background-size: cover;"></div>
-            <div class="column slide-post-content">
-              <h3>{{ item_set.carousel_title }}</h3>
-              {{ item_set.carousel_text|richtext }}
-              {% if item_set.button_link.url %}
-                <a href="{{ item_set.button_link.url }}" class="button read-more">{{ item_set.button_label }}</a>
-              {% endif %}
-            </div>
-          </div>
-    	{% endfor %}
-    </div>
-  </section>
-{% endif %}
+<section class="hero is-medium" style="background:url({% static 'img/background_picture_1.png' %});background-size: cover;background-position: center;">
+  <div class="hero-body container" style="max-width: 768px; padding-bottom: 3em;">
+    <p class="title">The Black Metropolis Research Consortium</p>
+    <p class="subtitle">Connecting all who seek to document, share, understand and 
+      preserve Black experiences. <em>We're updating the website, stay tuned.</em></p>
+  </div>
+</section>
 
   <section class="featured-news section">
     <div class="container">
