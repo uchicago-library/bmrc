@@ -108,10 +108,8 @@ ssh -D 9090 -q -C -N <cnetid>@<staff-host>.lib.uchicago.edu
 
 ### Loading new finding aids
 
-Because the finding aid loading script refers to Archive objects,
-you should load finding aids from either the production system or
-a clone of the production system that includes the most recent updates
-to these objects.
+Get the definitive locations of finding aids on disk from CB, the systems administrators, 
+or BMRC staff.
 
 Copy all finding aids to a temporary location:
 
