@@ -109,9 +109,13 @@ ssh -D 9090 -q -C -N <cnetid>@<staff-host>.lib.uchicago.edu
 ### Loading new finding aids
 
 Get the definitive locations of finding aids on disk from CB, the systems administrators, 
-or BMRC staff.
+or BMRC staff. Note that this procedure will make the production site unusable for approximately
+10 minutes. You should test this procedure in a test MarkLogic database before doing this on 
+the production system. Coordinate an appropriate time to update production with BMRC staff. 
 
-Copy all finding aids to a temporary location:
+Copy all finding aids to a temporary location. Here, <finding_aid_dir> will contain a sequence
+of subdirectories, one for each member institution. Each of those subdirectories will contain 
+XML finding aids. 
 
 ```console
 cp -R <finding_aid_dir> <temporary_finding_aid_dir>
@@ -134,7 +138,7 @@ python manage.py delete-all-finding-aids
 ```
 
 Then create browse indexes based on regularized finding aids and upload
-everything to the server:
+everything to the server (this step takes a few minutes.)
 
 ```console
 python manage.py load-finding-aids <regularized_finding_aid_dir>
