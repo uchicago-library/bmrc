@@ -1,4 +1,7 @@
 # your_app/management/commands/regenerate_renditions.py
+# script generated with the help of an LLM
+# to fix borken images after a databse import
+# because `./manage.py wagtail_update_image_renditions` did not seem to solve it.
 from django.core.management.base import BaseCommand
 from wagtail.images.models import Image
 from wagtail.images import get_image_model
