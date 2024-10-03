@@ -1,15 +1,35 @@
 @import url('https://fonts.googleapis.com/css?family=Muli:300,400,700&display=swap');
+@font-face {
+  font-family: 'Trade Gothic Lt Std';
+  src: url('/static/fonts/trade-gothic-lt-std.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trade Gothic Lt Std';
+  src: url('/static/fonts/trade-gothic-lt-std-bold-condensed.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
 
-$family-primary: 'Muli', sans-serif;
+
+
+$family-primary: 'Trade Gothic Lt Std','Helvetica Neue',Helvetica,Arial,sans-serif;
 $text: #232323;
 
-$primary: #777441;
-$secondary: #6b1722;
-$accent: #d1bb95;
+$bmrc-blue: #2aa9e0; 
+$bmrc-dark-green: #0d331f;
+$bmrc-dark-gray: #241f21;
+$bmrc-yellow: #fdd900;	
+$bmrc-white: #ffffff;	
 
-$link: #224e64;
+$primary: $bmrc-dark-gray;
+$secondary: $bmrc-dark-green;
+$accent: $bmrc-yellow;
+
+$link: darken($bmrc-blue, 10%); //#1f9cd2
 $accentlink: darken($primary, 5%);
-$link-hover: $primary;
+$link-hover: $bmrc-blue;
 
 
 /*

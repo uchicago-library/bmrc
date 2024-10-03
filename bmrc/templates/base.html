@@ -38,6 +38,10 @@
         {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
         {% endblock %}
+
+        {{ edit_1 }}
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon32.png' %}">
+        <link rel="icon" type="image/png" sizes="144x144" href="{% static 'img/favicon144.png' %}">
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
@@ -52,7 +56,7 @@
         {% cache 604800 navigation %}
             <nav class="navbar is-fixed-top" role="navigation" aria-label="Main Navigation">
                 <div class="navbar-brand">
-                    <a class="navbar-item" href="/"><img class="nav-brand" src="{% static 'img/BMRC-Logo.png' %}" alt="BMRC logo shows archival file box, with folders inside"></a>
+                    <a class="navbar-item" href="/"><img class="nav-brand" src="{% static 'img/Final BMRC_logo horizontal.png' %}" alt="BMRC logo"></a>
                     <div class="navbar-burger burger" data-target="navbarExampleTransparentExample" onclick="toggleBurger()">
                         <span></span>
                         <span></span>
@@ -62,17 +66,6 @@
 
                 <div id="navbarExampleTransparentExample" class="navbar-menu">
                     <div class="navbar-start">
-                        <a class="navbar-item" href="/portal/"><span class="is-hidden-desktop-only">Search&nbsp;</span>Collections</a>
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link" href="/programs/">Programs</a>
-                            <div class="navbar-dropdown is-boxed">
-                                <a class="navbar-item" href="/programs/summer-short-term-fellowship/">Summer Short-term Fellowship</a>
-                                <a class="navbar-item" href="/programs/archie-motley-archival-internship-program/">Archie Motley Archival Internship Program</a>
-                                <a class="navbar-item" href="/programs/color-curtain-processing-project/">Color Curtain Processing Project</a>
-                                <a class="navbar-item" href="/programs/survey-initiative/">Survey Initiative</a>
-                            </div>
-                        </div>
-                        <a class="navbar-item" href="/news/">News</a>
                         <div class="navbar-item has-dropdown is-hoverable">
                             <a class="navbar-link" href="/about/">About</a>
                             <div class="navbar-dropdown is-boxed">
@@ -82,6 +75,17 @@
                                 <a class="navbar-item" href="/about/partnerships/">Partnerships</a>
                                 <a class="navbar-item" href="/about/board-committees/">Board &amp; Committees</a>
                                 <a class="navbar-item" href="/about/staff/">Staff</a>
+                                <a class="navbar-item" href="/contact/">Contact</a>
+                            </div>
+                        </div>
+                        <a class="navbar-item" href="/news/">News</a>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link" href="/programs/">Programs</a>
+                            <div class="navbar-dropdown is-boxed">
+                                <a class="navbar-item" href="/programs/summer-short-term-fellowship/">Summer Short-term Fellowship</a>
+                                <a class="navbar-item" href="/programs/archie-motley-archival-internship-program/">Archie Motley Archival Internship Program</a>
+                                <a class="navbar-item" href="/programs/color-curtain-processing-project/">Color Curtain Processing Project</a>
+                                <a class="navbar-item" href="/programs/survey-initiative/">Survey Initiative</a>
                             </div>
                         </div>
                         <div class="navbar-item has-dropdown is-hoverable">
@@ -94,8 +98,8 @@
                                 <a class="navbar-item" href="/resources/jobs">Jobs and Opportunities</a>
                             </div>
                         </div> 
-                        <a class="navbar-item" href="/contact/">Contact</a>
-                        <a class="navbar-item" href="/news/support-bmrc/">Support Us</a>
+                        <a class="navbar-item archives" href="/portal/"><span class="is-hidden-desktop-only">Collections&nbsp;</span>Archives</a>
+                        <a class="navbar-item donate" href="/news/support-bmrc/">Support Us</a>
                     </div>
 
                     <div class="navbar-end">
@@ -124,7 +128,7 @@
             {% endif %}
 
             {% if self.get_ancestors|length > 1 %}
-            <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+            <nav class="container breadcrumb is-small" aria-label="breadcrumbs">
               <ul>
                 {% for page in self.get_ancestors %}
                 {% if page.is_root == False %}
