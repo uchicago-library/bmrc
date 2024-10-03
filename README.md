@@ -15,7 +15,7 @@ Mocks for approval process can be found at: [uchicago-library.github.io/bmrc](ht
 ## Making Changes
 - **Model Changes:** Run `python manage.py makemigrations`, then `python manage.py migrate` to update the database with your model changes. You must run the above commands each time you make changes to the model definition.
 - **CSS and JS Changes:** Kill the server, `./manage.py collectstatic`, restart server
-- **databse reset leading to broken images:** Kill the server, make sure original_images has all required files, `./manage.py wagtail_update_image_renditions`, if there are issues you can try `./manage.py regenerate_renditions`, restart server
+- **database reset leading to broken images:** Kill the server, make sure original_images has all required files, `./manage.py wagtail_update_image_renditions`, if there are issues you can try `./manage.py regenerate_renditions`, restart server
 - **Other Errors:** Try running `pip install -r requirements.txt`
 - **If running vagrant on local:** Installing pip packages & upgrades require adding package to requirements.txt, `vagrant destroy`, and `vagrant up` rather than the regular pip install method.
 
@@ -109,12 +109,14 @@ ssh -D 9090 -q -C -N <cnetid>@<staff-host>.lib.uchicago.edu
 
 ### Loading new finding aids
 
-Because the finding aid loading script refers to Archive objects,
-you should load finding aids from either the production system or
-a clone of the production system that includes the most recent updates
-to these objects.
+Get the definitive locations of finding aids on disk from CB, the systems administrators, 
+or BMRC staff. Note that this procedure will make the production site unusable for approximately
+10 minutes. You should test this procedure in a test MarkLogic database before doing this on 
+the production system. Coordinate an appropriate time to update production with BMRC staff. 
 
-Copy all finding aids to a temporary location:
+Copy all finding aids to a temporary location. Here, <finding_aid_dir> will contain a sequence
+of subdirectories, one for each member institution. Each of those subdirectories will contain 
+XML finding aids. 
 
 ```console
 cp -R <finding_aid_dir> <temporary_finding_aid_dir>
@@ -137,7 +139,7 @@ python manage.py delete-all-finding-aids
 ```
 
 Then create browse indexes based on regularized finding aids and upload
-everything to the server:
+everything to the server (this step takes a few minutes.)
 
 ```console
 python manage.py load-finding-aids <regularized_finding_aid_dir>
