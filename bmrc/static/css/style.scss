@@ -65,6 +65,7 @@ $bmrc-banner-gradient: linear-gradient(257.92deg, rgba(36, 169, 224, 0.9) 51.83%
 * background-blue: var(--Background-Blue, rgba(233, 247, 252, 1));
 
 */
+body{font-size: 1.1em;}
 img:not(.nav-brand){
 	background: linear-gradient(-9deg, #ededed, #e1e1e1)
 }
@@ -551,14 +552,17 @@ nav.navbar {
 			}
 		}
 		a.navbar-item.archives{
-			background-color: var(--bmrc-dark-gray);
-			color: white;
+			background-color: var(--cs-navbar-background);
+			color: var(--cs-navbar-color);
+			border: 1px solid var(--cs-navbar-color);
 			margin-right: 5px;
 			@media screen and (max-width: 1023px) {
 				margin-bottom: 5px;
 			}
 		}
 		a.navbar-item.donate{
+			background-color: var(--bmrc-yellow);
+			color: var(--cs-navbar-color);
 			border: 1px solid var(--cs-navbar-color);
 		}
 	}
