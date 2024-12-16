@@ -5,7 +5,6 @@ django-libsass
 django-static-precompiler
 lxml
 psycopg2
-Pygments==2.7.4
 pysocks
 requests_cache
 requests_toolbelt

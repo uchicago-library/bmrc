@@ -5,7 +5,6 @@ import urllib
 from django.conf import settings
 from django.db import models
 from modelcluster.fields import ParentalKey
-from pygments import highlight
 from streams import blocks
 from wagtail.admin.panels import (
     FieldPanel,
