@@ -2,8 +2,8 @@
 
 from django.db import migrations
 import streams.blocks
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 
 
 class Migration(migrations.Migration):
@@ -21,6 +21,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='homepage',
             name='body',
-            field=wagtail.core.fields.StreamField([('richtext', streams.blocks.RichtextBlock()), ('page_callout', wagtail.core.blocks.StructBlock([('title', wagtail.core.blocks.CharBlock(help_text='Title for section', required=False)), ('callout_text', streams.blocks.RichtextBlock(features=['bold', 'italic', 'ol', 'ul', 'link', 'document-link'], required=False)), ('button_link', wagtail.core.blocks.PageChooserBlock(required=False)), ('button_label', wagtail.core.blocks.CharBlock(required=False))]))], blank=True, null=True),
+            field=wagtail.fields.StreamField([('richtext', streams.blocks.RichtextBlock()), ('page_callout', wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock(help_text='Title for section', required=False)), ('callout_text', streams.blocks.RichtextBlock(features=['bold', 'italic', 'ol', 'ul', 'link', 'document-link'], required=False)), ('button_link', wagtail.blocks.PageChooserBlock(required=False)), ('button_label', wagtail.blocks.CharBlock(required=False))]))], blank=True, null=True),
         ),
     ]

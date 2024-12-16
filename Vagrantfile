@@ -14,7 +14,7 @@ Vagrant.configure("2") do |config|
   # boxes at https://atlas.hashicorp.com/search.
   # https://app.vagrantup.com/ubuntu/boxes/jammy64
   config.vm.box = "ubuntu/jammy64"
-  config.vm.box_version = "20230720.0.0"
+  config.vm.box_version = "20240720.0.1"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -78,11 +78,21 @@ Vagrant.configure("2") do |config|
     chown vagrant /var/log/django-errors.log
     chgrp vagrant /var/log/django-errors.log
 
+    # Jammy ships wih Python 10. We need Python 11.
+    # Remove this to go to Python 10 in the future.
+    echo ""
+    echo "============== Upgrading to Python 3.11 =============="
+    apt-get install -y software-properties-common
+    add-apt-repository ppa:deadsnakes/ppa
+    apt-get install -y python3.11
+    apt-get -y install python3.11-distutils
+    apt-get install -y python3-pip python3.11-dev python3.11-venv
+
     # Install dependencies
     echo ""
     echo "=========== Installing dependencies ===========" 
     apt-get update
-    apt-get install -y postgresql libpq-dev python3-pip python3.10-dev python3.10-distutils python3.10-venv
+    apt-get install -y postgresql libpq-dev
 
     # Create a Postgres user and database
     su - postgres -c "createuser -s vagrant"
@@ -92,7 +102,7 @@ Vagrant.configure("2") do |config|
     echo ""
     echo "=========== Creating a Python virtualenv ==========="
     echo "..."
-    cd /home/vagrant && python3 -m venv bmrc
+    cd /home/vagrant && python3.11 -m venv bmrc
 
     echo ""
     echo "============== Installing linting and dev tools =============="
@@ -120,6 +130,13 @@ Vagrant.configure("2") do |config|
     echo "=========== Running django migrations and loading the dev database ==========="
     su - vagrant -c "$PYTHON $PROJECT_DIR/manage.py migrate --noinput && \
                      $PYTHON $PROJECT_DIR/manage.py loaddata /vagrant/home/fixtures/dev.json"
+
+
+    # Fix git permissions
+    echo ""
+    echo "============== Fixing git permissions =============="
+    echo "..."
+    sudo chown -R vagrant /home/vagrant
 
     # Add some dev sweetness
     echo ""
