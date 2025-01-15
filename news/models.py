@@ -43,19 +43,17 @@ class NewsSideBar(Orderable):
 class NewsIndexPage(Page):
     """Lists all news story pages."""
 
-    subpage_types = ['news.NewsStoryPage', 'news.NewsletterSignupPage']
+    subpage_types = ['news.NewsStoryPage']
 
     def get_context(self, request, *args, **kwargs):
         """Custom items to context."""
 
         context = super().get_context(request, *args, **kwargs)
         # Get all posts
-        # posts = NewsStoryPage.objects.live().public().order_by(
-            # '-story_date')
-        posts = self.get_children().live().specific()
+        child_posts = NewsStoryPage.objects.child_of(self).live().order_by('-story_date')
 
         # Paginate all posts by 9 per page
-        paginator = Paginator(posts, 9)
+        paginator = Paginator(child_posts, 9)
         # Try to get the ?page=x value
         page = request.GET.get("page")
         try:
