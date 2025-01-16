@@ -1,6 +1,7 @@
 {% load cache compress static wagtailuserbar %}
 {% load wagtailcore_tags cache %}
 {% load static wagtailuserbar %}
+{% wagtail_site as current_site %}
 
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -18,11 +19,9 @@
             {% block title %}
                 {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
             {% endblock %}
-            {% block title_suffix %}
-                {% with self.get_site.site_name as site_name %}
-                    {% if site_name %}- {{ site_name }}{% endif %}
-                {% endwith %}
-            {% endblock %}
+            {% if current_site.site_name %}
+                | {{ current_site.site_name }}
+            {% endif %}
         </title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -78,7 +77,14 @@
                                 <a class="navbar-item" href="/contact/">Contact</a>
                             </div>
                         </div>
-                        <a class="navbar-item" href="/news/">News</a>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link">Information</a>
+                            <div class="navbar-dropdown is-boxed">
+                                <a class="navbar-item" href="/news/">News</a>
+                                <a class="navbar-item" href="/events/">Events</a>
+                                <a class="navbar-item" href="/research-notes/">Research Notes</a>
+                            </div>
+                        </div>
                         <div class="navbar-item has-dropdown is-hoverable">
                             <a class="navbar-link" href="/programs/">Programs</a>
                             <div class="navbar-dropdown is-boxed">
@@ -98,8 +104,8 @@
                                 <a class="navbar-item" href="/resources/jobs">Jobs and Opportunities</a>
                             </div>
                         </div> 
-                        <a class="navbar-item archives" href="/portal/"><span class="is-hidden-desktop-only">Collections&nbsp;</span>Archives</a>
-                        <a class="navbar-item donate" href="/news/support-bmrc/">Support Us</a>
+                        <a class="navbar-item archives" href="/portal/">Archival Collections</a>
+                        <a class="navbar-item donate" href="/donate/">Support Us</a>
                     </div>
 
                     <div class="navbar-end">

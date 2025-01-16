@@ -58,7 +58,7 @@ cache.clear()
 The dev database is loaded when the Vagrant image builds. If you need to create a new page and you want it to persist in the dev database, just generate fixtures and check them in:
 
 ```
-./manage.py dumpdata > home/fixtures/dev.json
+./manage.py dumpdata --natural-foreign --natural-primary --exclude wagtailsearch > home/fixtures/dev.json
 ```
 
 ### Fixed Pages
