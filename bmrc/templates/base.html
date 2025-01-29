@@ -1,18 +1,16 @@
-{% load cache compress static wagtailuserbar %}
-{% load wagtailcore_tags cache %}
-{% load static wagtailuserbar %}
+{% load cache compress static wagtailuserbar wagtailcore_tags %}
 {% wagtail_site as current_site %}
 
 <!DOCTYPE html>
-<html class="no-js" lang="en">
+<html lang="en">
     <head>
         <!-- Google tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-K06JQM9CM5 "></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-K06JQM9CM5"></script>
         <script>
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', 'G-K06JQM9CM5 ');
+          gtag('config', 'G-K06JQM9CM5');
         </script>
         <meta charset="utf-8" />
         <title>
@@ -30,7 +28,6 @@
             <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"></script>
         {% compress css %}
         {# SCSS compilation relies on django compressor #}
-            <link rel="stylesheet" type="text/x-scss" href="{% static 'css/carousel.scss' %}">
             <link rel="stylesheet" type="text/x-scss" href="{% static 'css/style.scss' %}">
         {% endcompress %}
 
@@ -38,7 +35,6 @@
             {# Override this in templates to add extra stylesheets #}
         {% endblock %}
 
-        {{ edit_1 }}
         <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon32.png' %}">
         <link rel="icon" type="image/png" sizes="144x144" href="{% static 'img/favicon144.png' %}">
     </head>

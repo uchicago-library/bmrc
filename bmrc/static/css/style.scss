@@ -1,5 +1,4 @@
 @import 'variables';
-@import "bulma/bulma.sass";
 
 /* TABLE OF CONTENTS
  * Quick fix
@@ -19,23 +18,23 @@
  * Footer
  * Other Elements
  */
-:root{
+:root {
 	// BMRC palette
-	--bmrc-blue: #2aa9e0; 
+	--bmrc-blue: #2aa9e0;
 	--bmrc-dark-green: #0d331f;
 	--bmrc-dark-gray: #241f21;
-	--bmrc-yellow: #fdd900;	
-	--bmrc-white: #ffffff;	
+	--bmrc-yellow: #fdd900;
+	--bmrc-white: #ffffff;
 	// BMRC palette
-	$bmrc-blue: #2aa9e0; 
+	$bmrc-blue: #2aa9e0;
 	$bmrc-dark-green: #0d331f;
 	$bmrc-dark-gray: #241f21;
-	$bmrc-yellow: #fdd900;	
-	$bmrc-white: #ffffff;	
+	$bmrc-yellow: #fdd900;
+	$bmrc-white: #ffffff;
 	// variations
 	--bmrc-dark-gray-l10: #3E393B; // lighten 10%
 	--bmrc-light-blue: #e9f7fc; // rgba(233, 247, 252, 1);
-	
+
 	// Color System
 	// Why can't I use SCSS variables from _variables.scss here?
 	--cs-body-background: var(--bmrc-white);
@@ -51,40 +50,50 @@
 	--cs-sidebar-color: var(--bmrc-dark-gray);
 	--cs-subfooter-background: var(--bmrc-light-blue);
 	--cs-subfooter-color: var(--bmrc-dark-gray);
-	
+
 	--cs-button-background: transparent;
 	--cs-button-color: var(--bmrc-dark-gray);
 	--cs-button-border-color: var(--bmrc-dark-gray);
 
 
 }
+
 $bmrc-banner-gradient: linear-gradient(257.92deg, rgba(36, 169, 224, 0.9) 51.83%, rgba(250, 205, 15, 0.9) 95.83%);
+
 /*
 * Quick fix
 * --------------------------------------------------
 * background-blue: var(--Background-Blue, rgba(233, 247, 252, 1));
 
 */
-body{font-size: 1.1em;}
-img:not(.nav-brand){
+body {
+	font-size: 1.1em;
+}
+
+img:not(.nav-brand) {
 	background: linear-gradient(-9deg, #ededed, #e1e1e1)
 }
-.input{
+
+.input {
 	border-radius: 50px;
 	border: none;
-    box-shadow: none;
+	box-shadow: none;
 	padding: 1em 1.2em;
 }
+
 .input::placeholder {
 	color: #898989;
-	opacity: 1; /* Firefox */
+	opacity: 1;
+	/* Firefox */
 }
-.input::-ms-input-placeholder { /* Edge 12 -18 */
+
+.input::-ms-input-placeholder {
+	/* Edge 12 -18 */
 	color: #898989;
 }
 
 .button,
-.button.is-dark{
+.button.is-dark {
 	background-color: transparent;
 	border: 1px solid var(--cs-button-border-color);
 	color: var(--cs-button-color);
@@ -94,926 +103,72 @@ img:not(.nav-brand){
 	border-radius: 50px;
 	padding: 15px 20px;
 }
-#scrollUp{
+
+#scrollUp {
 	bottom: 20px;
-    right: 20px;
-    width: 36px;
-    height: 36px;
-    background: #eee;
-    border-radius: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid var(--bmrc-dark-gray);
-    background: transparent;
-    color: var(--bmrc-dark-gray);
+	right: 20px;
+	width: 36px;
+	height: 36px;
+	background: #eee;
+	border-radius: 24px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid var(--bmrc-dark-gray);
+	background: transparent;
+	color: var(--bmrc-dark-gray);
 	transition: .1s ease-out;
 }
-#scrollUp:hover{
+
+#scrollUp:hover {
 	background: var(--bmrc-light-blue)
 }
+
 // hardcoded from main page
-.featured-news.section{
-	order:2;
+.featured-news.section {
+	order: 2;
 }
+
 #content,
-.featured-modules .columns{
+.featured-modules .columns {
 	display: flex !important;
 	flex-direction: column;
 	align-items: stretch;
 }
-.homepage .columns{
+
+.homepage .columns {
 	margin-left: 0 !important;
 	margin-right: 0 !important;
 }
-.section + .section {
+
+.section+.section {
 	border-top: 0 !important;
 }
-.featured-modules{
+
+.featured-modules {
 	padding: 0;
 }
+
 .featured-modules>.container {
 	max-width: 100%;
 	padding: 0;
 }
-.featured-modules>.container>div{
+
+.featured-modules>.container>div {
 	padding: 1em 2em;
 }
-.featured-modules>.container>div:nth-child(even){
+
+.featured-modules>.container>div:nth-child(even) {
 	background: #eee;
 }
-.featured-modules>.container>div>*{
+
+.featured-modules>.container>div>* {
 	display: block;
 	width: 100%;
 	max-width: 768px;
 	margin: .5em auto;
 }
+
 .featured-modules>.container>div>img {
 	max-width: 300px;
 }
-
-/*
- * Portal
- * --------------------------------------------------
- */
-.portal-search {
-	padding: 1em 1em 0;
-	background: $bmrc-banner-gradient;
-}
-.portal-search .field{
-	background: var(--cs-body-background);
-	border-radius: 50px;
-	&,
-	.button,
-	.input{
-		font-size: 1rem;
-		height: 36px;
-	}
-	.button{
-		font-weight: 600;
-		font-size: small;
-	}
-}
-.search-help a{
-	color: black;
-}
-
-.featured-browse{
-	background: var(--bmrc-light-blue);
-}
-
-.portal-feature .curated,
-.portal-feature .exhibits,
-.portal-feature .discover {
-    background-color: var(--bmrc-dark-green);
-}
-.section.subfooter {
-	background-color: var(--cs-subfooter-background);
-	color: var(--cs-subfooter-color);
-}
-.section.subfooter a {
-	color: var(--cs-subfooter-color);
-}
-// .section.subfooter.button {
-//     background-color: var(--bmrc-dark-gray);
-// }
-
-/*
- * Accessibility
- * --------------------------------------------------
- */
-
-.visually-hidden {  // For screen readers
-	position:absolute;
-	left:-10000px;
-	top:auto;
-	width:1px;
-	height:1px;
-	overflow:hidden;
-}
-
-#skip  {
-	background: #CDE078;
-	color: #222;
-	z-index: 40;
-	a { 
-		@extend .visually-hidden;
-		padding: 2rem;
-		line-height: 2em;
-		color: #222;
-		&:focus { 
-			position:static; 
-			width:auto; 
-			height:auto; 
-		} 
-	}
-}
-
-/*
- * Alerts
- * --------------------------------------------------
- */
-
-.alert {
-  text-align: center;
-  padding: 1em;
-  margin-bottom: 0.5em;
-  border: 1px solid gray;
-  background: #f9f9f9;
-  & p {
-    margin-bottom: 0;
-  }
-  .rich-text {
-    display: inline-block;
-  }
-}
-
-.alert-banner-base { // styling for @extend purposes only
-  font-size: 1em;
-  text-align: center;
-  padding: 0.5em;
-  margin-bottom: 0em;
-  border: none;
-}
-
-.alert-info {
-  @extend .alert-banner-base;
-  color: #000;
-  background-color: lighten($primary, 50%);
-  padding: 0.5em;
-  a {
-    color: $link;
-    text-decoration: underline;
-  }
-}
-
-.alert-low {
-  @extend .alert-banner-base;
-  color: #000;
-  font-weight: 600;
-  background-color: lighten($secondary, 65%);
-  a {
-    color: $link;
-    text-decoration: underline;
-  }
-}
-
-.alert-high {
-  @extend .alert-banner-base;
-  font-weight: 600;
-  color: #fff;
-  background-color: $secondary;
-  a {
-    color: #eee;
-    text-decoration: underline;
-  }
-  @include respond-to(small) {
-    padding: 1em;
-  }
-}
-
-
-/*
- * Global
- * --------------------------------------------------
- */
-
-html {
-    scroll-padding: 4rem;
-}
-
-body { // Part 1 for Footer at bottom for short pages
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
-
-#content { // Part 2 for Footer at bottom for short pages
-	flex: 1;
-}
-
-main {
-    margin-top: 3.25rem;
-}
-
-.columns { // Allows columns to be content aware
-	align-items: flex-start;
-}
-
-nav.breadcrumb {
-	width: 100%;
-	padding: 0.5rem 1rem;
-	margin-bottom: 0!important;
-    text-wrap: wrap;
-    text-wrap: pretty;
-	ul {
-		padding: 0;
-		li{
-			line-height: .9;
-		}
-		a {
-			color: $accentlink;
-		}
-	}
-}
-
-.rich-text {
-	a {
-		text-decoration: underline;
-	}
-}
-
-
-
-/*
- * Fonts
- * --------------------------------------------------
- */
-
-h1, h2, h3, h4, h5 {
-	font-weight: 600;
-	line-height: 1.5;
-	a {
-		text-decoration: underline; // ADA compliance: over-writing Bulma's settings
-	}
-}
-
-h1 {
-    font-size: 3em;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-}
-
-h2 {
-    font-size: 2em;
-    text-transform: uppercase;
-    margin-bottom: 0.25rem;
-}
-
-h3, .h3 {
-    font-size: 1.6em;
-    text-transform: unset;
-    margin-bottom: 0.25rem;
-}
-
-h4, .h4 {
-    font-size: 1.2em;
-    text-transform: unset;
-    margin-bottom: 0.25rem;
-}
-
-p {
-	line-height: 1.75rem;
-	margin-bottom: 1.5rem;
-}
-b{ font-size: larger; font-size: 1.15em; }
-
-.highlight {
-    color: darken($primary, 10%);
-    font-weight: 600;
-}
-
-ul {
-	list-style: unset;
-	padding-left: 40px;
-	padding-bottom: 1rem;
-	li {
-		margin-bottom: 0.5rem;
-	}
-}
-
-ol {
-	padding-left: 40px;
-	padding-bottom: 1rem;
-	li {
-		margin-bottom: 0.5rem;
-	}
-}
-
-blockquote {
-	font-size: 1.2rem;
-    border-left: 5px solid $accent;
-    padding-left: 1em;
-    margin-left: 1em;
-}
-
-// Links
-a {
-	.read-more {  // Link version of "Read More"
-		color: $link;
-		padding-top: 1rem;
-	}
-}
-
-// Buttons
-.featured-modules>.container>div>p:last-child{ // This is for a quick fix on the homepage
-	text-align: center;
-}
-.featured-modules>.container>div>p:last-child>a,
-.button.read-more { // Button version of "Read More"
-	display: block;
-	font-weight: 600;
-	font-size: 1em;
-	width: fit-content;
-	text-transform: uppercase;
-	padding: .5em 1em;
-	border: 1px solid black;
-	color: black;
-	margin: 0 auto;
-	border-radius: 50px;
-	line-height: 1.5;
-	height: 2.5em;
-	&:hover, &:focus {
-		background-color: var(--bmrc-light-blue);
-	}
-}
-
-p + .button.read-more {
-	margin-top: 0;
-}
-
-
-/*
- * Navigation Customization
- * --------------------------------------------------
- */
-
-body.has-navbar-fixed-top {
-	padding-top: 4.25rem;
-}
-
-nav.navbar {
-	background-color: var(--cs-navbar-background);
-	color: var(--cs-navbar-color);
-	font-size: 1rem;
-	font-weight: 600;
-	text-transform: uppercase;
-	height: 3.25rem;
-	@include respond-to(small) {
-	    // font-size: 0.9rem;
-	}
-	@media screen and (max-width: 1023px) {
-		.navbar-start,
-		.navbar-end{
-			margin: 0 0 2em;
-		}
-	}
-	@media screen and (min-width: 1023px) {
-	    // font-size: 0.85rem;
-		align-items: center;
-		.navbar-menu{
-			justify-content: flex-end;
-			align-items: center;
-			.navbar-start,
-			.navbar-end{
-				margin: 0;
-				align-items: center;
-			}
-		}
-	}
-}
-.navbar-burger{
-	color: var(--cs-navbar-color);
-	&.is-active:before {
-		@media screen and (max-width: 1023px) {
-			content: '';
-			background: var(--cs-navbar-background);
-			height: 6em;
-			width: 100%;
-			display: block;
-			position: fixed;
-			top: 0px;
-			left: 0;
-			z-index: -1;
-		}
-	}
-}
-.navbar-brand{
-	align-self: start;
-	a.navbar-item{
-		padding: .3rem;
-		img.nav-brand{
-			max-height: 6em;
-			max-width: 170px;
-		}
-	}
-}
-
-.navbar-link:not(.is-arrowless)::after {
-    border-color: var(--cs-navbar-color)
-}
-
-.navbar{
-	.navbar-menu{
-		a.navbar-item,
-		a.navbar-link, 
-		.navbar-dropdown a.navbar-item,
-		.is-search .input,
-		.is-search button{
-			font-size: 1rem;
-		}
-		a.navbar-item.archives,
-		a.navbar-item.donate,
-		.is-search .input,
-		.is-search button{
-			border-radius: 50px;
-			width: fit-content;
-			padding: 5px 12px;
-			line-height: 1.2;
-			height: 30px;
-		}
-		.is-search input{
-			width: 160px;
-		}
-		a.navbar-item.archives,
-		a.navbar-item.donate{
-			@media screen and (max-width: 1023px) {
-				margin-left: 0.75rem;
-			}
-		}
-		a.navbar-item.archives{
-			background-color: var(--cs-navbar-background);
-			color: var(--cs-navbar-color);
-			border: 1px solid var(--cs-navbar-color);
-			margin-right: 5px;
-			@media screen and (max-width: 1023px) {
-				margin-bottom: 5px;
-			}
-		}
-		a.navbar-item.donate{
-			background-color: var(--bmrc-yellow);
-			color: var(--cs-navbar-color);
-			border: 1px solid var(--cs-navbar-color);
-		}
-	}
-}
-a.navbar-item, 
-a.navbar-link, 
-.navbar-dropdown a.navbar-item {
-	background-color: var(--cs-navbar-background);
-	color: var(--cs-navbar-color);
-	&:hover, &:focus {
-		color: #ffffff;
-		background-color: $accentlink;
-	}
-}
-
-.navbar-item.has-dropdown:focus .navbar-link, .navbar-item.has-dropdown:hover .navbar-link, .navbar-item.has-dropdown.is-active .navbar-link {
-	color: #ffffff;
-	background-color: $accentlink;
-}
-
-.navbar-dropdown {
-	color: #333333;
-	background-color:  var(--cs-navbar-background);
-}
-
-.navbar.is-fixed-top .navbar-menu.is-active { //drop down menu in mobile view
-	background-color:  var(--cs-navbar-background);
-	@media screen and (max-width: 1023px) {
-		max-height: calc(100vh - 6em);
-	}
-}
-
-.navbar-end { // div that nav search is in
-    border-top: 1px solid #333;
-    padding-top: 0.5em;
-    margin-top: 0.5em;
-    @include respond-to(medium) {
-    	border-top: none;
-	    padding-top: unset;
-	    margin-top: unset;
-    }
-}
-
-
-/*
- * Layout Elements
- * --------------------------------------------------
- */
-
-span.centered {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-aside {
-	&+& {
-		padding-top: 2em;
-	}
-}
-
-.footnotes {
-	padding: 0.5em 1em 0 1.25em;
-	margin-right: -0.5em;
-	margin-left: -0.5em;
-	border-top: 1px solid lighten($primary, 35%);
-
-}
-
-.is-160x160 {
-    height: 160px;
-    width: 160px;
-}
-
-.fellows-block {
-    color: #232323;
-    margin-top: 0.5em;
-    display: flex;
-    flex-direction: column;
-	@include respond-to(medium) {	
-		flex-direction: row;
-	}
-    p {
-    	margin-bottom: 0;
-    }
-    .rich-text + & {
-		margin-bottom: 2em;
-    }
-}
-
-.media.fellows-block {
-    padding: 0.75em;
-}
-
-.box {
-	box-shadow: none;
-	border-radius: 0;
-	border: none;
-	&.info-box {
-		background-color: var(--bmrc-light-blue);
-	}
-	&.general-box {
-		background-color: #eee;
-	}
-	&.warning-box {
-		background-color: #fff2f2;
-		h2, h3 {
-			color: #cc0f35;
-		}
-	}
-}
-
-body.contact_page form {
-	input[type="text"], input[type="email"], select, textarea {
-	    font-family: "Muli", sans-serif;
-	    box-shadow: inset 0 0.0625em 0.125em rgba(10,10,10,.05);
-	    max-width: 100%;
-	    width: 100%;
-	    background-color: var(--cs-body-background);
-	    border-color: #dbdbdb;
-	    border-radius: 4px;
-	    color: var(--cs-body-color-muted);
-	    font-size: 1.2rem;
-	}
-	ul {
-		list-style: none;
-		padding-left: 0;
-		input {
-			box-shadow: none;
-		}
-	}
-
-}
-
-
-/*
- * Images
- * --------------------------------------------------
- */
-
-img {
-	&.richtext-image {
-		&.left {
-			float: left;
-		    margin: 10px 20px 10px 0;
-		}
-		&.right {
-			float: right;
-		    margin: 10px 0 10px 20px;
-		}
-	}
-	&.news-lead-img {
-	    max-width: 200px;
-	    @include respond-to(small) {	
-			max-width: 250px;
-			float: left;
-		    margin: 0 20px 10px 0;
-	    }
-	    @include respond-to(medium) {	
-			max-width: 350px;
-	    }
-	}
-}
-
-figure {
-    display: table;
-    &.fullwidth {
-    	max-width: 1000px;
-    }
-	&.imgcaption {
-		&.fullwidth {
-			margin-bottom: 20px;
-		}
-		&.pull-left {
-			float: left;
-		    margin: 10px 20px 0 0;
-		}
-		&.pull-right {
-			float: right;
-		    margin: 10px 0 0 20px;
-		}
-	}
-	figcaption {
-	    padding: 0.7em 1em;
-	    font-size: 0.8em;
-	    margin-top: -0.5em;
-	    display: table-caption;
-	    caption-side: bottom;
-	    p {
-	    	margin-bottom: 0.5em;
-	    }
-	}
-}
-
-
-
-/*
- * Sections (Used in homepage only)
- * --------------------------------------------------
- */
-
-.section {
-	padding: 1rem;
-	&+& {
-		border-top: 1px solid #ebebeb;
-	}
-}
-
-section {
-	&.hero {  // Homepage Carousel
-		h3 {
-			@extend h2;
-		}
-		padding-left: 0;
-		padding-top: 0;
-	}
-	&.featured-news {  // Homepage News
-		img {
-		    height: 200px;
-		    width: 100%;
-		    object-fit: contain;
-		    object-position: 50% 30%;
-		    margin-right: auto;
-		    margin-left: auto;
-		    grid-column: span 1;
-		    object-fit: cover;
-		}
-		article a { // ADA compliance side effect: Needed due to linking entire article block
-			text-decoration: none;
-			h2 {
-				@extend h3;
-				margin-bottom: 0.25rem
-			}
-			p {
-				color: $text;
-			}
-		}
-	}
-	&.featured-modules {  // Homepage Modules
-		h3 {
-			color: var(--bmrc-dark-green);
-		    font-size: 1.2rem;
-			font-weight: 600;
-			margin-bottom: 0;
-		}
-		.event-date {
-		    font-weight: 600;
-		    font-style: italic;
-		    padding-right: 1em;
-		}
-	}
-}
-
-
-
-/*
- * Site Search
- * --------------------------------------------------
- */
-
-.is-search {
-	align-items: center;
-	.input {  // Important needed to apply styling to Contact form template
-		width: 70%;
-		margin-right: -38px;
-		border: 1px solid var(--bmrc-dark-gray);
-		width: 180px;
-	}
-	button {
-		background-color: var(--bmrc-dark-gray);
-		color: white;
-		&:hover, &:focus {
-			color: white;
-			background-color: var(--bmrc-dark-gray-l10);
-		}
-	}
-}
-
-.search-results {
-	padding-bottom: 3em;
-	p.search-term {
-		font-size: 0.9rem;
-		font-style: italic;
-	}
-	div.result-item {
-		padding-bottom: 1em;
-	}
-	p.no-results {
-		font-size: 1.25rem;
-		font-weight: 600;
-	}
-}
-
-
-/*
- * Member Collection Search
- * --------------------------------------------------
- */
-
-.memb_coll {
-	.input {
-		max-width: 80%;
-	}
-	.button {
-		background-color: $primary;
-		color: white;
-		&:hover {
-			background-color: lighten($primary, 10%);
-		}
-	}
-}
-
-
-
-/*
- * News
- * --------------------------------------------------
- */
-
-.news-index {  // News Index Page
-	img {
-	    height: 200px;
-	    width: 100%;
-	    object-fit: contain;
-	    object-position: 50% 30%;
-	    margin-right: auto;
-	    margin-left: auto;
-	    grid-column: span 1;
-	    object-fit: cover;
-	}
-	article {
-		margin-bottom: 2em;
-		a { // ADA compliance side effect: Needed due to linking entire article block
-			text-decoration: none;
-			h2 {
-				@extend h3;
-				font-size: 1.6rem;
-				margin-bottom: 0.25rem
-			}
-			p {
-				color: $text;
-			}
-		}
-	}
-}
-
-body.news_story {
-	h1 {
-		margin-bottom: 0;
-	}
-	.news-date {
-		font-size: 0.85rem; 
-	}
-}
-
-nav.pagination {
-	ul.pagination-list {
-	    list-style: none;
-	}
-}
-
-.return-news {
-	text-align: right;
-}
-
-
-
-/*
- * Sidebar
- * --------------------------------------------------
- */
-
-.sidebar {
-	&,
-	browse-sidebar{
-		background-color: var(--cs-sidebar-background);
-		color: var(--cs-sidebar-color);
-		font-size: .9rem;
-	}
-	@include respond-to(medium) {
-		padding: 1.25em;
-		padding-bottom: 2em;
-		margin-left: 1em;
-		margin-right: -2rem;
-
-	}
-	h2 {
-		color: var(--cs-sidebar-color);
-	}
-	p{
-		line-height: 1.5;
-	}
-	a {
-		text-decoration: underline;
-		&:hover, &:focus {
-			color: $accentlink;
-		}
-	}
-	ul {
-		list-style: none;
-		padding-left: unset;
-		li {
-		    padding-left: 1em;
-		    text-indent: -1em;
-		}
-	}
-}
-
-
-/*
- * Footer
- * --------------------------------------------------
- */
-
-footer.footer {
-    background-color: var(--cs-footer-background);
-    padding: 1.5rem;
-    margin-top: 2rem;
-  //   @include respond-to(medium) {
-	 //    position: absolute;
-		// right: 0;
-		// bottom: 0;
-		// left: 0;
-  //   } @todo - find better way to solve footer issue
-    p {
-    	color: white;
-    	font-size: 0.8rem;
-    	line-height: 1.1rem;
-    	& a {
-	    	font-size: 0.8rem;
-	    	text-decoration: underline;
-    	}
-    }
-    a {
-    	color: white;
-    	font-size: 1.3rem;
-    	padding: 0.5rem;
-    	&:hover, &:focus {
-    		color: $accent;
-    	}
-    }
-}
-
-
-/*
- * Other Elements
- * --------------------------------------------------
- */
-
-p.timeline-Tweet-text {
-    font-size: 1.15rem!important;
-    line-height: 2rem!important;
-}
-
