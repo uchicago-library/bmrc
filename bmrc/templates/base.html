@@ -4,14 +4,6 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <!-- Google tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-K06JQM9CM5"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-K06JQM9CM5');
-        </script>
         <meta charset="utf-8" />
         <title>
             {% block title %}
@@ -38,6 +30,7 @@
         <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon32.png' %}">
         <link rel="icon" type="image/png" sizes="144x144" href="{% static 'img/favicon144.png' %}">
     </head>
+    {% include "includes/google_analytics_tag.html" %}
 
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
