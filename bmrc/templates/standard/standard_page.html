@@ -14,6 +14,10 @@
 			{% for block in page.body %}
 	      		{% include_block block %}
 	      	{% endfor %}
+
+            {% if page.show_nested_children and page.get_children.live.in_menu.exists %}
+                {% include "standard/includes/child_pages_listing.html" %}
+            {% endif %}
         </div>
 
 		{% if self.sidebar.all %}

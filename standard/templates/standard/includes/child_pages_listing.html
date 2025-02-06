@@ -1,0 +1,9 @@
+{% if page.show_nested_children and page.get_children.live.in_menu.exists %}
+    {% load basic_tags %}
+    <nav class="container-sm  pb-3 pb-lg-5">
+        <h2>Further Reading</h2>
+        <ul class="nav flex-column">
+            {% render_nested_pages page page.nested_children_depth %}
+        </ul>
+    </nav>
+{% endif %}

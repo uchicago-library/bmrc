@@ -61,11 +61,27 @@ class StandardPage(Page):
         blank=True,
     )
 
+    show_nested_children = models.BooleanField(
+        default=False, help_text="Check this to display nested child pages."
+    )
+
+    nested_children_depth = models.PositiveIntegerField(
+        default=1,
+        help_text="Number of levels deep to show child pages (1 means immediate children only).",
+    )
+
     content_panels = Page.content_panels + [
         FieldPanel("body"),
         MultiFieldPanel(
             [InlinePanel("sidebar", max_num=3, label="Sidebar Section")],
             heading="Sidebar",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel('show_nested_children'),
+                FieldPanel('nested_children_depth'),
+            ],
+            heading='Dynamic Page Listing',
         ),
     ]
 
