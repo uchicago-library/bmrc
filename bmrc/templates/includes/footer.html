@@ -1,0 +1,24 @@
+{% load cache wagtailcore_tags %}
+
+{% cache 604800 footer %}
+    <footer id="footer" class="footer" role="contentinfo">
+        <div class="container">
+            <div class="content has-text-centered">
+                {% if settings.site_settings.FooterSettings.facebook %}
+                    <a aria-label="Follow the BMRC on Facebook" href="{{ settings.site_settings.FooterSettings.facebook }}"><i class="fab fa-facebook-square"></i></a>
+                {% endif %}
+                {% if settings.site_settings.FooterSettings.twitter %}
+                    <a aria-label="Follow the BMRC on Twitter" href="{{ settings.site_settings.FooterSettings.twitter }}"><i class="fab fa-twitter-square"></i></a>
+                {% endif %}
+                {% if settings.site_settings.FooterSettings.instagram %}
+                    <a aria-label="Follow the BMRC on Instagram" href="{{ settings.site_settings.FooterSettings.instagram }}"><i class="fab fa-instagram"></i></a>
+                {% endif %}
+
+                {% if settings.site_settings.FooterSettings.address %}
+                    {{ settings.site_settings.FooterSettings.address|richtext }}
+                {% endif %}
+
+            </div>
+        </div>
+    </footer>
+{% endcache %}
