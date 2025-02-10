@@ -1,23 +1,12 @@
 @import 'variables';
 
-/* TABLE OF CONTENTS
- * Quick fix
- * Portal
- * Accessibility
- * Alerts
- * Global
- * Fonts
- * Navigation Customization
- * Layout Elements
- * Images
- * Sections (Used in homepage only)
- * Site Search
- * Member Collection Search
- * News
- * Sidebar
- * Footer
- * Other Elements
+/* 
+ * To get more customization options
+ * https://getbootstrap.com/docs/5.3/customize/sass/
  */
+@import "../bootstrap/scss/bootstrap";
+
+
 :root {
 	// BMRC palette
 	--bmrc-blue: #2aa9e0;
