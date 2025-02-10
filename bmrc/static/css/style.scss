@@ -1,12 +1,21 @@
 @import 'variables';
 
 /* 
- * To get more customization options
+ * Importing the whole Bootstrap framework.
+ * Include any default variable overrides before. (though functions won't be available)
+ * Additional custom code after.
+ * To get more customization options:
  * https://getbootstrap.com/docs/5.3/customize/sass/
  */
 @import "../bootstrap/scss/bootstrap";
 
+body {
+	font-family: 'Trade Gothic Lt Std', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
 
+@import "components";
+
+// This might need to go somewhere else
 :root {
 	// BMRC palette
 	--bmrc-blue: #2aa9e0;

@@ -4,6 +4,7 @@
   font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'Trade Gothic Lt Std';
   src: url('/static/fonts/trade-gothic-lt-std-bold-condensed.otf') format('opentype');
@@ -11,8 +12,53 @@
   font-style: normal;
 }
 
+$bmrc-blue: #2aa9e0;
+$bmrc-dark-green: #0d331f;
+$bmrc-dark-gray: #241f21;
+$bmrc-yellow: #fdd900;
+$bmrc-white: #ffffff;
 
+$primary: $bmrc-dark-gray;
+$secondary: $bmrc-dark-green;
+// $accent: $bmrc-yellow;
 
+$success: #789D4A; // Custom success color
+$info: #17a2b8; // Custom info color
+$warning: #ffc107; // Custom warning color
+$danger: #dc3545; // Custom danger color
+$light: #f8f9fa; // Custom light color
+$dark: #343a40; // Custom dark color
+
+$link-color: #007396;
+
+$font-size-base: 1rem !default; // Assumes the browser default, typically `16px`
+
+$h1-font-size: $font-size-base * 3 !default;
+$h2-font-size: $font-size-base * 2.5 !default;
+$h3-font-size: $font-size-base * 2 !default;
+$h4-font-size: $font-size-base * 1.6 !default;
+$h5-font-size: $font-size-base * 1.3 !default;
+$h6-font-size: $font-size-base !default;
+// $headings-margin-bottom:      $spacer * .5 !default;
+// $headings-font-family:        null !default;
+// $headings-font-style:         null !default;
+// $headings-font-weight:        500 !default;
+// $headings-line-height:        1.2 !default;
+// $headings-color:              inherit !default; 
+
+$focus-ring-width: .25rem;
+$focus-ring-opacity: .85;
+$focus-ring-color: rgba($info, $focus-ring-opacity);
+$focus-ring-blur: 0;
+$focus-ring-box-shadow: 0 0 $focus-ring-blur $focus-ring-width $focus-ring-color;
+
+$breadcrumb-divider: quote(">");
+
+$pagination-active-color: var(--bs-body-color);
+$pagination-active-bg: var(--bs-body-bg);
+$pagination-active-border-color: var(--bs-border-color);
+
+/* 
 $family-primary: 'Trade Gothic Lt Std','Helvetica Neue',Helvetica,Arial,sans-serif;
 $text: #232323;
 
@@ -28,4 +74,4 @@ $accent: $bmrc-yellow;
 
 $link: darken($bmrc-blue, 10%); //#1f9cd2
 $accentlink: darken($primary, 5%);
-$link-hover: $bmrc-blue;
+$link-hover: $bmrc-blue; */
