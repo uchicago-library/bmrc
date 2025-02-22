@@ -19,8 +19,7 @@ class SideBar(Orderable):
     sidebar_text = RichTextField(
         blank=True,
         null=True,
-        features=["bold", "italic", "ol", "ul",
-                  "link", "document-link", "image"],
+        features=["bold", "italic", "ol", "ul", "link", "document-link", "image"],
     )
 
     panels = [
@@ -30,19 +29,12 @@ class SideBar(Orderable):
     heading = ("Sidebar Section",)
 
 
-class CheatsheetPage(Page):
-
-    template = "standard/cheat-sheet.html"
-    max_count = 1
-
-
 class StandardPage(Page):
     """Standard page model"""
 
     template = "standard/standard_page.html"
 
-    search_fields = Page.search_fields + \
-        [index.SearchField('search_description')]
+    search_fields = Page.search_fields + [index.SearchField('search_description')]
 
     body = StreamField(
         [
