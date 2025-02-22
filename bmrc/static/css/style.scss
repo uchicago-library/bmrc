@@ -14,13 +14,16 @@ creates components. */
  */
 @import "../bootstrap/scss/bootstrap";
 
-body {
-	font-family: 'Trade Gothic Lt Std', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
+// body {
+// 	font-family: 'Trade Gothic Lt Std', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+// }
 
 
 @import "components";
 
+:root {
+	--bmrc-gradient: #{$bmrc-gradient};
+}
 // This might need to go somewhere else
 /* :root {
 	// BMRC palette
