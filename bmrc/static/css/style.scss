@@ -18,10 +18,11 @@ body {
 	font-family: 'Trade Gothic Lt Std', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+
 @import "components";
 
 // This might need to go somewhere else
-:root {
+/* :root {
 	// BMRC palette
 	--bmrc-blue: #2aa9e0;
 	--bmrc-dark-green: #0d331f;
@@ -60,5 +61,4 @@ body {
 
 
 }
-
-$bmrc-banner-gradient: linear-gradient(257.92deg, rgba(36, 169, 224, 0.9) 51.83%, rgba(250, 205, 15, 0.9) 95.83%);
+ */
