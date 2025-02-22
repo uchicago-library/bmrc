@@ -5,9 +5,6 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <meta name="description" content="" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        
         <title>
             {% block title %}
                 {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
@@ -16,6 +13,8 @@
                 | {{ current_site.site_name }}
             {% endif %}
         </title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {# Global stylesheets #}
             <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"></script>
@@ -41,8 +40,76 @@
             <a href="#sidebar">Skip to Side Bar</a>
             <a href="#footer">Skip to Footer</a>
         </div>
-        
         {% include "includes/nav.html" %}
+        {% comment %} 
+        {% cache 604800 navigation %}
+            <nav class="navbar is-fixed-top" role="navigation" aria-label="Main Navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="/"><img class="nav-brand" src="{% static 'img/Final BMRC_logo horizontal.png' %}" alt="BMRC logo"></a>
+                    <div class="navbar-burger burger" data-target="navbarExampleTransparentExample" onclick="toggleBurger()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div id="navbarExampleTransparentExample" class="navbar-menu">
+                    <div class="navbar-start">
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link" href="/about/">About</a>
+                            <div class="navbar-dropdown is-boxed">
+                                <a class="navbar-item" href="/about/">About the BMRC</a>
+                                <a class="navbar-item" href="/about/membership-information/">Membership Information</a>
+                                <a class="navbar-item" href="/about/membership">Current Members</a>
+                                <a class="navbar-item" href="/about/partnerships/">Partnerships</a>
+                                <a class="navbar-item" href="/about/board-committees/">Board &amp; Committees</a>
+                                <a class="navbar-item" href="/about/staff/">Staff</a>
+                                <a class="navbar-item" href="/contact/">Contact</a>
+                            </div>
+                        </div>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link">Information</a>
+                            <div class="navbar-dropdown is-boxed">
+                                <a class="navbar-item" href="/news/">News</a>
+                                <a class="navbar-item" href="/events/">Events</a>
+                                <a class="navbar-item" href="/research-notes/">Research Notes</a>
+                            </div>
+                        </div>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link" href="/programs/">Programs</a>
+                            <div class="navbar-dropdown is-boxed">
+                                <a class="navbar-item" href="/programs/summer-short-term-fellowship/">Summer Short-term Fellowship</a>
+                                <a class="navbar-item" href="/programs/archie-motley-archival-internship-program/">Archie Motley Archival Internship Program</a>
+                                <a class="navbar-item" href="/programs/color-curtain-processing-project/">Color Curtain Processing Project</a>
+                                <a class="navbar-item" href="/programs/survey-initiative/">Survey Initiative</a>
+                            </div>
+                        </div>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link" href="/resources/">Resources</a>
+                            <div class="navbar-dropdown is-boxed">
+                                <a class="navbar-item" href="/resources/archives-awareness/">Archives Awareness</a>
+                                <a class="navbar-item" href="/resources/legacy-management-resources-portal/">Legacy Management Resource Portal</a>
+                                <a class="navbar-item" href="/resources/protest-archives/">Protest in the Archives</a>
+                                <a class="navbar-item" href="/resources/workshops">Workshops</a>
+                                <a class="navbar-item" href="/resources/jobs">Jobs and Opportunities</a>
+                            </div>
+                        </div> 
+                        <a class="navbar-item archives" href="/portal/">Archival Collections</a>
+                        <a class="navbar-item donate" href="/donate/">Support Us</a>
+                    </div>
+
+                    <div class="navbar-end">
+                        <div class="navbar-item is-search">
+                            <form action="{% url 'search' %}" method="get">
+                                <label class="visually-hidden">Site Search</label>
+                                <input class="input control" placeholder="search website" type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
+                                <button type="submit" value="Search" class="button" aria-label="search website"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        {% endcache %} {% endcomment %}
         
         <main id="content" role="main">
 
@@ -76,10 +143,34 @@
             {# Override this in templates (e.g. portal templates) to add extra content between main content area and the sitewide footer #}
         {% endblock %}
 
-        {% include "includes/footer.html" %}
+        {% cache 604800 footer %}
+            <footer id="footer" class="footer" role="contentinfo">
+                <div class="container">
+                    <div class="content has-text-centered">
+                        {% if settings.site_settings.FooterSettings.facebook %}
+                            <a aria-label="Follow the BMRC on Facebook" href="{{ settings.site_settings.FooterSettings.facebook }}"><i class="fab fa-facebook-square"></i></a>
+                        {% endif %}
+                        {% if settings.site_settings.FooterSettings.twitter %}
+                            <a aria-label="Follow the BMRC on Twitter" href="{{ settings.site_settings.FooterSettings.twitter }}"><i class="fab fa-twitter-square"></i></a>
+                        {% endif %}
+                        {% if settings.site_settings.FooterSettings.instagram %}
+                            <a aria-label="Follow the BMRC on Instagram" href="{{ settings.site_settings.FooterSettings.instagram }}"><i class="fab fa-instagram"></i></a>
+                        {% endif %}
+
+                        {% if settings.site_settings.FooterSettings.address %}
+                            {{ settings.site_settings.FooterSettings.address|richtext }}
+                        {% endif %}
+
+                    </div>
+                </div>
+            </footer>
+        {% endcache %}
 
         {# Global javascript #}
-        {% comment %} <script type="text/javascript" src="{% static 'js/jquery/jquery-2.2.4.min.js' %}"></script> {% endcomment %}
+        <script type="text/javascript" src="{% static 'js/jquery/jquery-2.2.4.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/plugins/plugins.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/nav.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/active.js' %}"></script> <!-- For Hero Slider -->
 
         {% block extra_js %}
             {# Override this in templates to add extra javascript #}
