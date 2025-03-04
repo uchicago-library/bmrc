@@ -1,24 +1,20 @@
-/* Central styling file.
-Defines variales,
-imports bootstrap,
-defines customizations,
-creates components. */
+/* 
+ * Central styling file.
+ */
+
+// Define variables for the website theme and to override Bootstrap variables.
 @import 'variables';
 
 /* 
  * Importing the whole Bootstrap framework.
- * Include any default variable overrides before. (though functions won't be available)
- * Additional custom code after.
- * To get more customization options:
- * https://getbootstrap.com/docs/5.3/customize/sass/
+ *   Include any default variable overrides before. (though functions won't be available)
+ *   Additional custom code after.
+ *   To get more customization options:
+ *   https://getbootstrap.com/docs/5.3/customize/sass/
  */
 @import "../bootstrap/scss/bootstrap";
 
-// body {
-// 	font-family: 'Trade Gothic Lt Std', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-// }
-
-
+// Create rulesets for specific components.
 @import "components";
 
 :root {

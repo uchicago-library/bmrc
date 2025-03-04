@@ -1,4 +1,8 @@
 /* 
+  * Custom variables for the website theme
+  * and to override Bootstrap variables.
+  * Some BS variables have been included commented for reference.
+  * 
   Table of contents
   * ## TYPOGRAPHY
   * ## COLORS
@@ -45,13 +49,13 @@ $h6-font-size: $font-size-base !default;
 // $headings-color:              inherit !default; 
 
 
-
-
 /* 
  * --
  * ## COLORS
  * --
  */
+
+// BMRC palette
 $bmrc-blue: #2aa9e0;
 $bmrc-dark-green: #0d331f;
 $bmrc-dark-gray: #241f21;
@@ -60,7 +64,8 @@ $bmrc-white: #ffffff;
 
 $primary: $bmrc-dark-gray;
 $secondary: $bmrc-dark-green;
-// $accent: $bmrc-yellow;
+// $body-tertiary-color:       rgba($body-color, .5) !default;
+// $body-tertiary-bg:          $gray-100 !default;
 
 $success: #789D4A; // Custom success color
 $info: #17a2b8; // Custom info color

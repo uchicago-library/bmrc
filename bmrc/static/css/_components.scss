@@ -1,8 +1,7 @@
 /* 
- Create a link between Bootstrap's ready made classes
- and the website's components.
- The intent is to improve documentation, favor simplicity, 
- and make future migrations or bootstrap updates easier. 
+ * Isolate most components to their own files.
+ * Will attempt to create an abstraciton layer for the grid system,
+ * to improve documentation, and maintainability.
  */
 
  
