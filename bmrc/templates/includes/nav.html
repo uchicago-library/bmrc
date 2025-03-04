@@ -1,0 +1,66 @@
+{% load static %}
+<nav class="navbar navbar-expand-md fixed-top" role="navigation" aria-label="Main Navigation">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/"><img class="nav-brand" src="{% static 'img/Final BMRC_logo horizontal 300.png' %}" alt="BMRC logo" style="max-width:170px"></a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+            <ul class="navbar-nav mb-2 mb-md-0 align-items-center">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="/about/">About</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/about/">About the BMRC</a></li>
+                        <li><a class="dropdown-item" href="/about/membership-information/">Membership Information</a></li>
+                        <li><a class="dropdown-item" href="/about/membership">Current Members</a></li>
+                        <li><a class="dropdown-item" href="/about/partnerships/">Partnerships</a></li>
+                        <li><a class="dropdown-item" href="/about/board-committees/">Board &amp; Committees</a></li>
+                        <li><a class="dropdown-item" href="/about/staff/">Staff</a></li>
+                        <li><a class="dropdown-item" href="/contact/">Contact</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#">Information</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/news/">News</a></li>
+                        <li><a class="dropdown-item" href="/events/">Events</a></li>
+                        <li><a class="dropdown-item" href="/research-notes/">Research Notes</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="/programs/">Programs</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/programs/summer-short-term-fellowship/">Summer Short-term Fellowship</a></li>
+                        <li><a class="dropdown-item" href="/programs/archie-motley-archival-internship-program/">Archie Motley Archival Internship Program</a></li>
+                        <li><a class="dropdown-item" href="/programs/color-curtain-processing-project/">Color Curtain Processing Project</a></li>
+                        <li><a class="dropdown-item" href="/programs/survey-initiative/">Survey Initiative</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="/resources/">Resources</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/resources/archives-awareness/">Archives Awareness</a></li>
+                        <li><a class="dropdown-item" href="/resources/legacy-management-resources-portal/">Legacy Management Resource Portal</a></li>
+                        <li><a class="dropdown-item" href="/resources/protest-archives/">Protest in the Archives</a></li>
+                        <li><a class="dropdown-item" href="/resources/workshops">Workshops</a></li>
+                        <li><a class="dropdown-item" href="/resources/jobs">Jobs and Opportunities</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary me-2" href="/portal/">Archival Collections</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary me-2" href="/donate/">Support Us</a>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <form action="{% url 'search' %}" method="get">
+                    <label class="visually-hidden">Site Search</label>
+                    <input class="form-control" placeholder="search website" type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
+                    {% comment %} <button type="submit" class="visually-hidden" value="Search" class="button" aria-label="search website"><i class="fa fa-search" aria-hidden="true"></i></button> {% endcomment %}
+                </form>
+            </form>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,10 @@
+{% if ".uchicago.edu" in request.get_host %}
+    <!-- Google tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K06JQM9CM5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-K06JQM9CM5');
+    </script>
+{% endif %}
