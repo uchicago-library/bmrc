@@ -48,17 +48,19 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-primary me-2" href="/portal/">Archival Collections</a>
+                    <a class="btn btn-outline-primary me-2 archives-btn" href="/portal/">Archival Collections</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-primary me-2" href="/donate/">Support Us</a>
+                    <a class="btn btn-outline-primary me-2 support-btn" href="/donate/">Support Us</a>
                 </li>
             </ul>
             <form class="d-flex" role="search">
                 <form action="{% url 'search' %}" method="get">
-                    <label class="visually-hidden">Site Search</label>
-                    <input class="form-control" placeholder="search website" type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
-                    {% comment %} <button type="submit" class="visually-hidden" value="Search" class="button" aria-label="search website"><i class="fa fa-search" aria-hidden="true"></i></button> {% endcomment %}
+                    <div class="input-group search-box">
+                        <label class="visually-hidden">Site Search</label>
+                        <input class="form-control" placeholder="" type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
+                        <button type="submit" class="" value="Search" class="button" aria-label="search website"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </div>
                 </form>
             </form>
         </div>

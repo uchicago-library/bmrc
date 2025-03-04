@@ -1,15 +1,63 @@
+@mixin rounded-nav-button {
+    border-radius: 50px !important;
+    width: fit-content;
+    padding: 5px 12px;
+    border: 1px solid black;
+    line-height: 1.2;
+    height: 30px;
+}
+
+@mixin navbar-links {
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
 .bmrc-header {
     background: $bmrc-gradient;
 
     .navbar {
+        ul.navbar-nav {
 
-        li.nav-item {
-            a.nav-link {
-                text-transform: uppercase;
-                font-weight: 600;
+            // all dropdowns and links in navbar
+            li.nav-item {
+                a.nav-link {
+                    @include navbar-links;
+                }
+
+                a.btn {
+                    @extend .nav-link;
+                    @include navbar-links;
+                    @include rounded-nav-button;
+
+                    // &.archives-btn {}
+                    &.support-btn {
+                        background-color: $bmrc-yellow;
+                        // color: var(--cs-navbar-color);
+                        // border: 1px solid var(--cs-navbar-color);
+                        // margin-right: 5px;
+                    }
+                }
             }
+        }
 
-            // a.btn{}
+        form {
+            .search-box {
+                @include rounded-nav-button;
+                padding: 0;
+                align-content: center;
+
+                input {
+                    width: 120px;
+                }
+
+                input,
+                button {
+                    // @include rounded-nav-button;
+                    border: none;
+                    background-color: transparent;
+
+                }
+            }
         }
     }
 }
