@@ -56,14 +56,14 @@
             {% endif %}
 
             {% if self.get_ancestors|length > 1 %}
-            <nav class="container breadcrumb is-small" aria-label="breadcrumbs">
-              <ul>
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+              <ul class="breadcrumb">
                 {% for page in self.get_ancestors %}
                 {% if page.is_root == False %}
-                <li><a href="{% pageurl page %}">{{ page.title }}</a></li>
+                <li class="breadcrumb-item"><a href="{% pageurl page %}">{{ page.title }}</a></li>
                 {% endif %}
                 {% endfor %}
-                <li class="is-active"><a href="#" aria-current="page">{{ self.title }}</a></li>
+                <li class="breadcrumb-item active"><a href="#" aria-current="page">{{ self.title }}</a></li>
               </ul>
             </nav>
             {% endif %}
