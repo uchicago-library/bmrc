@@ -16,7 +16,7 @@
 $navbar-height: 72px;
 
 .bmrc-header {
-    background: $bmrc-gradient;
+    // background: $bmrc-gradient;
 
     .navbar {
         height: $navbar-height;
@@ -25,8 +25,9 @@ $navbar-height: 72px;
             @extend .py-2;
 
             &.show {
-                background-color: white;
-                background: $bmrc-gradient-transparent, #cdcdcd;
+                // background-color: white;
+                // background: $bmrc-gradient-transparent, #cdcdcd;
+                backdrop-filter: blur(20px);
             }
 
             ul.navbar-nav {
