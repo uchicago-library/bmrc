@@ -15,6 +15,18 @@
 {% endblock %}
 {% block content %}
 
+
+
+  <section class="featured-modules section">
+    <div class="container">
+      <div class="columns is-desktop">
+      	{% for block in page.body %}
+      		{% include_block block %}
+      	{% endfor %}
+      </div>
+    </div>
+  </section>
+
   <section class="featured-news section">
     <div class="container">
       <h2>Recent News</h2>
@@ -42,17 +54,5 @@
 
     </div>
   </section>
-
-
-  <section class="featured-modules section">
-    <div class="container">
-      <div class="columns is-desktop">
-      	{% for block in page.body %}
-      		{% include_block block %}
-      	{% endfor %}
-      </div>
-    </div>
-  </section>
-
 
 {% endblock %}

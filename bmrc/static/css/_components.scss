@@ -14,6 +14,19 @@ a {
     @extend .focus-ring !optional;
 }
 
+img.richtext-image {
+    max-width: 100%;
+    height: auto;
+
+    &.left {
+        float: left;
+    }
+    &.right {
+        float: right;
+    }
+
+}
+
 footer {
     h5 {
         color: $bmrc-blue;
