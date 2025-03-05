@@ -17,6 +17,9 @@
     background: $bmrc-gradient;
 
     .navbar {
+        margin-bottom: -72px;
+        height: 72px;
+
         div.navbar-collapse {
             @extend .py-2;
 
@@ -29,6 +32,8 @@
 
                 // all dropdowns and links in navbar
                 li.nav-item {
+                    text-align: center;
+
                     a.nav-link {
                         @include navbar-links;
                     }
