@@ -2,7 +2,7 @@
 {% wagtail_site as current_site %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html class="h-100" lang="en">
     <head>
         <meta charset="utf-8" />
         <title>
@@ -32,7 +32,7 @@
     </head>
     {% include "includes/google_analytics_tag.html" %}
 
-    <body class="{% block body_class %}{% endblock %}">
+    <body class="d-flex flex-column h-100 {% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
 
         <div class="visually-hidden" aria-label="Skip Navigation" id="skip" role="region">
@@ -47,7 +47,7 @@
             {% endblock %}
         </div>
         
-        <main id="content" role="main">
+       <main class="flex-shrink-0" id="content" role="main">
 
             {% if settings.site_settings.AlertBanner.enable %}
             <div class="alert {{settings.site_settings.AlertBanner.alert_level}}" role="alert">
