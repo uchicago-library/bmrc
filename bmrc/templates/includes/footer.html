@@ -1,26 +1,5 @@
 {% load static cache wagtailcore_tags %}
 
-{% comment %} <footer id="footer" class="footer" role="contentinfo">
-    <div class="container">
-        <div class="content has-text-centered">
-            {% if settings.site_settings.FooterSettings.facebook %}
-                <a aria-label="Follow the BMRC on Facebook" href="{{ settings.site_settings.FooterSettings.facebook }}"><i class="fab fa-facebook-square"></i></a>
-            {% endif %}
-            {% if settings.site_settings.FooterSettings.twitter %}
-                <a aria-label="Follow the BMRC on Twitter" href="{{ settings.site_settings.FooterSettings.twitter }}"><i class="fab fa-twitter-square"></i></a>
-            {% endif %}
-            {% if settings.site_settings.FooterSettings.instagram %}
-                <a aria-label="Follow the BMRC on Instagram" href="{{ settings.site_settings.FooterSettings.instagram }}"><i class="fab fa-instagram"></i></a>
-            {% endif %}
-
-            {% if settings.site_settings.FooterSettings.address %}
-                {{ settings.site_settings.FooterSettings.address|richtext }}
-            {% endif %}
-
-        </div>
-    </div>
-</footer> {% endcomment %}
-
 <footer class="text-bg-dark" id="footer" role="contentinfo">
     <div class="container">
         <div class="row py-5 mt-5 border-top">
