@@ -59,11 +59,11 @@
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
               <ul class="breadcrumb">
                 {% for page in self.get_ancestors %}
-                {% if page.is_root == False %}
-                <li class="breadcrumb-item"><a href="{% pageurl page %}">{{ page.title }}</a></li>
-                {% endif %}
+                    {% if page.is_root == False %}
+                        <li class="breadcrumb-item"><a href="{% pageurl page %}">{{ page.title }}</a></li>
+                    {% endif %}
                 {% endfor %}
-                <li class="breadcrumb-item active"><a href="#" aria-current="page">{{ self.title }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ self.title }}</li>
               </ul>
             </nav>
             {% endif %}
