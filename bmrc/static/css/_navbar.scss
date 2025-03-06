@@ -89,8 +89,8 @@ $navbar-height: 72px;
 
     .hero {
         margin-top: $navbar-height*-1;
-        background-size: cover;
-        background-position: center;
+        background-size: cover !important;
+        background-position: center !important;
 
         .hero-body {
             padding-top: $navbar-height * 1.5;
