@@ -5,13 +5,22 @@
 {% block body_class %}homepage{% endblock %}
 
 {% block extra_header %}
-  <section class="hero" style="background:var(--bmrc-gradient-transparent), linear-gradient(160deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65));background:var(--bmrc-gradient-transparent), url({% static 'img/background_picture_womens_liberation.png' %}), black;">
-    <div class="hero-body container-sm ">
-      <h1 class="h4">The Black Metropolis Research Consortium</h1>
-      <p class="fs-5">Connecting all who seek to document, share, understand and 
-        preserve Black experiences. <br><br>We're updating the website, stay tuned.</p>
-    </div>
-  </section>
+
+{% if self.carousel_images %}
+    {% with self.carousel_images.all|random as item_set %}
+        {% image item_set.carousel_image width-900 as img %}
+		<section class="hero" style="background:var(--bmrc-gradient-transparent), linear-gradient(160deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65));background:var(--bmrc-gradient-transparent), url({{img.url}}), black;">
+			<div class="hero-body container-sm">
+			<h1 class="h4">{{ item_set.carousel_title }}</h1>
+			<p class="fs-5">{{ item_set.carousel_text|richtext }}</p>
+			{% if item_set.button_link.url %}
+				<a href="{{ item_set.button_link.url }}" class="btn btn-outline-dark">{{ item_set.button_label }}</a>
+			{% endif %}
+			</div>
+		</section>
+    {% endwith %}
+{% endif %}
+  
 {% endblock %}
 {% block content %}
 

@@ -93,8 +93,7 @@ $navbar-height: 72px;
         background-position: center !important;
 
         .hero-body {
-            padding-top: $navbar-height * 1.5;
-            // max-width: 768px;
+            padding-top: $navbar-height * 2;
             padding-bottom: 2em;
         }
     }
