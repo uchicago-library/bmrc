@@ -5,54 +5,54 @@
 {% block body_class %}homepage{% endblock %}
 
 {% block extra_header %}
-  <section class="hero is-medium" style="background:var(--bmrc-gradient), linear-gradient(160deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65));background:var(--bmrc-gradient), url({% static 'img/background_picture_womens_liberation.png' %});background-size: cover;background-position: center;">
-    <div class="hero-body container" style="max-width: 768px; padding-top: 6em; padding-bottom: 2em">
-      <h1 class="title" style="color: white;">The Black Metropolis Research Consortium</h1>
-      <p class="subtitle" style="font-weight: 600;color: white;">Connecting all who seek to document, share, understand and 
-        preserve Black experiences. <br><br>We're updating the website, stay tuned.</p>
-    </div>
-  </section>
+
+{% if self.carousel_images %}
+    {% with self.carousel_images.all|random as item_set %}
+        {% image item_set.carousel_image width-900 as img %}
+		<section class="hero" style="background:var(--bmrc-gradient-transparent), linear-gradient(160deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65));background:var(--bmrc-gradient-transparent), url({{img.url}}), black;">
+			<div class="hero-body py-2 py-md-5 container-sm">
+			<h1 class="h4">{{ item_set.carousel_title }}</h1>
+			<div class="fs-5">{{ item_set.carousel_text|richtext }}</div>
+			{% if item_set.button_link.url and item_set.button_label %}
+				<a href="{{ item_set.button_link.url }}" class="btn btn-outline-dark">{{ item_set.button_label }}</a>
+			{% endif %}
+			</div>
+		</section>
+    {% endwith %}
+{% endif %}
+  
 {% endblock %}
 {% block content %}
 
-  <section class="featured-news section">
-    <div class="container">
-      <h2>Recent News</h2>
-      <div class="columns">
-        {% for post in page.news_feed %}
-        <div class="column is-one-third-tablet is-one-third-desktop">
-          {% image post.lead_image width-500 as img %}
-          <article>
-            <a href="{{ post.url }}" aria-label="Read full post for {{post.title}}">
-              {% if post.lead_image %}
-              <figure>
-                <img src="{{ img.url }}" alt="{{ img.alt }}">
-              </figure>
-              {% endif %}
-
-              <h2 class="h3">{{post.title}}</h2>
-              <p>{{ post.excerpt }}</p>
-            </a>
-          </article>
-        </div>
+    <section class="content py-5">
+        {% for block in page.body %}
+            {% include_block block %}
         {% endfor %}
-      </div>
+    </section>
 
-      <span class="centered"><a href="/news" class="button read-more">View all BMRC News</a></span>
+    <section class="news py-5">
+        <div class="container-sm">
+            <h2>Recent News</h2>
+            <div class="news-horizontal-scroll">
+                {% for post in page.news_feed %}
+                    <div class="news-item">
+                        {% image post.lead_image width-350 as img %}
+                        {% if post.lead_image %}
+                            <figure style="background-image: url({{ img.url }})">
+                                <img class="visually-hidden" src="{{ img.url }}" alt="{{ img.alt }}">
+                            </figure>
+                        {% endif %}
 
-    </div>
-  </section>
-
-
-  <section class="featured-modules section">
-    <div class="container">
-      <div class="columns is-desktop">
-      	{% for block in page.body %}
-      		{% include_block block %}
-      	{% endfor %}
-      </div>
-    </div>
-  </section>
+                            <h3 class="h4 card-title">{{post.title}}</h3>
+                            <p class="card-text">{{ post.excerpt }}</p>
+                            {% comment %} <p class="card-text"><small class="text-body-secondary">Published {{ post.last_published_at|date:"F j, Y" }}</small></p> {% endcomment %}
+                        <p><a class="stretched-link" href="{{ post.url }}" aria-label="Read full post for {{post.title}}">Read More</a></p>
+                    </div>  
+                {% endfor %}
+            </div>  
+            <a href="/news" class="btn btn-outline-primary mt-2">View all BMRC News</a>
+        </div>  
+    </section>
 
 
 {% endblock %}

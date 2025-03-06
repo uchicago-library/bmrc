@@ -33,18 +33,18 @@
 $font-size-base: 1rem !default; // Assumes the browser default, typically `16px`
 $font-family-base: 'Trade Gothic Lt Std', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 // $line-height-base: 1.5;
-$nav-link-font-size: .9rem;
+// $nav-link-font-size: 1rem;
 
-$h1-font-size: $font-size-base * 3 !default;
-$h2-font-size: $font-size-base * 2.5 !default;
-$h3-font-size: $font-size-base * 2 !default;
-$h4-font-size: $font-size-base * 1.6 !default;
-$h5-font-size: $font-size-base * 1.3 !default;
-$h6-font-size: $font-size-base !default;
+$h1-font-size: $font-size-base * 5 !default;
+$h2-font-size: $font-size-base * 4 !default;
+$h3-font-size: $font-size-base * 3 !default;
+$h4-font-size: $font-size-base * 2 !default;
+$h5-font-size: $font-size-base * 1.5 !default;
+$h6-font-size: $font-size-base * 1.3 !default;
 // $headings-margin-bottom:      $spacer * .5 !default;
 // $headings-font-family:        null !default;
 // $headings-font-style:         null !default;
-// $headings-font-weight:        500 !default;
+$headings-font-weight: 600;
 // $headings-line-height:        1.2 !default;
 // $headings-color:              inherit !default; 
 
@@ -76,7 +76,8 @@ $dark: #343a40; // Custom dark color
 
 $link-color: #007396;
 
-$bmrc-gradient: linear-gradient(257.92deg, rgba(36, 169, 224, 0.5) 51.83%, rgba(250, 205, 15, 0.5) 95.83%);
+$bmrc-gradient: linear-gradient(257.92deg, rgba(36, 169, 224, 1) 51.83%, rgba(250, 205, 15, 1) 95.83%);
+$bmrc-gradient-transparent: linear-gradient(257.92deg, rgba(36, 169, 224, 0.5) 51.83%, rgba(250, 205, 15, 0.5) 95.83%);
 
 /* 
  * --
@@ -95,6 +96,7 @@ $focus-ring-box-shadow: 0 0 $focus-ring-blur $focus-ring-width $focus-ring-color
  * --
  */
 $breadcrumb-divider: quote(">");
+
 
 $pagination-active-color: var(--bs-body-color);
 $pagination-active-bg: var(--bs-body-bg);

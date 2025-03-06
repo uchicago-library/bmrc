@@ -14,12 +14,21 @@
  */
 @import "../bootstrap/scss/bootstrap";
 
+/* 
+ * Grid System
+ *   We're using container-sm for all elements, header, breadcrumbs, footer and each section of a page.
+ *   This is not forced through base.html because some page sections might need full-width backgrounds,
+ *   And some pages might need full-width content.
+ */
+
 // Create rulesets for specific components.
 @import "components";
 
 :root {
 	--bmrc-gradient: #{$bmrc-gradient};
+	--bmrc-gradient-transparent: #{$bmrc-gradient-transparent};
 }
+
 // This might need to go somewhere else
 /* :root {
 	// BMRC palette

@@ -1,24 +1,80 @@
-{% load cache wagtailcore_tags %}
+{% load static cache wagtailcore_tags %}
 
-{% cache 604800 footer %}
-    <footer id="footer" class="footer" role="contentinfo">
-        <div class="container">
-            <div class="content has-text-centered">
-                {% if settings.site_settings.FooterSettings.facebook %}
-                    <a aria-label="Follow the BMRC on Facebook" href="{{ settings.site_settings.FooterSettings.facebook }}"><i class="fab fa-facebook-square"></i></a>
-                {% endif %}
-                {% if settings.site_settings.FooterSettings.twitter %}
-                    <a aria-label="Follow the BMRC on Twitter" href="{{ settings.site_settings.FooterSettings.twitter }}"><i class="fab fa-twitter-square"></i></a>
-                {% endif %}
-                {% if settings.site_settings.FooterSettings.instagram %}
-                    <a aria-label="Follow the BMRC on Instagram" href="{{ settings.site_settings.FooterSettings.instagram }}"><i class="fab fa-instagram"></i></a>
-                {% endif %}
+<footer class="mt-auto text-bg-dark" id="footer" role="contentinfo">
+    <div class="container-sm">
+        <div class="row py-5 mt-5 border-top">
 
-                {% if settings.site_settings.FooterSettings.address %}
-                    {{ settings.site_settings.FooterSettings.address|richtext }}
-                {% endif %}
+            <div class="col-12 col-md-6 mb-3">
+                <a href="/" class="d-flex align-items-center mb-3 link-body-emphasis text-decoration-none">
+                    <img class="nav-brand" src="{% static 'img/Final BMRC_logo invert horizontal.png' %}" alt="BMRC logo" style="max-width:170px">
+                </a>
+                <div>
+                    {% if settings.site_settings.FooterSettings.facebook %}
+                        <a aria-label="Follow the BMRC on Facebook" href="{{ settings.site_settings.FooterSettings.facebook }}"><i class="fab fa-facebook-square"></i></a>
+                    {% endif %}
+                    {% if settings.site_settings.FooterSettings.twitter %}
+                        <a aria-label="Follow the BMRC on Twitter" href="{{ settings.site_settings.FooterSettings.twitter }}"><i class="fab fa-twitter-square"></i></a>
+                    {% endif %}
+                    {% if settings.site_settings.FooterSettings.instagram %}
+                        <a aria-label="Follow the BMRC on Instagram" href="{{ settings.site_settings.FooterSettings.instagram }}"><i class="fab fa-instagram"></i></a>
+                    {% endif %}
 
+                    {% if settings.site_settings.FooterSettings.address %}
+                        {{ settings.site_settings.FooterSettings.address|richtext }}
+                    {% endif %}
+                </div>
+                {% comment %} <p class="text-body-secondary">© 2024</p> {% endcomment %}
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="row">
+                    <div class="col col-md-6 mb-3">
+                        <h5>About</h5>
+                        <ul class="nav flex-column">
+                            <li class="nav-item mb-2"><a href="/about/" class="nav-link p-0">About the BMRC</a></li>
+                            <li class="nav-item mb-2"><a href="/about/membership-information/" class="nav-link p-0">Membership Information</a></li>
+                            <li class="nav-item mb-2"><a href="/about/membership" class="nav-link p-0">Current Members</a></li>
+                            <li class="nav-item mb-2"><a href="/about/partnerships/" class="nav-link p-0">Partnerships</a></li>
+                            <li class="nav-item mb-2"><a href="/about/board-committees/" class="nav-link p-0">Board & Committees</a></li>
+                            <li class="nav-item mb-2"><a href="/about/staff/" class="nav-link p-0">Staff</a></li>
+                            <li class="nav-item mb-2"><a href="/contact/" class="nav-link p-0">Contact</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col col-md-6 mb-3">
+                        <h5>Information</h5>
+                        <ul class="nav flex-column">
+                            <li class="nav-item mb-2"><a href="/news/" class="nav-link p-0">News</a></li>
+                            <li class="nav-item mb-2"><a href="/events/" class="nav-link p-0">Events</a></li>
+                            <li class="nav-item mb-2"><a href="/research-notes/" class="nav-link p-0">Research Notes</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col col-md-6 mb-3">
+                        <h5>Programs</h5>
+                        <ul class="nav flex-column">
+                            <li class="nav-item mb-2"><a href="/programs/summer-short-term-fellowship/" class="nav-link p-0">Summer Short-term Fellowship</a></li>
+                            <li class="nav-item mb-2"><a href="/programs/archie-motley-archival-internship-program/" class="nav-link p-0">Archie Motley Internship</a></li>
+                            <li class="nav-item mb-2"><a href="/programs/color-curtain-processing-project/" class="nav-link p-0">Color Curtain Project</a></li>
+                            <li class="nav-item mb-2"><a href="/programs/survey-initiative/" class="nav-link p-0">Survey Initiative</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col col-md-6 mb-3">
+                        <h5>Resources</h5>
+                        <ul class="nav flex-column">
+                            <li class="nav-item mb-2"><a href="/resources/archives-awareness/" class="nav-link p-0">Archives Awareness</a></li>
+                            <li class="nav-item mb-2"><a href="/resources/legacy-management-resources-portal/" class="nav-link p-0">Legacy Management</a></li>
+                            <li class="nav-item mb-2"><a href="/resources/protest-archives/" class="nav-link p-0">Protest in the Archives</a></li>
+                            <li class="nav-item mb-2"><a href="/resources/workshops" class="nav-link p-0">Workshops</a></li>
+                            <li class="nav-item mb-2"><a href="/resources/jobs" class="nav-link p-0">Jobs and Opportunities</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-    </footer>
-{% endcache %}
+    </div>
+
+  </footer>

@@ -2,7 +2,7 @@
 {% wagtail_site as current_site %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html class="h-100" lang="en">
     <head>
         <meta charset="utf-8" />
         <title>
@@ -17,7 +17,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {# Global stylesheets #}
-            <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"></script>
+            <script src="https://kit.fontawesome.com/ca2051ae7d.js" crossorigin="anonymous"></script>
         {% compress css %}
         {# SCSS compilation relies on django compressor #}
             <link rel="stylesheet" type="text/x-scss" href="{% static 'css/style.scss' %}">
@@ -32,7 +32,7 @@
     </head>
     {% include "includes/google_analytics_tag.html" %}
 
-    <body class="{% block body_class %}{% endblock %}">
+    <body class="d-flex flex-column h-100 {% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
 
         <div class="visually-hidden" aria-label="Skip Navigation" id="skip" role="region">
@@ -47,7 +47,7 @@
             {% endblock %}
         </div>
         
-        <main id="content" role="main">
+       <main class="flex-shrink-0" id="content" role="main">
 
             {% if settings.site_settings.AlertBanner.enable %}
             <div class="alert {{settings.site_settings.AlertBanner.alert_level}}" role="alert">
@@ -56,15 +56,18 @@
             {% endif %}
 
             {% if self.get_ancestors|length > 1 %}
-            <nav class="container breadcrumb is-small" aria-label="breadcrumbs">
-              <ul>
-                {% for page in self.get_ancestors %}
-                {% if page.is_root == False %}
-                <li><a href="{% pageurl page %}">{{ page.title }}</a></li>
-                {% endif %}
-                {% endfor %}
-                <li class="is-active"><a href="#" aria-current="page">{{ self.title }}</a></li>
-              </ul>
+
+            <nav aria-label="breadcrumb">
+                <div class="container-sm">
+                <ul class="breadcrumb py-1 smaller-text">
+                    {% for page in self.get_ancestors %}
+                        {% if page.is_root == False %}
+                            <li class="breadcrumb-item"><a href="{% pageurl page %}">{{ page.title }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    <li class="breadcrumb-item active" aria-current="page">{{ self.title }}</li>
+                </ul>
+                </div>
             </nav>
             {% endif %}
 
@@ -75,28 +78,7 @@
             {# Override this in templates (e.g. portal templates) to add extra content between main content area and the sitewide footer #}
         {% endblock %}
 
-        {% cache 604800 footer %}
-            <footer id="footer" class="footer" role="contentinfo">
-                <div class="container">
-                    <div class="content has-text-centered">
-                        {% if settings.site_settings.FooterSettings.facebook %}
-                            <a aria-label="Follow the BMRC on Facebook" href="{{ settings.site_settings.FooterSettings.facebook }}"><i class="fab fa-facebook-square"></i></a>
-                        {% endif %}
-                        {% if settings.site_settings.FooterSettings.twitter %}
-                            <a aria-label="Follow the BMRC on Twitter" href="{{ settings.site_settings.FooterSettings.twitter }}"><i class="fab fa-twitter-square"></i></a>
-                        {% endif %}
-                        {% if settings.site_settings.FooterSettings.instagram %}
-                            <a aria-label="Follow the BMRC on Instagram" href="{{ settings.site_settings.FooterSettings.instagram }}"><i class="fab fa-instagram"></i></a>
-                        {% endif %}
-
-                        {% if settings.site_settings.FooterSettings.address %}
-                            {{ settings.site_settings.FooterSettings.address|richtext }}
-                        {% endif %}
-
-                    </div>
-                </div>
-            </footer>
-        {% endcache %}
+        {% include "includes/footer.html" %}
 
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/jquery/jquery-2.2.4.min.js' %}"></script>

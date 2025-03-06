@@ -4,5 +4,196 @@
  * to improve documentation, and maintainability.
  */
 
- 
+/* 
+ * --
+ * ## Utility Classes 
+ * --
+ */
+.smaller-text {
+    font-size: smaller;
+}
+
+
+
+/* 
+ * --
+ * ## Fixes 
+ * --
+ */
+a {
+    @extend .focus-ring !optional;
+}
+
+p b,
+p strong {
+    font-size: 1.1em;
+}
+
+blockquote {
+    @extend .blockquote;
+    display: inline-block;
+    border-left: 4px solid var(--bs-secondary-border-subtle);
+    padding-left: .5em;
+}
+
+.richtext>ol,
+.richtext>ul {
+    list-style-position: inside;
+}
+
+img.richtext-image {
+    @extend .img-fluid;
+    @extend .mt-1;
+    @extend .mb-3;
+
+    &.left {
+        float: left;
+        @extend .me-2;
+    }
+
+    &.right {
+        float: right;
+        @extend .ms-2;
+    }
+
+}
+
+/* 
+ * --
+ * ## Components 
+ * --
+ */
 @import "navbar";
+
+// Cannot do this because using a new row to break float 
+// forces two rich text blocks into different sections.
+// body.homepage{
+//     section:nth-child(even) {
+//         background: var(--bs-secondary-bg);
+//     }
+// }
+
+// .page-callout{
+//     background: var(--bs-secondary-bg);
+// }
+
+body.homepage .news {
+    
+    background: var(--bs-secondary-bg);
+    .news-horizontal-scroll {
+        overflow-x: scroll;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        @extend .gap-4;
+
+        .news-item {
+            display: flex;
+            position: relative;
+            flex-direction: column;
+            min-width: 250px;
+            max-width: 80vw;
+            border: none;
+
+            figure {
+                height: 200px;
+                margin: 0;
+                @extend .mb-2;
+                background-size: cover;
+                // background-position: center;
+            }
+        }
+    }
+}
+
+
+footer {
+    h5 {
+        color: $bmrc-blue;
+        font-weight: 600;
+        font-size: larger;
+    }
+
+    a {
+        color: white !important;
+
+        &:hover,
+        &:focus {
+            color: $bmrc-blue !important;
+        }
+    }
+}
+
+
+
+/* 
+This styles were injected in the home page of the production site, 
+and were copied here for reference.
+#content,
+.featured-modules .columns {
+    display: flex !important;
+    flex-direction: column;
+}
+
+.section+.section {
+    border-top: 0 !important;
+}
+
+section {
+    &.featured-news.section {
+        background: #fafafa;
+        padding: 2rem;
+    }
+
+    &.featured-modules.section {
+        padding: 0;
+    }
+}
+
+.featured-modules {
+    padding: 0;
+
+    >.container {
+        max-width: 100%;
+        padding: 0;
+
+        >div {
+            padding: 1em 2em;
+
+            &:nth-child(even) {
+                background: #eee;
+            }
+
+            >* {
+                display: block;
+                width: 100%;
+                max-width: 768px;
+                margin: .5em auto;
+            }
+
+            >img {
+                max-width: 300px;
+            }
+
+            >p:last-child {
+                text-align: center;
+
+                >a {
+                    display: block;
+                    font-weight: 600;
+                    width: fit-content;
+                    padding: .5em 1em;
+                    border: 1px solid #000000;
+                    color: black;
+                    margin: 0 auto;
+
+                    &:hover {
+                        color: #232323;
+                        background-color: #d1bb95;
+                        border-color: #d1bb95;
+                    }
+                }
+            }
+        }
+    }
+} */
