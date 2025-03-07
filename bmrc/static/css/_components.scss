@@ -29,6 +29,14 @@ p strong {
     font-size: 1.1em;
 }
 
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
 /* 
  * --
  * ## Richtext 
@@ -77,7 +85,31 @@ img.richtext-image {
  * ## Content Blocks 
  * --
  */
+.figure {
+    @extend .mt-1;
+    @extend .mb-3;
+
+    &.pull-left {
+        float: left;
+        @extend .me-2;
+    }
+
+    &.pull-right {
+        float: right;
+        @extend .ms-2;
+    }
+
+    img {
+        margin: 0;
+    }
+
+    figcaption>p {
+        margin: 0;
+    }
+}
+
 .alert {
+    display: inline-block;
 
     /* Pages edited before this update may have one of these values for the class of the info box.
     * So we need to keep them for backwards compatibility.
