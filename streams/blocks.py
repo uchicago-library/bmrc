@@ -3,13 +3,20 @@
 from django import forms
 from django.core.validators import validate_slug
 from wagtail import blocks
-from wagtail.blocks import (CharBlock, ChoiceBlock, FieldBlock,
-                                 RawHTMLBlock, StaticBlock, StreamBlock)
+from wagtail.blocks import (
+    CharBlock,
+    ChoiceBlock,
+    FieldBlock,
+    RawHTMLBlock,
+    StaticBlock,
+    StreamBlock,
+)
 from wagtail.images.blocks import ImageChooserBlock
 
 
 class RichtextBlock(blocks.RichTextBlock):
     """Richtext WYSIWYG."""
+
     class Meta:  # noqa
         template = "streams/richtext_block.html"
         icon = "doc-full"
@@ -19,17 +26,20 @@ class RichtextBlock(blocks.RichTextBlock):
 class PageCallout(blocks.StructBlock):
     """Homepage: Half-width callout page with text and button."""
 
-    callout_title = blocks.CharBlock(required=False,
-                                     help_text="Title for callout section")
+    callout_title = blocks.CharBlock(
+        required=False, help_text="Title for callout section"
+    )
     callout_text = RichtextBlock(
         required=False,
         features=["bold", "italic", "ol", "ul", "link", "document-link"],
         label='Callout Text',
     )
     button_link = blocks.PageChooserBlock(
-        required=False, help_text='Where you want the button to go')
-    button_label = blocks.CharBlock(required=False,
-                                    help_text='Text that shows up in button')
+        required=False, help_text='Where you want the button to go'
+    )
+    button_label = blocks.CharBlock(
+        required=False, help_text='Text that shows up in button'
+    )
 
     class Meta:  # noqa
         template = "streams/page_callout.html"
@@ -39,6 +49,7 @@ class PageCallout(blocks.StructBlock):
 
 class NewRow(blocks.StructBlock):
     """Homepage: Force a row break between columns."""
+
     class Meta:
         template = "streams/new_row.html"
         icon = "horizontalrule"
@@ -48,8 +59,9 @@ class NewRow(blocks.StructBlock):
 class WebFeedBlock(blocks.StructBlock):
     """Code block for social media feeds."""
 
-    webfeed_title = blocks.CharBlock(required=False,
-                                     help_text="Title for callout section")
+    webfeed_title = blocks.CharBlock(
+        required=False, help_text="Title for callout section"
+    )
     webfeed_code = RawHTMLBlock(required=False)
 
     class Meta:  # noqa
@@ -60,16 +72,22 @@ class WebFeedBlock(blocks.StructBlock):
 
 class ImageFormatChoiceBlock(FieldBlock):
     """Alignment options to use with the ImageBlock."""
-    field = forms.ChoiceField(choices=(
-        ('pull-left', 'Wrap left'),
-        ('pull-right', 'Wrap right'),
-        ('fullwidth', 'Full width'),
-    ))
+
+    field = forms.ChoiceField(
+        choices=(
+            ('pull-left', 'Wrap left'),
+            ('pull-right', 'Wrap right'),
+            ('fullwidth', 'Full width'),
+        )
+    )
 
 
 class ImageBlock(blocks.StructBlock):
     """Image streamfield block."""
-    image = ImageChooserBlock(required=False, )
+
+    image = ImageChooserBlock(
+        required=False,
+    )
     caption = RichtextBlock(
         required=False,
         features=["bold", "italic", "link"],
@@ -84,6 +102,7 @@ class ImageBlock(blocks.StructBlock):
 
 class ClearBlock(blocks.StaticBlock):
     """Adds a clear between floated elements."""
+
     class Meta:
         icon = 'cross'
         template = 'streams/clear.html'
@@ -93,6 +112,7 @@ class ClearBlock(blocks.StaticBlock):
 
 class FellowsBlock(blocks.StructBlock):
     """Image streamfield block."""
+
     image = ImageChooserBlock(required=False, label='Profile Photo')
     profile_text = RichtextBlock(
         required=False,
@@ -112,7 +132,7 @@ class FellowsBlock(blocks.StructBlock):
         required=False,
         max_length=50,
         help_text='Slug for anchor link',
-        validators=[validate_slug]
+        validators=[validate_slug],
     )
 
     class Meta:
@@ -123,11 +143,14 @@ class FellowsBlock(blocks.StructBlock):
 
 class MembCollSearchBlock(blocks.StructBlock):
     """Search box for Member Collections."""
-    label = CharBlock(required=False,
-                      help_text="Optional: Label placed above search box")
+
+    label = CharBlock(
+        required=False, help_text="Optional: Label placed above search box"
+    )
     # placeholder_text = CharBlock(required=False, help_text="Defaults to 'Search Member Collections'")
-    search_help_text = CharBlock(required=False,
-                                 help_text="Optional: Placed below search box")
+    search_help_text = CharBlock(
+        required=False, help_text="Optional: Placed below search box"
+    )
 
     class Meta:
         template = "streams/memb_coll_search_block.html"
@@ -137,6 +160,7 @@ class MembCollSearchBlock(blocks.StructBlock):
 
 class ColumnsBlock(blocks.StreamBlock):
     """Flexbox to create columns of text; variable column count."""
+
     new_column = RichtextBlock(
         label="New Column",
         icon="arrow-right",
@@ -151,21 +175,33 @@ class ColumnsBlock(blocks.StreamBlock):
 
 class InfoBoxStyleChoiceBlock(FieldBlock):
     """Style options to use with the InfoBoxBlock."""
-    field = forms.ChoiceField(choices=(
-        ('basic-box', 'Basic'),
-        ('info-box', 'Informative'),
-        ('general-box', 'General'),
-        ('warning-box', 'Warning'),
-    ))
+
+    field = forms.ChoiceField(
+        choices=(
+            ('basic-box', 'Basic'),
+            ('info-box', 'Informative'),
+            ('general-box', 'General'),
+            ('warning-box', 'Warning'),
+            ('alert-loud', 'Larger'),
+        )
+    )
 
 
 class InfoBoxBlock(blocks.StructBlock):
     """In page text box that stands out and shows off links or important info."""
+
     text = RichtextBlock(
         required=True,
         features=[
-            "h2", "h3", "bold", "ol", "ul", "hr", "italic", "link",
-            "document-link"
+            "h2",
+            "h3",
+            "bold",
+            "ol",
+            "ul",
+            "hr",
+            "italic",
+            "link",
+            "document-link",
         ],
         label='Featured Text',
     )

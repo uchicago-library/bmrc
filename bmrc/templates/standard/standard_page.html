@@ -6,29 +6,53 @@
 
 {% block content %}
 
-<div class="container section">
-    <h1>{{self.title}}</h1>
-    <div class="columns ">
-
-        <div class="column">
-			{% for block in page.body %}
-	      		{% include_block block %}
-	      	{% endfor %}
-        </div>
-
-		{% if self.sidebar.all %}
-	        <div class="column sidebar is-one-quarter" role="complementary">
-	        	{% for item_set in self.sidebar.all %}
-	            <aside>
-	                <h2>{{ item_set.sidebar_title }}</h2>
-		            {{ item_set.sidebar_text|richtext }}
-	            </aside>
-	            {% endfor %}
-	        </div>
-        {% endif %}
-
-    </div>  <!-- // END columns -->
-
-</div>  <!-- // END container -->
+	<div class="container-lg py-5">
+		<h1>{{self.title}}</h1>
+		<div class="row">
+			<div class="col-12 col-md-9">
+				{% for block in page.body %}
+					<div class="body-block-{{block.block_type}}">
+						{% include_block block %}
+					</div>
+				{% endfor %}
+			</div>
+			<aside class="col-12 col-md-3">
+				{% if self.sidebar.all %}
+					<aside class="sidebar bg-info-subtle px-2 py-4" role="complementary">
+						<h2 class="visually-hidden">Sidebar</h2>
+						{% for item_set in self.sidebar.all %}
+							<h3 class="h4">{{ item_set.sidebar_title }}</h3>
+							{{ item_set.sidebar_text|richtext }}
+						{% endfor %}
+					</aside>
+				{% endif %}
+			</div>
+		</div>
+	</div>  
+	{% comment %} 
+	<div class="container-lg pt-5">
+		<h1>{{self.title}}</h1>
+		<div class="row">
+			<div class="col-12 col-md-8">
+				<section class="content py-5">
+					{% for block in page.body %}
+						{% include_block block %}
+					{% endfor %}
+				</section>
+			</div>
+			<div class="col-12 col-md-8">
+				{% if self.sidebar.all %}
+					<div class="column sidebar is-one-quarter" role="complementary">
+						{% for item_set in self.sidebar.all %}
+						<aside>
+							<h2>{{ item_set.sidebar_title }}</h2>
+							{{ item_set.sidebar_text|richtext }}
+						</aside>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>   {% endcomment %}
 
 {% endblock %}

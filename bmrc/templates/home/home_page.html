@@ -24,11 +24,13 @@
 {% endblock %}
 {% block content %}
 
-    <section class="content py-5">
-        {% for block in page.body %}
-            {% include_block block %}
-        {% endfor %}
-    </section>
+    <div class="content py-5">
+		{% for block in page.body %}
+			<div class="body-block-{{block.block_type}} {% if block.block_type != 'page_callout' %}container-sm{% endif %}">
+				{% include_block block %}
+			</div>
+		{% endfor %}
+    </div>
 
     <section class="news py-5">
         <div class="container-sm">
@@ -53,6 +55,5 @@
             <a href="/news" class="btn btn-outline-primary mt-2">View all BMRC News</a>
         </div>  
     </section>
-
 
 {% endblock %}

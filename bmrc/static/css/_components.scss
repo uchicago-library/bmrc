@@ -65,6 +65,36 @@ img.richtext-image {
  */
 @import "navbar";
 
+
+.alert {
+    &.warning-box {
+        // ('warning-box', 'Warning'),
+        @extend .alert-warning;
+    }
+
+    &.info-box {
+        // ('info-box', 'Informative'),
+        @extend .alert-info;
+    }
+
+    &.basic-box {
+        // ('basic-box', 'Basic'),
+        @extend .alert-secondary;
+    }
+
+    &.general-box {
+        // ('general-box', 'General'),
+        @extend .alert-success;
+    }
+
+    &.alert-loud {
+        // ('alert-loud', 'Larger'),
+        @extend .alert-info;
+        font-size: larger
+    }
+
+}
+
 // Cannot do this because using a new row to break float 
 // forces two rich text blocks into different sections.
 // body.homepage{
@@ -78,8 +108,9 @@ img.richtext-image {
 // }
 
 body.homepage .news {
-    
+
     background: var(--bs-secondary-bg);
+
     .news-horizontal-scroll {
         overflow-x: scroll;
         display: flex;
