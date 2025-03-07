@@ -29,6 +29,11 @@ p strong {
     font-size: 1.1em;
 }
 
+/* 
+ * --
+ * ## Richtext 
+ * --
+ */
 blockquote {
     @extend .blockquote;
     display: inline-block;
@@ -64,8 +69,14 @@ img.richtext-image {
  * --
  */
 @import "navbar";
+@import "footer";
+@import "homepage";
 
-
+/* 
+ * --
+ * ## Content Blocks 
+ * --
+ */
 .alert {
 
     /* Pages edited before this update may have one of these values for the class of the info box.
@@ -97,65 +108,11 @@ img.richtext-image {
 
 }
 
-// Cannot do this because using a new row to break float 
-// forces two rich text blocks into different sections.
-// body.homepage{
-//     section:nth-child(even) {
-//         background: var(--bs-secondary-bg);
-//     }
-// }
 
 // .page-callout{
 //     background: var(--bs-secondary-bg);
 // }
 
-body.homepage .news {
-
-    background: var(--bs-secondary-bg);
-
-    .news-horizontal-scroll {
-        overflow-x: scroll;
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        @extend .gap-4;
-
-        .news-item {
-            display: flex;
-            position: relative;
-            flex-direction: column;
-            min-width: 250px;
-            max-width: 80vw;
-            border: none;
-
-            figure {
-                height: 200px;
-                margin: 0;
-                @extend .mb-2;
-                background-size: cover;
-                // background-position: center;
-            }
-        }
-    }
-}
-
-
-footer {
-    h5 {
-        color: $bmrc-blue;
-        font-weight: 600;
-        font-size: larger;
-    }
-
-    a {
-        color: white !important;
-
-        &:hover,
-        &:focus {
-            color: $bmrc-blue !important;
-        }
-    }
-}
 
 
 

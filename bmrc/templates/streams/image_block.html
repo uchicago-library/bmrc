@@ -7,12 +7,12 @@
     {% image value.image width-300 as tmp_img %}
 {% endif %}
 
-<figure class="imgcaption {{ value.alignment }}">
-    <img src="{{ tmp_img.url }}" alt="{{ value.image }}" />
+<figure class="figure {{ value.alignment }}">
+    <img class="figure-img img-fluid" src="{{ tmp_img.url }}" alt="{{ value.image }}" />
    
     {% if value.caption %}
         <figcaption>
-            <span class="img-caption">{{value.caption}}<span>
+            <span class="figure-caption">{{value.caption}}<span>
         </figcaption>
     {% endif %}
 </figure>
