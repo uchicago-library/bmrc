@@ -10,13 +10,13 @@
           {% if self.size == 'SM' %}
             <div class="media-left">
               <figure class="image is-128x128">
-                <img src="{{ sm_img.url }}" alt="{{ value.image }}">
+                <img class="img-fluid" src="{{ sm_img.url }}" alt="{{ value.image }}">
               </figure>
             </div>
           {% elif self.size == 'MD' %}
             <div class="media-left">
               <figure class="image is-160x160">
-                <img src="{{ md_img.url }}" alt="{{ value.image }}">
+                <img class="img-fluid" src="{{ md_img.url }}" alt="{{ value.image }}">
               </figure>
             </div>
           {% endif %}
@@ -32,7 +32,7 @@
       {% if self.image %}
           <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
             <figure class="image">
-              <img src="{{ lg_img.url }}" alt="{{ value.image }}">
+              <img class="img-fluid" src="{{ lg_img.url }}" alt="{{ value.image }}">
             </figure>
           </div>
       {% endif %}
