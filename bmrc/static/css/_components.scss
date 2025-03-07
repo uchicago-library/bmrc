@@ -67,28 +67,30 @@ img.richtext-image {
 
 
 .alert {
+
+    /* Pages edited before this update may have one of these values for the class of the info box.
+    * So we need to keep them for backwards compatibility.
+    ('warning-box', 'Warning'),
+    ('info-box', 'Informative'),
+    ('basic-box', 'Basic'),
+    ('general-box', 'General'), */
     &.warning-box {
-        // ('warning-box', 'Warning'),
         @extend .alert-warning;
     }
 
     &.info-box {
-        // ('info-box', 'Informative'),
         @extend .alert-info;
     }
 
     &.basic-box {
-        // ('basic-box', 'Basic'),
-        @extend .alert-secondary;
+        @extend .alert-light;
     }
 
     &.general-box {
-        // ('general-box', 'General'),
         @extend .alert-success;
     }
 
     &.alert-loud {
-        // ('alert-loud', 'Larger'),
         @extend .alert-info;
         font-size: larger
     }

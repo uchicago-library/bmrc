@@ -178,10 +178,9 @@ class InfoBoxStyleChoiceBlock(FieldBlock):
 
     field = forms.ChoiceField(
         choices=(
-            ('basic-box', 'Basic'),
-            ('info-box', 'Informative'),
-            ('general-box', 'General'),
-            ('warning-box', 'Warning'),
+            ('alert-warning', 'Warning'),
+            ('alert-info', 'Informative'),
+            ('alert-success', 'Success'),
             ('alert-loud', 'Larger'),
         )
     )
