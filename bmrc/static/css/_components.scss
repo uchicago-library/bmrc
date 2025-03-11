@@ -144,6 +144,25 @@ img.richtext-image {
     min-width: 17rem;
 }
 
+.fellows-block {
+    .fb-col-sm-img {
+        @extend .col-12, .col-sm-3;
+    }
+
+    .fb-col-md-img {
+        @extend .col-12, .col-sm-6, .col-md-5, .col-lg-4;
+    }
+
+    .fb-col-lg-img {
+        @extend .col-12, .col-lg-6;
+    }
+    // .fb-col-sm-txt,
+    // .fb-col-md-txt,
+    // .fb-col-lg-txt {
+    //     @extend .col;
+    // }
+}
+
 // .page-callout{
 //     background: var(--bs-secondary-bg);
 // }
