@@ -113,12 +113,7 @@ class ClearBlock(blocks.StaticBlock):
 class FellowsBlock(blocks.StructBlock):
     """Image streamfield block."""
 
-    image = ImageChooserBlock(required=False, label='Profile Photo')
-    profile_text = RichtextBlock(
-        required=False,
-        features=["h2", "h3", "bold", "italic", "link"],
-        label='Profile Text',
-    )
+    image = ImageChooserBlock(required=False, label='Image')
     LARGE = 'LG'
     MEDIUM = 'MD'
     SMALL = 'SM'
@@ -127,18 +122,23 @@ class FellowsBlock(blocks.StructBlock):
         (MEDIUM, 'Medium'),
         (SMALL, 'Small'),
     ]
-    size = ChoiceBlock(choices=FELLOW_SIZE_CHOICES, default=LARGE)
+    size = ChoiceBlock(choices=FELLOW_SIZE_CHOICES, default=MEDIUM, label='Image Size')
     anchor = CharBlock(
         required=False,
         max_length=50,
-        help_text='Slug for anchor link',
+        help_text='Slug for anchor link. Must not contain spaces.',
         validators=[validate_slug],
+    )
+    profile_text = RichtextBlock(
+        required=False,
+        features=["h2", "h3", "bold", "italic", "link"],
+        label='Text',
     )
 
     class Meta:
         icon = 'user'
         template = 'streams/fellows_block.html'
-        help_text = 'Content box with image to right and text to left.'
+        help_text = 'Content box with image to left and text to right.'
 
 
 class MembCollSearchBlock(blocks.StructBlock):
