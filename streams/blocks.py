@@ -136,8 +136,9 @@ class FellowsBlock(blocks.StructBlock):
     )
 
     class Meta:
-        icon = 'user'
+        icon = 'image'
         template = 'streams/fellows_block.html'
+        label = 'Image and Text Block'
         help_text = 'Content box with image to left and text to right.'
 
 
