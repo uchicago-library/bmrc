@@ -6,6 +6,31 @@
 
 {% block content %}
 
+	<div class="container-sm py-5 news-story-page">
+		<h1 class="h2">{{self.title}}</h1>
+        <p class="">{{ self.story_date|date:"F j, Y" }}</p>
+		<div class="row">
+            <div class="col-12 col-md-5 col-lg-4 order-md-2">
+                {% if self.lead_image %}
+                    <figure class="figure">
+                        {% image self.lead_image width-520 class="figure-img img-fluid" %}
+                    </figure>
+                {% endif %}
+            </div>
+
+            <div class="col-12 col-md-7 col-lg-8 order-md-1">
+                {% for block in page.body %}
+                    {% include_block block %}
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+{% if false %}
 <div class="container section">
     <h1>{{self.title}}</h1>
     <p class="news-date">{{ self.story_date|date:"F j, Y" }}</p>
@@ -32,5 +57,5 @@
     </div>
 
 </div>  <!-- // END container -->
-
+{% endif %}
 {% endblock %}

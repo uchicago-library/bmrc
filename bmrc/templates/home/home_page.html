@@ -45,7 +45,7 @@
                                 </figure>
                             {% endif %}
 
-                            <span class="text-body-secondary">{{ post.last_published_at|date:"F j, Y" }}</span>
+                            <span class="text-body-secondary">{{ post.story_date|date:"F j, Y" }}</span>
                             <a class="stretched-link text-dark text-decoration-none" href="{{ post.url }}" aria-label="Read full post for {{post.title}}">
                                 <h3 class="h5">{{post.title}}</h3>
                             </a>
