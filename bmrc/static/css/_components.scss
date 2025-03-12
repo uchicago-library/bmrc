@@ -2,6 +2,11 @@
  * Isolate most components to their own files.
  * Will attempt to create an abstraciton layer for the grid system,
  * to improve documentation, and maintainability.
+    * ## Utility Classes 
+    * ## Fixes 
+    * ## Richtext 
+    * ## Components 
+    * ## Content Blocks 
  */
 
 /* 
@@ -80,6 +85,26 @@ img.richtext-image {
 @import "footer";
 @import "homepage";
 
+
+.card.news-item {
+    // display: flex;
+    // position: relative;
+    // flex-direction: column;
+    background: none;
+    border: none;
+    // border-radius: 0;
+    // @extend .shadow;
+
+    figure.card-img-top {
+        height: 12rem;
+        margin: 0;
+        @extend .mb-2;
+        background-size: cover;
+        border-radius: 0 !important;
+        // background-position: center;
+    }
+}
+
 /* 
  * --
  * ## Content Blocks 
@@ -156,6 +181,7 @@ img.richtext-image {
     .fb-col-lg-img {
         @extend .col-12, .col-lg-6;
     }
+
     // .fb-col-sm-txt,
     // .fb-col-md-txt,
     // .fb-col-lg-txt {
@@ -166,78 +192,3 @@ img.richtext-image {
 // .page-callout{
 //     background: var(--bs-secondary-bg);
 // }
-
-
-
-
-/* 
-This styles were injected in the home page of the production site, 
-and were copied here for reference.
-#content,
-.featured-modules .columns {
-    display: flex !important;
-    flex-direction: column;
-}
-
-.section+.section {
-    border-top: 0 !important;
-}
-
-section {
-    &.featured-news.section {
-        background: #fafafa;
-        padding: 2rem;
-    }
-
-    &.featured-modules.section {
-        padding: 0;
-    }
-}
-
-.featured-modules {
-    padding: 0;
-
-    >.container {
-        max-width: 100%;
-        padding: 0;
-
-        >div {
-            padding: 1em 2em;
-
-            &:nth-child(even) {
-                background: #eee;
-            }
-
-            >* {
-                display: block;
-                width: 100%;
-                max-width: 768px;
-                margin: .5em auto;
-            }
-
-            >img {
-                max-width: 300px;
-            }
-
-            >p:last-child {
-                text-align: center;
-
-                >a {
-                    display: block;
-                    font-weight: 600;
-                    width: fit-content;
-                    padding: .5em 1em;
-                    border: 1px solid #000000;
-                    color: black;
-                    margin: 0 auto;
-
-                    &:hover {
-                        color: #232323;
-                        background-color: #d1bb95;
-                        border-color: #d1bb95;
-                    }
-                }
-            }
-        }
-    }
-} */

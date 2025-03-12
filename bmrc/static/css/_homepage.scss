@@ -11,26 +11,19 @@ body.homepage .news {
 
     .news-horizontal-scroll {
         overflow-x: scroll;
-        display: flex;
+        // display: flex;
         flex-wrap: nowrap;
-        flex-direction: row;
-        @extend .gap-4;
+        // flex-direction: row;
 
-        .news-item {
-            display: flex;
-            position: relative;
-            flex-direction: column;
-            min-width: 250px;
-            max-width: 80vw;
-            border: none;
+        .card-group {
+            min-width: 822px;
+            @extend .gap-4;
 
-            figure {
-                height: 200px;
-                margin: 0;
-                @extend .mb-2;
-                background-size: cover;
-                // background-position: center;
+            .card.news-item {
+                width: 250px;
+                // max-width: 80vw;
             }
         }
+
     }
 }

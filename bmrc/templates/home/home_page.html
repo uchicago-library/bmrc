@@ -35,21 +35,24 @@
         <div class="container-sm">
             <h2>Recent News</h2>
             <div class="news-horizontal-scroll">
-                {% for post in page.news_feed %}
-                    <div class="news-item">
-                        {% image post.lead_image width-350 as img %}
-                        {% if post.lead_image %}
-                            <figure style="background-image: url({{ img.url }})">
-                                <img class="visually-hidden" src="{{ img.url }}" alt="{{ img.alt }}">
-                            </figure>
-                        {% endif %}
+                <div class="card-group">
+                    {% for post in page.news_feed %}
+                        <div class="card news-item">
+                            {% image post.lead_image width-350 as img %}
+                            {% if post.lead_image %}
+                                <figure class="card-img-top" style="background-image: url({{ img.url }})">
+                                    <img class="visually-hidden" src="{{ img.url }}" alt="{{ img.alt }}">
+                                </figure>
+                            {% endif %}
 
-                            <h3 class="h4 card-title">{{post.title}}</h3>
-                            <p class="card-text">{{ post.excerpt }}</p>
-                            {% comment %} <p class="card-text"><small class="text-body-secondary">Published {{ post.last_published_at|date:"F j, Y" }}</small></p> {% endcomment %}
-                        <p><a class="stretched-link" href="{{ post.url }}" aria-label="Read full post for {{post.title}}">Read More</a></p>
-                    </div>  
-                {% endfor %}
+                            <span class="text-body-secondary">{{ post.last_published_at|date:"F j, Y" }}</span>
+                            <a class="stretched-link text-dark text-decoration-none" href="{{ post.url }}" aria-label="Read full post for {{post.title}}">
+                                <h3 class="h5">{{post.title}}</h3>
+                            </a>
+                            <p class="">{{ post.excerpt }}</p>
+                        </div>  
+                    {% endfor %}
+                </div>  
             </div>  
             <a href="/news" class="btn btn-outline-primary mt-2">View all BMRC News</a>
         </div>  
