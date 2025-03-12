@@ -11,11 +11,10 @@
 		<div class="row">
 			<div class="col-12 col-md-8 col-lg-9">
 				{% if posts|length > 0 %}
-					<div class="row row-cols-1 row-cols-lg-3 g-4 g-lg-5">
+					<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-4">
 					
 						{% for post in posts %}
-							{% comment %} {% cache 604800 news_post_preview post.id %} {% endcomment %}
-							{% comment %} {% endcache %} {% endcomment %}
+							{% cache 604800 news_post_preview post.id %}
 							<div class="col">
 								<article class="card news-item">
 									{% if post.lead_image %}
@@ -25,14 +24,15 @@
 										</figure>
 									{% endif %}
 
+									<span class="text-body-secondary">{{ post.story_date }}</span>
                         			<a class="stretched-link text-dark text-decoration-none" href="{{ post.url }}" aria-label="Read full post for {{post.title}}">
-										<h2 class="h4">{{post.title}}</h2>
+										<h2 class="h5">{{post.title}}</h2>
 									</a>
-									<p><small>{{ post.story_date }}</small></p>
 									<p>{{ post.excerpt }}</p>
 									
 								</article>
 							</div>
+							{% endcache %}
 						{% endfor %}
 
 					</div>
@@ -46,15 +46,16 @@
 							<li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}" aria-label="Previous"><i class="fa-solid fa-arrow-left"></i></a></li>
 						{% endif %}
 						
+						{% if posts.has_next %}
+							<li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}" aria-label="Next"><i class="fa-solid fa-arrow-right"></i></a></li>
+						{% endif %}
+
 						{% for page_num in posts.paginator.page_range %}
 							<li class="page-item {% if page_num == posts.number %}active{% endif %}">
 								<a class="page-link" href="?page={{ page_num }}" aria-label="Page {{ page_num }}" {% if page_num == posts.number %}aria-current="page"{% endif %}>{{ page_num }}</a>
 							</li>
 						{% endfor %}
 
-						{% if posts.has_next %}
-							<li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}" aria-label="Next"><i class="fa-solid fa-arrow-right"></i></a></li>
-						{% endif %}
 					</ul>
 				</nav>
 
@@ -68,72 +69,5 @@
 			</div>
 
 		</div>
-	</div>   <!-- // END container -->
-
-
-
-
-{% if false %}
-		<div class="columns ">
-		<div class="column">
-			<div class="columns is-mobile is-multiline">
-		{% for post in posts %}
-			{% cache 604800 news_post_preview post.id %}
-				<div class="column is-half-mobile is-half-tablet is-one-third-desktop">
-					{% image post.lead_image width-500 as img %}
-					<article>
-						<a href="{{ post.url }}" aria-label="Read full post for {{post.title}}">
-						{% if post.lead_image %}
-						<figure>
-							
-								<img src="{{ img.url }}" alt="{{ img.alt }}">
-							
-						</figure>
-						{% endif %}
-
-						<h2>{{post.title}}</h2>
-						<p>{{ post.story_date }}</p>
-						<p>{{ post.excerpt }}</p>
-					</a>
-					</article>
-				</div>
-			{% endcache %}
-		{% endfor %}
-	</div></div>
-
-		{% if self.news_sidebar.all %}
-			<div class="column sidebar is-full-mobile is-one-fifth-desktop" role="complementary">
-				{% for item_set in self.news_sidebar.all %}
-				<aside>
-					<h2>{{ item_set.sidebar_title }}</h2>
-					{{ item_set.sidebar_text|richtext }}
-				</aside>
-				{% endfor %}
-			</div>
-		{% endif %}
-
-		</div>  <!-- // END columns -->
-
-		{% if posts.paginator.num_pages > 1 %}
-		<nav class="pagination" role="navigation" aria-label="pagination">
-			{% if posts.has_previous %}
-				<a href="?page={{ posts.previous_page_number }}" class="pagination-previous" aria-label="Go to Previous Page">Previous</a>
-			{% endif %}
-			{% if posts.has_next %}
-				<a href="?page={{ posts.next_page_number }}" class="pagination-next" aria-label="Go to Next Page">Next page</a>
-			{% endif %}
-
-			<ul class="pagination-list">
-				{% for page_num in posts.paginator.page_range %}
-				<li>
-					<a href="?page={{ page_num }}" class="pagination-link {% if page_num == posts.number %}is-current{% endif %}" aria-label="Page {{ page_num }}" {% if page_num == posts.number %}aria-current="page"{% endif %}>{{ page_num }}</a>
-				</li>
-				{% endfor %}
-			</ul>
-		</nav>
-		{% endif %}
-
-	</div>  <!-- // END container -->
-{%endif %}
-
+	</div>
 {% endblock %}
