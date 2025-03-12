@@ -11,9 +11,7 @@ body.homepage .news {
 
     .news-horizontal-scroll {
         overflow-x: scroll;
-        // display: flex;
         flex-wrap: nowrap;
-        // flex-direction: row;
 
         .card-group {
             min-width: 822px;
@@ -21,7 +19,6 @@ body.homepage .news {
 
             .card.news-item {
                 width: 250px;
-                // max-width: 80vw;
             }
         }
 
