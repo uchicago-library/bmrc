@@ -1,4 +1,5 @@
 """News Index and Story Pages"""
+
 # from datetime import datetime
 
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -28,16 +29,14 @@ class NewsSideBar(Orderable):
     sidebar_text = RichTextField(
         blank=True,
         null=True,
-        features=[
-            "bold", "italic", "ol", "ul", "link", "document-link", "image"
-        ],
+        features=["bold", "italic", "ol", "ul", "link", "document-link", "image"],
     )
 
     panels = [
         FieldPanel("sidebar_title"),
         FieldPanel("sidebar_text"),
     ]
-    heading = "Sidebar Section",
+    heading = ("Sidebar Section",)
 
 
 class NewsIndexPage(Page):
@@ -50,7 +49,9 @@ class NewsIndexPage(Page):
 
         context = super().get_context(request, *args, **kwargs)
         # Get all posts
-        child_posts = NewsStoryPage.objects.child_of(self).live().order_by('-story_date')
+        child_posts = (
+            NewsStoryPage.objects.child_of(self).live().order_by('-story_date')
+        )
 
         # Paginate all posts by 9 per page
         paginator = Paginator(child_posts, 9)
@@ -109,8 +110,7 @@ class NewsStoryPage(Page):
     )
     story_date = models.DateField(
         default=timezone.now,
-        help_text=
-        'Defaults to date page was created. If you plan to publish in the future post, change to publish date here.'
+        help_text='Defaults to date page was created. If you plan to publish in the future post, change to publish date here.',
     )
 
     content_panels = Page.content_panels + [
@@ -131,11 +131,8 @@ class NewsletterSignupPage(Page):
 
     max_count = 1
     subpage_types = []
-    parent_page_types = ['news.NewsIndexPage']
 
-    search_fields = Page.search_fields + [
-        index.SearchField('search_description')
-    ]
+    search_fields = Page.search_fields + [index.SearchField('search_description')]
 
     body = StreamField(
         [
