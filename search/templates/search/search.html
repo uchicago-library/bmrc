@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static wagtailcore_tags %}
+{% load static wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-searchresults{% endblock %}
 
@@ -7,6 +7,41 @@
 
 {% block content %}
 
+	<div class="container-sm py-5">
+		<h1>{{self.title}}</h1>
+		<div class="">
+            {% if search_results %}
+                <p>Found {{search_results|length}} search results for "{{ search_query }}"</p>
+                {% for result in search_results %}
+                    <div class="row mb-5">
+                        <div class="col" style="min-width:250px;">
+                            <h2 class="h4"><a href="{% pageurl result %}">{{ result }}</a></h2>
+                            {% if result.search_description %}
+                                <p>{{ result.search_description }}</p>
+                            {% elif result.specific.excerpt %}
+                                <p> {{ result.specific.excerpt }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-12 col-md-auto">
+                            {% if result.specific.lead_image %}
+                                <figure class="figure">
+                                    {% image result.specific.lead_image  width-250 class="img-fluid" %}
+                                </figure>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+
+
+
+
+
+		
+{% if false %}	
     <div class="container section search-results">
         <h1>Search</h1>
 
@@ -44,4 +79,5 @@
         </div>
 
     </div>
+{% endif %}
 {% endblock %}
