@@ -6,29 +6,24 @@
 
 {% block content %}
 
-<div class="container section">
-    <h1>{{self.title}}</h1>
-    <div class="columns ">
-
-        <div class="column">
-			{% for block in page.body %}
-	      		{% include_block block %}
-	      	{% endfor %}
-        </div>
-
-		{% if self.sidebar.all %}
-	        <div class="column sidebar is-one-quarter" role="complementary">
-	        	{% for item_set in self.sidebar.all %}
-	            <aside>
-	                <h2>{{ item_set.sidebar_title }}</h2>
-		            {{ item_set.sidebar_text|richtext }}
-	            </aside>
-	            {% endfor %}
-	        </div>
-        {% endif %}
-
-    </div>  <!-- // END columns -->
-
-</div>  <!-- // END container -->
+	<div class="container-sm py-5">
+		<h1>{{self.title}}</h1>
+		<div class="row">
+			<div class="col-12 col-md-8 col-lg-9">
+				{% for block in page.body %}
+					<div class="body-block-{{block.block_type}}">
+						{% include_block block %}
+					</div>
+				{% endfor %}
+			</div>
+			<aside class="col-12 col-md-4 col-lg-3">
+				{% if self.sidebar.all %}
+					{% with sidebar_sections=self.sidebar.all %}
+						{% include 'includes/sidebar.html' %}
+					{% endwith %}
+				{% endif %}
+			</div>
+		</div>
+	</div>  
 
 {% endblock %}

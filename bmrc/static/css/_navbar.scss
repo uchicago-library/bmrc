@@ -4,7 +4,7 @@
     padding: 5px 12px;
     border: 1px solid black;
     line-height: 1;
-    height: 30px;
+    // height: 30px;
     border-width: 2px;
 }
 
@@ -13,22 +13,32 @@
     font-weight: 600;
 }
 
-$navbar-height: 72px;
+$navbar-height: 70px;
+/* approximate, err on larger */
 
 .bmrc-header {
+
+    .navbar-spacer {
+        padding-top: $navbar-height;
+    }
+
+    .hero {
+        padding-top: $navbar-height * 2;
+    }
+
     // background: $bmrc-gradient;
 
     .navbar {
-        height: $navbar-height;
+        // height: $navbar-height;
+        position: absolute;
+        width: 100%;
+
+        .nav-brand {
+            max-width: 170px;
+        }
 
         div.navbar-collapse {
             @extend .py-2;
-
-            &.show {
-                // background-color: white;
-                // background: $bmrc-gradient-transparent, #cdcdcd;
-                backdrop-filter: blur(20px);
-            }
 
             ul.navbar-nav {
 
@@ -88,8 +98,8 @@ $navbar-height: 72px;
     }
 
     .hero {
-        margin-top: $navbar-height*-1;
-        padding-top: $navbar-height * 2;
+        // margin-top: $navbar-height*-1;
+        // padding-top: $navbar-height * 2;
         @extend .pb-5;
         background-size: cover !important;
         background-position: center !important;

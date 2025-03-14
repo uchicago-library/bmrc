@@ -77,7 +77,7 @@ $dark: #343a40; // Custom dark color
 $link-color: #007396;
 
 $bmrc-gradient: linear-gradient(257.92deg, rgba(36, 169, 224, 1) 51.83%, rgba(250, 205, 15, 1) 95.83%);
-$bmrc-gradient-transparent: linear-gradient(257.92deg, rgba(36, 169, 224, 0.5) 51.83%, rgba(250, 205, 15, 0.5) 95.83%);
+$bmrc-gradient-transparent: linear-gradient(257.92deg, rgba(36, 169, 224, 0.7) 51.83%, rgba(250, 205, 15, 0.7) 95.83%);
 
 /* 
  * --
@@ -89,6 +89,9 @@ $focus-ring-opacity: .85;
 $focus-ring-color: rgba($info, $focus-ring-opacity);
 $focus-ring-blur: 0;
 $focus-ring-box-shadow: 0 0 $focus-ring-blur $focus-ring-width $focus-ring-color;
+
+$alert-border-radius: 0;
+// $alert-border-width: 0;
 
 /* 
  * --

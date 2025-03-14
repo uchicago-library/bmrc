@@ -1,0 +1,16 @@
+footer {
+    h5 {
+        color: $bmrc-blue;
+        font-weight: 600;
+        font-size: larger;
+    }
+
+    a {
+        color: white !important;
+
+        &:hover,
+        &:focus {
+            color: $bmrc-blue !important;
+        }
+    }
+}

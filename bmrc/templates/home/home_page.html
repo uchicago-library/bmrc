@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 {% load wagtailcore_tags wagtailimages_tags %}
-
 {% block body_class %}homepage{% endblock %}
 
 {% block extra_header %}
@@ -9,7 +8,7 @@
 {% if self.carousel_images %}
     {% with self.carousel_images.all|random as item_set %}
         {% image item_set.carousel_image width-900 as img %}
-		<section class="hero" style="background:var(--bmrc-gradient-transparent), linear-gradient(160deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65));background:var(--bmrc-gradient-transparent), url({{img.url}}), black;">
+		<section class="hero" style="background:var(--bmrc-gradient-transparent), linear-gradient(160deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65));background:linear-gradient(#ffffff50 15%, #ffffff00 37%), var(--bmrc-gradient-transparent), url({{img.url}}), black;">
 			<div class="hero-body py-2 py-md-5 container-sm">
 			<h1 class="h4">{{ item_set.carousel_title }}</h1>
 			<div class="fs-5">{{ item_set.carousel_text|richtext }}</div>
@@ -24,35 +23,39 @@
 {% endblock %}
 {% block content %}
 
-    <section class="content py-5">
-        {% for block in page.body %}
-            {% include_block block %}
-        {% endfor %}
-    </section>
+    <div class="content py-5">
+		{% for block in page.body %}
+			<div class="body-block-{{block.block_type}} {% if block.block_type != 'page_callout' %}container-sm{% endif %}">
+				{% include_block block %}
+			</div>
+		{% endfor %}
+    </div>
 
     <section class="news py-5">
         <div class="container-sm">
             <h2>Recent News</h2>
             <div class="news-horizontal-scroll">
-                {% for post in page.news_feed %}
-                    <div class="news-item">
-                        {% image post.lead_image width-350 as img %}
-                        {% if post.lead_image %}
-                            <figure style="background-image: url({{ img.url }})">
-                                <img class="visually-hidden" src="{{ img.url }}" alt="{{ img.alt }}">
-                            </figure>
-                        {% endif %}
+                <div class="card-group">
+                    {% for post in page.news_feed %}
+                        <div class="card news-item">
+                            {% image post.lead_image width-350 as img %}
+                            {% if post.lead_image %}
+                                <figure class="card-img-top" style="background-image: url({{ img.url }})">
+                                    <img class="visually-hidden" src="{{ img.url }}" alt="{{ img.alt }}">
+                                </figure>
+                            {% endif %}
 
-                            <h3 class="h4 card-title">{{post.title}}</h3>
-                            <p class="card-text">{{ post.excerpt }}</p>
-                            {% comment %} <p class="card-text"><small class="text-body-secondary">Published {{ post.last_published_at|date:"F j, Y" }}</small></p> {% endcomment %}
-                        <p><a class="stretched-link" href="{{ post.url }}" aria-label="Read full post for {{post.title}}">Read More</a></p>
-                    </div>  
-                {% endfor %}
+                            <span class="text-body-secondary">{{ post.story_date|date:"F j, Y" }}</span>
+                            <a class="stretched-link text-dark text-decoration-none" href="{{ post.url }}" aria-label="Read full post for {{post.title}}">
+                                <h3 class="h5">{{post.title}}</h3>
+                            </a>
+                            <p class="">{{ post.excerpt }}</p>
+                        </div>  
+                    {% endfor %}
+                </div>  
             </div>  
             <a href="/news" class="btn btn-outline-primary mt-2">View all BMRC News</a>
         </div>  
     </section>
-
 
 {% endblock %}

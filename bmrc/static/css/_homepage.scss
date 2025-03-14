@@ -1,0 +1,26 @@
+// Cannot do this because using a new row to break float 
+// forces two rich text blocks into different sections.
+// body.homepage{
+//     section:nth-child(even) {
+//         background: var(--bs-secondary-bg);
+//     }
+// }
+body.homepage .news {
+
+    background: var(--bs-secondary-bg);
+
+    .news-horizontal-scroll {
+        overflow-x: scroll;
+        flex-wrap: nowrap;
+
+        .card-group {
+            min-width: 822px;
+            @extend .gap-4;
+
+            .card.news-item {
+                width: 250px;
+            }
+        }
+
+    }
+}

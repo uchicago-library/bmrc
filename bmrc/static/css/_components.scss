@@ -2,6 +2,11 @@
  * Isolate most components to their own files.
  * Will attempt to create an abstraciton layer for the grid system,
  * to improve documentation, and maintainability.
+    * ## Utility Classes 
+    * ## Fixes 
+    * ## Richtext 
+    * ## Components 
+    * ## Content Blocks 
  */
 
 /* 
@@ -29,6 +34,23 @@ p strong {
     font-size: 1.1em;
 }
 
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+.news-story-page figure {
+    margin-top: 0 !important;
+}
+
+/* 
+ * --
+ * ## Richtext 
+ * --
+ */
 blockquote {
     @extend .blockquote;
     display: inline-block;
@@ -64,136 +86,127 @@ img.richtext-image {
  * --
  */
 @import "navbar";
+@import "footer";
+@import "homepage";
 
-// Cannot do this because using a new row to break float 
-// forces two rich text blocks into different sections.
-// body.homepage{
-//     section:nth-child(even) {
-//         background: var(--bs-secondary-bg);
-//     }
-// }
+
+.card.news-item {
+    background: none;
+    border: none;
+    // border-radius: 0;
+    // @extend .shadow;
+
+    figure.card-img-top {
+        height: 12rem;
+        margin: 0;
+        @extend .mb-2;
+        background-size: cover;
+        border-radius: 0 !important;
+        // background-position: center;
+    }
+}
+
+/* 
+ * --
+ * ## Content Blocks 
+ * --
+ */
+.figure {
+    @extend .mt-1;
+    @extend .mb-3;
+
+    &.pull-left {
+        float: left;
+        @extend .me-2;
+    }
+
+    &.pull-right {
+        float: right;
+        @extend .ms-2;
+    }
+
+    img {
+        margin: 0;
+    }
+
+    figcaption>p {
+        margin: 0;
+    }
+}
+
+.alert {
+    display: inline-block;
+    border-width: 0;
+    width: 100%;
+
+    /* Pages edited before this update may have one of these values for the class of the info box.
+    * So we need to keep them for backwards compatibility.
+    ('warning-box', 'Warning'),
+    ('info-box', 'Informative'),
+    ('basic-box', 'Basic'),
+    ('general-box', 'General'),
+    
+    INFO = 'alert-info'
+    LOW = 'alert-low'
+    HIGH = 'alert-high'
+    ALERT_TYPES = (
+        (INFO, 'Informational Alert'),
+        (LOW, 'General Alert'),
+        (HIGH, 'Critical Alert'),
+    )*/
+    &.alert-high {
+        @extend .alert-danger;
+    }
+
+    &.warning-box {
+        @extend .alert-warning;
+    }
+
+    &.info-box {
+        @extend .alert-info;
+    }
+
+    &.basic-box,
+    &.alert-low {
+        @extend .alert-light;
+        border-width: 1px;
+    }
+
+    &.general-box {
+        @extend .alert-success;
+    }
+
+    &.alert-loud {
+        @extend .alert-info;
+        font-size: larger
+    }
+
+}
+
+.columns-block .col {
+    min-width: 17rem;
+}
+
+.fellows-block {
+    .fb-col-sm-img {
+        @extend .col-12, .col-sm-3;
+    }
+
+    .fb-col-md-img {
+        @extend .col-12, .col-sm-6, .col-md-5, .col-lg-4;
+    }
+
+    .fb-col-lg-img {
+        @extend .col-12, .col-lg-6;
+    }
+
+    // .fb-col-sm-txt,
+    // .fb-col-md-txt,
+    // .fb-col-lg-txt {
+    //     @extend .col;
+    // }
+}
 
 // .page-callout{
 //     background: var(--bs-secondary-bg);
 // }
-
-body.homepage .news {
-    
-    background: var(--bs-secondary-bg);
-    .news-horizontal-scroll {
-        overflow-x: scroll;
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        @extend .gap-4;
-
-        .news-item {
-            display: flex;
-            position: relative;
-            flex-direction: column;
-            min-width: 250px;
-            max-width: 80vw;
-            border: none;
-
-            figure {
-                height: 200px;
-                margin: 0;
-                @extend .mb-2;
-                background-size: cover;
-                // background-position: center;
-            }
-        }
-    }
-}
-
-
-footer {
-    h5 {
-        color: $bmrc-blue;
-        font-weight: 600;
-        font-size: larger;
-    }
-
-    a {
-        color: white !important;
-
-        &:hover,
-        &:focus {
-            color: $bmrc-blue !important;
-        }
-    }
-}
-
-
-
-/* 
-This styles were injected in the home page of the production site, 
-and were copied here for reference.
-#content,
-.featured-modules .columns {
-    display: flex !important;
-    flex-direction: column;
-}
-
-.section+.section {
-    border-top: 0 !important;
-}
-
-section {
-    &.featured-news.section {
-        background: #fafafa;
-        padding: 2rem;
-    }
-
-    &.featured-modules.section {
-        padding: 0;
-    }
-}
-
-.featured-modules {
-    padding: 0;
-
-    >.container {
-        max-width: 100%;
-        padding: 0;
-
-        >div {
-            padding: 1em 2em;
-
-            &:nth-child(even) {
-                background: #eee;
-            }
-
-            >* {
-                display: block;
-                width: 100%;
-                max-width: 768px;
-                margin: .5em auto;
-            }
-
-            >img {
-                max-width: 300px;
-            }
-
-            >p:last-child {
-                text-align: center;
-
-                >a {
-                    display: block;
-                    font-weight: 600;
-                    width: fit-content;
-                    padding: .5em 1em;
-                    border: 1px solid #000000;
-                    color: black;
-                    margin: 0 auto;
-
-                    &:hover {
-                        color: #232323;
-                        background-color: #d1bb95;
-                        border-color: #d1bb95;
-                    }
-                }
-            }
-        }
-    }
-} */
