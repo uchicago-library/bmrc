@@ -7,11 +7,13 @@
     background:linear-gradient(#ffffff50 15%, #ffffff00 37%), var(--bmrc-gradient-transparent), url({% static 'img/1963_declan_haun-march.jpg' %}), black;" id="portal-hero">
     <div class="hero-body pt-2 pt-md-5 container-sm">
     <p class="display-4">Explore the <b>BMRC ARCHIVES PORTAL</b></p>
-    <nav class="navbar navbar-expandnavbar-portal px-3 py-1 border border-light shadow-sm" aria-label="BMRC Archives Portal" id="portal-navbar">
-        <form action="/portal/search/" method="get">
-            <label class="visually-hidden" for="portal-search-query">Finding Aid Search</label>
-            <input class="input control is-medium" id="portal-search-query" placeholder="search archival collections" type="text" name="q"{% if search_results.q %} value="{{ search_results.q }}"{% endif %}>
-            <button type="submit" value="Search" class="button is-medium" aria-label="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+    <nav class="navbar navbar-expandnavbar-portal px-2 py-1 border border-light shadow-sm" aria-label="BMRC Archives Portal" id="portal-navbar">
+        <form class="flex-grow-1" action="/portal/search/" method="get">
+            <div class="input-group">
+                <label class="visually-hidden" for="portal-search-query">Finding Aid Search</label>
+                <input class="form-control border-0 rounded-pill me-1" id="portal-search-query" placeholder="search archival collections" type="text" name="q"{% if search_results.q %} value="{{ search_results.q }}"{% endif %}>
+                <button type="submit" value="Search" class="btn btn-dark rounded-circle" aria-label="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
         </form>
         <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#portalNavigation" aria-controls="portalNavigation" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fa-solid fa-circle-chevron-up"></i>
