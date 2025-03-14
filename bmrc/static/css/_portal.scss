@@ -1,0 +1,26 @@
+#portal-navbar {
+    position: absolute;
+    background-color: white;
+    border-radius: 200px;
+    width: 100%;
+    bottom: -75px;
+    @extend .px-3, .py-1;
+
+
+    .navbar-toggler {
+        border: none;
+
+        .fa-circle-chevron-up {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        &.collapsed .fa-circle-chevron-up {
+            transform: rotate(-180deg);
+        }
+    }
+
+    .collapse {
+        position: absolute;
+        top: 0;
+    }
+}

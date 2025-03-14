@@ -27,8 +27,8 @@
             {# Override this in templates to add extra stylesheets #}
         {% endblock %}
 
-        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon32.png' %}">
-        <link rel="icon" type="image/png" sizes="144x144" href="{% static 'img/favicon144.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static FAVICON_PATH|default:'img/favicon32.png' %}">
+        <link rel="icon" type="image/png" sizes="144x144" href="{% static FAVICON_PATH|default:'img/favicon144.png' %}">
     </head>
     {% include "includes/google_analytics_tag.html" %}
 
@@ -43,6 +43,7 @@
         <div class="bmrc-header">
             {% include "includes/nav.html" %}
             {% block extra_header %}
+                <div class="navbar-spacer"></div>
                 {# Override this in templates (e.g. portal templates) to add extra content between the top nav and breadcrumbs #}
             {% endblock %}
         </div>
@@ -50,9 +51,11 @@
        <main class="flex-shrink-0" id="content" role="main">
 
             {% if settings.site_settings.AlertBanner.enable %}
-            <div class="alert {{settings.site_settings.AlertBanner.alert_level}}" role="alert">
-                {{settings.site_settings.AlertBanner.alert_message|richtext}}
-            </div>
+	            <div class="container-sm mb-2">
+                    <div class="alert {{settings.site_settings.AlertBanner.alert_level}}" role="alert">
+                        {{settings.site_settings.AlertBanner.alert_message|richtext}}
+                    </div>
+                </div>
             {% endif %}
             {% include "includes/breadcrumbs.html" %}
 
@@ -69,6 +72,18 @@
         <script type="text/javascript" src="{% static 'js/jquery/jquery-2.2.4.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/plugins/plugins.js' %}"></script>
+        
+        <script>
+            const mainnav = document.getElementById('main-navbar');
+
+            mainnav.addEventListener('show.bs.collapse', () => {
+                mainnav.classList.add('bg-white');
+            });
+
+            mainnav.addEventListener('hide.bs.collapse', () => {
+                mainnav.classList.remove('bg-white');
+            });
+        </script>
 
         {% block extra_js %}
             {# Override this in templates to add extra javascript #}
