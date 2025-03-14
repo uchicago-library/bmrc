@@ -30,7 +30,12 @@
 
         .collapse {
             position: absolute;
-            top: 0;
+            top: 100%;
+            background-color: white;
+            width: 100%;
+            @extend .border, .border-light;
+            @extend .shadow-sm;
+            @extend .p-2;
         }
     }
 }
