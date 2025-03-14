@@ -2,33 +2,31 @@
 {% load static %}
 {% load wagtailcore_tags wagtailimages_tags %}
 
-<section class="hero" style="
+<section class="hero hero-portal" style="
     background:var(--bmrc-gradient-transparent), linear-gradient(160deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65));
-    background:linear-gradient(#ffffff50 15%, #ffffff00 37%), var(--bmrc-gradient-transparent), url({% static 'img/1963_declan_haun-march.jpg' %}), black;">
-    <div class="hero-body py-2 py-md-5 container-sm">
-    <p class="display-4">Explore the BMRC ARCHIVES PORTAL</p>
-    <div class="position-relative">
-        <nav class="navbar navbar-expand-md p-relative navbar-portal" aria-label="BMRC Archives Portal" id="portal-navbar">
-            <form action="/portal/search/" method="get">
-                <label class="visually-hidden" for="portal-search-query">Finding Aid Search</label>
-                <input class="input control is-medium" id="portal-search-query" placeholder="search archival collections" type="text" name="q"{% if search_results.q %} value="{{ search_results.q }}"{% endif %}>
-                <button type="submit" value="Search" class="button is-medium" aria-label="search"><i class="fa-solid fa-magnifying-glass"></i></button>
-            </form>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#portalNavigation" aria-controls="portalNavigation" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fa-solid fa-circle-chevron-up"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="portalNavigation">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+    background:linear-gradient(#ffffff50 15%, #ffffff00 37%), var(--bmrc-gradient-transparent), url({% static 'img/1963_declan_haun-march.jpg' %}), black;" id="portal-hero">
+    <div class="hero-body pt-2 pt-md-5 container-sm">
+    <p class="display-4">Explore the <b>BMRC ARCHIVES PORTAL</b></p>
+    <nav class="navbar navbar-expandnavbar-portal px-3 py-1 border border-light shadow-sm" aria-label="BMRC Archives Portal" id="portal-navbar">
+        <form action="/portal/search/" method="get">
+            <label class="visually-hidden" for="portal-search-query">Finding Aid Search</label>
+            <input class="input control is-medium" id="portal-search-query" placeholder="search archival collections" type="text" name="q"{% if search_results.q %} value="{{ search_results.q }}"{% endif %}>
+            <button type="submit" value="Search" class="button is-medium" aria-label="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#portalNavigation" aria-controls="portalNavigation" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fa-solid fa-circle-chevron-up"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="portalNavigation">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+            </ul>
         </div>
+    </nav>
 </section>
 
 {% if false %}

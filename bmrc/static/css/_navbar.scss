@@ -22,8 +22,14 @@ $navbar-height: 70px;
         padding-top: $navbar-height;
     }
 
-    .hero {
+    .hero-home {
         padding-top: $navbar-height * 2;
+        @extend .pb-5;
+    }
+
+    .hero-portal {
+        padding-top: $navbar-height *1.2;
+        @extend .mb-5;
     }
 
     // background: $bmrc-gradient;
@@ -100,7 +106,6 @@ $navbar-height: 70px;
     .hero {
         // margin-top: $navbar-height*-1;
         // padding-top: $navbar-height * 2;
-        @extend .pb-5;
         background-size: cover !important;
         background-position: center !important;
 

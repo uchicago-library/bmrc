@@ -29,9 +29,26 @@ a {
     @extend .focus-ring !optional;
 }
 
-p b,
-p strong {
-    font-size: 1.1em;
+p {
+
+    b,
+    strong {
+        font-size: 1.1em;
+    }
+}
+
+.display-1,
+.display-2,
+.display-3,
+.display-4,
+.display-5,
+.display-6 {
+
+    b,
+    strong {
+        font-size: 1em;
+        font-weight: 700;
+    }
 }
 
 .pull-left {
