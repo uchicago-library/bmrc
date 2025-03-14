@@ -136,13 +136,28 @@ img.richtext-image {
 
 .alert {
     display: inline-block;
+    border-width: 0;
+    width: 100%;
 
     /* Pages edited before this update may have one of these values for the class of the info box.
     * So we need to keep them for backwards compatibility.
     ('warning-box', 'Warning'),
     ('info-box', 'Informative'),
     ('basic-box', 'Basic'),
-    ('general-box', 'General'), */
+    ('general-box', 'General'),
+    
+    INFO = 'alert-info'
+    LOW = 'alert-low'
+    HIGH = 'alert-high'
+    ALERT_TYPES = (
+        (INFO, 'Informational Alert'),
+        (LOW, 'General Alert'),
+        (HIGH, 'Critical Alert'),
+    )*/
+    &.alert-high {
+        @extend .alert-danger;
+    }
+
     &.warning-box {
         @extend .alert-warning;
     }
@@ -151,8 +166,10 @@ img.richtext-image {
         @extend .alert-info;
     }
 
-    &.basic-box {
+    &.basic-box,
+    &.alert-low {
         @extend .alert-light;
+        border-width: 1px;
     }
 
     &.general-box {

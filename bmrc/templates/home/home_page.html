@@ -8,7 +8,7 @@
 {% if self.carousel_images %}
     {% with self.carousel_images.all|random as item_set %}
         {% image item_set.carousel_image width-900 as img %}
-		<section class="hero" style="background:var(--bmrc-gradient-transparent), linear-gradient(160deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65));background:var(--bmrc-gradient-transparent), url({{img.url}}), black;">
+		<section class="hero" style="background:var(--bmrc-gradient-transparent), linear-gradient(160deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65));background:linear-gradient(#ffffff50 15%, #ffffff00 37%), var(--bmrc-gradient-transparent), url({{img.url}}), black;">
 			<div class="hero-body py-2 py-md-5 container-sm">
 			<h1 class="h4">{{ item_set.carousel_title }}</h1>
 			<div class="fs-5">{{ item_set.carousel_text|richtext }}</div>
