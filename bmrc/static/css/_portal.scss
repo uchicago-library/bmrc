@@ -1,90 +1,28 @@
-#portal-hero {
+.portal-home-featured-block {
+    @extend .mb-3;
+    @extend .bg-light;
 
-    .hero-body {
-        display: flex;
-        flex-direction: column;
-        justify-content: end;
-        position: relative;
-        bottom: -20px;
+    .featured-block-img {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 300px;
     }
 
-    #portal-navbar {
-        background-color: white;
-        border-radius: 200px;
-        width: 100%;
-        // bottom: -20px;
-        // @extend .px-3, .py-1; @extend .border, .border-light; @extend .shadow-sm;
-
-
-        .navbar-toggler {
-            border: none;
-
-            // .fa-circle-chevron-up {
-            //     transition: transform 0.3s ease-in-out;
-            // }
-
-            &.collapsed .fa-circle-chevron-up {
-                transform: rotate(-180deg);
-            }
-
-            & .fa-bars-staggered {
-                transform: rotate(-90deg);
-            }
-
-            &.collapsed .fa-bars-staggered {
-                transform: rotate(0);
-            }
+    .featured-block-txt {
+        .featured-block-fancy-headline {
+            color: $bmrc-blue;
+            font-weight: 700;
+            font-size: 1.2em;
+            order: 1;
         }
 
-        #portalNavigation {
-            position: absolute;
-            top: 110%;
-            left: 0;
-            right: 0;
-            background-color: white;
-            border-radius: 8px;
+        h2 {
+            order: 2;
+        }
 
-            &>ul.portal-nav-001>li.nav-item {
-                // text-align: center;
-                flex-grow: 1 !important;
-
-                &:last-child {
-                    flex-basis: 100%;
-                }
-
-                &>a.nav-link {
-                    @include navbar-links;
-                    @extend .px-2;
-                }
-
-                .portal-nav-002 {
-                    li.nav-item {
-                        flex-grow: 1 !important;
-
-                        a.nav-link {
-                            @extend .px-2, .ps-4;
-                        }
-                    }
-                }
-            }
-
-
+        * {
+            order: 3;
         }
     }
-}
-
-/* 
-===========================================================
-===========================================================
-===========================================================
-===========================================================
-======================= REMOVE ============================
-============= After we're done with the header ============
-===========================================================
-===========================================================
-===========================================================
-===========================================================
- */
-img {
-    max-width: 100%;
 }

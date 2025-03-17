@@ -5,7 +5,7 @@
 {% block body_class %}portal_homepage{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'portal/css/portal.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'portal/css/portal.css' %}"> {% endcomment %}
 {% endblock %}
 
 {% block extra_header %}
@@ -13,18 +13,87 @@
 {% endblock %}
 
 {% block content %}
+
+    {% comment %} 
+    - Intro (richtext)
+    - Featured Curated Topic (title, image, url) AUTO
+    - Featured Exhibit (title, image, url)
+    - Featured Topic (title, image, url) AUTO
+    - Member Highlight (name, logo, spotlight, uri) AUTO
+    - About the BMRC (richtext)    
+    {% endcomment %}
+
+	<div class="container-sm py-5">
+		<h1 class="visually-hidden">{{self.title}}</h1>
+		<div class="row">
+			<section class="col-12">
+		        <h2 class="visually-hidden">Introduction</h2>
+                {{ self.introduction|richtext }}
+            </section>
+        </div>
+    </div>
+	<div class="container-fluid">
+		<section class="portal-home-featured-block row my-5">
+            {% image self.featured_curated_topic.image width-600 as img %}
+			<div class="featured-block-img col-12 col-md-4" style="background-image: url({{ img.url }})">
+                <figure class="visually-hidden">
+                    <img src="{{ img.url }}" alt="{{ img.alt }}">
+                </figure>
+            </div>
+			<div class="featured-block-txt col-12 col-md-8 d-flex flex-column justify-content-left py-3">
+                <h2>{{ self.featured_curated_topic.title }}</h2>
+		        <span class="featured-block-fancy-headline">Featured Curated Topic</span>
+		        <span class="flex-grow-1"></span>
+                {% comment %} It would be nice to output an excerpt of the topic. {% endcomment %}
+                <div class="d-flex flex-column flex-md-row">
+                    <a class="btn btn-primary mb-2 mb-md-0 me-md-2" href="{{ self.featured_curated_topic.url }}">Explore this topic</a>
+                    <a class="btn btn-outline-primary" href="{{ self.curated_topic_index_page.url }}">Explore all Curated Topics</a>
+                </div>
+            </div>
+       </section>
+
+		<section class="portal-home-featured-block row my-5">
+            {% image self.featured_exhibit.image width-600 as img %}
+			<div class="featured-block-img col-12 col-md-4 order-md-2" style="background-image: url({{ img.url }})">
+                <figure class="visually-hidden">
+                    <img src="{{ img.url }}" alt="{{ img.alt }}">
+                </figure>
+            </div>
+			<div class="featured-block-txt col-12 col-md-8 d-flex flex-column justify-content-left align-items-md-end py-3">
+                <h2>{{ self.featured_exhibit.title }}</h2>
+		        <span class="featured-block-fancy-headline">Featured Exhibit</span>
+		        <span class="flex-grow-1"></span>
+                {% comment %} It would be nice to output an excerpt of the topic. {% endcomment %}
+                <div class="d-flex flex-column flex-md-row-reverse">
+                    <a class="btn btn-primary mb-2 mb-md-0 ms-md-2" href="{{ self.featured_exhibit.url }}">Explore this Exhibit</a>
+                    <a class="btn btn-outline-primary" href="{{ self.exhibit_index_page.url }}">Explore all Exhibits</a>
+                </div>
+            </div>
+       </section>
+    </div>
+
+
+
+            
+    {% if false %}
+
+                    <div class="column has-text-centered is-one-third-tablet is-one-third-desktop">
+                        <a href="{{ self.featured_exhibit.url }}">
+                            {% image self.featured_exhibit.image original %}
+                            <div class="header exhibits"><h2>{{ self.featured_exhibit.title }}</h2></div>
+                        </a>
+                        <a href="{{ self.exhibit_index_page.url }}">View all exhibits &gt;&gt;</a>
+                    </div>
+
+
+
+
+
+
+
+
+
     <div class="container">
-        <section class="featured-browse section">
-            <div class="home-header">Browse by</div>
-            <ul>
-                <li><a href="/portal/browse/?b=topics">Topics</a></li>
-                <li><a href="/portal/browse/?b=people">People</a></li>
-                <li><a href="/portal/browse/?b=organizations">Organizations</a></li>
-                <li><a href="/portal/browse/?b=places">Places</a></li>
-                <li><a href="/portal/browse/?b=decades">Decades</a></li>
-                <li><a href="/portal/browse/?b=archives">Archives</a></li>
-            </ul>
-        </section>
 
         <section class="portal-summary section">
             <h1>{{ self.title }}</h1>
@@ -87,8 +156,9 @@
             </div>
         </section>
     </div>
+    {% endif %}
 {% endblock %}
 
 {% block extra_footer %}
-    {% include "portal/portal_extrafooter.html" %}
+    {% comment %} {% include "portal/portal_extrafooter.html" %} {% endcomment %}
 {% endblock %}
