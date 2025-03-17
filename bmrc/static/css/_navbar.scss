@@ -1,24 +1,11 @@
-@mixin rounded-nav-button {
-    border-radius: 50px !important;
-    width: fit-content;
-    padding: 5px 12px;
-    border: 1px solid black;
-    line-height: 1;
-    // height: 30px;
-    border-width: 2px;
-}
 
-@mixin navbar-links {
-    text-transform: uppercase;
-    font-weight: 600;
-}
 
 $navbar-height: 70px;
 /* approximate, err on larger */
 
-.bmrc-header {
 
-    .navbar-spacer {
+.bmrc-header {
+    --bs-navbar-toggler-border-color .navbar-spacer {
         padding-top: $navbar-height;
     }
 
@@ -33,7 +20,6 @@ $navbar-height: 70px;
     }
 
     // background: $bmrc-gradient;
-
     #main-navbar {
         // height: $navbar-height;
         position: absolute;
@@ -44,23 +30,20 @@ $navbar-height: 70px;
         }
 
         div.navbar-collapse {
-            @extend .py-2;
 
             ul.navbar-nav {
-
-                // all dropdowns and links in navbar
                 li.nav-item {
                     text-align: center;
-
+            
                     a.nav-link {
                         @include navbar-links;
                     }
-
+            
                     a.btn {
                         @extend .nav-link;
                         @include navbar-links;
                         @include rounded-nav-button;
-
+            
                         // &.archives-btn {}
                         &.support-btn {
                             background-color: $bmrc-yellow;

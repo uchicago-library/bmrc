@@ -14,6 +14,21 @@
  * ## Utility Classes 
  * --
  */
+@mixin rounded-nav-button {
+    border-radius: 50px !important;
+    width: fit-content;
+    padding: 5px 12px;
+    border: 1px solid black;
+    line-height: 1;
+    // height: 30px;
+    border-width: 2px;
+}
+
+@mixin navbar-links {
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
 .smaller-text {
     font-size: smaller;
 }
@@ -25,8 +40,9 @@
  * ## Fixes 
  * --
  */
-a {
-    @extend .focus-ring !optional;
+a,
+button.btn {
+    @extend .focus-ring;
 }
 
 p {

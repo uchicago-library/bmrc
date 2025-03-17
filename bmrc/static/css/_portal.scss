@@ -19,23 +19,47 @@
         .navbar-toggler {
             border: none;
 
-            .fa-circle-chevron-up {
-                transition: transform 0.3s ease-in-out;
-            }
+            // .fa-circle-chevron-up {
+            //     transition: transform 0.3s ease-in-out;
+            // }
 
             &.collapsed .fa-circle-chevron-up {
                 transform: rotate(-180deg);
             }
+
+            & .fa-bars-staggered {
+                transform: rotate(-90deg);
+            }
+
+            &.collapsed .fa-bars-staggered {
+                transform: rotate(0);
+            }
         }
 
-        .collapse {
+        #portalNavigation {
             position: absolute;
             top: 100%;
+            left: 0;
+            right: 0;
             background-color: white;
-            width: 100%;
-            @extend .border, .border-light;
-            @extend .shadow-sm;
-            @extend .p-2;
+            // @extend .mx-3;
+
+            &>ul.portal-nav-001>li.nav-item {
+                // text-align: center;
+
+                &>a.nav-link {
+                    @include navbar-links;
+                    @extend .px-2;
+                }
+
+                .portal-nav-002 {
+                    a.nav-link {
+                        @extend .px-2, .ps-4;
+                    }
+                }
+            }
+
+
         }
     }
 }
@@ -45,7 +69,8 @@
 ===========================================================
 ===========================================================
 ===========================================================
-========================REMOVE=============================
+======================= REMOVE ============================
+============= After we're done with the header ============
 ===========================================================
 ===========================================================
 ===========================================================
