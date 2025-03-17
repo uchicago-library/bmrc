@@ -42,10 +42,14 @@
             left: 0;
             right: 0;
             background-color: white;
-            // @extend .mx-3;
 
             &>ul.portal-nav-001>li.nav-item {
                 // text-align: center;
+                flex-grow: 1 !important;
+
+                &:last-child {
+                    flex-basis: 100%;
+                }
 
                 &>a.nav-link {
                     @include navbar-links;
@@ -53,8 +57,12 @@
                 }
 
                 .portal-nav-002 {
-                    a.nav-link {
-                        @extend .px-2, .ps-4;
+                    li.nav-item {
+                        flex-grow: 1 !important;
+
+                        a.nav-link {
+                            @extend .px-2, .ps-4;
+                        }
                     }
                 }
             }
