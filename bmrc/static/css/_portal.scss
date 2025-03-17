@@ -38,10 +38,11 @@
 
         #portalNavigation {
             position: absolute;
-            top: 100%;
+            top: 110%;
             left: 0;
             right: 0;
             background-color: white;
+            border-radius: 8px;
 
             &>ul.portal-nav-001>li.nav-item {
                 // text-align: center;
