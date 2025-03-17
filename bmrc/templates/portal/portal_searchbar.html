@@ -6,7 +6,7 @@
     background:var(--bmrc-gradient-transparent), linear-gradient(160deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65));
     background:linear-gradient(#ffffff50 15%, #ffffff00 37%), var(--bmrc-gradient-transparent), url({% static 'img/1963_declan_haun-march.jpg' %}), black;" id="portal-hero">
     <div class="hero-body pt-2 pt-md-5 container-sm">
-        <p class="display-4">Explore the <b>BMRC ARCHIVES PORTAL</b></p>
+        <a href="/portal" class="display-4 link-dark text-decoration-none"><p>Explore the <b>BMRC ARCHIVES PORTAL</b></p></a>
         <nav class="navbar navbar-portal flex-nowrap align-items-stretch px-2 py-1 border border-light shadow-sm" aria-label="BMRC Archives Portal" id="portal-navbar">
             <form class="flex-grow-1" action="/portal/search/" method="get">
                 <div class="input-group">
@@ -22,6 +22,9 @@
             <div class="collapse navbar-collapse border border-light shadow p-2 mb-4" id="portalNavigation">
                 <ul class="portal-nav-001 navbar-nav flex-md-row flex-wrap">
                     {% comment %} <a class="nav-link active" aria-current="page" href="#">Exhibits</a> {% endcomment %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/portal/">Portal Home</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/portal/curated/">Curated Topics</a>
                     </li>
