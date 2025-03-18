@@ -21,6 +21,7 @@
         </div>
     </div>
 
+    <!-- CURATE TOPIC -->
     {% include "portal/featured_block.html" with 
         image=self.featured_curated_topic.image 
         title=self.featured_curated_topic.title 
@@ -31,6 +32,7 @@
         link_plural=self.curated_topic_index_page.url
         %}
 
+    <!-- EXHIBIT -->
     {% include "portal/featured_block.html" with 
         image=self.featured_exhibit.image 
         title=self.featured_exhibit.title 
@@ -41,26 +43,29 @@
         link_plural=self.exhibit_index_page.url
         %}
     
+    <!-- FACET -->
     {% include "portal/featured_block.html" with 
         image=discover_more_facet_image 
         title=discover_more_topic 
-        headline="Topic Highlight" 
+        headline="Facet Highlight" 
         link_text="Explore this "|add:discover_more_facet_singular 
-        link="/portal/search/?f="|add:discover_more_topic_uri|urlencode 
+        link=discover_more_topic_uri 
         link_plural_text="Explore all "|add:discover_more_facet_plural 
-        link_plural="/portal/browse/?b="|add:discover_more_facet|urlencode 
+        link_plural=discover_more_browse_uri 
         %}
-        {% comment %} Topics People Organizations Places Decades Archives {% endcomment %}
 
+    <!-- MEMBER -->
     {% include "portal/featured_block.html" with 
         image=self.featured_archive.logo 
         title=self.featured_archive.name 
         headline="Member Highlight" 
         link_text="View collections from "|add:self.featured_archive.name 
-        link="/portal/search/?f="|add:self.featured_archive.uri|urlencode 
+        link="/portal/search/?f="|add:self.featured_archive.uri 
         link_plural_text=false 
         link_plural=false 
         %}
+    {% comment %} http://127.0.0.1:3000/portal/search/%3Ff%3Dhttps%3A//bmrc.lib.uchicago.edu/archives/Northwestern%2BUniversity%2BArchives {% endcomment %}
+    {% comment %} http://127.0.0.1:3000/portal/search/?sort=alpha&f=https%3A%2F%2Fbmrc.lib.uchicago.edu%2Farchives%2FNorthwestern%2BUniversity%2BArchives {% endcomment %}
     <div class="container-sm py-5">
         <h1 class="visually-hidden">{{self.title}}</h1>
         <div class="row">

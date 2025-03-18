@@ -449,7 +449,9 @@ class PortalHomePage(Page):
                 'discover_more_facet_image': discover_more_facet_image,
                 'discover_more_facet_uri': discover_more_facet_uri,
                 'discover_more_topic': discover_more_topic,
-                'discover_more_topic_uri': discover_more_topic_uri,
+                'discover_more_topic_uri': '/portal/search/?f='
+                + urllib.parse.quote(discover_more_topic_uri),
+                'discover_more_browse_uri': '/portal/browse/?b=' + discover_more_facet,
             },
         }
 
