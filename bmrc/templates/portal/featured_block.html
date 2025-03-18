@@ -22,8 +22,8 @@
                 {% if headline %}<span class="featured-block-fancy-headline">{{ headline }}</span>{% endif %}
                 <span class="flex-grow-1"></span>
                 <div class="d-flex flex-column flex-md-row">
-                    <a class="btn btn-primary mb-2 mb-md-0 me-md-2" href="{{ url }}">Explore this {{ type }}</a>
-                    <a class="btn btn-outline-primary" href="{{ index_url }}">Explore all {{ type_plural }}</a>
+                    <a class="btn btn-primary mb-2 mb-md-0 me-md-2" href="{{ link }}">{{ link_text }}</a>
+                    {% if link_plural %}<a class="btn btn-outline-primary" href="{{ link_plural }}">{{ link_plural_text }}</a>{% endif %}
                 </div>
             </div>
         </div>
