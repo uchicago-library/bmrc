@@ -36,40 +36,41 @@
         image=self.featured_curated_topic.image 
         title=self.featured_curated_topic.title 
         headline="Featured Curated Topic" 
+        link_text="Explore this Curated Topic" 
         link=self.featured_curated_topic.url 
-        link_text="Explore this Topic" 
-        link_plural=self.curated_topic_index_page.url
         link_plural_text="Explore all Curated Topics" 
+        link_plural=self.curated_topic_index_page.url
         %}
 
     {% include "portal/featured_block.html" with 
         image=self.featured_exhibit.image 
         title=self.featured_exhibit.title 
         headline="Featured Exhibit" 
-        link=self.featured_exhibit.url 
         link_text="Explore this Exhibit" 
-        link_plural=self.exhibit_index_page.url
+        link=self.featured_exhibit.url 
         link_plural_text="Explore all Exhibits" 
+        link_plural=self.exhibit_index_page.url
         %}
     
     {% include "portal/featured_block.html" with 
         image=discover_more_facet_image 
         title=discover_more_topic 
-        headline=false 
+        headline="Topic Highlight" 
+        link_text="Explore this "|add:discover_more_facet_singular 
         link="/portal/search/?f="|add:discover_more_topic_uri|urlencode 
-        link_text="Explore this "|add:discover_more_facet 
+        link_plural_text="Explore all "|add:discover_more_facet_plural 
         link_plural="/portal/browse/?b="|add:discover_more_facet|urlencode 
-        link_plural_text="Explore all "|add:discover_more_facet 
         %}
+        {% comment %} Topics People Organizations Places Decades Archives {% endcomment %}
 
     {% include "portal/featured_block.html" with 
         image=self.featured_archive.logo 
         title=self.featured_archive.name 
         headline="Member Highlight" 
-        link="/portal/search/?f="|add:self.featured_archive.uri|urlencode 
         link_text="View collections from "|add:self.featured_archive.name 
-        link_plural=false 
+        link="/portal/search/?f="|add:self.featured_archive.uri|urlencode 
         link_plural_text=false 
+        link_plural=false 
         %}
 
     {% if false %}

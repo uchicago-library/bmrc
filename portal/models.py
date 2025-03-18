@@ -5,7 +5,6 @@ import urllib
 from django.conf import settings
 from django.db import models
 from modelcluster.fields import ParentalKey
-from streams import blocks
 from wagtail.admin.panels import (
     FieldPanel,
     HelpPanel,
@@ -14,9 +13,11 @@ from wagtail.admin.panels import (
     PageChooserPanel,
 )
 from wagtail.fields import RichTextField, StreamField
-from wagtail.models import Orderable, Page
 from wagtail.images.models import Image
+from wagtail.models import Orderable, Page
 from wagtail.search import index
+
+from streams import blocks
 
 from . import get_collections
 
@@ -410,9 +411,16 @@ class PortalHomePage(Page):
     max_count = 1
 
     def get_context(self, request, *args, **kwargs):
-        discover_more_facet = random.choice(
-            ('topics', 'people', 'places', 'organizations', 'decades')
-        )
+        facet_map = {
+            # key: singular, plural
+            'topics': ('Topic', 'Topics'),
+            'people': ('Person', 'People'),
+            'places': ('Place', 'Places'),
+            'organizations': ('Organization', 'Organizations'),
+            'decades': ('Decade', 'Decades'),
+            # 'archives': ('Archive', 'Archives'),
+        }
+        discover_more_facet = random.choice(list(facet_map.keys()))
         discover_more_facet_uri = 'https://bmrc.lib.uchicago.edu/{}/'.format(
             discover_more_facet
         )
@@ -436,6 +444,8 @@ class PortalHomePage(Page):
             **super().get_context(request, *args, **kwargs),
             **{
                 'discover_more_facet': discover_more_facet,
+                'discover_more_facet_singular': facet_map[discover_more_facet][0],
+                'discover_more_facet_plural': facet_map[discover_more_facet][1],
                 'discover_more_facet_image': discover_more_facet_image,
                 'discover_more_facet_uri': discover_more_facet_uri,
                 'discover_more_topic': discover_more_topic,
