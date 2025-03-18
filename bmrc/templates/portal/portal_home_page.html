@@ -13,7 +13,6 @@
 {% endblock %}
 
 {% block content %}
-
     {% comment %} 
     - Intro (richtext)
     - Featured Curated Topic (title, image, url) AUTO
@@ -23,71 +22,31 @@
     - About the BMRC (richtext)    
     {% endcomment %}
 
-	<div class="container-sm py-5">
-		<h1 class="visually-hidden">{{self.title}}</h1>
-		<div class="row">
-			<section class="col-12">
-		        <h2 class="visually-hidden">Introduction</h2>
+    <div class="container-sm py-5">
+        <h1 class="visually-hidden">{{self.title}}</h1>
+        <div class="row">
+            <section class="col-12">
+                <h2 class="visually-hidden">Introduction</h2>
                 {{ self.introduction|richtext }}
             </section>
         </div>
     </div>
-	<div class="container-fluid">
-		<section class="portal-home-featured-block row my-5">
-            {% image self.featured_curated_topic.image width-600 as img %}
-			<div class="featured-block-img col-12 col-md-4" style="background-image: url({{ img.url }})">
-                <figure class="visually-hidden">
-                    <img src="{{ img.url }}" alt="{{ img.alt }}">
-                </figure>
-            </div>
-			<div class="featured-block-txt col-12 col-md-8 d-flex flex-column justify-content-left py-3">
-                <h2>{{ self.featured_curated_topic.title }}</h2>
-		        <span class="featured-block-fancy-headline">Featured Curated Topic</span>
-		        <span class="flex-grow-1"></span>
-                {% comment %} It would be nice to output an excerpt of the topic. {% endcomment %}
-                <div class="d-flex flex-column flex-md-row">
-                    <a class="btn btn-primary mb-2 mb-md-0 me-md-2" href="{{ self.featured_curated_topic.url }}">Explore this topic</a>
-                    <a class="btn btn-outline-primary" href="{{ self.curated_topic_index_page.url }}">Explore all Curated Topics</a>
-                </div>
-            </div>
-       </section>
 
-		<section class="portal-home-featured-block row my-5">
-            {% image self.featured_exhibit.image width-600 as img %}
-			<div class="featured-block-img col-12 col-md-4 order-md-2" style="background-image: url({{ img.url }})">
-                <figure class="visually-hidden">
-                    <img src="{{ img.url }}" alt="{{ img.alt }}">
-                </figure>
-            </div>
-			<div class="featured-block-txt col-12 col-md-8 d-flex flex-column justify-content-left align-items-md-end py-3">
-                <h2>{{ self.featured_exhibit.title }}</h2>
-		        <span class="featured-block-fancy-headline">Featured Exhibit</span>
-		        <span class="flex-grow-1"></span>
-                {% comment %} It would be nice to output an excerpt of the topic. {% endcomment %}
-                <div class="d-flex flex-column flex-md-row-reverse">
-                    <a class="btn btn-primary mb-2 mb-md-0 ms-md-2" href="{{ self.featured_exhibit.url }}">Explore this Exhibit</a>
-                    <a class="btn btn-outline-primary" href="{{ self.exhibit_index_page.url }}">Explore all Exhibits</a>
-                </div>
-            </div>
-       </section>
-    </div>
+    {% include "portal/featured_block.html" with image=self.featured_item.image title=self.featured_item.title url=self.featured_item.url index_url=self.featured_item.index headline="Featured Curated Topic" type="topic" type_plural="Curated Topics" index_url=self.curated_topic_index_page.url %}
 
+    {% include "portal/featured_block.html" with image=self.featured_exhibit.image title=self.featured_exhibit.title url=self.featured_exhibit.url index_url=self.featured_exhibit.index headline="Featured Exhibit" type="exhibit" type_plural="Exhibits" index_url=self.exhibit_index_page.url %}
+    
+    {% include "portal/featured_block.html" with image=discover_more_facet_image title=discover_more_topic url="/portal/search/?f="|add:discover_more_topic_uri|urlencode index_url="/portal/browse/?b="|add:discover_more_facet|urlencode headline=false type=discover_more_facet type_plural=discover_more_facet index_url=self.exhibit_index_page.url %}
 
-
-            
     {% if false %}
-
+    
                     <div class="column has-text-centered is-one-third-tablet is-one-third-desktop">
-                        <a href="{{ self.featured_exhibit.url }}">
-                            {% image self.featured_exhibit.image original %}
-                            <div class="header exhibits"><h2>{{ self.featured_exhibit.title }}</h2></div>
+                        <a href="/portal/search/?f={{ discover_more_topic_uri|urlencode }}">
+                            {% image discover_more_facet_image original %}
+                            <div class="header discover"><h2>{{ discover_more_topic }}</h2></div>
                         </a>
-                        <a href="{{ self.exhibit_index_page.url }}">View all exhibits &gt;&gt;</a>
+                        <a href="/portal/browse/?b={{ discover_more_facet|urlencode }}">Discover more {{ discover_more_facet }} &gt;&gt;</a>
                     </div>
-
-
-
-
 
 
 

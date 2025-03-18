@@ -1,6 +1,20 @@
 .portal-home-featured-block {
-    @extend .mb-3;
-    @extend .bg-light;
+    &:nth-child(odd) {
+        .featured-block-img {
+            @extend .order-md-2;
+        }
+    }
+
+    position: relative;
+
+    .featured-block-layer-img {
+        @extend .bg-light;
+        position: absolute;
+    }
+
+    .featured-block-layer-txt {
+        position: relative;
+    }
 
     .featured-block-img {
         background-size: cover;
