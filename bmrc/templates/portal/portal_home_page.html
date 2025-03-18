@@ -32,7 +32,7 @@
         </div>
     </div>
 
-    {% include "portal/featured_block.html" with image=self.featured_item.image title=self.featured_item.title url=self.featured_item.url index_url=self.featured_item.index headline="Featured Curated Topic" type="topic" type_plural="Curated Topics" index_url=self.curated_topic_index_page.url %}
+    {% include "portal/featured_block.html" with image=self.featured_curated_topic.image title=self.featured_curated_topic.title url=self.featured_curated_topic.url index_url=self.featured_curated_topic.index headline="Featured Curated Topic" type="topic" type_plural="Curated Topics" index_url=self.curated_topic_index_page.url %}
 
     {% include "portal/featured_block.html" with image=self.featured_exhibit.image title=self.featured_exhibit.title url=self.featured_exhibit.url index_url=self.featured_exhibit.index headline="Featured Exhibit" type="exhibit" type_plural="Exhibits" index_url=self.exhibit_index_page.url %}
     
