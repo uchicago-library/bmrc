@@ -35,46 +35,41 @@
     {% include "portal/featured_block.html" with 
         image=self.featured_curated_topic.image 
         title=self.featured_curated_topic.title 
+        headline="Featured Curated Topic" 
         link=self.featured_curated_topic.url 
         link_text="Explore this Topic" 
-        link_plural=self.featured_curated_topic.index 
+        link_plural=self.curated_topic_index_page.url
         link_plural_text="Explore all Curated Topics" 
-        headline="Featured Curated Topic" 
         %}
-        {% comment %} index_url=self.curated_topic_index_page.url  {% endcomment %}
-        <p>self.curated_topic_index_page.url === {{self.curated_topic_index_page.url}}</p>
-        <p>self.featured_curated_topic.index === {{self.featured_curated_topic.index}}</p>
 
     {% include "portal/featured_block.html" with 
         image=self.featured_exhibit.image 
         title=self.featured_exhibit.title 
+        headline="Featured Exhibit" 
         link=self.featured_exhibit.url 
         link_text="Explore this Exhibit" 
-        link_plural=self.featured_exhibit.index 
+        link_plural=self.exhibit_index_page.url
         link_plural_text="Explore all Exhibits" 
-        headline="Featured Exhibit" 
         %}
-        <p>self.exhibit_index_page.url === {{self.exhibit_index_page.url}}</p>
-        <p>self.featured_exhibit.index === {{self.featured_exhibit.index}}</p>
     
     {% include "portal/featured_block.html" with 
         image=discover_more_facet_image 
         title=discover_more_topic 
+        headline=false 
         link="/portal/search/?f="|add:discover_more_topic_uri|urlencode 
         link_text="Explore this "|add:discover_more_facet 
         link_plural="/portal/browse/?b="|add:discover_more_facet|urlencode 
         link_plural_text="Explore all "|add:discover_more_facet 
-        headline=false 
         %}
 
     {% include "portal/featured_block.html" with 
         image=self.featured_archive.logo 
         title=self.featured_archive.name 
+        headline="Member Highlight" 
         link="/portal/search/?f="|add:self.featured_archive.uri|urlencode 
-        link_text=discover_more_facet 
+        link_text="View collections from "|add:self.featured_archive.name 
         link_plural=false 
         link_plural_text=false 
-        headline=false 
         %}
 
     {% if false %}
