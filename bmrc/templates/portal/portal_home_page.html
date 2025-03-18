@@ -4,29 +4,18 @@
 
 {% block body_class %}portal_homepage{% endblock %}
 
-{% block extra_css %}
-    {% comment %} <link rel="stylesheet" href="{% static 'portal/css/portal.css' %}"> {% endcomment %}
-{% endblock %}
+{% block extra_css %}{% endblock %}
 
 {% block extra_header %}
     {% include "portal/portal_searchbar.html" %}
 {% endblock %}
 
 {% block content %}
-    {% comment %} 
-    - Intro (richtext)
-    - Featured Curated Topic (title, image, url) AUTO
-    - Featured Exhibit (title, image, url)
-    - Featured Topic (title, image, url) AUTO
-    - Member Highlight (name, logo, spotlight, uri) AUTO
-    - About the BMRC (richtext)    
-    {% endcomment %}
 
     <div class="container-sm py-5">
         <h1 class="visually-hidden">{{self.title}}</h1>
         <div class="row">
             <section class="col-12">
-                <h2 class="visually-hidden">Introduction</h2>
                 {{ self.introduction|richtext }}
             </section>
         </div>
@@ -72,91 +61,14 @@
         link_plural_text=false 
         link_plural=false 
         %}
-
-    {% if false %}
-    
-
-                            <div class="column is-narrow">
-                                <div style="width: 6rem;">
-                                    {% image self.featured_archive.logo original class="is-square" style="height: auto; width: 100%;" %}
-                                </div>
-                            </div>
-                            <div class="column">
-                                <h2>Member Highlight</h2>
-                                <h3>{{ self.featured_archive.name }}</h3>
-                                {{ self.featured_archive.spotlight|safe }}
-                                <a href="/portal/search/?f={{ self.featured_archive.uri|urlencode }}">View collections from {{ self.featured_archive.name }}</a>
-                            </div>
-                        </div>
-
-
-
-    <div class="container">
-
-        <section class="portal-summary section">
-            <h1>{{ self.title }}</h1>
-
-            {{ self.introduction|richtext }}
-        </section>
-
-        <section class="featured-news portal-feature section">
-            <div class="container is-fluid">
-                <div class="columns">
-                    <div class="column has-text-centered is-one-third-tablet is-one-third-desktop">
-                        <a href="{{ self.featured_curated_topic.url }}">
-                            {% image self.featured_curated_topic.image original %}
-                            <div class="header curated"><h2>{{ self.featured_curated_topic.title }}</h2></div>
-                        </a>
-                        <a href="{{ self.curated_topic_index_page.url }}">Explore all curated topics &gt;&gt;</a>
-                    </div>
-                    
-                    <div class="column has-text-centered is-one-third-tablet is-one-third-desktop">
-                        <a href="{{ self.featured_exhibit.url }}">
-                            {% image self.featured_exhibit.image original %}
-                            <div class="header exhibits"><h2>{{ self.featured_exhibit.title }}</h2></div>
-                        </a>
-                        <a href="{{ self.exhibit_index_page.url }}">View all exhibits &gt;&gt;</a>
-                    </div>
-
-                    <div class="column has-text-centered is-one-third-tablet is-one-third-desktop">
-                        <a href="/portal/search/?f={{ discover_more_topic_uri|urlencode }}">
-                            {% image discover_more_facet_image original %}
-                            <div class="header discover"><h2>{{ discover_more_topic }}</h2></div>
-                        </a>
-                        <a href="/portal/browse/?b={{ discover_more_facet|urlencode }}">Discover more {{ discover_more_facet }} &gt;&gt;</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="featured-modules portal section">
-            <div class="container">
-                <div class="columns  is-8">
-                    <div class="column is-full-tablet is-three-fifths-desktop">
-                        <div class="columns">
-                            <div class="column is-narrow">
-                                <div style="width: 6rem;">
-                                    {% image self.featured_archive.logo original class="is-square" style="height: auto; width: 100%;" %}
-                                </div>
-                            </div>
-                            <div class="column">
-                                <h2>Member Highlight</h2>
-                                <h3>{{ self.featured_archive.name }}</h3>
-                                {{ self.featured_archive.spotlight|safe }}
-                                <a href="/portal/search/?f={{ self.featured_archive.uri|urlencode }}">View collections from {{ self.featured_archive.name }}</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-full-tablet is-two-fifths-desktop">
-                        {{ self.about_the_bmrc|richtext }}
-                    </div>
-                </div>
-            </div>
-        </section>
+    <div class="container-sm py-5">
+        <h1 class="visually-hidden">{{self.title}}</h1>
+        <div class="row">
+            <section class="col-12">
+                {{ self.about_the_bmrc|richtext }}
+            </section>
+        </div>
     </div>
-    {% endif %}
 {% endblock %}
 
-{% block extra_footer %}
-    {% comment %} {% include "portal/portal_extrafooter.html" %} {% endcomment %}
-{% endblock %}
+{% block extra_footer %}{% endblock %}
