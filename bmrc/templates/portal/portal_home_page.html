@@ -55,17 +55,19 @@
         %}
 
     <!-- MEMBER -->
+    {% with encoded_member_uri=self.featured_archive.uri|urlencode %}
+
     {% include "portal/featured_block.html" with 
         image=self.featured_archive.logo 
         title=self.featured_archive.name 
         headline="Member Highlight" 
         link_text="View collections from "|add:self.featured_archive.name 
-        link="/portal/search/?f="|add:self.featured_archive.uri 
+        link="/portal/search/?f="|add:encoded_member_uri
         link_plural_text=false 
         link_plural=false 
         %}
-    {% comment %} http://127.0.0.1:3000/portal/search/%3Ff%3Dhttps%3A//bmrc.lib.uchicago.edu/archives/Northwestern%2BUniversity%2BArchives {% endcomment %}
-    {% comment %} http://127.0.0.1:3000/portal/search/?sort=alpha&f=https%3A%2F%2Fbmrc.lib.uchicago.edu%2Farchives%2FNorthwestern%2BUniversity%2BArchives {% endcomment %}
+    {% endwith %}
+
     <div class="container-sm py-5">
         <h1 class="visually-hidden">{{self.title}}</h1>
         <div class="row">
