@@ -240,6 +240,7 @@ def browse(request):
             'start': start,
             'title': titles[b],
             'total_pages': total_pages,
+            'total_results': len(browse_results),
             'portal_facets': PortalBasePage.portal_facets,
             'sort_options': PortalBasePage.sort_options,
         },
@@ -438,6 +439,8 @@ def search(request):
             'title': title,
             'total_pages': total_pages,
             'url_params_clear_facets': clear_facets_from_url_params(search_results),
+            'portal_facets': PortalBasePage.portal_facets,
+            'sort_options': PortalBasePage.sort_options,
         },
     )
 

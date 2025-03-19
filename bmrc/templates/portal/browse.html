@@ -30,6 +30,7 @@
                     {% endfor %}
                 </ul>
 
+                <p class="text-body-secondary smaller-text">{{ browse_results|length }}/{{ total_results }} results</p>
                 {% include 'portal/component_paginator.html' with location="browse" %}
                 
             </div>
