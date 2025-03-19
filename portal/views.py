@@ -11,7 +11,13 @@ from django.http import Http404
 from django.shortcuts import render
 
 from . import get_collections, get_findingaid, get_search
-from .models import Archive, CuratedTopicIndexPage, CuratedTopicPage, PortalHomePage, PortalBasePage
+from .models import (
+    Archive,
+    CuratedTopicIndexPage,
+    CuratedTopicPage,
+    PortalBasePage,
+    PortalHomePage,
+)
 
 server_args = (
     settings.MARKLOGIC_SERVER,
@@ -180,12 +186,12 @@ def browse(request):
     stop = start + settings.PAGE_LENGTH
 
     titles = {
-        'archives': 'All Archives',
-        'decades': 'All Decades',
-        'organizations': 'All Organizations',
-        'people': 'All People',
-        'places': 'All Places',
-        'topics': 'All Topics',
+        'archives': 'ABrowsell Archives',
+        'decades': 'Browse Decades',
+        'organizations': 'Browse Organizations',
+        'people': 'Browse People',
+        'places': 'Browse Places',
+        'topics': 'Browse Topics',
     }
 
     assert b in titles.keys()
@@ -197,10 +203,11 @@ def browse(request):
 
     browse_results = []
     for k in collections.keys():
-        u = k.replace('https://bmrc.lib.uchicago.edu/', '').split('/')[1]
-        s = '{} ({})'.format(urllib.parse.unquote_plus(u), len(collections[k]))
-        if not s.startswith('BMRC Portal'):
-            browse_results.append((u, s, k))
+        label_unformated = k.replace('https://bmrc.lib.uchicago.edu/', '').split('/')[1]
+        label = urllib.parse.unquote_plus(label_unformated)
+        count = len(collections[k])
+        if not label.startswith('BMRC Portal'):
+            browse_results.append((label, count, k))
 
     total_pages = math.ceil(len(browse_results) / settings.PAGE_LENGTH)
 
@@ -209,7 +216,7 @@ def browse(request):
     elif sort == 'alpha-dsc':
         browse_results.sort(key=lambda i: i[0].lower(), reverse=True)
     elif sort == 'relevance':
-        browse_results.sort(key=lambda i: len(collections[i[2]]), reverse=True)
+        browse_results.sort(key=lambda i: i[1], reverse=True)
     elif sort == 'shuffle':
         random.shuffle(browse_results)
 
@@ -234,6 +241,7 @@ def browse(request):
             'title': titles[b],
             'total_pages': total_pages,
             'portal_facets': PortalBasePage.portal_facets,
+            'sort_options': PortalBasePage.sort_options,
         },
     )
 

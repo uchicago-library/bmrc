@@ -65,8 +65,8 @@
                             @extend .px-2, .ps-4;
 
                             &.active {
-                                color: $bmrc-blue;
-                                border-bottom: 1px solid $bmrc-blue;
+                                color: $bmrc-dark-green;
+                                border-bottom: 1px solid $bmrc-dark-green;
                             }
                         }
                     }

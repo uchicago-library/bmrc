@@ -34,10 +34,17 @@ class PortalBasePage(Page):
         'decades': ('Decade', 'Decades'),
         'archives': ('Archive', 'Archives'),
     }
+    sort_options = [
+        {'key': 'relevance', 'label': 'Relevance'},
+        {'key': 'alpha', 'label': 'A-Z'},
+        {'key': 'alpha-dsc', 'label': 'Z-A'},
+        {'key': 'shuffle', 'label': 'Shuffle'},
+    ]
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context['portal_facets'] = self.portal_facets
+        context['sort_options'] = self.sort_options
         return context
 
     class Meta:

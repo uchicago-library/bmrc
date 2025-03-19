@@ -36,28 +36,28 @@
 						{% endfor %}
 
 					</div>
+					
+					<nav aria-label="Posts index navigation">
+						<ul class="pagination">
+							{% if posts.has_previous %}
+								<li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}" aria-label="Previous"><i class="fa-solid fa-arrow-left"></i></a></li>
+							{% endif %}
+							
+							{% if posts.has_next %}
+								<li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}" aria-label="Next"><i class="fa-solid fa-arrow-right"></i></a></li>
+							{% endif %}
+
+							{% for page_num in posts.paginator.page_range %}
+								<li class="page-item {% if page_num == posts.number %}active{% endif %}">
+									<a class="page-link" href="?page={{ page_num }}" aria-label="Page {{ page_num }}" {% if page_num == posts.number %}aria-current="page"{% endif %}>{{ page_num }}</a>
+								</li>
+							{% endfor %}
+
+						</ul>
+					</nav>
 				{% else %}
 					<p>There are no posts to display.</p>
 				{% endif %}	
-				
-				<nav aria-label="Posts index navigation">
-					<ul class="pagination">
-						{% if posts.has_previous %}
-							<li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}" aria-label="Previous"><i class="fa-solid fa-arrow-left"></i></a></li>
-						{% endif %}
-						
-						{% if posts.has_next %}
-							<li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}" aria-label="Next"><i class="fa-solid fa-arrow-right"></i></a></li>
-						{% endif %}
-
-						{% for page_num in posts.paginator.page_range %}
-							<li class="page-item {% if page_num == posts.number %}active{% endif %}">
-								<a class="page-link" href="?page={{ page_num }}" aria-label="Page {{ page_num }}" {% if page_num == posts.number %}aria-current="page"{% endif %}>{{ page_num }}</a>
-							</li>
-						{% endfor %}
-
-					</ul>
-				</nav>
 
 			</div>
 			<aside class="col-12 col-md-4 col-lg-3">

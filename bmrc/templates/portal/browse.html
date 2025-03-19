@@ -13,17 +13,27 @@
 {% block content %}
     {% include "portal/breadcrumbs.html" %}
 	<div class="container-sm py-5">
-		<h1>{{self.title}}</h1>
+		<h1>{{title}}</h1>
 		<div class="row">
-			<div class="col-12 col-md-8 col-lg-9">
-            
-                <ul class="browse-results">
+			<div class="col-12 col-md-8 col-lg-9 mb-4">
+                {% include "portal/component_sort.html" with location="browse" %}
+
+                <ul class="browse-results list-group list-group-flush mb-4">
                     {% for b in browse_results %}
-                        <li><a href="/portal/search/?f={{ b.2 | urlencode }}">{{ b.1 }}</a></li>
+                        {% comment %} <li><a href="/portal/search/?f={{ b.2 | urlencode }}">{{ b.1 }}</a></li> {% endcomment %}
+                        <a class="list-group-item list-group-item-action" href="/portal/search/?f={{ b.2 | urlencode }}">
+                            <div class="d-flex w-100 justify-content-between align-items-start">
+                                <span>{{ b.0 }}</span>
+                                <span class="badge rounded-pill text-bg-secondary">{{ b.1 }}</span>
+                            </div>
+                        </a>
                     {% endfor %}
                 </ul>
+
+                {% include 'portal/component_paginator.html' with location="browse" %}
                 
             </div>
+			<aside class="col-12 col-md-4 col-lg-3 mb-4">
                 <div class="sidebar bg-info-subtle border border-info p-2 pt-4 mb-4 position-relative rounded" role="complementary">
                     <p class="h6 text-blue">Featured Curated Topic</p>
                     <a class="stretched-link text-dark text-decoration-none" href="{{ featured_curated_topic.url }}">
