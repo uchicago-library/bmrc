@@ -3,7 +3,7 @@ $navbar-height: 70px;
 
 
 .bmrc-header {
-    --bs-navbar-toggler-border-color .navbar-spacer {
+    .navbar-spacer {
         padding-top: $navbar-height;
     }
 
@@ -17,9 +17,7 @@ $navbar-height: 70px;
         @extend .mb-5;
     }
 
-    // background: $bmrc-gradient;
     #main-navbar {
-        // height: $navbar-height;
         position: absolute;
         width: 100%;
         z-index: 10;
