@@ -15,28 +15,20 @@
 	<div class="container-sm py-5">
 		<h1>{{self.title}}</h1>
 		<div class="row">
-			{% if self.sidebar.all %}
-				<div class="col-12 col-md-8 col-lg-9">
-					{% for block in page.body %}
-						<div class="body-block-{{block.block_type}}">
-							{% include_block block %}
-						</div>
-					{% endfor %}
-				</div>
-				<aside class="col-12 col-md-4 col-lg-3">
-						{% with sidebar_sections=self.sidebar.all %}
-							{% include 'includes/sidebar.html' %}
-						{% endwith %}
-				</aside>
-			{% else %}
-				<div class="col-12">
-					{% for block in page.body %}
-						<div class="body-block-{{block.block_type}}">
-							{% include_block block %}
-						</div>
-					{% endfor %}
-				</div>
-			{% endif %}
+			<div class="col-12 col-md-8 col-lg-9">
+				{% for block in page.body %}
+					<div class="body-block-{{block.block_type}}">
+						{% include_block block %}
+					</div>
+				{% endfor %}
+            </div>
+			<aside class="col-12 col-md-4 col-lg-3">
+				{% if self.sidebar.all %}
+					{% with sidebar_sections=self.sidebar.all %}
+						{% include 'includes/sidebar.html' %}
+					{% endwith %}
+				{% endif %}
+            </aside>
         </div>
     </div>
 
