@@ -11,7 +11,32 @@
 {% endblock %}
 
 {% block content %}
-        {% include "portal/breadcrumbs.html" %}
+    {% include "portal/breadcrumbs.html" %}
+	<div class="container-sm py-5">
+		<h1>{{self.title}}</h1>
+		<div class="row">
+			<div class="col-12 col-md-8 col-lg-9">
+            
+                <ul class="browse-results">
+                    {% for b in browse_results %}
+                        <li><a href="/portal/search/?f={{ b.2 | urlencode }}">{{ b.1 }}</a></li>
+                    {% endfor %}
+                </ul>
+                
+            </div>
+                <div class="sidebar bg-info-subtle border border-info p-2 pt-4 mb-4 position-relative rounded" role="complementary">
+                    <p class="h6 text-blue">Featured Curated Topic</p>
+                    <a class="stretched-link text-dark text-decoration-none" href="{{ featured_curated_topic.url }}">
+                        <h3 class="h4"> {{ featured_curated_topic.title }} </h3>
+                    </a>
+                    <figure class="figure mb-0">
+                        {% image featured_curated_topic.image width-300 class="figure-img img-fluid rounded" %}
+                        {% comment %} <figcaption class="figure-caption">A caption for the above image.</figcaption> {% endcomment %}
+                    </figure>
+                </div> 
+            </aside>
+        </div> 
+    </div> 
 {% comment %} 
     {% if false %}
         {% include "portal/breadcrumbs.html" %}
