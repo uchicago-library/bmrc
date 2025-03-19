@@ -57,12 +57,17 @@
                     @extend .px-2;
                 }
 
-                .portal-nav-002 {
+                .portal-nav-browse {
                     li.nav-item {
                         flex-grow: 1 !important;
 
                         a.nav-link {
                             @extend .px-2, .ps-4;
+
+                            &.active {
+                                color: $bmrc-blue;
+                                border-bottom: 1px solid $bmrc-blue;
+                            }
                         }
                     }
                 }

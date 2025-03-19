@@ -89,7 +89,10 @@ $navbar-height: 70px;
         background-size: cover !important;
         background-position: center !important;
 
-        // .hero-body {
-        // }
+        .hero-body {
+            .hero-display-title{
+                text-shadow: 2px 2px $bmrc-blue;
+            }
+        }
     }
 }

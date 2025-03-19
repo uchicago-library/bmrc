@@ -22,6 +22,28 @@ from streams import blocks
 from . import get_collections
 
 
+class PortalBasePage(Page):
+    """Base page class for BMRC portal pages"""
+
+    portal_facets = {
+        # key: singular, plural
+        'topics': ('Topic', 'Topics'),
+        'people': ('Person', 'People'),
+        'places': ('Place', 'Places'),
+        'organizations': ('Organization', 'Organizations'),
+        'decades': ('Decade', 'Decades'),
+        'archives': ('Archive', 'Archives'),
+    }
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context['portal_facets'] = self.portal_facets
+        return context
+
+    class Meta:
+        abstract = True
+
+
 class Archive(models.Model):
     """BMRC Archive"""
 
@@ -90,7 +112,7 @@ class Archive(models.Model):
         return Archive.featured_archive_by_date(d)
 
 
-class CuratedTopicIndexPage(Page):
+class CuratedTopicIndexPage(PortalBasePage):
     """ """
 
     search_fields = Page.search_fields + [index.SearchField('body')]
@@ -149,7 +171,7 @@ class CuratedTopicIndexSideBar(Orderable):
     heading = ('Sidebar Section',)
 
 
-class CuratedTopicPage(Page):
+class CuratedTopicPage(PortalBasePage):
     """ """
 
     image = models.ForeignKey(
@@ -211,7 +233,7 @@ class CuratedTopicPage(Page):
             return None
 
 
-class ExhibitIndexPage(Page):
+class ExhibitIndexPage(PortalBasePage):
     """ """
 
     search_fields = Page.search_fields + [index.SearchField('body')]
@@ -269,7 +291,7 @@ class ExhibitIndexSideBar(Orderable):
     heading = ('Sidebar Section',)
 
 
-class ExhibitPage(Page):
+class ExhibitPage(PortalBasePage):
     image = models.ForeignKey(
         "wagtailimages.Image",
         blank=True,
@@ -332,7 +354,7 @@ class ExhibitPageSideBar(Orderable):
     heading = "Sidebar Section"
 
 
-class PortalHomePage(Page):
+class PortalHomePage(PortalBasePage):
     """Portal home page model"""
 
     introduction = RichTextField(blank=True, null=True)
@@ -411,16 +433,8 @@ class PortalHomePage(Page):
     max_count = 1
 
     def get_context(self, request, *args, **kwargs):
-        facet_map = {
-            # key: singular, plural
-            'topics': ('Topic', 'Topics'),
-            'people': ('Person', 'People'),
-            'places': ('Place', 'Places'),
-            'organizations': ('Organization', 'Organizations'),
-            'decades': ('Decade', 'Decades'),
-            # 'archives': ('Archive', 'Archives'),
-        }
-        discover_more_facet = random.choice(list(facet_map.keys()))
+        facets_options = ['topics', 'people', 'places', 'organizations', 'decades']
+        discover_more_facet = random.choice(facets_options)
         discover_more_facet_uri = 'https://bmrc.lib.uchicago.edu/{}/'.format(
             discover_more_facet
         )
@@ -444,8 +458,12 @@ class PortalHomePage(Page):
             **super().get_context(request, *args, **kwargs),
             **{
                 'discover_more_facet': discover_more_facet,
-                'discover_more_facet_singular': facet_map[discover_more_facet][0],
-                'discover_more_facet_plural': facet_map[discover_more_facet][1],
+                'discover_more_facet_singular': PortalBasePage.portal_facets[
+                    discover_more_facet
+                ][0],
+                'discover_more_facet_plural': PortalBasePage.portal_facets[
+                    discover_more_facet
+                ][1],
                 'discover_more_facet_image': discover_more_facet_image,
                 'discover_more_facet_uri': discover_more_facet_uri,
                 'discover_more_topic': discover_more_topic,
@@ -476,7 +494,7 @@ class PortalHomePage(Page):
         return CuratedTopicPage.featured_curated_topic
 
 
-class PortalStandardPage(Page):
+class PortalStandardPage(PortalBasePage):
     body = StreamField(
         [
             ("richtext", blocks.RichtextBlock(group="Format and Text")),

@@ -1,22 +1,23 @@
-import math, os, random, re, urllib
-import lxml.etree as etree
+import math
+import os
+import random
+import re
+import urllib
 import xml.etree.ElementTree as ElementTree
-from . import get_collections, get_findingaid, get_search
-from .models import (
-    CuratedTopicIndexPage,
-    CuratedTopicPage,
-    PortalHomePage,
-)
-from .models import Archive
+
+import lxml.etree as etree
 from django.conf import settings
 from django.http import Http404
 from django.shortcuts import render
+
+from . import get_collections, get_findingaid, get_search
+from .models import Archive, CuratedTopicIndexPage, CuratedTopicPage, PortalHomePage, PortalBasePage
 
 server_args = (
     settings.MARKLOGIC_SERVER,
     settings.MARKLOGIC_USERNAME,
     settings.MARKLOGIC_PASSWORD,
-    settings.PROXY_SERVER
+    settings.PROXY_SERVER,
 )
 
 ##################
@@ -25,11 +26,12 @@ server_args = (
 
 ns = etree.FunctionNamespace('https://lib.uchicago.edu/functions/')
 
+
 def bmrc_search_url(context, ns, s):
     """EXSLT has str:encode-uri, but it behaves differently than
-       urllib.parse.quote_plus. I add quote_plus() as an extention function in
-       XSLT so that the transform can have access to the exact function that
-       produces collection URIs when they're first added to MarkLogic."""
+    urllib.parse.quote_plus. I add quote_plus() as an extention function in
+    XSLT so that the transform can have access to the exact function that
+    produces collection URIs when they're first added to MarkLogic."""
 
     # build the collection URI the same way Python does when we first load
     # finding aids into MarkLogic.
@@ -37,15 +39,15 @@ def bmrc_search_url(context, ns, s):
 
     # to streamline the XSLT, return the entire search URL. (note
     # double-quoting.)
-    return '/portal/search/?f={}'.format(
-        urllib.parse.quote_plus(uri)
-    )
-    
+    return '/portal/search/?f={}'.format(urllib.parse.quote_plus(uri))
+
+
 ns['bmrc_search_url'] = bmrc_search_url
 
 #####################
 # UTILITY FUNCTIONS #
 #####################
+
 
 def get_portal_breadcrumbs():
     """Get breadcrumbs for the portal homepage and its ancestors."""
@@ -58,25 +60,21 @@ def get_portal_breadcrumbs():
         pass
     return breadcrumbs
 
+
 def get_min_max_page_links(page, total_pages):
     min_page_link = page - math.floor(settings.MAX_PAGE_LINKS / 2)
     max_page_link = page + math.floor(settings.MAX_PAGE_LINKS / 2)
 
     if min_page_link < 1:
         min_page_link = 1
-        max_page_link = min(
-           min_page_link + (settings.MAX_PAGE_LINKS - 1),
-           total_pages
-        )
+        max_page_link = min(min_page_link + (settings.MAX_PAGE_LINKS - 1), total_pages)
 
     if max_page_link > total_pages:
         max_page_link = total_pages
-        min_page_link = max(
-            1,
-            max_page_link - (settings.MAX_PAGE_LINKS - 1)
-        )
+        min_page_link = max(1, max_page_link - (settings.MAX_PAGE_LINKS - 1))
 
     return min_page_link, max_page_link
+
 
 def get_min_max_page_links_range(page, total_pages):
     min_page_link = page - math.floor(settings.MAX_PAGE_LINKS / 2)
@@ -84,19 +82,14 @@ def get_min_max_page_links_range(page, total_pages):
 
     if min_page_link < 1:
         min_page_link = 1
-        max_page_link = min(
-           min_page_link + (settings.MAX_PAGE_LINKS - 1),
-           total_pages
-        )
+        max_page_link = min(min_page_link + (settings.MAX_PAGE_LINKS - 1), total_pages)
 
     if max_page_link > total_pages:
         max_page_link = total_pages
-        min_page_link = max(
-            1,
-            max_page_link - (settings.MAX_PAGE_LINKS - 1)
-        )
+        min_page_link = max(1, max_page_link - (settings.MAX_PAGE_LINKS - 1))
 
     return range(min_page_link, max_page_link + 1)
+
 
 def add_to_url_params(search_results, d):
     """
@@ -127,6 +120,7 @@ def add_to_url_params(search_results, d):
 
     return urllib.parse.urlencode(params)
 
+
 def clear_facets_from_url_params(search_results):
     """
     Clear all facets from current URL params.
@@ -142,6 +136,7 @@ def clear_facets_from_url_params(search_results):
         if p in search_results and search_results[p]:
             params.append((p, search_results[p]))
     return urllib.parse.urlencode(params)
+
 
 def remove_from_url_params(search_results, d):
     """
@@ -170,9 +165,11 @@ def remove_from_url_params(search_results, d):
             params.append(('f', c[0]))
     return urllib.parse.urlencode(params)
 
+
 #########
 # VIEWS #
 #########
+
 
 def browse(request):
     b = request.GET.get('b', '')
@@ -188,7 +185,7 @@ def browse(request):
         'organizations': 'All Organizations',
         'people': 'All People',
         'places': 'All Places',
-        'topics': 'All Topics'
+        'topics': 'All Topics',
     }
 
     assert b in titles.keys()
@@ -235,9 +232,11 @@ def browse(request):
             'sort': sort,
             'start': start,
             'title': titles[b],
-            'total_pages': total_pages
-        }
+            'total_pages': total_pages,
+            'portal_facets': PortalBasePage.portal_facets,
+        },
     )
+
 
 def facet_view_all(request):
     """e.g. http://localhost:8000/facet_view_all/?q=chicago&a=https%3A%2F%2Fbmrc.lib.uchicago.edu%2Ftopics%2F"""
@@ -251,7 +250,7 @@ def facet_view_all(request):
 
     search_results = {}
 
-    # TODO: remove this? 
+    # TODO: remove this?
     # add active collections to search_results.
     # if collections_active:
     #     search_results['collections-active'] = []
@@ -263,38 +262,30 @@ def facet_view_all(request):
     #         ])
 
     facet_name = a.replace('https://bmrc.lib.uchicago.edu/', '').split('/')[0]
-    assert facet_name in ('archives', 'decades', 'organizations', 'people', 'places', 'topics')
+    assert facet_name in (
+        'archives',
+        'decades',
+        'organizations',
+        'people',
+        'places',
+        'topics',
+    )
 
     title = facet_name.capitalize()
 
     search_results = get_search(
-        *server_args + 
-        (
-            q,
-            sort,
-            0,
-            1,
-            -1,
-            collections_active,
-            ''
-        )
+        *server_args + (q, sort, 0, 1, -1, collections_active, '')
     )
- 
+
     # To simplify the XQuery, append additional elements to each list here.
     # element 4 = True if the facet is currently active, false if not.
     # element 5 = a URL query string with this element appended, for building
-    #             links. 
+    #             links.
     out = []
     for f in search_results['active_' + facet_name]:
-        out.append(f + [
-            True,
-            remove_from_url_params(search_results, {'f': f[0]})
-        ])
+        out.append(f + [True, remove_from_url_params(search_results, {'f': f[0]})])
     for f in search_results['more_' + facet_name]:
-        out.append(f + [
-            False,
-            add_to_url_params(search_results, {'f': f[0]})
-        ])
+        out.append(f + [False, add_to_url_params(search_results, {'f': f[0]})])
 
     if fsort == 'relevance':
         out.sort(key=lambda i: i[2], reverse=True)
@@ -315,9 +306,10 @@ def facet_view_all(request):
             'fsort': fsort,
             'q': q,
             'search_results': search_results,
-            'title': title
-        }
+            'title': title,
+        },
     )
+
 
 def search(request):
     b = request.GET.get('b', '')
@@ -335,39 +327,43 @@ def search(request):
             sort = 'relevance'
 
     search_results = get_search(
-        *server_args + 
-        (
+        *server_args
+        + (
             q,
             sort,
             start,
             settings.PAGE_LENGTH,
             settings.SIDEBAR_VIEW_MORE_FACET_COUNT,
             collections,
-            b
+            b,
         )
     )
 
-    search_results['query_string_without_sort'] = \
-        remove_from_url_params(search_results, {'sort': None}) 
-    search_results['query_string_without_page'] = \
-        remove_from_url_params(search_results, {'page': None})
+    search_results['query_string_without_sort'] = remove_from_url_params(
+        search_results, {'sort': None}
+    )
+    search_results['query_string_without_page'] = remove_from_url_params(
+        search_results, {'page': None}
+    )
 
     for f in ('topics', 'people', 'organizations', 'places', 'decades', 'archives'):
         a = 'active_' + f
         for i in range(len(search_results[a])):
-            search_results[a][i].append(remove_from_url_params(search_results, {'f': search_results[a][i][0]}))
+            search_results[a][i].append(
+                remove_from_url_params(search_results, {'f': search_results[a][i][0]})
+            )
         a = 'more_' + f
         for i in range(len(search_results[a])):
-            search_results[a][i].append(add_to_url_params(search_results, {'f': search_results[a][i][0]}))
+            search_results[a][i].append(
+                add_to_url_params(search_results, {'f': search_results[a][i][0]})
+            )
 
-    # placeholder code to redirect to a single search result.  
+    # placeholder code to redirect to a single search result.
     if False:
         if search_results['total'] == 1:
             return redirect(
                 '/portal/view/?{}'.format(
-                    urllib.parse.urlencode({
-                        'id': search_results['results'][0]['uri']
-                    })
+                    urllib.parse.urlencode({'id': search_results['results'][0]['uri']})
                 )
             )
 
@@ -381,7 +377,7 @@ def search(request):
                 len(search_results['active_organizations']),
                 len(search_results['active_places']),
                 len(search_results['active_decades']),
-                len(search_results['active_archives'])
+                len(search_results['active_archives']),
             )
         )
     )
@@ -394,13 +390,14 @@ def search(request):
     # if this search includes an archive facet, get the logo, short title and
     # html for archive contact info.
     archivebox_address = archivebox_link = archivebox_logo = name = ''
-    c = [c for c in collections if c.startswith('https://bmrc.lib.uchicago.edu/archives/')]
+    c = [
+        c
+        for c in collections
+        if c.startswith('https://bmrc.lib.uchicago.edu/archives/')
+    ]
     if c:
         s = urllib.parse.unquote_plus(
-            c[0].replace(
-                'https://bmrc.lib.uchicago.edu/archives/', 
-                ''
-            )
+            c[0].replace('https://bmrc.lib.uchicago.edu/archives/', '')
         )
         for a in Archive.objects.all():
             if a.name == s:
@@ -418,7 +415,9 @@ def search(request):
             'archivebox_link': archivebox_link,
             'archivebox_logo': archivebox_logo,
             'breadcrumbs': get_portal_breadcrumbs(),
-            'clear_facets_from_url_params': clear_facets_from_url_params(search_results),
+            'clear_facets_from_url_params': clear_facets_from_url_params(
+                search_results
+            ),
             'page': page,
             'page_length': settings.PAGE_LENGTH,
             'page_links': get_min_max_page_links_range(page, total_pages),
@@ -430,9 +429,10 @@ def search(request):
             'start': start,
             'title': title,
             'total_pages': total_pages,
-            'url_params_clear_facets': clear_facets_from_url_params(search_results)
-        }
+            'url_params_clear_facets': clear_facets_from_url_params(search_results),
+        },
     )
+
 
 def view(request):
     id = request.GET.get('id', '')
@@ -442,13 +442,7 @@ def view(request):
 
     def t(filename):
         return etree.XSLT(
-            etree.parse(
-                os.path.join(
-                    os.path.dirname(__file__),
-                    'xslt',
-                    filename
-                )
-            )
+            etree.parse(os.path.join(os.path.dirname(__file__), 'xslt', filename))
         )
 
     tn = t('navigation.xsl')
@@ -460,13 +454,7 @@ def view(request):
         raise Http404()
 
     findingaid = tv(
-        etree.fromstring(
-            ElementTree.tostring(
-                xml,
-                encoding='utf8', 
-                method='xml'
-            )
-        )
+        etree.fromstring(ElementTree.tostring(xml, encoding='utf8', method='xml'))
     )
 
     try:
@@ -485,7 +473,7 @@ def view(request):
                 name = a.name
             except IndexError:
                 pass
-    
+
     navigation = tn(findingaid)
 
     return render(
@@ -500,6 +488,6 @@ def view(request):
             'navigation_html': navigation,
             'search_results': [],
             'name': name,
-            'title': title
-        }
+            'title': title,
+        },
     )
