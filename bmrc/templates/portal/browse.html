@@ -18,17 +18,17 @@
 			<div class="col-12 col-md-8 col-lg-9 mb-4">
                 {% include "portal/component_sort.html" with location="browse" %}
 
-                <ul class="browse-results list-group list-group-flush mb-4">
+                <div class="browse-results list-group list-group-flush mb-4" role="list">
                     {% for b in browse_results %}
                         {% comment %} <li><a href="/portal/search/?f={{ b.2 | urlencode }}">{{ b.1 }}</a></li> {% endcomment %}
-                        <a class="list-group-item list-group-item-action" href="/portal/search/?f={{ b.2 | urlencode }}">
+                        <a class="list-group-item list-group-item-action" href="/portal/search/?f={{ b.2 | urlencode }}" role="listitem">
                             <div class="d-flex w-100 justify-content-between align-items-start">
                                 <span>{{ b.0 }}</span>
                                 <span class="badge rounded-pill text-bg-secondary">{{ b.1 }}</span>
                             </div>
                         </a>
                     {% endfor %}
-                </ul>
+                </div>
 
                 <p class="text-body-secondary smaller-text">{{ browse_results|length }}/{{ total_results }} results</p>
                 {% include 'portal/component_paginator.html' with location="browse" %}
@@ -48,61 +48,6 @@
             </aside>
         </div> 
     </div> 
-{% comment %} 
-    {% if false %}
-        {% include "portal/breadcrumbs.html" %}
-        <div class="container section browse-view">
-            <div class="columns is-variable is-8">
-                <div class="column is-one-quarter browse-sidebar">
-                    <h2>Browse</h2>
-                
-                    <h2>Featured Topic</h2>
-                    {% image featured_curated_topic.image original class="is-hidden-mobile" %}
-                    <p><a href="{{ featured_curated_topic.url }}">{{ featured_curated_topic.title }}</a></p>
-                    <p><a href="{{ featured_curated_topic_index.url }}">Explore all curated topics &gt;&gt;</a></p>
-                </div>
-                <div class="column">
-                    <h1>{{ title }}</h1>
-                    <div class="sort-browse level-left">
-                        <div class="sort-label">Sort by:</div>
-                        {% if sort == 'relevance' %}
-                            <button class="button is-link is-light">Relevance</button>
-                        {% else %}
-                            <a class="button is-text" href="/portal/browse/?b={{ b }}&sort=relevance">Relevance</a>
-                        {% endif %}
-                            
-                        {% if sort == 'alpha' %}
-                            <button class="button is-link is-light">A-Z &darr;</button> 
-                        {% else %}
-                            <a class="button is-text" href="/portal/browse/?b={{ b }}&sort=alpha">A-Z &darr;</a> 
-                        {% endif %}
-                            
-                        {% if sort == 'alpha-dsc' %}
-                            <button class="button is-link is-light">Z-A &uarr;</button>
-                        {% else %}
-                            <a class="button is-text" href="/portal/browse/?b={{ b }}&sort=alpha-dsc">Z-A &uarr;</a>
-                        {% endif %}
-                            
-                        {% if sort == 'shuffle' %}
-                            <a href="/portal/browse/?b={{ b }}&sort=shuffle" style="text-decoration: none;"><button class="button is-link is-light">Shuffle <span class="material-icons">shuffle</span></button></a>
-                        {% else %}
-                            <a class="button is-text" href="/portal/browse/?b={{ b }}&sort=shuffle">Shuffle <span class="material-icons">shuffle</span></a>
-                        {% endif %}
-                    </div>
-                                
-                    {% include 'portal/browse_pager.html' %}
-        
-                    <ul class="browse-results">
-                        {% for b in browse_results %}
-                            <li><a href="/portal/search/?f={{ b.2 | urlencode }}">{{ b.1 }}</a></li>
-                        {% endfor %}
-                    </ul>
-                        
-                    {% include 'portal/browse_pager.html' %}
-                </div>
-            </div>
-        </div>
-    {% endif %} {% endcomment %}
 {% endblock %}
 
 {% block extra_footer %}{% endblock %}

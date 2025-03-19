@@ -2,10 +2,7 @@
 {% load static %}
 {% load wagtailimages_tags %}
 
-{% block extra_css %}
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'portal/css/portal.css' %}">
-{% endblock %}
+{% block extra_css %}{% endblock %}
 
 {% block title %}{{ title }}{% endblock %}
 
@@ -15,207 +12,254 @@
 
 {% block content %}
     {% include "portal/breadcrumbs.html" %}
+    {% comment %} 
+    The filter options will be in a collapsible panel right above the results. This panel will have position relative so it will expand the whole page when open. Each group of filter options will have a max-height to show approximately 10 results and will be scrollable. 
+    {% endcomment %}
 
-    <div class="container section browse-view">
-        {% if search_results.total > 0 %}
-            <div class="columns is-variable is-8" id="serp_content">
-                <div class="column is-one-quarter browse-sidebar" id="facets" data-sidebar_view_less_facet_count="{{ sidebar_view_less_facet_count }}" data-sidebar_view_more_facet_count="{{ sidebar_view_more_facet_count }}">
-                    {% if search_results.active_topics or search_results.more_topics %}
-                        <div class="facet" data-facet="topics">
-                            <h2>Topics</h2>
-                            <ul>
-                                {% for f in search_results.active_topics %}
-                                    <li class="active">{{ f.1 }} ({{ f.2 }})</li>
-                                {% endfor %}
-                                {% for f in search_results.more_topics %}
-                                    <li><a href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
-                                {% endfor %}
-                            </ul>
+	<div class="container-sm pt-2 pb-5">
+		<div class="row">
+			<div class="col-12 col-md-8 col-lg-9 order-2 mb-4">
+                <div class="search-results list-group list-group-flush mb-4" role="list">
+		            <h1 class="h2">{{title}}</h1>
+                    <h2 class="h3 visually-hidden">Search Results</h2>
+                    <span class="badge text-bg-danger">applied filter badges</span>
+                    <p class="text-body-secondary smaller-text">Results 
+                                {{ search_results.start|add:"1" }} 
+                                to 
+                                {% if search_results.stop == search_results.total %}
+                                    {{ search_results.total }}
+                                {% else %}
+                                    {{ search_results.stop|add:"1" }} 
+                                {% endif %}
+                                of 
+                                {{ search_results.total }}</p>
+
+                    {% for r in search_results.results %}
+                        <div class="search-result hover-gray position-relative mb-4" role="listitem">
+                            <a class="stretched-link text-dark text-decoration-none" href="/portal/view/?id={{ r.uri }}">
+                                <h3 class="h4">{{ r.title }}</h3>
+                            </a>
+                            <p class="result-description">{{ r.abstract }}</p>
+                            <p class="result-metadata">
+                                <b>Dates:</b> {{ r.date }} 
+                                {% if r.extent %} &nbsp; | &nbsp; <b>Extent:</b> {{ r.extent }}{% endif %}<br/>
+                                <b>Archives:</b> <a href="/portal/search/?f={{ r.archive_uri|urlencode }}">{{ r.archive }}</a>
+                            </p>
                         </div>
-                    {% endif %}
-    
-                    {% if search_results.active_people or search_results.more_people %}
-                        <div class="facet" data-facet="people">
-                            <h2>People</h2>
-                            <ul>
-                                {% for f in search_results.active_people %}
-                                    <li class="active">{{ f.1 }} ({{ f.2 }})</li>
-                                {% endfor %}
-                                {% for f in search_results.more_people %}
-                                    <li><a href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% endif %}
-    
-                    {% if search_results.active_organizations or search_results.more_organizations %}
-                        <div class="facet" data-facet="organizations">
-                            <h2>Organizations</h2>
-                            <ul>
-                                {% for f in search_results.active_organizations %}
-                                    <li class="active">{{ f.1 }} ({{ f.2 }})</li>
-                                {% endfor %}
-                                {% for f in search_results.more_organizations %}
-                                    <li><a href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% endif %}
-    
-                    {% if search_results.active_places or search_results.more_places %}
-                        <div class="facet" data-facet="places">
-                            <h2>Places</h2>
-                            <ul>
-                                {% for f in search_results.active_places %}
-                                    <li class="active">{{ f.1 }} ({{ f.2 }})</li>
-                                {% endfor %}
-                                {% for f in search_results.more_places %}
-                                    <li><a href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% endif %}
-    
-                    {% if search_results.active_decades or search_results.more_decades %}
-                        <div class="facet" data-facet="decades">
-                            <h2>Decades</h2>
-                            <ul>
-                                {% for f in search_results.active_decades %}
-                                    <li class="active">{{ f.1 }} ({{ f.2 }})</li>
-                                {% endfor %}
-                                {% for f in search_results.more_decades %}
-                                    <li><a href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% endif %}
-    
-                    {% if search_results.active_archives or search_results.more_archives %}
-                        <div class="facet" data-facet="archives">
-                            <h2>Archives</h2>
-                            <ul>
-                                {% for f in search_results.active_archives %}
-                                    <li class="active">{{ f.1 }} ({{ f.2 }})</li>
-                                {% endfor %}
-                                {% for f in search_results.more_archives %}
-                                    <li><a href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% endif %}
-                </div>
-            
-                <div class="column" id="search_results">
-                    <div id="results_header">
-                        {% if name %}
-                            <div class="archivebox_serp">
-                                <div class="archivebox_serp_image">
-                                    {% if archivebox_logo %}
-                                        {% image archivebox_logo original %}
-                                    {% endif %}
-                                </div>
-                                <div class="archivebox_serp_text">
-                                    <div class="archivebox_name">
-                                        <strong>
-                                            {{ name }}
-                                        </strong>
-                                    </div>
-                                    {% if archivebox_address %}
-                                        <div class="archivebox_address">
-                                            {{ archivebox_address|safe }}
-                                        </div>
-                                    {% endif %}
-                                    {% if archivebox_link %}
-                                        <div class="archivebox_link">
-                                            {{ archivebox_link|safe }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% if search_results.b == '' %}
-                        <h1>Results 
-                            {{ search_results.start|add:"1" }} 
-                            to 
-                            {% if search_results.stop == search_results.total %}
-                                {{ search_results.total }}
-                            {% else %}
-                                {{ search_results.stop|add:"1" }} 
-                            {% endif %}
-                            of 
-                            {{ search_results.total }}
-                        </h1>
-                    {% endif %}
-                </div>
-
-                <div class="active_facets">
-                    {% for f in search_results.active_topics %}
-                        <span class="tag is-success is-light">{{ f.1 }} ({{ f.2 }}) &nbsp; &nbsp; <a href="/portal/search/?{{ f.3 }}">x</a></span>
                     {% endfor %}
-                    {% for f in search_results.active_people %}
-                        <span class="tag is-success is-light">{{ f.1 }} ({{ f.2 }}) &nbsp; &nbsp; <a href="/portal/search/?{{ f.3 }}">x</a></span>
-                    {% endfor %}
-                    {% for f in search_results.active_organizations %}
-                        <span class="tag is-success is-light">{{ f.1 }} ({{ f.2 }}) &nbsp; &nbsp; <a href="/portal/search/?{{ f.3 }}">x</a></span>
-                    {% endfor %}
-                    {% for f in search_results.active_places %}
-                        <span class="tag is-success is-light">{{ f.1 }} ({{ f.2 }}) &nbsp; &nbsp; <a href="/portal/search/?{{ f.3 }}">x</a></span>
-                    {% endfor %}
-                    {% for f in search_results.active_decades %}
-                        <span class="tag is-success is-light">{{ f.1 }} ({{ f.2 }}) &nbsp; &nbsp; <a href="/portal/search/?{{ f.3 }}">x</a></span>
-                    {% endfor %}
-                    {% for f in search_results.active_archives %}
-                        <span class="tag is-success is-light">{{ f.1 }} ({{ f.2 }}) &nbsp; &nbsp; <a href="/portal/search/?{{ f.3 }}">x</a></span>
-                    {% endfor %}
- 
-                    {% if active_facets %}
-                        <span class="tag is-white">
-                            <a href="/portal/search/?{{ clear_facets_from_url_params }}">clear facets</a>
-                        </span>
-                    {% endif %}
-                </div>
-
-                {% include "portal/search_sort.html" %}
-
-                {% include "portal/component_paginator.html" %}
-
-                {% for r in search_results.results %}
-                    <h3><a href="/portal/view/?id={{ r.uri }}">{{ r.title }}</a></h3>
-                    <p class="result-description">{{ r.abstract }}</p>
-                    <p class="result-metadata"><span>Dates:</span> {{ r.date }} {% if r.extent %} &nbsp; | &nbsp; <span>Extent:</span> {{ r.extent }}{% endif %}<br/>
-                    <span>Archives:</span> <a href="/portal/search/?f={{ r.archive_uri|urlencode }}">{{ r.archive }}</a></p>
-                {% endfor %}
-
-                </div>
-        </div>
-
-        {% else %}
-            <div class="columns is-variable is-8" id="serp_content">
-                <div class="column is-one-quarter"></div>
-                <div class="column" id="search_results">
-                    <h1>There were no results for your query</h1>
-                    <p>Sorry, we couldn’t find any results for your search
-                         term(s). Please check your spelling and try again. If
-                         you need more help, check our <a href="/help/">Research
-                         Help page</a> or feel free to <a
-                         href="mailto:bmrc@uchicago.edu">contact us at
-                         bmrc@uchicago.edu</a>.</p>
+                    <span class="badge text-bg-danger">Archival Instition Contact</span>
                 </div>
             </div>
-        {% endif %}
+			<div class="col-12 col-md-4 col-lg-3 order-1 mb-4">
+                <span class="badge text-bg-danger">sort and Fitler collapsible</span>
+                {% include "portal/component_sort.html" with location="search" %}
+                <span class="badge text-bg-danger">filter </span>
+            </div>
+        </div>
     </div>
 
-    <div class="modal">
-        <div class="modal-background"></div>
-        <div class="modal-content"></div>
-        <button class="modal-close is-large" aria-label="close"></button>
-    </div>
+    {% if false %}
+        <div class="container section browse-view">
+            {% if search_results.total > 0 %}
+                <div class="columns is-variable is-8" id="serp_content">
+                    <div class="column is-one-quarter browse-sidebar" id="facets" data-sidebar_view_less_facet_count="{{ sidebar_view_less_facet_count }}" data-sidebar_view_more_facet_count="{{ sidebar_view_more_facet_count }}">
+                        {% if search_results.active_topics or search_results.more_topics %}
+                            <div class="facet" data-facet="topics">
+                                <h2>Topics</h2>
+                                <ul>
+                                    {% for f in search_results.active_topics %}
+                                        <li class="active">{{ f.1 }} ({{ f.2 }})</li>
+                                    {% endfor %}
+                                    {% for f in search_results.more_topics %}
+                                        <li><a href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+        
+                        {% if search_results.active_people or search_results.more_people %}
+                            <div class="facet" data-facet="people">
+                                <h2>People</h2>
+                                <ul>
+                                    {% for f in search_results.active_people %}
+                                        <li class="active">{{ f.1 }} ({{ f.2 }})</li>
+                                    {% endfor %}
+                                    {% for f in search_results.more_people %}
+                                        <li><a href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+        
+                        {% if search_results.active_organizations or search_results.more_organizations %}
+                            <div class="facet" data-facet="organizations">
+                                <h2>Organizations</h2>
+                                <ul>
+                                    {% for f in search_results.active_organizations %}
+                                        <li class="active">{{ f.1 }} ({{ f.2 }})</li>
+                                    {% endfor %}
+                                    {% for f in search_results.more_organizations %}
+                                        <li><a href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+        
+                        {% if search_results.active_places or search_results.more_places %}
+                            <div class="facet" data-facet="places">
+                                <h2>Places</h2>
+                                <ul>
+                                    {% for f in search_results.active_places %}
+                                        <li class="active">{{ f.1 }} ({{ f.2 }})</li>
+                                    {% endfor %}
+                                    {% for f in search_results.more_places %}
+                                        <li><a href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+        
+                        {% if search_results.active_decades or search_results.more_decades %}
+                            <div class="facet" data-facet="decades">
+                                <h2>Decades</h2>
+                                <ul>
+                                    {% for f in search_results.active_decades %}
+                                        <li class="active">{{ f.1 }} ({{ f.2 }})</li>
+                                    {% endfor %}
+                                    {% for f in search_results.more_decades %}
+                                        <li><a href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+        
+                        {% if search_results.active_archives or search_results.more_archives %}
+                            <div class="facet" data-facet="archives">
+                                <h2>Archives</h2>
+                                <ul>
+                                    {% for f in search_results.active_archives %}
+                                        <li class="active">{{ f.1 }} ({{ f.2 }})</li>
+                                    {% endfor %}
+                                    {% for f in search_results.more_archives %}
+                                        <li><a href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+                
+                    <div class="column" id="search_results">
+                        <div id="results_header">
+                            {% if name %}
+                                <div class="archivebox_serp">
+                                    <div class="archivebox_serp_image">
+                                        {% if archivebox_logo %}
+                                            {% image archivebox_logo original %}
+                                        {% endif %}
+                                    </div>
+                                    <div class="archivebox_serp_text">
+                                        <div class="archivebox_name">
+                                            <strong>
+                                                {{ name }}
+                                            </strong>
+                                        </div>
+                                        {% if archivebox_address %}
+                                            <div class="archivebox_address">
+                                                {{ archivebox_address|safe }}
+                                            </div>
+                                        {% endif %}
+                                        {% if archivebox_link %}
+                                            <div class="archivebox_link">
+                                                {{ archivebox_link|safe }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% if search_results.b == '' %}
+                            <h1>Results 
+                                {{ search_results.start|add:"1" }} 
+                                to 
+                                {% if search_results.stop == search_results.total %}
+                                    {{ search_results.total }}
+                                {% else %}
+                                    {{ search_results.stop|add:"1" }} 
+                                {% endif %}
+                                of 
+                                {{ search_results.total }}
+                            </h1>
+                        {% endif %}
+                    </div>
+
+                    <div class="active_facets">
+                        {% for f in search_results.active_topics %}
+                            <span class="tag is-success is-light">{{ f.1 }} ({{ f.2 }}) &nbsp; &nbsp; <a href="/portal/search/?{{ f.3 }}">x</a></span>
+                        {% endfor %}
+                        {% for f in search_results.active_people %}
+                            <span class="tag is-success is-light">{{ f.1 }} ({{ f.2 }}) &nbsp; &nbsp; <a href="/portal/search/?{{ f.3 }}">x</a></span>
+                        {% endfor %}
+                        {% for f in search_results.active_organizations %}
+                            <span class="tag is-success is-light">{{ f.1 }} ({{ f.2 }}) &nbsp; &nbsp; <a href="/portal/search/?{{ f.3 }}">x</a></span>
+                        {% endfor %}
+                        {% for f in search_results.active_places %}
+                            <span class="tag is-success is-light">{{ f.1 }} ({{ f.2 }}) &nbsp; &nbsp; <a href="/portal/search/?{{ f.3 }}">x</a></span>
+                        {% endfor %}
+                        {% for f in search_results.active_decades %}
+                            <span class="tag is-success is-light">{{ f.1 }} ({{ f.2 }}) &nbsp; &nbsp; <a href="/portal/search/?{{ f.3 }}">x</a></span>
+                        {% endfor %}
+                        {% for f in search_results.active_archives %}
+                            <span class="tag is-success is-light">{{ f.1 }} ({{ f.2 }}) &nbsp; &nbsp; <a href="/portal/search/?{{ f.3 }}">x</a></span>
+                        {% endfor %}
+    
+                        {% if active_facets %}
+                            <span class="tag is-white">
+                                <a href="/portal/search/?{{ clear_facets_from_url_params }}">clear facets</a>
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    {% include "portal/component_sort.html"  with location="search" sort=search_results.sort %}
+
+                    {% include "portal/component_paginator.html"  with location="search" %}
+
+                    {% for r in search_results.results %}
+                        <h3><a href="/portal/view/?id={{ r.uri }}">{{ r.title }}</a></h3>
+                        <p class="result-description">{{ r.abstract }}</p>
+                        <p class="result-metadata"><span>Dates:</span> {{ r.date }} {% if r.extent %} &nbsp; | &nbsp; <span>Extent:</span> {{ r.extent }}{% endif %}<br/>
+                        <span>Archives:</span> <a href="/portal/search/?f={{ r.archive_uri|urlencode }}">{{ r.archive }}</a></p>
+                    {% endfor %}
+
+                    </div>
+            </div>
+
+            {% else %}
+                <div class="columns is-variable is-8" id="serp_content">
+                    <div class="column is-one-quarter"></div>
+                    <div class="column" id="search_results">
+                        <h1>There were no results for your query</h1>
+                        <p>Sorry, we couldn’t find any results for your search
+                            term(s). Please check your spelling and try again. If
+                            you need more help, check our <a href="/help/">Research
+                            Help page</a> or feel free to <a
+                            href="mailto:bmrc@uchicago.edu">contact us at
+                            bmrc@uchicago.edu</a>.</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-content"></div>
+            <button class="modal-close is-large" aria-label="close"></button>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block extra_footer %}
-    {% include "portal/portal_extrafooter.html" %}
+    {% comment %} {% include "portal/portal_extrafooter.html" %} {% endcomment %}
 {% endblock %}
 
 {% block extra_js %}
-    <script src="{% static 'portal/js/portal.js' %}"></script>
+    {% comment %} <script src="{% static 'portal/js/portal.js' %}"></script> {% endcomment %}
 {% endblock %}
