@@ -248,7 +248,7 @@ def browse(request):
 
 
 def facet_view_all(request):
-    """e.g. http://localhost:8000/facet_view_all/?q=chicago&a=https%3A%2F%2Fbmrc.lib.uchicago.edu%2Ftopics%2F"""
+    """e.g. http://localhost:8000/portal/facet_view_all/?q=chicago&a=https%3A%2F%2Fbmrc.lib.uchicago.edu%2Ftopics%2F"""
     a = request.GET.get('a', '')
     collections_active = request.GET.getlist('f')
     fsort = request.GET.get('fsort', 'relevance')
@@ -269,6 +269,9 @@ def facet_view_all(request):
     #             urllib.parse.unquote_plus(c.split('/')[4]),
     #             0
     #         ])
+
+    # Update: @vitorg March 20 2025
+    # This is not being used. The only link I found to it is generated from the portal.js script, which is not being used. This script might be of interest to add advanced filtering on the search page, but I chose to not keep it for now.
 
     facet_name = a.replace('https://bmrc.lib.uchicago.edu/', '').split('/')[0]
     assert facet_name in (
