@@ -1,7 +1,7 @@
 {% load wagtailcore_tags  %}
 
 <div class="portal-sort d-flex flex-wrap mb-2">
-    <span class="me-2">Sort by:</span>
+    <h3 class="h6 text-blue me-2">Sort by:</h3>
     <div class="">
         {% for option in sort_options %}
             {% comment %} {% if ( location == 'search' and search_results.sort == option.key ) or ( location='browse' and sort == option.key ) %} {% endcomment %}
@@ -12,12 +12,12 @@
                 </a>
             {% else %}
                 {%if location == 'search' %}
-                    <a class="btn btn-sm btn-light me-2 mb-2" href="/portal/search/?search_results.query_string_without_sort{% if option.key != 'relevance' %}&sort={{ option.key }}{% endif %}">
+                    <a class="btn btn-sm btn-outline-secondary me-2 mb-2" href="/portal/search/?search_results.query_string_without_sort{% if option.key != 'relevance' %}&sort={{ option.key }}{% endif %}">
                         {{ option.label }}
                         {% comment %} {% if option.icon %}<span class="material-icons">{{ option.icon }}</span>{% endif %} {% endcomment %}
                     </a>
                 {% elif location == 'browse' %}
-                    <a class="btn btn-sm btn-light me-2 mb-2" href="/portal/browse/?b={{ b }}&sort={{ option.key }}">
+                    <a class="btn btn-sm btn-outline-secondary me-2 mb-2" href="/portal/browse/?b={{ b }}&sort={{ option.key }}">
                         {{ option.label }}
                         {% comment %} {% if option.icon %}<span class="material-icons">{{ option.icon }}</span>{% endif %} {% endcomment %}
                     </a>

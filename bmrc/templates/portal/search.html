@@ -22,18 +22,29 @@
                 <div class="search-results list-group list-group-flush mb-4" role="list">
 		            <h1 class="h2">{{title}}</h1>
                     <h2 class="h3 visually-hidden">Search Results</h2>
-                    <span class="badge text-bg-danger">applied filter badges</span>
-                    <p class="text-body-secondary smaller-text">Results 
-                                {{ search_results.start|add:"1" }} 
-                                to 
-                                {% if search_results.stop == search_results.total %}
-                                    {{ search_results.total }}
-                                {% else %}
-                                    {{ search_results.stop|add:"1" }} 
-                                {% endif %}
-                                of 
-                                {{ search_results.total }}</p>
+                   
+                   {% comment %} =#= ACTIVE FACETS {% endcomment %}
+                    {% if active_facets %}
+                        <div class="d-flex flex-wrap">
+                            {% for filter in all_active_facets %}
+                                <a class="btn btn-outline-secondary btn-sm rounded-pill mb-2 me-2" href="/portal/search/?{{ filter.3 }}" type="button">{{ filter.1 }} <i class="fa-solid fa-xmark"></i></a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
 
+                    {% comment %} =#= RESULTS COUNT {% endcomment %}
+                    <p class="text-body-secondary smaller-text">Results 
+                        {{ search_results.start|add:"1" }} 
+                        to 
+                        {% if search_results.stop == search_results.total %}
+                            {{ search_results.total }}
+                        {% else %}
+                            {{ search_results.stop|add:"1" }} 
+                        {% endif %}
+                        of 
+                        {{ search_results.total }}</p>
+
+                    {% comment %} =#= LIST RESULTS {% endcomment %}
                     {% for r in search_results.results %}
                         <div class="search-result hover-gray position-relative mb-4" role="listitem">
                             <a class="stretched-link text-dark text-decoration-none" href="/portal/view/?id={{ r.uri }}">
@@ -47,16 +58,198 @@
                             </p>
                         </div>
                     {% endfor %}
-                    <span class="badge text-bg-danger">Archival Instition Contact</span>
+
+                    {% comment %} =#= ARCHIVAL INSTITUTION {% endcomment %}
+                    {% if name %}
+                        <div class="d-flex flex-column flex-md-row mb-4 border border-secondary-subtle">
+                            <div class="d-flex align-items-center justify-content-center">
+                                {% if archivebox_logo %}
+                                    {% image archivebox_logo width-200 %}
+                                {% endif %}
+                            </div>
+                            <div class="px-3 py-2 py-md-4 d-flex flex-wrap flex-column align-content-center justify-content-center">
+                                <h2 class="h5">{{ name }}</h2>
+                                {% if archivebox_address %}
+                                   <span>{{ archivebox_address|safe }}</span>
+                                {% endif %}
+                                {% if archivebox_link %}
+                                    <span>{{ archivebox_link|safe }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <p>active_facets ==> {{active_facets}}</p>
+                            <p>archivebox_address ==> {{archivebox_address}}</p>
+                            <p>archivebox_link ==> {{archivebox_link}}</p>
+                            <p>archivebox_logo ==> {{archivebox_logo}}</p>
+                            <p>breadcrumbs ==> {{breadcrumbs}}</p>
+                            <p>clear_facets_from_url_params ==> {{clear_facets_from_url_params}}</p>
+                            <p>page ==> {{page}}</p>
+                            <p>page_length ==> {{page_length}}</p>
+                            <p>page_links ==> {{page_links}}</p>
+                            {% comment %} <p>search_results ==> {{search_results}}</p> {% endcomment %}
+                            <p>sidebar_view_less_facet_count ==> {{sidebar_view_less_facet_count}}</p>
+                            <p>sidebar_view_more_facet_count ==> {{sidebar_view_more_facet_count}}</p>
+                            <p>name ==> {{name}}</p>
+                            <p>sort ==> {{sort}}</p>
+                            <p>start ==> {{start}}</p>
+                            <p>title ==> {{title}}</p>
+                            <p>total_pages ==> {{total_pages}}</p>
+                            <p>url_params_clear_facets ==> {{url_params_clear_facets}}</p>
+                            <p>portal_facets ==> {{portal_facets}}</p>
+                            <p>sort_options ==> {{sort_options}}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-			<div class="col-12 col-md-4 col-lg-3 order-1 mb-4">
-                <span class="badge text-bg-danger">sort and Fitler collapsible</span>
-                {% include "portal/component_sort.html" with location="search" %}
-                <span class="badge text-bg-danger">filter </span>
+			<div class="col-12 col-md-4 col-lg-3 order-1">
+                {% comment %} COLLAPSE S&F {% endcomment %}
+                <button class="btn btn-outline-secondary d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sortAndFilter" aria-expanded="false" aria-controls="sortAndFilter">
+                    <i class="fa-solid fa-filter"></i> Sort & Filter
+                </button>
+                <div class="collapse d-lg-block mb-4 p-2 bg-light" id="sortAndFilter">
+                    {% comment %} =#= SORT {% endcomment %}
+                    {% include "portal/component_sort.html" with location="search" %}
+
+                    {% comment %} =#= FILTER {% endcomment %}
+                    <div class="" id="facets" data-sidebar_view_less_facet_count="{{ sidebar_view_less_facet_count }}" data-sidebar_view_more_facet_count="{{ sidebar_view_more_facet_count }}">
+                        {% if search_results.active_topics or search_results.more_topics %}
+                            <div class="" data-facet="topics">
+                                <h3 class="h6 text-blue">Topics</h3>
+                                <ul class="list-unstyled">
+                                    {% for f in search_results.active_topics %}
+                                        <li class="active">{{ f.1 }} ({{ f.2 }})</li>
+                                    {% endfor %}
+                                    {% for f in search_results.more_topics %}
+                                        <li><a class="text-dark" href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+        
+                        {% if search_results.active_people or search_results.more_people %}
+                            <div class="" data-facet="people">
+                                <h3 class="h6 text-blue">People</h3>
+                                <ul class="list-unstyled">
+                                    {% for f in search_results.active_people %}
+                                        <li class="active">{{ f.1 }} ({{ f.2 }})</li>
+                                    {% endfor %}
+                                    {% for f in search_results.more_people %}
+                                        <li><a class="text-dark" href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+        
+                        {% if search_results.active_organizations or search_results.more_organizations %}
+                            <div class="" data-facet="organizations">
+                                <h3 class="h6 text-blue">Organizations</h3>
+                                <ul class="list-unstyled">
+                                    {% for f in search_results.active_organizations %}
+                                        <li class="active">{{ f.1 }} ({{ f.2 }})</li>
+                                    {% endfor %}
+                                    {% for f in search_results.more_organizations %}
+                                        <li><a class="text-dark" href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+        
+                        {% if search_results.active_places or search_results.more_places %}
+                            <div class="" data-facet="places">
+                                <h3 class="h6 text-blue">Places</h3>
+                                <ul class="list-unstyled">
+                                    {% for f in search_results.active_places %}
+                                        <li class="active">{{ f.1 }} ({{ f.2 }})</li>
+                                    {% endfor %}
+                                    {% for f in search_results.more_places %}
+                                        <li><a class="text-dark" href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+        
+                        {% if search_results.active_decades or search_results.more_decades %}
+                            <div class="" data-facet="decades">
+                                <h3 class="h6 text-blue">Decades</h3>
+                                <ul class="list-unstyled">
+                                    {% for f in search_results.active_decades %}
+                                        <li class="active">{{ f.1 }} ({{ f.2 }})</li>
+                                    {% endfor %}
+                                    {% for f in search_results.more_decades %}
+                                        <li><a class="text-dark" href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+        
+                        {% if search_results.active_archives or search_results.more_archives %}
+                            <div class="" data-facet="archives">
+                                <h3 class="h6 text-blue">Archives</h3>
+                                <ul class="list-unstyled">
+                                    {% for f in search_results.active_archives %}
+                                        <li class="active">{{ f.1 }} ({{ f.2 }})</li>
+                                    {% endfor %}
+                                    {% for f in search_results.more_archives %}
+                                        <li><a class="text-dark" href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+
+
             </div>
         </div>
     </div>
+
+    
+    <div class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content"></div>
+        <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     {% if false %}
         <div class="container section browse-view">
@@ -148,6 +341,10 @@
                         {% endif %}
                     </div>
                 
+
+
+
+
                     <div class="column" id="search_results">
                         <div id="results_header">
                             {% if name %}
@@ -261,5 +458,5 @@
 {% endblock %}
 
 {% block extra_js %}
-    {% comment %} <script src="{% static 'portal/js/portal.js' %}"></script> {% endcomment %}
+    <script src="{% static 'portal/js/portal.js' %}"></script>
 {% endblock %}

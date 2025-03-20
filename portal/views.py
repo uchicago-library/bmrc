@@ -420,6 +420,12 @@ def search(request):
         'portal/search.html',
         {
             'active_facets': active_facets,
+            'all_active_facets': search_results['active_topics']
+            + search_results['active_people']
+            + search_results['active_organizations']
+            + search_results['active_places']
+            + search_results['active_decades']
+            + search_results['active_archives'],
             'archivebox_address': archivebox_address,
             'archivebox_link': archivebox_link,
             'archivebox_logo': archivebox_logo,
