@@ -40,39 +40,6 @@
             </aside>
         </div>
     </div>
-
-    {% if false %}
-        <div class="container section">
-            <div class="columns ">
-                <div class="column">
-                    <h1>{{ self.title }}</h1>
-
-                    {% for block in page.body %}
-                        {% include_block block %}
-                    {% endfor %}
-
-                    {% if self.exhibits %}
-                        <ul>
-                            {% for e in self.exhibits %}
-                                <li><a href="{{ e.url }}">{{ e.title }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-
-                {% if self.sidebar.all %}
-                    <div class="column sidebar is-one-quarter" role="complementary">
-                        {% for item_set in self.sidebar.all %}
-                            <aside>
-                                <h2>{{ item_set.sidebar_title }}</h2>
-                                {{ item_set.sidebar_text|richtext }}
-                            </aside>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-    {% endif %}
 {% endblock %}
 
 {% block extra_footer %}{% endblock %}
