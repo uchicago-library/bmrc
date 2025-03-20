@@ -17,31 +17,26 @@
 		<div class="row">
 			<div class="col-12 col-md-8 col-lg-9 order-2 mb-4 pt-4 main-content">
                 {{ findingaid_html|safe }}
+                
+                {% comment %} =#= ARCHIVAL INSTITUTION {% endcomment %}
+                {% include 'portal/component_archive.html' with location='view' %}
             </div>
             <div class="col-12 col-md-4 col-lg-3 order-1 sidebar">
-                {{ navigation_html|safe }}
+                {% comment %} COLLAPSE S&F BUTTON {% endcomment %}
+                <div class="d-grid gap-2 d-md-none">
+                    <button class="btn btn-sm btn-outline-secondary d-flex justify-content-between align-items-center fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#sortAndFilter" aria-expanded="false" aria-controls="sortAndFilter">
+                        Content <i class="fa-solid fa-list"></i>
+                    </button>
+                </div>
+                
+                <div class="collapse d-md-block py-2 mb-4 bg-light" id="sortAndFilter">
+                    <h2 class="h5 px-3 py-2 m-0 d-none d-md-block">Contents</h2>
+                    {{ navigation_html|safe }}
+                </div>
             </div>
         </div>
     </div>
 
-                {% comment %} =#= ARCHIVAL INSTITUTION 
-                    <div class="d-flex flex-column mb-4 border border-secondary-subtle">
-                        <div class="d-flex align-items-center justify-content-center">
-                            {% if archivebox_logo %}
-                                {% image archivebox_logo width-200 %}
-                            {% endif %}
-                        </div>
-                        <div class="px-3 py-2 d-flex flex-wrap flex-column align-content-center justify-content-center">
-                            <span class="text-blue fw-bold">These results are from the the following archives</span>
-                            <h2 class="h5">{{ name }}</h2>
-                            {% if archivebox_address %}
-                                <span>{{ archivebox_address|safe }}</span>
-                            {% endif %}
-                            {% if archivebox_link %}
-                                <span>{{ archivebox_link|safe }}</span>
-                            {% endif %}
-                        </div>
-                    </div>{% endcomment %}
 
     {% if false %}
         <section id="testfa">

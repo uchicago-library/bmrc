@@ -470,11 +470,13 @@ def view(request):
     except ValueError:
         raise Http404()
 
+    # print("PRE ORIGINAL FINDING AID XML")
+    # print(ElementTree.tostring(xml, encoding='utf8', method='xml'))
     findingaid = tv(
         etree.fromstring(ElementTree.tostring(xml, encoding='utf8', method='xml'))
     )
-    print("ORIGINAL FINDING AID")
-    print(findingaid)
+    # print("ORIGINAL FINDING AID")
+    # print(findingaid)
 
     try:
         title = ''.join(findingaid.xpath('//h1')[0].itertext())
@@ -503,8 +505,39 @@ def view(request):
         lambda m: m.group(0).replace('/>', '></div>'),
         str(findingaid),
     )
-    print("TRANSFORMED FINDING AID")
-    print(findingaid)
+    # Replace h1.ead_titleproper with hgroup structure
+    findingaid = re.sub(
+        r'''<h1 class="ead_titleproper">(.*?)(?::(.+?))?</h1>''',
+        lambda m: (
+            f'''<hgroup class="ead_titleproper_group">'''
+            f'''<h1 class="ead_titleproper h2">{m.group(1)}{":" if m.group(2) else ""}</h1>'''
+            f'''{f"<p class='ead_titleproper_subtitle fs-4'>{m.group(2)}</p>" if m.group(2) else ""}'''
+            f'''</hgroup>'''
+        ),
+        findingaid,
+    )
+
+    # Define class name replacements
+    findingaid_class_replacements = {
+        'class="ead_ead"': 'class="ead_ead mb-4"',
+        'class="ead_head"': 'class="ead_head h3"',
+    }
+    # Apply all replacements
+    for old_class, new_class in findingaid_class_replacements.items():
+        findingaid = findingaid.replace(old_class, new_class)
+
+    # Define class name replacements
+    navigation_html_replacements = {
+        '<ul>': '<div class="list-group list-group-flush" role="list">',
+        '</ul>': '</div>',
+        '<li>': '',
+        '</li>': '',
+        '<a ': '<a class="list-group-item list-group-item-action bg-transparent" role="listitem" ',
+    }
+    # Apply all replacements
+    navigation = str(navigation)
+    for old_class, new_class in navigation_html_replacements.items():
+        navigation = navigation.replace(old_class, new_class)
 
     return render(
         request,

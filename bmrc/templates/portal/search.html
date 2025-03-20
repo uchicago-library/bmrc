@@ -80,32 +80,18 @@
 
                 {% comment %} =#= ARCHIVAL INSTITUTION {% endcomment %}
                 {% if name %}
-                    <div class="d-flex flex-column flex-md-row mb-4 border border-secondary-subtle">
-                        <div class="d-flex align-items-center justify-content-center">
-                            {% if archivebox_logo %}
-                                {% image archivebox_logo width-200 %}
-                            {% endif %}
-                        </div>
-                        <div class="px-3 py-2 py-md-4 d-flex flex-wrap flex-column align-content-center justify-content-center">
-                            <span class="text-blue fw-bold">These results are from the the following archives</span>
-                            <h2 class="h5">{{ name }}</h2>
-                            {% if archivebox_address %}
-                                <span>{{ archivebox_address|safe }}</span>
-                            {% endif %}
-                            {% if archivebox_link %}
-                                <span>{{ archivebox_link|safe }}</span>
-                            {% endif %}
-                        </div>
-                    </div>
+                    {% include 'portal/component_archive.html' with location='search' %}
                 {% endif %}
             </div>
+
+
 			<div class="col-12 col-md-4 col-lg-3 order-1 filter-and-sort">
                 {% if search_results.total > 0 %}
 
                     {% comment %} COLLAPSE S&F BUTTON {% endcomment %}
-                    <div class="d-grid gap-2 d-md-none mb-2">
-                        <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#sortAndFilter" aria-expanded="false" aria-controls="sortAndFilter">
-                            <i class="fa-solid fa-filter"></i> Sort & Filter
+                    <div class="d-grid gap-2 d-md-none">
+                        <button class="btn btn-sm btn-outline-secondary d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#sortAndFilter" aria-expanded="false" aria-controls="sortAndFilter">
+                            Sort & Filter <i class="fa-solid fa-filter"></i>
                         </button>
                     </div>
 
