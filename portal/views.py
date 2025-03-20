@@ -552,5 +552,6 @@ def view(request):
             'search_results': [],
             'name': name,
             'title': title,
+            'portal_facets': PortalBasePage.portal_facets,
         },
     )
