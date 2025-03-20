@@ -43,26 +43,40 @@
                         {{ search_results.total }}</p>
                 </div>
                         
-                {% comment %} =#= LIST RESULTS {% endcomment %}
-                <h2 class="h3 visually-hidden">Search Results</h2>
-                <div class="search-results list-group list-group-flush mb-4" role="list">
-                    {% for r in search_results.results %}
-                        <div class="search-result hover-gray position-relative py-2 mb-2" role="listitem">
-                            <a class="stretched-link text-dark text-decoration-none" href="/portal/view/?id={{ r.uri }}">
-                                <h3 class="h4">{{ r.title }}</h3>
-                            </a>
-                            <p class="result-description">{{ r.abstract }}</p>
-                            <p class="result-metadata">
-                                <b>Dates:</b> {{ r.date }} 
-                                {% if r.extent %} &nbsp; | &nbsp; <b>Extent:</b> {{ r.extent }}{% endif %}<br/>
-                                <b>Archives:</b> <a href="/portal/search/?f={{ r.archive_uri|urlencode }}">{{ r.archive }}</a>
-                            </p>
-                        </div>
-                    {% endfor %}
-                </div>
+                {% if search_results.total > 0 %}
+                    {% comment %} =#= LIST RESULTS {% endcomment %}
+                    <h2 class="h3 visually-hidden">Search Results</h2>
+                    <div class="search-results list-group list-group-flush mb-4" role="list">
+                        {% for r in search_results.results %}
+                            <div class="search-result hover-gray position-relative py-2 mb-2" role="listitem">
+                                <a class="stretched-link text-dark text-decoration-none" href="/portal/view/?id={{ r.uri }}">
+                                    <h3 class="h4">{{ r.title }}</h3>
+                                </a>
+                                <p class="result-description">{{ r.abstract }}</p>
+                                <p class="result-metadata">
+                                    <b>Dates:</b> {{ r.date }} 
+                                    {% if r.extent %} &nbsp; | &nbsp; <b>Extent:</b> {{ r.extent }}{% endif %}<br/>
+                                    <b>Archives:</b> <a href="/portal/search/?f={{ r.archive_uri|urlencode }}">{{ r.archive }}</a>
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
 
-                {% comment %} =#= PAGINATION {% endcomment %}
-                {% include "portal/component_paginator.html" with location="search" %}
+                    {% comment %} =#= PAGINATION {% endcomment %}
+                    {% include "portal/component_paginator.html" with location="search" %}
+                {% else %}
+
+                    {% comment %} =#= NO RESULTS {% endcomment %}
+                    <div class="alert alert-warning">
+                        <h2 class="h4">There were no results for your query</h2>
+                        <p>Unfortunately, we couldn’t find any results for your search
+                            term(s). Please check your spelling and try again. If
+                            you need more help, check our <a href="/help/">Research
+                            Help page</a> or feel free to <a
+                            href="mailto:bmrc@uchicago.edu">contact us at
+                            bmrc@uchicago.edu</a>.</p>
+                    </div>
+                {% endif %}
 
                 {% comment %} =#= ARCHIVAL INSTITUTION {% endcomment %}
                 {% if name %}
@@ -86,112 +100,113 @@
                 {% endif %}
             </div>
 			<div class="col-12 col-md-4 col-lg-3 order-1 filter-and-sort">
-                {% comment %} COLLAPSE S&F BUTTON {% endcomment %}
-                <div class="d-grid gap-2 d-md-none mb-2">
-                    <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#sortAndFilter" aria-expanded="false" aria-controls="sortAndFilter">
-                        <i class="fa-solid fa-filter"></i> Sort & Filter
-                    </button>
-                </div>
+                {% if search_results.total > 0 %}
 
-                <div class="collapse d-md-block mb-4 p-2 bg-light" id="sortAndFilter">
-                    {% comment %} =#= SORT {% endcomment %}
-                    {% include "portal/component_sort.html" with location="search" %}
-
-                    {% comment %} =#= FILTER {% endcomment %}
-                    <div class="" id="facets" data-sidebar_view_less_facet_count="{{ sidebar_view_less_facet_count }}" data-sidebar_view_more_facet_count="{{ sidebar_view_more_facet_count }}">
-                        {% if search_results.active_topics or search_results.more_topics %}
-                            <div class="" data-facet="topics">
-                                <h3 class="h6 text-blue">Topics</h3>
-                                <ul class="list-unstyled">
-                                    {% for f in search_results.active_topics %}
-                                        <li class="active">{{ f.1 }} ({{ f.2 }})</li>
-                                    {% endfor %}
-                                    {% for f in search_results.more_topics %}
-                                        <li><a class="text-dark" href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        {% endif %}
-        
-                        {% if search_results.active_people or search_results.more_people %}
-                            <div class="" data-facet="people">
-                                <h3 class="h6 text-blue">People</h3>
-                                <ul class="list-unstyled">
-                                    {% for f in search_results.active_people %}
-                                        <li class="active">{{ f.1 }} ({{ f.2 }})</li>
-                                    {% endfor %}
-                                    {% for f in search_results.more_people %}
-                                        <li><a class="text-dark" href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        {% endif %}
-        
-                        {% if search_results.active_organizations or search_results.more_organizations %}
-                            <div class="" data-facet="organizations">
-                                <h3 class="h6 text-blue">Organizations</h3>
-                                <ul class="list-unstyled">
-                                    {% for f in search_results.active_organizations %}
-                                        <li class="active">{{ f.1 }} ({{ f.2 }})</li>
-                                    {% endfor %}
-                                    {% for f in search_results.more_organizations %}
-                                        <li><a class="text-dark" href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        {% endif %}
-        
-                        {% if search_results.active_places or search_results.more_places %}
-                            <div class="" data-facet="places">
-                                <h3 class="h6 text-blue">Places</h3>
-                                <ul class="list-unstyled">
-                                    {% for f in search_results.active_places %}
-                                        <li class="active">{{ f.1 }} ({{ f.2 }})</li>
-                                    {% endfor %}
-                                    {% for f in search_results.more_places %}
-                                        <li><a class="text-dark" href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        {% endif %}
-        
-                        {% if search_results.active_decades or search_results.more_decades %}
-                            <div class="" data-facet="decades">
-                                <h3 class="h6 text-blue">Decades</h3>
-                                <ul class="list-unstyled">
-                                    {% for f in search_results.active_decades %}
-                                        <li class="active">{{ f.1 }} ({{ f.2 }})</li>
-                                    {% endfor %}
-                                    {% for f in search_results.more_decades %}
-                                        <li><a class="text-dark" href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        {% endif %}
-        
-                        {% if search_results.active_archives or search_results.more_archives %}
-                            <div class="" data-facet="archives">
-                                <h3 class="h6 text-blue">Archives</h3>
-                                <ul class="list-unstyled">
-                                    {% for f in search_results.active_archives %}
-                                        <li class="active">{{ f.1 }} ({{ f.2 }})</li>
-                                    {% endfor %}
-                                    {% for f in search_results.more_archives %}
-                                        <li><a class="text-dark" href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        {% endif %}
-                    </div>
-                    
+                    {% comment %} COLLAPSE S&F BUTTON {% endcomment %}
                     <div class="d-grid gap-2 d-md-none mb-2">
                         <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#sortAndFilter" aria-expanded="false" aria-controls="sortAndFilter">
-                            <i class="fa-solid fa-xmark"></i> Done
+                            <i class="fa-solid fa-filter"></i> Sort & Filter
                         </button>
                     </div>
-                </div>
 
+                    <div class="collapse d-md-block mb-4 p-2 bg-light" id="sortAndFilter">
+                        {% comment %} =#= SORT {% endcomment %}
+                        {% include "portal/component_sort.html" with location="search" %}
 
+                        {% comment %} =#= FILTER {% endcomment %}
+                        <div class="" id="facets" data-sidebar_view_less_facet_count="{{ sidebar_view_less_facet_count }}" data-sidebar_view_more_facet_count="{{ sidebar_view_more_facet_count }}">
+                            {% if search_results.active_topics or search_results.more_topics %}
+                                <div class="" data-facet="topics">
+                                    <h3 class="h6 text-blue">Topics</h3>
+                                    <ul class="list-unstyled">
+                                        {% for f in search_results.active_topics %}
+                                            <li class="active">{{ f.1 }} ({{ f.2 }})</li>
+                                        {% endfor %}
+                                        {% for f in search_results.more_topics %}
+                                            <li><a class="text-dark" href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+            
+                            {% if search_results.active_people or search_results.more_people %}
+                                <div class="" data-facet="people">
+                                    <h3 class="h6 text-blue">People</h3>
+                                    <ul class="list-unstyled">
+                                        {% for f in search_results.active_people %}
+                                            <li class="active">{{ f.1 }} ({{ f.2 }})</li>
+                                        {% endfor %}
+                                        {% for f in search_results.more_people %}
+                                            <li><a class="text-dark" href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+            
+                            {% if search_results.active_organizations or search_results.more_organizations %}
+                                <div class="" data-facet="organizations">
+                                    <h3 class="h6 text-blue">Organizations</h3>
+                                    <ul class="list-unstyled">
+                                        {% for f in search_results.active_organizations %}
+                                            <li class="active">{{ f.1 }} ({{ f.2 }})</li>
+                                        {% endfor %}
+                                        {% for f in search_results.more_organizations %}
+                                            <li><a class="text-dark" href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+            
+                            {% if search_results.active_places or search_results.more_places %}
+                                <div class="" data-facet="places">
+                                    <h3 class="h6 text-blue">Places</h3>
+                                    <ul class="list-unstyled">
+                                        {% for f in search_results.active_places %}
+                                            <li class="active">{{ f.1 }} ({{ f.2 }})</li>
+                                        {% endfor %}
+                                        {% for f in search_results.more_places %}
+                                            <li><a class="text-dark" href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+            
+                            {% if search_results.active_decades or search_results.more_decades %}
+                                <div class="" data-facet="decades">
+                                    <h3 class="h6 text-blue">Decades</h3>
+                                    <ul class="list-unstyled">
+                                        {% for f in search_results.active_decades %}
+                                            <li class="active">{{ f.1 }} ({{ f.2 }})</li>
+                                        {% endfor %}
+                                        {% for f in search_results.more_decades %}
+                                            <li><a class="text-dark" href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+            
+                            {% if search_results.active_archives or search_results.more_archives %}
+                                <div class="" data-facet="archives">
+                                    <h3 class="h6 text-blue">Archives</h3>
+                                    <ul class="list-unstyled">
+                                        {% for f in search_results.active_archives %}
+                                            <li class="active">{{ f.1 }} ({{ f.2 }})</li>
+                                        {% endfor %}
+                                        {% for f in search_results.more_archives %}
+                                            <li><a class="text-dark" href="/portal/search/?{{ f.3 }}">{{ f.1 }} ({{ f.2 }})</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-none mb-2">
+                            <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#sortAndFilter" aria-expanded="false" aria-controls="sortAndFilter">
+                                <i class="fa-solid fa-xmark"></i> Done
+                            </button>
+                        </div>
+                    </div>
+                {% endif %}
 
             </div>
         </div>
