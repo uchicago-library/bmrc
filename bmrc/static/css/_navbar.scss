@@ -1,7 +1,6 @@
 $navbar-height: 70px;
 /* approximate, err on larger */
 
-
 .bmrc-header {
     .navbar-spacer {
         padding-top: $navbar-height;
@@ -77,6 +76,7 @@ $navbar-height: 70px;
                     button {
                         border: none;
                         background-color: transparent;
+                        font-size: $nav-link-font-size;
                     }
                 }
             }
@@ -90,7 +90,7 @@ $navbar-height: 70px;
         background-position: center !important;
 
         .hero-body {
-            .hero-display-title{
+            .hero-display-title {
                 text-shadow: 1px 1px $bmrc-blue;
             }
         }

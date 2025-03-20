@@ -52,6 +52,7 @@
 a,
 button.btn {
     @extend .focus-ring;
+    word-break: break-word;
 }
 
 p {
