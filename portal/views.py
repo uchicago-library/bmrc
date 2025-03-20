@@ -473,6 +473,8 @@ def view(request):
     findingaid = tv(
         etree.fromstring(ElementTree.tostring(xml, encoding='utf8', method='xml'))
     )
+    print("ORIGINAL FINDING AID")
+    print(findingaid)
 
     try:
         title = ''.join(findingaid.xpath('//h1')[0].itertext())
@@ -492,6 +494,17 @@ def view(request):
                 pass
 
     navigation = tn(findingaid)
+
+    # Somehow a self closing div is being produced in the finding aid.
+    # <div class="ead_titlepage"/>
+    # This is breaking the html. So we replace it with a closing div tag.
+    findingaid = re.sub(
+        r'<div class="[^"]*"/>',
+        lambda m: m.group(0).replace('/>', '></div>'),
+        str(findingaid),
+    )
+    print("TRANSFORMED FINDING AID")
+    print(findingaid)
 
     return render(
         request,

@@ -2,10 +2,7 @@
 {% load static %}
 {% load wagtailcore_tags wagtailimages_tags cache %}
 
-{% block extra_css %}
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'portal/css/portal.css' %}">
-{% endblock %}
+{% block extra_css %}{% endblock %}
 
 {% block title %}{{ title }}{% endblock %}
 
@@ -15,46 +12,82 @@
 
 {% block content %}
     {% include "portal/breadcrumbs.html" %}
-    <div class="container section browse-view">
-        <div class="columns is-variable is-8">
-            <div class="column is-one-quarter browse-sidebar">
-                <div>
-                    <h2>Contents</h2>
-                    {{ navigation_html|safe }}
-                    <div class="archivebox_findingaidviewer">
-                        <h2>Collection Access</h2>
-                        {% if archivebox_logo %}
-                            <div class="archivebox_findingaidviewer_image">
-                                {% image archivebox_logo original %}
-                            </div>
-                        {% endif %}
-                        <div class="archivebox_name">
-                            <strong>
-                            {{ archive_name }}
-                            </strong>
-                        </div>
-                        {% if archivebox_address %}
-                            <div class="archivebox_address">
-                                {{ archivebox_address|safe }}
-                            </div>
-                        {% endif %}
-                        {% if archivebox_link %}
-                            <div class="archivebox_link">
-                                {{ archivebox_link|safe }}
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        
-            <div class="column">
+
+	<div class="container-sm pt-2 pb-5">
+		<div class="row">
+			<div class="col-12 col-md-8 col-lg-9 order-2 mb-4 pt-4 main-content">
                 {{ findingaid_html|safe }}
+            </div>
+            <div class="col-12 col-md-4 col-lg-3 order-1 sidebar">
+                {{ navigation_html|safe }}
             </div>
         </div>
     </div>
+
+                {% comment %} =#= ARCHIVAL INSTITUTION 
+                    <div class="d-flex flex-column mb-4 border border-secondary-subtle">
+                        <div class="d-flex align-items-center justify-content-center">
+                            {% if archivebox_logo %}
+                                {% image archivebox_logo width-200 %}
+                            {% endif %}
+                        </div>
+                        <div class="px-3 py-2 d-flex flex-wrap flex-column align-content-center justify-content-center">
+                            <span class="text-blue fw-bold">These results are from the the following archives</span>
+                            <h2 class="h5">{{ name }}</h2>
+                            {% if archivebox_address %}
+                                <span>{{ archivebox_address|safe }}</span>
+                            {% endif %}
+                            {% if archivebox_link %}
+                                <span>{{ archivebox_link|safe }}</span>
+                            {% endif %}
+                        </div>
+                    </div>{% endcomment %}
+
+    {% if false %}
+        <section id="testfa">
+        {{ findingaid_html|safe}}
+        </section>
+
+        <div class="container section browse-view">
+            <div class="columns is-variable is-8">
+                <div class="column is-one-quarter browse-sidebar">
+                    <div>
+                        <h2>Contents</h2>
+                        {{ navigation_html|safe }}
+                        <div class="archivebox_findingaidviewer">
+                            <h2>Collection Access</h2>
+                            {% if archivebox_logo %}
+                                <div class="archivebox_findingaidviewer_image">
+                                    {% image archivebox_logo original %}
+                                </div>
+                            {% endif %}
+                            <div class="archivebox_name">
+                                <strong>
+                                {{ archive_name }}
+                                </strong>
+                            </div>
+                            {% if archivebox_address %}
+                                <div class="archivebox_address">
+                                    {{ archivebox_address|safe }}
+                                </div>
+                            {% endif %}
+                            {% if archivebox_link %}
+                                <div class="archivebox_link">
+                                    {{ archivebox_link|safe }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="column">
+                    {{ findingaid_html|safe }}
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
 {% endblock %}
 
-{% block extra_footer %}
-    {% include "portal/portal_extrafooter.html" %}
-{% endblock %}
+{% block extra_footer %}{% endblock %}
 
