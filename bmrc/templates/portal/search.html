@@ -18,22 +18,20 @@
 
 	<div class="container-sm pt-2 pb-5">
 		<div class="row">
-			<div class="col-12 col-md-8 col-lg-9 order-2 mb-4">
-                <div class="search-results list-group list-group-flush mb-4" role="list">
-		            <h1 class="h2">{{title}}</h1>
-                    <h2 class="h3 visually-hidden">Search Results</h2>
-                   
-                   {% comment %} =#= ACTIVE FACETS {% endcomment %}
+			<div class="col-12 col-md-8 col-lg-9 order-2 mb-4 pt-4 results-list">
+                {% comment %} =#= TITLE {% endcomment %}
+                <h1 class="h2">{{title}}</h1>
+
+                <div class="d-flex flex-wrap align-items-center mb-2">
+                    {% comment %} =#= ACTIVE FACETS {% endcomment %}
                     {% if active_facets %}
-                        <div class="d-flex flex-wrap">
-                            {% for filter in all_active_facets %}
-                                <a class="btn btn-outline-secondary btn-sm rounded-pill mb-2 me-2" href="/portal/search/?{{ filter.3 }}" type="button">{{ filter.1 }} <i class="fa-solid fa-xmark"></i></a>
-                            {% endfor %}
-                        </div>
+                        {% for filter in all_active_facets %}
+                            <a class="btn btn-outline-secondary btn-sm rounded-pill mb-2 me-2" href="/portal/search/?{{ filter.3 }}" type="button">{{ filter.1 }} <i class="fa-solid fa-xmark"></i></a>
+                        {% endfor %}
                     {% endif %}
 
                     {% comment %} =#= RESULTS COUNT {% endcomment %}
-                    <p class="text-body-secondary smaller-text">Results 
+                    <p class="text-body-secondary smaller-text mb-2">Results 
                         {{ search_results.start|add:"1" }} 
                         to 
                         {% if search_results.stop == search_results.total %}
@@ -43,10 +41,13 @@
                         {% endif %}
                         of 
                         {{ search_results.total }}</p>
-
-                    {% comment %} =#= LIST RESULTS {% endcomment %}
+                </div>
+                        
+                {% comment %} =#= LIST RESULTS {% endcomment %}
+                <h2 class="h3 visually-hidden">Search Results</h2>
+                <div class="search-results list-group list-group-flush mb-4" role="list">
                     {% for r in search_results.results %}
-                        <div class="search-result hover-gray position-relative mb-4" role="listitem">
+                        <div class="search-result hover-gray position-relative py-2 mb-2" role="listitem">
                             <a class="stretched-link text-dark text-decoration-none" href="/portal/view/?id={{ r.uri }}">
                                 <h3 class="h4">{{ r.title }}</h3>
                             </a>
@@ -58,59 +59,41 @@
                             </p>
                         </div>
                     {% endfor %}
+                </div>
 
-                    {% comment %} =#= ARCHIVAL INSTITUTION {% endcomment %}
-                    {% if name %}
-                        <div class="d-flex flex-column flex-md-row mb-4 border border-secondary-subtle">
-                            <div class="d-flex align-items-center justify-content-center">
-                                {% if archivebox_logo %}
-                                    {% image archivebox_logo width-200 %}
-                                {% endif %}
-                            </div>
-                            <div class="px-3 py-2 py-md-4 d-flex flex-wrap flex-column align-content-center justify-content-center">
-                                <h2 class="h5">{{ name }}</h2>
-                                {% if archivebox_address %}
-                                   <span>{{ archivebox_address|safe }}</span>
-                                {% endif %}
-                                {% if archivebox_link %}
-                                    <span>{{ archivebox_link|safe }}</span>
-                                {% endif %}
-                            </div>
+                {% comment %} =#= PAGINATION {% endcomment %}
+                {% include "portal/component_paginator.html" with location="search" %}
+
+                {% comment %} =#= ARCHIVAL INSTITUTION {% endcomment %}
+                {% if name %}
+                    <div class="d-flex flex-column flex-md-row mb-4 border border-secondary-subtle">
+                        <div class="d-flex align-items-center justify-content-center">
+                            {% if archivebox_logo %}
+                                {% image archivebox_logo width-200 %}
+                            {% endif %}
                         </div>
-                    {% endif %}
-                    
-                    <div class="card">
-                        <div class="card-body">
-                            <p>active_facets ==> {{active_facets}}</p>
-                            <p>archivebox_address ==> {{archivebox_address}}</p>
-                            <p>archivebox_link ==> {{archivebox_link}}</p>
-                            <p>archivebox_logo ==> {{archivebox_logo}}</p>
-                            <p>breadcrumbs ==> {{breadcrumbs}}</p>
-                            <p>clear_facets_from_url_params ==> {{clear_facets_from_url_params}}</p>
-                            <p>page ==> {{page}}</p>
-                            <p>page_length ==> {{page_length}}</p>
-                            <p>page_links ==> {{page_links}}</p>
-                            {% comment %} <p>search_results ==> {{search_results}}</p> {% endcomment %}
-                            <p>sidebar_view_less_facet_count ==> {{sidebar_view_less_facet_count}}</p>
-                            <p>sidebar_view_more_facet_count ==> {{sidebar_view_more_facet_count}}</p>
-                            <p>name ==> {{name}}</p>
-                            <p>sort ==> {{sort}}</p>
-                            <p>start ==> {{start}}</p>
-                            <p>title ==> {{title}}</p>
-                            <p>total_pages ==> {{total_pages}}</p>
-                            <p>url_params_clear_facets ==> {{url_params_clear_facets}}</p>
-                            <p>portal_facets ==> {{portal_facets}}</p>
-                            <p>sort_options ==> {{sort_options}}</p>
+                        <div class="px-3 py-2 py-md-4 d-flex flex-wrap flex-column align-content-center justify-content-center">
+                            <span class="text-blue fw-bold">These results are from the the following archives</span>
+                            <h2 class="h5">{{ name }}</h2>
+                            {% if archivebox_address %}
+                                <span>{{ archivebox_address|safe }}</span>
+                            {% endif %}
+                            {% if archivebox_link %}
+                                <span>{{ archivebox_link|safe }}</span>
+                            {% endif %}
                         </div>
                     </div>
-                </div>
+                {% endif %}
             </div>
-			<div class="col-12 col-md-4 col-lg-3 order-1">
-                {% comment %} COLLAPSE S&F {% endcomment %}
-                <button class="btn btn-outline-secondary d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sortAndFilter" aria-expanded="false" aria-controls="sortAndFilter">
-                    <i class="fa-solid fa-filter"></i> Sort & Filter
-                </button>
-                <div class="collapse d-lg-block mb-4 p-2 bg-light" id="sortAndFilter">
+			<div class="col-12 col-md-4 col-lg-3 order-1 filter-and-sort">
+                {% comment %} COLLAPSE S&F BUTTON {% endcomment %}
+                <div class="d-grid gap-2 d-md-none mb-2">
+                    <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#sortAndFilter" aria-expanded="false" aria-controls="sortAndFilter">
+                        <i class="fa-solid fa-filter"></i> Sort & Filter
+                    </button>
+                </div>
+
+                <div class="collapse d-md-block mb-4 p-2 bg-light" id="sortAndFilter">
                     {% comment %} =#= SORT {% endcomment %}
                     {% include "portal/component_sort.html" with location="search" %}
 
@@ -199,6 +182,12 @@
                                 </ul>
                             </div>
                         {% endif %}
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-none mb-2">
+                        <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#sortAndFilter" aria-expanded="false" aria-controls="sortAndFilter">
+                            <i class="fa-solid fa-xmark"></i> Done
+                        </button>
                     </div>
                 </div>
 
