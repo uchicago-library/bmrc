@@ -15,26 +15,31 @@
         <span class="btn btn-danger">search bar portal</span>
         <br>
         <br> {% endcomment %}
-		<div class="">
+        <div class="row">
+            <div class="col-12 col-sm-6 ">
+                <form action="{% url 'search' %}" method="get">
+                    <div class="input-group shadow-sm rounded-pill border border-primary ps-1 search-box">
+                        <label class="visually-hidden">Site Search</label>
+                        <input class="form-control border-0 rounded-pill me-1" placeholder="Website Search" type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
+                        <button class="btn btn-primary rounded-pill py-0 px-3" type="submit" value="Search" class="button" aria-label="search website"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-12 col-sm-6  d-flex flex-column">
+                <span class="ps-2 smaller-text order-sm-2">search archival collections instead</span>
+                <form class="order-sm-1" action="/portal/search/" method="get">
+                    <div class="input-group shadow-sm rounded-pill border border-dark-subtle ps-1 search-box">
+                        <label class="visually-hidden" for="portal-search-query">Finding Aid Search</label>
+                        <input class="form-control border-0 rounded-pill me-1" id="portal-search-query" placeholder="Collections Search" type="text" name="q"{% if search_query %} value="{{ search_query }}"{% endif %}>
+                        <button class="btn btn-outline-primary rounded-pill py-0 px-3" type="submit" value="Search" aria-label="search collections"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="">
             {% if search_results %}
-                <p>Showign {{search_results|length}}/{{total_results}} search results for "{{ search_query }}"</p>
+                <p>Showing {{search_results|length}}/{{total_results}} search results for "{{ search_query }}"</p>
                 {% for result in search_results %}
-                    {% comment %} 
-                    Works
-                    <p><b>result.get_parent.title</b><br> {{ result.get_parent.title }}</p>
-                    <p><b>result.specific.url </b><br>{{ result.specific.url }}</p>
-                    <p><b>result.search_description </b><br>{{ result.search_description }}</p>
-                    <p><b>result.specific.excerpt </b><br>{{ result.specific.excerpt }}</p> 
-                    <p><b>result.page_type </b><br>{{ result.page_type }}</p>
-                    <p><b>result.body_excerpt </b><br>{{ result.body_excerpt }}</p>
-                    {% endcomment %}
-                    {% comment %} 
-                    Doesn't work
-                    {{ result.specific._meta.verbose_name }}  # Gets the page type name
-                    <p><b>result.get_parent._meta</b><br> {{ result.get_parent._meta }}</p>
-                    {{ result.specific|classname }}  # Alternative way using a custom filter
-                    <p><b>result.specific._meta</b><br> {{ result.specific._meta }}</p> 
-                    {% endcomment %}
 
                     <div class="row hover-gray mb-2">
                         <div class="col" style="min-width:250px;">

@@ -14,6 +14,7 @@ PAGE_TYPE_MAPPING = {
     '/research-notes/': 'Research Notes',
     '/programs/': 'Programs',
     '/resources/': 'Resources',
+    '/portal/help/': 'Research Help',
 }
 
 
@@ -36,7 +37,7 @@ def get_page_type(url):
             for path, page_type in PAGE_TYPE_MAPPING.items()
             if url.startswith(path)
         ),
-        '',  # Default value if no match found
+        'Standard Page',  # Default value if no match found
     )
 
 
