@@ -85,8 +85,6 @@ class NewsStoryPage(Page):
     subpage_types = []
     parent_page_types = ['news.NewsIndexPage']
 
-    search_fields = Page.search_fields + [index.SearchField('excerpt')]
-
     lead_image = models.ForeignKey(
         "wagtailimages.Image",
         blank=True,
@@ -120,6 +118,12 @@ class NewsStoryPage(Page):
         FieldPanel('story_date'),
     ]
 
+    search_fields = Page.search_fields + [
+        index.SearchField('excerpt'),
+        index.SearchField('body'),
+        index.SearchField('title'),  # if you want to explicitly include the title
+    ]
+
     class Meta:
 
         verbose_name = "News Story"
@@ -128,6 +132,7 @@ class NewsStoryPage(Page):
 
 class NewsletterSignupPage(Page):
     """Page for embedded Newsletter form code"""
+    # TODO: This is to be deleted
 
     max_count = 1
     subpage_types = []

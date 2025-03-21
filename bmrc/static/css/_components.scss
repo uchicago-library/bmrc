@@ -14,10 +14,34 @@
  * ## Utility Classes 
  * --
  */
+
+@mixin rounded-nav-button {
+    border-radius: 50px !important;
+    width: fit-content;
+    padding: 5px 12px;
+    border: 1px solid black;
+    line-height: 1;
+    // height: 30px;
+    border-width: 2px;
+}
+
+@mixin navbar-links {
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
 .smaller-text {
     font-size: smaller;
 }
 
+.text-blue {
+    color: $bmrc-blue !important;
+}
+
+.hover-gray:hover,
+.hover-gray:focus {
+    @extend .bg-light;
+}
 
 
 /* 
@@ -25,13 +49,32 @@
  * ## Fixes 
  * --
  */
-a {
-    @extend .focus-ring !optional;
+a,
+button.btn {
+    @extend .focus-ring;
+    word-break: break-word;
 }
 
-p b,
-p strong {
-    font-size: 1.1em;
+p {
+
+    b,
+    strong {
+        font-size: 1.1em;
+    }
+}
+
+.display-1,
+.display-2,
+.display-3,
+.display-4,
+.display-5,
+.display-6 {
+
+    b,
+    strong {
+        font-size: 1em;
+        font-weight: 700;
+    }
 }
 
 .pull-left {
@@ -44,6 +87,10 @@ p strong {
 
 .news-story-page figure {
     margin-top: 0 !important;
+}
+
+figure.figure.mb-0 {
+    margin-bottom: 0 !important;
 }
 
 /* 
@@ -88,6 +135,10 @@ img.richtext-image {
 @import "navbar";
 @import "footer";
 @import "homepage";
+@import "portal_navbar";
+@import "portal";
+@import "portal_home";
+@import "portal_view";
 
 
 .card.news-item {

@@ -4,60 +4,54 @@
 
 {% block body_class %}curated_topic{% endblock %}
 
-{% block extra_css %}
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'portal/css/portal.css' %}">
-{% endblock %}
+{% block extra_css %}{% endblock %}
 
 {% block extra_header %}
     {% include "portal/portal_searchbar.html" %}
 {% endblock %}
 
 {% block content %}
-    <div class="container section browse-view">
-        <div class="columns is-variable is-8">
-            <div class="column is-one-quarter browse-sidebar">
-                <h2>Browse</h2>
-                <ul>
-                    <li><a href="/portal/browse/?b=topics">Topics</a></li>
-                    <li><a href="/portal/browse/?b=people">People</a></li>
-                    <li><a href="/portal/browse/?b=places">Places</a></li>
-                    <li><a href="/portal/browse/?b=organizations">Organizations</a></li>
-                    <li><a href="/portal/browse/?b=decades">Decades</a></li>
-                    <li><a href="/portal/browse/?b=archives">Archives</a></li>
-                </ul>
-                    
-                <h2>Featured Topic</h2>
-                {% image self.featured_curated_topic.image original class="is-hidden-mobile" %}
-                <p><a href="{{ self.featured_curated_topic.url }}">{{ self.featured_curated_topic.title }}</a></p>
-                <p><a href="{{ self.get_parent.url }}">Explore all curated topics &gt;&gt;</a></p>
+    {% include "portal/breadcrumbs.html" %}
+    
+
+	<div class="container-sm py-5">
+		<h1>{{self.title}}</h1>
+		<div class="row">
+            <div class="col-12 col-md-5 col-lg-4 order-md-2">
+                <figure class="figure">
+                    {% image self.image width-520 class="figure-img img-fluid" %}
+                    <figcaption class="figure-caption">{{ self.caption }}</figcaption>
+                </figure>
             </div>
-    
-            <div class="column">
-                <h1>{{ self.title }}</h1>
-    
-                <div class="topic_image">
-                    {% image self.image original %}
-                    <p>{{ self.caption }}</p>
-                </div>
-    
+            
+            <div class="col-12 col-md-7 col-lg-8 order-md-1">
                 {{ self.body|richtext }}
-   
+                
                 {% if self.byline %}
-                    <p class="byline">— {{ self.byline }}</p>
+                    <div class="byline card card-info mb-4">
+                        <div class="card-body">
+                            — {{ self.byline }}
+                        </div>
+                    </div>
                 {% endif %}
-    
-                <p><a href="{{ self.search_url }}">View search results for this topic &gt;&gt;</a></p>
-                <p><a href="{{ self.get_parent.url }}">Explore all curated topics &gt;&gt;</a></p>
 
+                <div class="d-flex flex-column flex-md-row mb-2">
+                    <a class="btn btn-primary mb-2 mb-md-0 me-md-2" href="{{ self.search_url }}">
+                        View search results for this topic
+                    </a>
+                    <a class="btn btn-outline-primary" href="{{ self.get_parent.url }}">
+                        Explore all curated topics
+                    </a>
+                </div>
+                
+                <hr class="mt-5">
                 {{ self.bottom_text|richtext }}
+            </div>
 
-            </div> 
-        </div>
-    </div>
+		</div>
+	</div>  
+
 {% endblock %}
 
-{% block extra_footer %}
-        {% include "portal/portal_extrafooter.html" %}
-{% endblock %}
+{% block extra_footer %}{% endblock %}
 

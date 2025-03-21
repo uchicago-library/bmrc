@@ -1,0 +1,31 @@
+{% load  wagtailimages_tags %}
+
+<section class="portal-home-featured-block my-5">
+    <div class="featured-block-layer-img container-fluid bg-light">
+        <div class="row">
+            {% image image width-600 as img %}
+            <div class="featured-block-img col-12 col-sm-4 col-md-6" style="background-image: url({{ img.url }})">
+                <figure class="visually-hidden">
+                    <img src="{{ img.url }}" alt="{{ img.alt }}">
+                </figure>
+            </div>
+            <div class="featured-block-txt col-12 col-sm-8 col-md-6 ">
+            </div>
+        </div>
+    </div>
+    <div class="featured-block-layer-txt container-sm">
+        <div class="row">
+            <div class="featured-block-img col-12 col-sm-4 col-md-6">
+            </div>
+            <div class="featured-block-txt col-12 col-sm-8 col-md-6 d-flex flex-column justify-content-left py-4">
+                <h2 class="h4">{{ title }}</h2>
+                {% if headline %}<span class="featured-block-fancy-headline text-blue">{{ headline }}</span>{% endif %}
+                <span class="flex-grow-1"></span>
+                <div class="d-flex flex-column flex-md-row">
+                    <a class="btn btn-primary mb-2 mb-md-0 me-md-2" href="{{ link }}">{{ link_text }}</a>
+                    {% if link_plural %}<a class="btn btn-outline-primary" href="{{ link_plural }}">{{ link_plural_text }}</a>{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,10 +1,59 @@
-<section class="section portal-search">
-    <form action="/portal/search/" method="get">
-        <div class="field has-addons">
-            <label class="is-sr-only" for="portal-search-query">Finding Aid Search</label>
-            <input class="input control is-medium" id="portal-search-query" placeholder="search member collections" type="text" name="q"{% if search_results.q %} value="{{ search_results.q }}"{% endif %}>
-            <button type="submit" value="Search" class="button is-medium">Search</button>
-        </div>
-    </form>
-    <div class="search-help level-right"><a href="/portal/help/">Research Help</a></div>
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<section class="hero hero-portal" style="
+    background:var(--bmrc-gradient-transparent), linear-gradient(160deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65));
+    background:linear-gradient(#ffffff50 15%, #ffffff00 37%), var(--bmrc-gradient-transparent), url({% static 'img/1963_declan_haun-march.jpg' %}), black;" id="portal-hero">
+    <div class="hero-body pt-2 pt-md-5 container-sm">
+        <a href="/portal" class="hero-display-title display-4 link-dark text-decoration-none"><p>Explore the <b>BMRC ARCHIVAL COLLECTION</b></p></a>
+        <nav class="navbar navbar-portal flex-nowrap align-items-stretch px-2 py-1 border border-light shadow-sm" aria-label="BMRC Archives Portal" id="portal-navbar">
+            <form class="flex-grow-1" action="/portal/search/" method="get">
+                <div class="input-group">
+                    <label class="visually-hidden" for="portal-search-query">Finding Aid Search</label>
+                    <input class="form-control border-0 rounded-pill me-1" id="portal-search-query" placeholder="search archival collections" type="text" name="q"{% if search_results.q %} value="{{ search_results.q }}"{% endif %}>
+                    <button type="submit" value="Search" class="btn btn-dark rounded-pill py-0 px-3" aria-label="search collections"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </form>
+            <button class="navbar-toggler collapsed text-dark rounded-pill px-3 focus-ring" type="button" data-bs-toggle="collapse" data-bs-target="#portalNavigation" aria-controls="portalNavigation" aria-expanded="false" aria-label="Toggle navigation">
+                {% comment %} <i class="fa-solid fa-circle-chevron-up"></i> {% endcomment %}
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+            <div class="collapse navbar-collapse border border-light shadow p-2 mb-4" id="portalNavigation">
+                <ul class="portal-nav-001 navbar-nav flex-md-row flex-wrap">
+                    {% comment %} <a class="nav-link active" aria-current="page" href="#">Exhibits</a> {% endcomment %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/portal/">Collection Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/portal/curated/">Curated Topics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/portal/exhibits/">Exhibits</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/portal/about/">About the Collection</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/portal/help/">Research Help</a>
+                    </li>
+                    <li class="nav-item d-md-flex">
+                        <a class="nav-link" href="#">Browse By</a>
+                        <ul class="portal-nav-browse navbar-nav flex-md-row flex-grow-1">
+                            {% for slug, names in portal_facets.items %}
+                                <li class="nav-item flex-grow-1">
+                                    {% if b == slug %}
+                                        <a class="nav-link active" aria-current="page" href="#" >
+                                    {% else %}
+                                        <a class="nav-link" href="/portal/browse/?b={{ slug }}" >
+                                    {% endif %}
+                                            {{ names.1 }}
+                                        </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
 </section>

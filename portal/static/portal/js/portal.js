@@ -1,14 +1,16 @@
-function toggleBurger() {
-    var burger = $('.burger');
-    var menu = $('.navbar-menu');
-    burger.toggleClass('is-active');
-    menu.toggleClass('is-active');
-}
+// function toggleBurger() {
+//     var burger = $('.burger');
+//     var menu = $('.navbar-menu');
+//     burger.toggleClass('is-active');
+//     menu.toggleClass('is-active');
+// }
 
 /*************************************
  * VIEW MORE / VIEW ALL FACETS LINKS *
  *************************************/
 
+alert('hello');
+console.log('hello');
 // get the view less and view more limits from data attributes.
 var view_less_limit = 0;
 var view_more_limit = 0;
@@ -24,7 +26,7 @@ for (var i = 0; i < facets.length; i++) {
     var ul = facets[i].querySelector('ul');
     var lis = facets[i].querySelectorAll('li:not([view_link])');
     var lis_length = lis.length;
-   
+
     for (var j = lis.length - 1; j >= 0; j--) {
         if (j >= view_more_limit) {
             lis[j].parentNode.removeChild(lis[j]);
@@ -48,7 +50,7 @@ for (var i = 0; i < facets.length; i++) {
 // view less links.
 var view_less_links = document.getElementsByClassName('view_less_link');
 for (var i = 0; i < view_less_links.length; i++) {
-    view_less_links[i].onclick = function(e) {
+    view_less_links[i].onclick = function (e) {
         e.preventDefault();
 
         var a = this;
@@ -75,7 +77,7 @@ for (var i = 0; i < view_less_links.length; i++) {
 // view more links.
 var view_more_links = document.getElementsByClassName('view_more_link');
 for (var i = 0; i < view_more_links.length; i++) {
-    view_more_links[i].onclick = function(e) {
+    view_more_links[i].onclick = function (e) {
         e.preventDefault();
 
         var a = this;
@@ -107,7 +109,7 @@ var overlay = document.querySelector('.modal-content');
 
 var view_all_links = document.getElementsByClassName('view_all_link');
 for (var i = 0; i < view_all_links.length; i++) {
-    view_all_links[i].onclick = function(e) {
+    view_all_links[i].onclick = function (e) {
         e.preventDefault();
 
         var a = this;
@@ -120,13 +122,13 @@ for (var i = 0; i < view_all_links.length; i++) {
         document.querySelector('.modal-content').innerHTML = '<div class="loader-wrapper"><div class="loader is-large is-loading"></div></div>';
 
         var xml_http = new XMLHttpRequest();
-        xml_http.onreadystatechange = function() {
+        xml_http.onreadystatechange = function () {
             if (xml_http.readyState == 4 && xml_http.status == 200) {
                 overlay.innerHTML = xml_http.responseText;
 
                 var sort_links = document.getElementsByClassName('facet_overlay_sort');
                 for (var j = 0; j < sort_links.length; j++) {
-                    sort_links[j].onclick = function(e) {
+                    sort_links[j].onclick = function (e) {
                         e.preventDefault();
 
                         document.querySelector('.modal-content').innerHTML = '<div class="loader-wrapper"><div class="loader is-loading"></div></div>';
@@ -167,7 +169,7 @@ for (var i = 0; i < view_all_links.length; i++) {
 }
 
 // need the x to close out the overlay.
-close_modal = function(e) {
+close_modal = function (e) {
     e.preventDefault();
     document.querySelector('.modal').classList.remove('is-active');
 }

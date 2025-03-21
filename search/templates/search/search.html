@@ -8,19 +8,54 @@
 {% block content %}
 
 	<div class="container-sm py-5">
-		<h1>{{self.title}}</h1>
-		<div class="">
+		<h1>Website Search</h1>
+       {% comment %} TODO: <span class="btn btn-danger">search bar</span>
+        <br>
+        <br>
+        <span class="btn btn-danger">search bar portal</span>
+        <br>
+        <br> {% endcomment %}
+        <div class="row">
+            <div class="col-12 col-sm-6 ">
+                <form action="{% url 'search' %}" method="get">
+                    <div class="input-group shadow-sm rounded-pill border border-primary ps-1 search-box">
+                        <label class="visually-hidden">Site Search</label>
+                        <input class="form-control border-0 rounded-pill me-1" placeholder="Website Search" type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
+                        <button class="btn btn-primary rounded-pill py-0 px-3" type="submit" value="Search" class="button" aria-label="search website"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-12 col-sm-6  d-flex flex-column">
+                <span class="ps-2 smaller-text order-sm-2">search archival collections instead</span>
+                <form class="order-sm-1" action="/portal/search/" method="get">
+                    <div class="input-group shadow-sm rounded-pill border border-dark-subtle ps-1 search-box">
+                        <label class="visually-hidden" for="portal-search-query">Finding Aid Search</label>
+                        <input class="form-control border-0 rounded-pill me-1" id="portal-search-query" placeholder="Collections Search" type="text" name="q"{% if search_query %} value="{{ search_query }}"{% endif %}>
+                        <button class="btn btn-outline-primary rounded-pill py-0 px-3" type="submit" value="Search" aria-label="search collections"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="">
             {% if search_results %}
-                <p>Found {{search_results|length}} search results for "{{ search_query }}"</p>
+                <p>Showing {{search_results|length}}/{{total_results}} search results for "{{ search_query }}"</p>
                 {% for result in search_results %}
-                    <div class="row mb-5">
+
+                    <div class="row hover-gray mb-2">
                         <div class="col" style="min-width:250px;">
-                            <h2 class="h4"><a href="{% pageurl result %}">{{ result }}</a></h2>
-                            {% if result.search_description %}
-                                <p>{{ result.search_description }}</p>
-                            {% elif result.specific.excerpt %}
-                                <p> {{ result.specific.excerpt }}</p>
-                            {% endif %}
+                            <div class="position-relative py-2">
+                                {% if result.page_type %}
+                                    <span class="text-blue fw-bold"> {{ result.page_type }}</span>
+                                {% endif %}
+                                <a class="text-decoration-none text-dark stretched-link d-block" href="{% pageurl result %}"><h2 class="h4">{{ result }}</h2></a>
+                                {% if result.search_description %}
+                                    <p>{{ result.search_description }}</p>
+                                {% elif result.specific.excerpt %}
+                                    <p> {{ result.specific.excerpt }}</p>
+                                {% elif result.body_excerpt %}
+                                    <p> {{ result.body_excerpt }}</p>
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="col-12 col-md-auto">
                             {% if result.specific.lead_image %}
@@ -34,11 +69,11 @@
 				<nav aria-label="search list pagination">
 					<ul class="pagination">
 						{% if search_results.has_previous %}
-							<li class="page-item"><a class="page-link" href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}" aria-label="Previous"><i class="fa-solid fa-arrow-left"></i></a></li>
+							<li class="page-item"><a class="page-link rounded-0 text-dark" href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}" aria-label="Previous">Previous results</a></li>
 						{% endif %}
 						
 						{% if search_results.has_next %}
-							<li class="page-item"><a class="page-link" href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}" aria-label="Next"><i class="fa-solid fa-arrow-right"></i></a></li>
+							<li class="page-item"><a class="page-link rounded-0 text-dark" href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}" aria-label="Next">More results</a></li>
 						{% endif %}
 
 						{% comment %} 

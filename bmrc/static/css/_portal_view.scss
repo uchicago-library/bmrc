@@ -1,0 +1,25 @@
+.ead_ead {
+    h2.ead_head {
+        @extend .h3;
+    }
+
+    dl.ead_did {
+        @extend .row;
+
+        dt {
+            @extend .col-12, .col-sm-4;
+        }
+
+        dd {
+            @extend .col-12, .col-sm-8;
+            @extend .mb-sm-0;
+        }
+
+        dt,
+        dd {
+            &:nth-of-type(odd) {
+                @extend .bg-light;
+            }
+        }
+    }
+}

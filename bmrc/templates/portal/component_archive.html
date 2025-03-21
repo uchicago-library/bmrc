@@ -1,0 +1,23 @@
+{% load wagtailimages_tags %}
+<div class="d-flex flex-column flex-md-row mb-4 border border-secondary-subtle">
+    <div class="d-flex align-items-center justify-content-center p-1">
+        {% if archivebox_logo %}
+            {% image archivebox_logo width-200 %}
+        {% endif %}
+    </div>
+    <div class="px-3 py-2 py-md-4 d-flex flex-wrap flex-column align-content-center justify-content-center">
+        {% if location == 'search' %}
+            <span class="text-blue fw-bold">These results are from the the following archives</span>
+        {% elif location == 'view' %}
+            <span class="text-blue fw-bold">Collection Access</span>
+        {% endif %}
+
+        <h2 class="h5">{{ name }}</h2>
+        {% if archivebox_address %}
+            <span>{{ archivebox_address|safe }}</span>
+        {% endif %}
+        {% if archivebox_link %}
+            <span>{{ archivebox_link|safe }}</span>
+        {% endif %}
+    </div>
+</div>

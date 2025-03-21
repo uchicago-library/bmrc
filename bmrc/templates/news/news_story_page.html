@@ -22,40 +22,12 @@
                 {% for block in page.body %}
                     {% include_block block %}
                 {% endfor %}
+                <a href="/news/" class="btn btn-outline-primary">
+                    <i class="fa fa-angle-double-left"></i> 
+                    Return to News
+                </a>
             </div>
 
         </div>
     </div>
-
-
-
-
-{% if false %}
-<div class="container section">
-    <h1>{{self.title}}</h1>
-    <p class="news-date">{{ self.story_date|date:"F j, Y" }}</p>
-    <div class="columns ">
-
-	{% image self.lead_image original as img %}
-        <div class="column">
-        	{% if self.lead_image %}
-				<img src="{{ img.url }}" class="news-lead-img" alt="{{ img.alt }}">
-			{% endif %}
-
-			{% for block in page.body %}
-	      		{% include_block block %}
-	      	{% endfor %}
-        </div>
-
-    </div>  <!-- // END columns -->
-
-    <div class="columns">
-        <div class="column return-news">
-            <hr>
-            <a href="/news/" class="return-link"><i class="fa fa-angle-double-left"></i> Return to News</a>
-        </div>
-    </div>
-
-</div>  <!-- // END container -->
-{% endif %}
 {% endblock %}

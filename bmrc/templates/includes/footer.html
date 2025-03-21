@@ -1,6 +1,7 @@
 {% load static cache wagtailcore_tags %}
 
 <footer class="mt-auto text-bg-dark" id="footer" role="contentinfo">
+    <h2 class="visually-hidden">Footer</h2>
     <div class="container-sm">
         <div class="row py-5 mt-5 border-top">
 
@@ -26,10 +27,10 @@
                 {% comment %} <p class="text-body-secondary">© 2024</p> {% endcomment %}
             </div>
 
-            <div class="col-12 col-md-6">
+            <nav class="col-12 col-md-6" aria-label="Footer">
                 <div class="row">
                     <div class="col col-md-6 mb-3">
-                        <h5>About</h5>
+                        <h3 class="h5">About</h3>
                         <ul class="nav flex-column">
                             <li class="nav-item mb-2"><a href="/about/" class="nav-link p-0">About the BMRC</a></li>
                             <li class="nav-item mb-2"><a href="/about/membership-information/" class="nav-link p-0">Membership Information</a></li>
@@ -42,7 +43,7 @@
                     </div>
 
                     <div class="col col-md-6 mb-3">
-                        <h5>Information</h5>
+                        <h3 class="h5">Information</h3>
                         <ul class="nav flex-column">
                             <li class="nav-item mb-2"><a href="/news/" class="nav-link p-0">News</a></li>
                             <li class="nav-item mb-2"><a href="/events/" class="nav-link p-0">Events</a></li>
@@ -53,7 +54,7 @@
                 <div class="row">
 
                     <div class="col col-md-6 mb-3">
-                        <h5>Programs</h5>
+                        <h3 class="h5">Programs</h3>
                         <ul class="nav flex-column">
                             <li class="nav-item mb-2"><a href="/programs/summer-short-term-fellowship/" class="nav-link p-0">Summer Short-term Fellowship</a></li>
                             <li class="nav-item mb-2"><a href="/programs/archie-motley-archival-internship-program/" class="nav-link p-0">Archie Motley Internship</a></li>
@@ -63,7 +64,7 @@
                     </div>
 
                     <div class="col col-md-6 mb-3">
-                        <h5>Resources</h5>
+                        <h3 class="h5">Resources</h3>
                         <ul class="nav flex-column">
                             <li class="nav-item mb-2"><a href="/resources/archives-awareness/" class="nav-link p-0">Archives Awareness</a></li>
                             <li class="nav-item mb-2"><a href="/resources/legacy-management-resources-portal/" class="nav-link p-0">Legacy Management</a></li>
@@ -73,7 +74,7 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </nav>
         </div>
     </div>
 

@@ -1,48 +1,33 @@
-@mixin rounded-nav-button {
-    border-radius: 50px !important;
-    width: fit-content;
-    padding: 5px 12px;
-    border: 1px solid black;
-    line-height: 1;
-    // height: 30px;
-    border-width: 2px;
-}
-
-@mixin navbar-links {
-    text-transform: uppercase;
-    font-weight: 600;
-}
-
 $navbar-height: 70px;
 /* approximate, err on larger */
 
 .bmrc-header {
-
     .navbar-spacer {
         padding-top: $navbar-height;
     }
 
-    .hero {
+    .hero-home {
         padding-top: $navbar-height * 2;
+        @extend .pb-5;
     }
 
-    // background: $bmrc-gradient;
+    .hero-portal {
+        padding-top: $navbar-height *1.2;
+        @extend .mb-5;
+    }
 
-    .navbar {
-        // height: $navbar-height;
+    #main-navbar {
         position: absolute;
         width: 100%;
+        z-index: 10;
 
         .nav-brand {
             max-width: 170px;
         }
 
         div.navbar-collapse {
-            @extend .py-2;
 
             ul.navbar-nav {
-
-                // all dropdowns and links in navbar
                 li.nav-item {
                     text-align: center;
 
@@ -91,6 +76,7 @@ $navbar-height: 70px;
                     button {
                         border: none;
                         background-color: transparent;
+                        font-size: $nav-link-font-size;
                     }
                 }
             }
@@ -100,11 +86,13 @@ $navbar-height: 70px;
     .hero {
         // margin-top: $navbar-height*-1;
         // padding-top: $navbar-height * 2;
-        @extend .pb-5;
         background-size: cover !important;
         background-position: center !important;
 
-        // .hero-body {
-        // }
+        .hero-body {
+            .hero-display-title {
+                text-shadow: 1px 1px $bmrc-blue;
+            }
+        }
     }
 }
