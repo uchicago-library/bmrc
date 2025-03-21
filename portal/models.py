@@ -223,6 +223,7 @@ class CuratedTopicPage(PortalBasePage):
         index.SearchField('body'),
         index.SearchField('byline'),
         index.SearchField('bottom_text'),
+        index.SearchField('title'),  # if you want to explicitly include the title
     ]
 
     parent_page_types = ['portal.CuratedTopicIndexPage']
@@ -330,6 +331,18 @@ class ExhibitPage(PortalBasePage):
         MultiFieldPanel(
             [InlinePanel('sidebar', max_num=3, label='Sidebar Section')],
             heading='Sidebar',
+        ),
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField('body'),
+        index.SearchField('title'),  # if you want to explicitly include the title
+        index.RelatedFields(
+            'sidebar',
+            [
+                index.SearchField('sidebar_text'),
+                index.SearchField('sidebar_title'),
+            ],
         ),
     ]
 
@@ -522,6 +535,18 @@ class PortalStandardPage(PortalBasePage):
         MultiFieldPanel(
             [InlinePanel('sidebar', max_num=3, label='Sidebar Section')],
             heading='Sidebar',
+        ),
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField('body'),
+        index.SearchField('title'),  # if you want to explicitly include the title
+        index.RelatedFields(
+            'sidebar',
+            [
+                index.SearchField('sidebar_text'),
+                index.SearchField('sidebar_title'),
+            ],
         ),
     ]
 

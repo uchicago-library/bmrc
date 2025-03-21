@@ -34,8 +34,6 @@ class StandardPage(Page):
 
     template = "standard/standard_page.html"
 
-    search_fields = Page.search_fields + [index.SearchField('search_description')]
-
     body = StreamField(
         [
             ("richtext", blocks.RichtextBlock(group="Format and Text")),
@@ -56,6 +54,18 @@ class StandardPage(Page):
         MultiFieldPanel(
             [InlinePanel("sidebar", max_num=3, label="Sidebar Section")],
             heading="Sidebar",
+        ),
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField('body'),
+        index.SearchField('title'),  # if you want to explicitly include the title
+        index.RelatedFields(
+            'sidebar',
+            [
+                index.SearchField('sidebar_text'),
+                index.SearchField('sidebar_title'),
+            ],
         ),
     ]
 

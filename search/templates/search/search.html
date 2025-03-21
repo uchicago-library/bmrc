@@ -8,19 +8,49 @@
 {% block content %}
 
 	<div class="container-sm py-5">
-		<h1>{{self.title}}</h1>
+		<h1>Website Search</h1>
+       {% comment %} TODO: <span class="btn btn-danger">search bar</span>
+        <br>
+        <br>
+        <span class="btn btn-danger">search bar portal</span>
+        <br>
+        <br> {% endcomment %}
 		<div class="">
             {% if search_results %}
-                <p>Found {{search_results|length}} search results for "{{ search_query }}"</p>
+                <p>Showign {{search_results|length}}/{{total_results}} search results for "{{ search_query }}"</p>
                 {% for result in search_results %}
-                    <div class="row mb-5">
+                    {% comment %} 
+                    Works
+                    <p><b>result.get_parent.title</b><br> {{ result.get_parent.title }}</p>
+                    <p><b>result.specific.url </b><br>{{ result.specific.url }}</p>
+                    <p><b>result.search_description </b><br>{{ result.search_description }}</p>
+                    <p><b>result.specific.excerpt </b><br>{{ result.specific.excerpt }}</p> 
+                    <p><b>result.page_type </b><br>{{ result.page_type }}</p>
+                    <p><b>result.body_excerpt </b><br>{{ result.body_excerpt }}</p>
+                    {% endcomment %}
+                    {% comment %} 
+                    Doesn't work
+                    {{ result.specific._meta.verbose_name }}  # Gets the page type name
+                    <p><b>result.get_parent._meta</b><br> {{ result.get_parent._meta }}</p>
+                    {{ result.specific|classname }}  # Alternative way using a custom filter
+                    <p><b>result.specific._meta</b><br> {{ result.specific._meta }}</p> 
+                    {% endcomment %}
+
+                    <div class="row hover-gray mb-2">
                         <div class="col" style="min-width:250px;">
-                            <h2 class="h4"><a href="{% pageurl result %}">{{ result }}</a></h2>
-                            {% if result.search_description %}
-                                <p>{{ result.search_description }}</p>
-                            {% elif result.specific.excerpt %}
-                                <p> {{ result.specific.excerpt }}</p>
-                            {% endif %}
+                            <div class="position-relative py-2">
+                                {% if result.page_type %}
+                                    <span class="text-blue fw-bold"> {{ result.page_type }}</span>
+                                {% endif %}
+                                <a class="text-decoration-none text-dark stretched-link d-block" href="{% pageurl result %}"><h2 class="h4">{{ result }}</h2></a>
+                                {% if result.search_description %}
+                                    <p>{{ result.search_description }}</p>
+                                {% elif result.specific.excerpt %}
+                                    <p> {{ result.specific.excerpt }}</p>
+                                {% elif result.body_excerpt %}
+                                    <p> {{ result.body_excerpt }}</p>
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="col-12 col-md-auto">
                             {% if result.specific.lead_image %}
@@ -34,11 +64,11 @@
 				<nav aria-label="search list pagination">
 					<ul class="pagination">
 						{% if search_results.has_previous %}
-							<li class="page-item"><a class="page-link" href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}" aria-label="Previous"><i class="fa-solid fa-arrow-left"></i></a></li>
+							<li class="page-item"><a class="page-link rounded-0 text-dark" href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}" aria-label="Previous">Previous results</a></li>
 						{% endif %}
 						
 						{% if search_results.has_next %}
-							<li class="page-item"><a class="page-link" href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}" aria-label="Next"><i class="fa-solid fa-arrow-right"></i></a></li>
+							<li class="page-item"><a class="page-link rounded-0 text-dark" href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}" aria-label="Next">More results</a></li>
 						{% endif %}
 
 						{% comment %} 
