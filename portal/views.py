@@ -186,7 +186,7 @@ def browse(request):
     stop = start + settings.PAGE_LENGTH
 
     titles = {
-        'archives': 'ABrowsell Archives',
+        'archives': 'Browse Archives',
         'decades': 'Browse Decades',
         'organizations': 'Browse Organizations',
         'people': 'Browse People',
