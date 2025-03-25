@@ -141,7 +141,8 @@ class NewsletterSignupPage(Page):
     max_count = 1
     subpage_types = []
 
-    search_fields = Page.search_fields + [index.SearchField('search_description')]
+    search_fields = Page.search_fields + \
+        [index.SearchField('search_description')]
 
     body = StreamField(
         [

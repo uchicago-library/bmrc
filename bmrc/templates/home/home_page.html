@@ -23,13 +23,72 @@
 {% endblock %}
 {% block content %}
 
-    <div class="content py-5">
+    {% if self.about_title or self.about_paragraph %}
+        <section class="container-sm py-5" id="about-section">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-8">
+                    {% if self.about_title %}
+                        <h2 class="h3">{{ self.about_title }}</h2>
+                    {% endif %}
+                    {% if self.about_paragraph %}
+                        <p class="">{{ self.about_paragraph }}</p>
+                    {% endif %}
+                    {% if self.about_button_text and self.about_button_link %}
+                        <a class="btn btn-outline-primary" href="{{self.about_button_link}}">{{self.about_button_text}}</a>
+                    {% endif %}
+                </div>
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="d-flex flex-column">
+                        {% for button in self.about_buttons %}
+                            {% if button.small_text and button.big_text and button.icon_name and button.link %}
+                            <a class="btn btn-primary shortcut-btn" href="{{ button.link }}">
+                                <div class="shortcut-btn-text">
+                                    {% if button.small_text %}
+                                        <span class="shortcut-btn-small-text">{{ button.small_text }}</span>
+                                    {% endif %}
+                                    <span class="shortcut-btn-big-text">{{ button.big_text }}</span>
+                                </div>
+                                <div class="shortcut-btn-icon">
+                                    {% if button.icon_name %}
+                                        <i class="fa-solid fa-{{ button.icon_name }}"></i>
+                                    {% endif %}
+                                </div>
+                            </a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    
+
+    <div class="page-body py-5">
 		{% for block in page.body %}
 			<div class="body-block-{{block.block_type}} {% if block.block_type != 'page_callout' %}container-sm{% endif %}">
 				{% include_block block %}
 			</div>
 		{% endfor %}
     </div>
+
+    {% if self.highlight_title or self.highlight_paragraph %}
+        {% if self.highlight_background %}
+            {% image self.highlight_background original as background %}
+        {% endif %}
+        <section id="highlight-section" {% if background.url %}style="background: rgba(0,0,0,0.2), url({{background.url}}), black;"{% endif %}>
+            <div class="container-sm py-5 text-center text-light">
+                {% if self.highlight_title %}
+                    <h2 class="">{{self.highlight_title}}</h2>
+                {% endif %}
+                {% if self.highlight_paragraph %}
+                    <p class="">{{self.highlight_paragraph}}</p>
+                {% endif %}
+                {% if self.highlight_button_link and self.highlight_button_text %}
+                    <a class="btn btn-outline-light" href="{{self.highlight_button_link}}">{{self.highlight_button_text}}</a>
+                {% endif %}
+            </div>
+        </section>
+    {% endif %}
 
     <section class="news py-5">
         <div class="container-sm">
@@ -58,4 +117,26 @@
         </div>  
     </section>
 
+    {% if self.banner_title and self.banner_paragraph and self.banner_button_text and self.banner_button_link %}
+        <section class="bg-info-subtle" id="bottom-banner-section">
+            <div class="container-sm py-3">
+                <div class="row">
+                    <div class="col-12 col-sm-8">
+
+                        {% if self.banner_title %}
+                            <h2 class="">{{self.banner_title}}</h2>
+                        {% endif %}
+                        {% if self.banner_paragraph %}
+                            <p class="">{{self.banner_paragraph}}</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        {% if self.banner_button_link and self.banner_button_text %}
+                            <a class="btn btn-outline-light" href="{{self.banner_button_link}}">{{self.banner_button_text}}</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
 {% endblock %}
