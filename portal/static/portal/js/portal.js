@@ -9,8 +9,6 @@
  * VIEW MORE / VIEW ALL FACETS LINKS *
  *************************************/
 
-alert('hello');
-console.log('hello');
 // get the view less and view more limits from data attributes.
 var view_less_limit = 0;
 var view_more_limit = 0;
