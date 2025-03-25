@@ -19,6 +19,7 @@
             </section>
         {% endwith %}
     {% else %}
+        <!-- no Top banner -->
         <div class="navbar-spacer"></div>
     {% endif %}
     
@@ -62,6 +63,8 @@
                 </div>
             </div>
         </section>
+    {% else %}
+        <!-- no about section -->
     {% endif %}
     
     {% if page.body|length > 0 %}
@@ -72,6 +75,8 @@
                 </div>
             {% endfor %}
         </section>
+    {% else %}
+        <!-- no page body -->
     {% endif %}
 
     {% if self.highlight_title or self.highlight_paragraph %}
@@ -92,6 +97,8 @@
                 {% endif %}
             </div>
         </section>
+    {% else %}
+        <!-- no highlight section -->
     {% endif %}
 
     <section class="news py-5">
@@ -142,5 +149,7 @@
                 </div>
             </div>
         </section>
+    {% else %}
+        <!-- no bottom banner -->
     {% endif %}
 {% endblock %}
