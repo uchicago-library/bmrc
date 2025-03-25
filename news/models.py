@@ -5,16 +5,10 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.utils import timezone
-
 from modelcluster.fields import ParentalKey
-
-from wagtail.admin.panels import (
-    FieldPanel,
-    InlinePanel,
-    MultiFieldPanel,
-)
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.fields import RichTextField, StreamField
-from wagtail.models import Page, Orderable
+from wagtail.models import Orderable, Page
 from wagtail.search import index
 
 from streams import blocks
@@ -29,7 +23,16 @@ class NewsSideBar(Orderable):
     sidebar_text = RichTextField(
         blank=True,
         null=True,
-        features=["bold", "italic", "ol", "ul", "link", "document-link", "image"],
+        features=[
+            "bold",
+            "italic",
+            "ol",
+            "ul",
+            "link",
+            "document-link",
+            "image",
+            "button",
+        ],
     )
 
     panels = [
@@ -121,7 +124,8 @@ class NewsStoryPage(Page):
     search_fields = Page.search_fields + [
         index.SearchField('excerpt'),
         index.SearchField('body'),
-        index.SearchField('title'),  # if you want to explicitly include the title
+        # if you want to explicitly include the title
+        index.SearchField('title'),
     ]
 
     class Meta:
@@ -132,6 +136,7 @@ class NewsStoryPage(Page):
 
 class NewsletterSignupPage(Page):
     """Page for embedded Newsletter form code"""
+
     # TODO: This is to be deleted
 
     max_count = 1
