@@ -24,6 +24,10 @@ from . import get_collections
 
 class PortalBasePage(Page):
     """Base page class for BMRC portal pages"""
+    """
+    This makes it easier to pass on these dictionaries
+    for multiple portal pages.
+    These are useful for navigation and facets. """
 
     portal_facets = {
         # key: singular, plural
@@ -557,6 +561,9 @@ class PortalStandardPage(PortalBasePage):
     ]
 
     subpage_types = ['portal.PortalStandardPage']
+
+    class Meta:
+        verbose_name = "Standard Page"
 
 
 class PortalStandardSideBar(Orderable):

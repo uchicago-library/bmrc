@@ -29,7 +29,12 @@ def get_page_type(url):
     If the specific.url start with `/research-notes/` The page type is 'Research Notes'.
     If the specific.url start with `/programs/` The page type is 'Programs'.
     If the specific.url start with `/resources/` The page type is 'Resources'.
-    Default to ''.
+    Default to the verbose name.
+    TODO: Improve this logic.
+    This is done so that a standard page under an exhibit page gets labeled as exhibit.
+    Also so that Exhibit index pages get labeled as Exhibit as well.
+    This is not future proof when new page types are added and breaks the data
+    structure of the website which is counterproductive.
     """
     return next(
         (
@@ -37,7 +42,7 @@ def get_page_type(url):
             for path, page_type in PAGE_TYPE_MAPPING.items()
             if url.startswith(path)
         ),
-        'Standard Page',  # Default value if no match found
+        '',  # Default value if no match found
     )
 
 
@@ -56,7 +61,7 @@ def search(request):
             # Set page type using the mapping function
             # removed defaulting to the paget type because only '(portal) standard page' is left
             # code: `or specific_page.specific_class._meta.verbose_name`
-            result.page_type = get_page_type(specific_page.url)
+            result.page_type = get_page_type(specific_page.url) or specific_page.specific_class._meta.verbose_name
 
             # Get body content and create simple excerpt
             if hasattr(specific_page, 'body'):
