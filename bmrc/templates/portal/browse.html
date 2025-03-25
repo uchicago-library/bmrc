@@ -19,12 +19,11 @@
                 {% include "portal/component_sort.html" with location="browse" %}
 
                 <div class="browse-results list-group list-group-flush mb-4" role="list">
-                    {% for b in browse_results %}
-                        {% comment %} <li><a href="/portal/search/?f={{ b.2 | urlencode }}">{{ b.1 }}</a></li> {% endcomment %}
-                        <a class="list-group-item list-group-item-action" href="/portal/search/?f={{ b.2 | urlencode }}" role="listitem">
+                    {% for facet_name, facet_items_count, facet_url in browse_results %}
+                        <a class="list-group-item list-group-item-action" href="/portal/search/?f={{ facet_url | urlencode }}" role="listitem">
                             <div class="d-flex w-100 justify-content-between align-items-start">
-                                <span>{{ b.0 }}</span>
-                                <span class="badge rounded-pill text-bg-secondary">{{ b.1 }}</span>
+                                <span>{{ facet_name }}</span>
+                                <span class="badge rounded-pill text-bg-secondary">{{ facet_items_count }}</span>
                             </div>
                         </a>
                     {% endfor %}
