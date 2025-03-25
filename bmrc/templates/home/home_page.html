@@ -5,7 +5,7 @@
 
 {% block extra_header %}
 
-    {% if self.banner_options|length > 0 %}
+    {% if self.banner_options.all|length > 0 %}
         {% with self.banner_options.all|random as item_set %}
             {% image item_set.banner_option_image width-900 as img %}
             <section class="hero hero-home" style="background:var(--bmrc-gradient-transparent), linear-gradient(160deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65));background:linear-gradient(#ffffff50 15%, #ffffff00 37%), var(--bmrc-gradient-transparent), url({{img.url}}), black;">
