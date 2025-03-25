@@ -38,6 +38,14 @@ body.homepage {
     }
 
     #highlight-section {
+        h2 {
+
+            b,
+            strong {
+                @extend .text-blue;
+            }
+        }
+
         background-color: black;
     }
 
@@ -51,6 +59,9 @@ body.homepage {
 
             .card-group {
                 min-width: 822px;
+                display: flex;
+                // flex-direction: row;
+
                 @extend .gap-4;
 
                 .card.news-item {

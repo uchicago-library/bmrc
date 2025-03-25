@@ -17,16 +17,16 @@ class HomePageCarouselImages(Orderable):
     """Up to 3 images for the home page carousel."""
 
     id = models.AutoField(primary_key=True)
-    page = ParentalKey("home.HomePage", related_name="carousel_images")
-    carousel_image = models.ForeignKey(
+    page = ParentalKey("home.HomePage", related_name="banner_options")
+    banner_option_image = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    carousel_title = models.CharField(max_length=100, blank=True, null=True)
-    carousel_text = RichTextField(blank=True, null=True)
+    banner_option_title = models.CharField(max_length=100, blank=True, null=True)
+    banner_option_text = RichTextField(blank=True, null=True)
     button_link = models.ForeignKey(
         "wagtailcore.Page",
         null=True,
@@ -40,9 +40,9 @@ class HomePageCarouselImages(Orderable):
     )
 
     panels = [
-        FieldPanel("carousel_image"),
-        FieldPanel("carousel_title"),
-        FieldPanel("carousel_text"),
+        FieldPanel("banner_option_image"),
+        FieldPanel("banner_option_title"),
+        FieldPanel("banner_option_text"),
         PageChooserPanel("button_link"),
         FieldPanel("button_label"),
     ]
@@ -133,11 +133,11 @@ class HomePage(Page):
     )
 
     # HIGHLIGHT SECTION
-    highlight_title = models.CharField(
-        max_length=200,
+    highlight_title = RichTextField(
+        features=["bold"],  # Restrict to only bold formatting
         blank=True,
         null=True,
-        help_text="Title for the banner displayed above the footer.",
+        help_text="Title for the banner displayed above the footer. Supports bold text but that makes it blue.",
     )
     highlight_paragraph = models.TextField(
         blank=True,
@@ -191,9 +191,9 @@ class HomePage(Page):
     # CONTENT PANELS
     content_panels = Page.content_panels + [
         MultiFieldPanel(
-            [InlinePanel("carousel_images", max_num=3, label="Image")],
+            [InlinePanel("banner_options", max_num=3, label="Option")],
             heading="Top Banner Content",
-            help_text="If more than one image is set, one is chosen at random to be used for the banner and the respective text and link is included in the banner. So every page reload might can a different image with the respective content.",
+            help_text="If more than one option is set, one is chosen at random to be used for the banner. So every page reload can show a different image, text, title, and button.",
         ),
         MultiFieldPanel(
             [
@@ -204,7 +204,7 @@ class HomePage(Page):
                 InlinePanel("about_section_shortcut", max_num=3, label="Shortcut"),
             ],
             heading="About Section with shortcuts",
-            help_text="Section below the top banner with a paragraph and shortcuts. Shortcuts intended to link to Collections(magnifying-glass), Programs(table-columns), Members(building-columns)",
+            help_text="Section below the top banner with a paragraph and shortcuts. Needs a title and text or nothing will be shown. Shortcuts intended to link to Collections(magnifying-glass), Programs(table-columns), Members(building-columns)",
         ),
         MultiFieldPanel(
             [
@@ -215,7 +215,7 @@ class HomePage(Page):
                 FieldPanel("highlight_background"),
             ],
             heading="Highlight Section",
-            help_text="Intended to highlight the Portal.",
+            help_text="Intended to highlight the Portal. Needs a title and text or nothing will be shown. ",
         ),
         MultiFieldPanel(
             [
@@ -225,7 +225,7 @@ class HomePage(Page):
                 PageChooserPanel("banner_button_link"),
             ],
             heading="Bottom Banner Content",
-            help_text="Configure the banner displayed above the footer. This was intended to link to the newsletter signup but can be used for other things. Better to keep it short.",
+            help_text="Configure the banner displayed above the footer. This was intended to link to the newsletter signup but can be used for other things. Better to keep it short. Needs a title, text, a button text, and a button link or nothing will be shown. ",
         ),
         FieldPanel("body"),
     ]
