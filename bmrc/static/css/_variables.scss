@@ -100,7 +100,12 @@ $alert-border-radius: 0;
  */
 $breadcrumb-divider: quote(">");
 
-
+$pagination-font-size: 1rem;
+$pagination-color: var(--bs-body-color);
+$pagination-focus-color: var(--bs-body-color);
 $pagination-active-color: var(--bs-body-color);
-$pagination-active-bg: var(--bs-body-bg);
-$pagination-active-border-color: var(--bs-border-color);
+$pagination-focus-bg: $bmrc-yellow;
+$pagination-active-bg: $bmrc-yellow;
+// $pagination-active-border-color: var(--bs-border-color);
+$pagination-border-radius: 0;
+$pagination-margin-start: .5rem;
