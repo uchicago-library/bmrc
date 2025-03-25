@@ -23,8 +23,7 @@ from . import get_collections
 
 
 class PortalBasePage(Page):
-    """Base page class for BMRC portal pages"""
-    """
+    """Base page class for BMRC portal pages.
     This makes it easier to pass on these dictionaries
     for multiple portal pages.
     These are useful for navigation and facets. """

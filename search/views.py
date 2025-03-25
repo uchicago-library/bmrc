@@ -17,33 +17,22 @@ PAGE_TYPE_MAPPING = {
     '/portal/help/': 'Research Help',
 }
 
+def get_page_type(page):
+    """
+    Determine the page type based on the page's URL or fall back to its verbose name.
 
-def get_page_type(url):
-    """Determine page type based on URL."""
+    Args:
+        page: Wagtail Page object.
+
+    Returns:
+        str: The page type from PAGE_TYPE_MAPPING if the page's URL starts with a mapped path,
+             otherwise the page's specific model verbose name.
     """
-    If the specific.url start with `/portal/curated/` The page type is 'Curated Topic'.
-    If the specific.url start with `/portal/exhibits/` The page type is 'Exhibits'.
-    If the specific.url start with `/news/` The page type is 'News'.
-    If the specific.url start with `/about/` The page type is 'About the BMRC'.
-    If the specific.url start with `/events/` The page type is 'Events'.
-    If the specific.url start with `/research-notes/` The page type is 'Research Notes'.
-    If the specific.url start with `/programs/` The page type is 'Programs'.
-    If the specific.url start with `/resources/` The page type is 'Resources'.
-    Default to the verbose name.
-    TODO: Improve this logic.
-    This is done so that a standard page under an exhibit page gets labeled as exhibit.
-    Also so that Exhibit index pages get labeled as Exhibit as well.
-    This is not future proof when new page types are added and breaks the data
-    structure of the website which is counterproductive.
-    """
-    return next(
-        (
-            page_type
-            for path, page_type in PAGE_TYPE_MAPPING.items()
-            if url.startswith(path)
-        ),
-        '',  # Default value if no match found
-    )
+    url = page.url
+    for path, page_type in PAGE_TYPE_MAPPING.items():
+        if url.startswith(path):
+            return page_type
+    return page.specific_class._meta.verbose_name
 
 
 def search(request):
@@ -59,9 +48,7 @@ def search(request):
             specific_page = result.specific
 
             # Set page type using the mapping function
-            # removed defaulting to the paget type because only '(portal) standard page' is left
-            # code: `or specific_page.specific_class._meta.verbose_name`
-            result.page_type = get_page_type(specific_page.url) or specific_page.specific_class._meta.verbose_name
+            result.page_type = get_page_type(result)
 
             # Get body content and create simple excerpt
             if hasattr(specific_page, 'body'):
