@@ -49,8 +49,11 @@ class HomePageCarouselImages(Orderable):
     heading = ("Banner Content",)
 
 
-class AboutSectionButton(models.Model):
-    """Reusable model for About Section buttons."""
+class AboutSectionShortcut(Orderable):
+    """About Section Shortcuts."""
+    id = models.AutoField(primary_key=True)
+    page = ParentalKey("home.HomePage", related_name="about_section_shortcut")
+
     small_text = models.CharField(
         max_length=50,
         blank=True,
@@ -77,9 +80,13 @@ class AboutSectionButton(models.Model):
         related_name="+",
         help_text="Link for the button in the About Section.",
     )
-
-    class Meta:
-        abstract = True
+    panels = [
+        FieldPanel("small_text"),
+        FieldPanel("big_text"),
+        FieldPanel("icon_name"),
+        PageChooserPanel("link"),
+    ]
+    heading = ("About Section Button",)
 
 
 class HomePage(Page):
@@ -94,7 +101,7 @@ class HomePage(Page):
             ("richtext", blocks.RichtextBlock()),
             ("page_callout", blocks.PageCallout()),
             ("webfeed", blocks.WebFeedBlock()),
-            ("new_row", blocks.NewRow()),
+            # ("new_row", blocks.NewRow()),
         ],
         null=True,
         blank=True,
@@ -125,48 +132,22 @@ class HomePage(Page):
         help_text="Page to which the banner button will link.",
     )
 
-    # ABOUT SECTION BUTTONS
-    about_button_1 = models.OneToOneField(
-        AboutSectionButton,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-        help_text="First button in the About Section.",
-    )
-    about_button_2 = models.OneToOneField(
-        AboutSectionButton,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-        help_text="Second button in the About Section.",
-    )
-    about_button_3 = models.OneToOneField(
-        AboutSectionButton,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-        help_text="Third button in the About Section.",
-    )
-
     # HIGHLIGHT SECTION
-    highglight_title = models.CharField(
+    highlight_title = models.CharField(
         max_length=200,
         blank=True,
         null=True,
         help_text="Title for the banner displayed above the footer.",
     )
-    highglight_paragraph = models.TextField(
+    highlight_paragraph = models.TextField(
         blank=True,
         null=True,
         help_text="A short paragraph for the banner above the footer.",
     )
-    highglight_button_text = models.CharField(
+    highlight_button_text = models.CharField(
         max_length=100, blank=True, null=True, help_text="Text for the banner button"
     )
-    highglight_button_link = models.ForeignKey(
+    highlight_button_link = models.ForeignKey(
         "wagtailcore.Page",
         null=True,
         blank=True,
@@ -220,12 +201,10 @@ class HomePage(Page):
                 FieldPanel("about_paragraph"),
                 FieldPanel("about_button_text"),
                 PageChooserPanel("about_button_link"),
-                FieldPanel("about_button_1"),
-                FieldPanel("about_button_2"),
-                FieldPanel("about_button_3"),
+                InlinePanel("about_section_shortcut", max_num=3, label="Shortcut"),
             ],
             heading="About Section with shortcuts",
-            help_text="Section with a paragraph and shortcuts below the top banner. Shortcuts to Collections, Programs, Members",
+            help_text="Section below the top banner with a paragraph and shortcuts. Shortcuts intended to link to Collections(magnifying-glass), Programs(table-columns), Members(building-columns)",
         ),
         MultiFieldPanel(
             [
@@ -250,8 +229,7 @@ class HomePage(Page):
         ),
         FieldPanel("body"),
     ]
-    self.about_buttons = [self.about_button_1, self.about_button_2, self.about_button_3]
-    
+
     # News Feed
     def get_context(self, request):
         context = super(HomePage, self).get_context(request)

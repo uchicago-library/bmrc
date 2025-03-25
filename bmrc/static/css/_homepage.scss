@@ -7,11 +7,13 @@
 // }
 body.homepage {
     #about-section {
+
         .shortcut-btn {
             display: flex;
             flex-direction: row;
             flex-wrap: nowrap;
-            @extend .mb-4, .px-3, .py-4;
+            @extend .mb-4, .p-3;
+            $shortcut-lg-size: 1.5em;
 
             .shortcut-btn-text {
                 flex-grow: 1;
@@ -19,25 +21,24 @@ body.homepage {
                 flex-direction: column;
                 justify-content: flex-end;
                 height: 6em;
+                text-align: left;
+                // font-size: .9em;
 
                 .shortcut-btn-big-text {
                     text-transform: uppercase;
                     font-weight: 700;
-                    font-size: 2em;
+                    font-size: $shortcut-lg-size
                 }
             }
 
             .shortcut-btn-icon {
-                font-size: 2em;
+                font-size: $shortcut-lg-size
             }
         }
     }
 
     #highlight-section {
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-color:black;
+        background-color: black;
     }
 
     .news {

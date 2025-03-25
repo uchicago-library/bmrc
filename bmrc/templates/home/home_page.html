@@ -10,10 +10,10 @@
         {% image item_set.carousel_image width-900 as img %}
 		<section class="hero hero-home" style="background:var(--bmrc-gradient-transparent), linear-gradient(160deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65));background:linear-gradient(#ffffff50 15%, #ffffff00 37%), var(--bmrc-gradient-transparent), url({{img.url}}), black;">
 			<div class="hero-body py-2 py-md-5 container-sm">
-			<h1 class="h4">{{ item_set.carousel_title }}</h1>
+			<h1 class="h3">{{ item_set.carousel_title }}</h1>
 			<div class="fs-5">{{ item_set.carousel_text|richtext }}</div>
 			{% if item_set.button_link.url and item_set.button_label %}
-				<a href="{{ item_set.button_link.url }}" class="btn btn-outline-dark">{{ item_set.button_label }}</a>
+				<a href="{{ item_set.button_link.url }}" class="btn btn-outline-dark rounded-pill">{{ item_set.button_label }}</a>
 			{% endif %}
 			</div>
 		</section>
@@ -34,12 +34,12 @@
                         <p class="">{{ self.about_paragraph }}</p>
                     {% endif %}
                     {% if self.about_button_text and self.about_button_link %}
-                        <a class="btn btn-outline-primary" href="{{self.about_button_link}}">{{self.about_button_text}}</a>
+                        <a class="btn btn-outline-primary rounded-pill" href="{{self.about_button_link}}">{{self.about_button_text}}</a>
                     {% endif %}
                 </div>
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="d-flex flex-column">
-                        {% for button in self.about_buttons %}
+                        {% for button in self.about_section_shortcut.all %}
                             {% if button.small_text and button.big_text and button.icon_name and button.link %}
                             <a class="btn btn-primary shortcut-btn" href="{{ button.link }}">
                                 <div class="shortcut-btn-text">
@@ -63,19 +63,20 @@
     {% endif %}
     
 
-    <div class="page-body py-5">
+    <section class="page-body py-5">
 		{% for block in page.body %}
 			<div class="body-block-{{block.block_type}} {% if block.block_type != 'page_callout' %}container-sm{% endif %}">
 				{% include_block block %}
 			</div>
 		{% endfor %}
-    </div>
+    </section>
 
     {% if self.highlight_title or self.highlight_paragraph %}
         {% if self.highlight_background %}
             {% image self.highlight_background original as background %}
         {% endif %}
-        <section id="highlight-section" {% if background.url %}style="background: rgba(0,0,0,0.2), url({{background.url}}), black;"{% endif %}>
+
+        <section id="highlight-section" {% if background.url %}style="background: linear-gradient(160deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65)), url({{background.url}}), black; background-size: cover; background-position: center; background-repeat: no-repeat;"{% endif %}>
             <div class="container-sm py-5 text-center text-light">
                 {% if self.highlight_title %}
                     <h2 class="">{{self.highlight_title}}</h2>
@@ -84,7 +85,7 @@
                     <p class="">{{self.highlight_paragraph}}</p>
                 {% endif %}
                 {% if self.highlight_button_link and self.highlight_button_text %}
-                    <a class="btn btn-outline-light" href="{{self.highlight_button_link}}">{{self.highlight_button_text}}</a>
+                    <a class="btn btn-outline-light rounded-pill" href="{{self.highlight_button_link}}">{{self.highlight_button_text}}</a>
                 {% endif %}
             </div>
         </section>
@@ -113,7 +114,7 @@
                     {% endfor %}
                 </div>  
             </div>  
-            <a href="/news" class="btn btn-outline-primary mt-2">View all BMRC News</a>
+            <a href="/news" class="btn btn-outline-primary rounded-pill mt-2">View all BMRC News</a>
         </div>  
     </section>
 
@@ -132,7 +133,7 @@
                     </div>
                     <div class="col-12 col-sm-4">
                         {% if self.banner_button_link and self.banner_button_text %}
-                            <a class="btn btn-outline-light" href="{{self.banner_button_link}}">{{self.banner_button_text}}</a>
+                            <a class="btn btn-outline-primary rounded-pill w-100" href="{{self.banner_button_link}}">{{self.banner_button_text}}</a>
                         {% endif %}
                     </div>
                 </div>
