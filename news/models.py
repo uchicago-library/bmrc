@@ -31,7 +31,6 @@ class NewsSideBar(Orderable):
             "link",
             "document-link",
             "image",
-            "button",
         ],
     )
 
