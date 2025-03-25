@@ -1,6 +1,9 @@
+{% if self.callout_title or self.callout_text %}
 <div class="page-callout bg-dark text-white py-5 my-5">
     <div class="container-sm">
-        <h2>{{ self.callout_title }}</h2>
+        {% if self.callout_title %}
+            <h2>{{ self.callout_title }}</h2>
+        {% endif %}
 
         {{ self.callout_text }}
         
@@ -9,3 +12,4 @@
         {% endif %}
     </div>
 </div>
+{% endif %}
