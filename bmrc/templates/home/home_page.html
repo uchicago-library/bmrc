@@ -36,14 +36,14 @@
                         <p class="">{{ self.about_paragraph }}</p>
                     {% endif %}
                     {% if self.about_button_text and self.about_button_link %}
-                        <a class="btn btn-outline-primary rounded-pill mb-2" href="{{self.about_button_link}}">{{self.about_button_text}}</a>
+                        <a class="btn btn-outline-primary rounded-pill mb-2" href="{{self.about_button_link.url}}">{{self.about_button_text}}</a>
                     {% endif %}
                 </div>
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="d-flex flex-column">
                         {% for button in self.about_section_shortcut.all %}
                             {% if button.small_text and button.big_text and button.icon_name and button.link %}
-                            <a class="btn btn-primary shortcut-btn" href="{{ button.link }}">
+                            <a class="btn btn-primary shortcut-btn" href="{{ button.link.url }}">
                                 <div class="shortcut-btn-text">
                                     {% if button.small_text %}
                                         <span class="shortcut-btn-small-text">{{ button.small_text }}</span>
@@ -88,7 +88,7 @@
                     <p class="">{{self.highlight_paragraph}}</p>
                 {% endif %}
                 {% if self.highlight_button_link and self.highlight_button_text %}
-                    <a class="btn btn-outline-light rounded-pill" href="{{self.highlight_button_link}}">{{self.highlight_button_text}}</a>
+                    <a class="btn btn-outline-light rounded-pill" href="{{self.highlight_button_link.url}}">{{self.highlight_button_text}}</a>
                 {% endif %}
             </div>
         </section>
@@ -136,7 +136,7 @@
                     </div>
                     <div class="col-12 col-sm-4 d-flex flex-column justify-content-center">
                         {% if self.banner_button_link and self.banner_button_text %}
-                            <a class="btn btn-outline-primary rounded-pill w-100" href="{{self.banner_button_link}}">{{self.banner_button_text}}</a>
+                            <a class="btn btn-outline-primary rounded-pill w-100" href="{{self.banner_button_link.url}}">{{self.banner_button_text}}</a>
                         {% endif %}
                     </div>
                 </div>
