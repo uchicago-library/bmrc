@@ -76,8 +76,10 @@ $dark: #343a40; // Custom dark color
 
 $link-color: #007396;
 
-$bmrc-gradient: linear-gradient(257.92deg, rgba(36, 169, 224, 1) 51.83%, rgba(250, 205, 15, 1) 95.83%);
-$bmrc-gradient-transparent: linear-gradient(257.92deg, rgba(36, 169, 224, 0.7) 51.83%, rgba(250, 205, 15, 0.7) 95.83%);
+$bmrc-gradient: linear-gradient(257.92deg, rgba(250, 205, 15, 1) 30%, rgba(36, 169, 224, 1) 60%);
+$bmrc-gradient-transparent: linear-gradient(257.92deg, rgba(250, 205, 15, 0.7) 30%, rgba(36, 169, 224, 0.7) 60%);
+$bmrc-gradient-portal: linear-gradient(257.92deg, rgba(250, 205, 15, 1) 80%, rgba(36, 169, 224, 1) 96%);
+$bmrc-gradient-portal-transparent: linear-gradient(257.92deg, rgba(250, 205, 15, 0.7) 80%, rgba(36, 169, 224, 0.7) 96%);
 
 /* 
  * --

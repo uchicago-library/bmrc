@@ -45,7 +45,7 @@
         %}
     
     <!-- FACET -->
-    {% include "portal/featured_block.html" with 
+    {% comment %} {% include "portal/featured_block.html" with 
         image=discover_more_facet_image 
         title=discover_more_topic 
         headline="Facet Highlight" 
@@ -53,7 +53,7 @@
         link=discover_more_topic_uri 
         link_plural_text="Explore all "|add:discover_more_facet_plural 
         link_plural=discover_more_browse_uri 
-        %}
+        %} {% endcomment %}
 
     <!-- MEMBER -->
     {% with encoded_member_uri=self.featured_archive.uri|urlencode %}
