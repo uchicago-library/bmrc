@@ -1,0 +1,28 @@
+{% if total_pages > 1 %}
+    <nav class="" aria-label="{{ location }} pagination">
+        <ul class="pagination d-flex flex-wrap">
+            {% if page != total_pages %} 
+                <li class="page-item"><a class="page-link" aria-label="Next" href="/portal/{{ location }}/?{% if location == 'search' %}{{ search_results.query_string_without_page }}{% else %}b={{ b }}{% endif %}&page={{ page|add:1 }}&sort={{ sort }}">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a></li>
+            {% else %} 
+                <li class="page-item disabled"><a class="page-link" href="#"> <i class="fa-solid fa-arrow-right"></i> </a></li>
+            {% endif %} 
+            {% for i in page_links %}
+                {% if i == page %} 
+                    <li class="page-item active">
+                        <a class="page-link" aria-label="Page {{ i }}" aria-current="page" href="#">
+                            {{ i }}
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Page {{ i }}" href="/portal/{{ location }}/?{% if location == 'search' %}{{ search_results.query_string_without_page }}{% else %}b={{ b }}{% endif %}&page={{ i }}&sort={{ sort }}">
+                            {{ i }}
+                        </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+{% endif %}

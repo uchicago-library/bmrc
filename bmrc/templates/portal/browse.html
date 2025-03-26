@@ -2,10 +2,7 @@
 {% load static %}
 {% load wagtailimages_tags %}
 
-{% block extra_css %}
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'portal/css/portal.css' %}">
-{% endblock %}
+{% block extra_css %}{% endblock %}
 
 {% block title %}{{ title }}{% endblock %}
 
@@ -15,96 +12,41 @@
 
 {% block content %}
     {% include "portal/breadcrumbs.html" %}
-    <div class="container section browse-view">
-        <div class="columns is-variable is-8">
-            <div class="column is-one-quarter browse-sidebar">
-                <h2>Browse</h2>
-                <ul>
-                    {% if b == 'topics' %}
-                        <li class="active">Topics</li>
-                    {% else %}
-                        <li><a href="/portal/browse/?b=topics">Topics</a></li>
-                    {% endif %}
-                     
-                    {% if b == 'people' %}
-                        <li class="active">People</li>
-                    {% else %}
-                        <li><a href="/portal/browse/?b=people">People</a></li>
-                    {% endif %}
-    
-                    {% if b == 'organizations' %}
-                        <li class="active">Organizations</li>
-                    {% else %}
-                        <li><a href="/portal/browse/?b=organizations">Organizations</a></li>
-                    {% endif %}
-                        
-                    {% if b == 'places' %}
-                        <li class="active">Places</li>
-                    {% else %}
-                        <li><a href="/portal/browse/?b=places">Places</a></li>
-                    {% endif %}
-                        
-                    {% if b == 'decades' %}
-                        <li class="active">Decades</li>
-                    {% else %}
-                        <li><a href="/portal/browse/?b=decades">Decades</a></li>
-                    {% endif %}
-                        
-                    {% if b == 'archives' %}
-                        <li class="active">Archives</li>
-                    {% else %}
-                        <li><a href="/portal/browse/?b=archives">Archives</a></li>
-                    {% endif %}
-                </ul>
-            
-                <h2>Featured Topic</h2>
-                {% image featured_curated_topic.image original class="is-hidden-mobile" %}
-                <p><a href="{{ featured_curated_topic.url }}">{{ featured_curated_topic.title }}</a></p>
-                <p><a href="{{ featured_curated_topic_index.url }}">Explore all curated topics &gt;&gt;</a></p>
-            </div>
-            <div class="column">
-                <h1>{{ title }}</h1>
-                <div class="sort-browse level-left">
-                    <div class="sort-label">Sort by:</div>
-                    {% if sort == 'relevance' %}
-                        <button class="button is-link is-light">Relevance</button>
-                    {% else %}
-                        <a class="button is-text" href="/portal/browse/?b={{ b }}&sort=relevance">Relevance</a>
-                    {% endif %}
-                        
-                    {% if sort == 'alpha' %}
-                        <button class="button is-link is-light">A-Z &darr;</button> 
-                    {% else %}
-                        <a class="button is-text" href="/portal/browse/?b={{ b }}&sort=alpha">A-Z &darr;</a> 
-                    {% endif %}
-                        
-                    {% if sort == 'alpha-dsc' %}
-                        <button class="button is-link is-light">Z-A &uarr;</button>
-                    {% else %}
-                        <a class="button is-text" href="/portal/browse/?b={{ b }}&sort=alpha-dsc">Z-A &uarr;</a>
-                    {% endif %}
-                        
-                    {% if sort == 'shuffle' %}
-                        <a href="/portal/browse/?b={{ b }}&sort=shuffle" style="text-decoration: none;"><button class="button is-link is-light">Shuffle <span class="material-icons">shuffle</span></button></a>
-                    {% else %}
-                        <a class="button is-text" href="/portal/browse/?b={{ b }}&sort=shuffle">Shuffle <span class="material-icons">shuffle</span></a>
-                    {% endif %}
-                </div>
-                            
-                {% include 'portal/browse_pager.html' %}
-    
-                <ul class="browse-results">
-                    {% for b in browse_results %}
-                        <li><a href="/portal/search/?f={{ b.2 | urlencode }}">{{ b.1 }}</a></li>
+	<div class="container-sm py-5">
+		<h1>{{title}}</h1>
+		<div class="row">
+			<div class="col-12 col-md-8 col-lg-9 mb-4">
+                {% include "portal/component_sort.html" with location="browse" %}
+
+                <div class="browse-results list-group list-group-flush mb-4" role="list">
+                    {% for facet_name, facet_items_count, facet_url in browse_results %}
+                        <a class="list-group-item list-group-item-action" href="/portal/search/?f={{ facet_url | urlencode }}" role="listitem">
+                            <div class="d-flex w-100 justify-content-between align-items-start">
+                                <span>{{ facet_name }}</span>
+                                <span class="badge rounded-pill text-bg-secondary">{{ facet_items_count }}</span>
+                            </div>
+                        </a>
                     {% endfor %}
-                </ul>
-                    
-                {% include 'portal/browse_pager.html' %}
+                </div>
+
+                <p class="text-body-secondary smaller-text">{{ browse_results|length }}/{{ total_results }} results</p>
+                {% include 'portal/component_paginator.html' with location="browse" %}
+                
             </div>
-        </div>
-    </div>
+			<aside class="col-12 col-md-4 col-lg-3 mb-4">
+                <div class="sidebar bg-info-subtle border border-info p-2 pt-4 mb-4 position-relative hover-gray" role="complementary">
+                    <p class="h6 text-blue">Featured Curated Topic</p>
+                    <a class="stretched-link text-dark text-decoration-none" href="{{ featured_curated_topic.url }}">
+                        <h3 class="h4"> {{ featured_curated_topic.title }} </h3>
+                    </a>
+                    <figure class="figure mb-0">
+                        {% image featured_curated_topic.image width-300 class="figure-img img-fluid rounded" %}
+                        {% comment %} <figcaption class="figure-caption">A caption for the above image.</figcaption> {% endcomment %}
+                    </figure>
+                </div> 
+            </aside>
+        </div> 
+    </div> 
 {% endblock %}
 
-{% block extra_footer %}
-    {% include "portal/portal_extrafooter.html" %}
-{% endblock %}
+{% block extra_footer %}{% endblock %}

@@ -1,8 +1,8 @@
-<nav class="breadcrumb is-small" aria-label="breadcrumbs">
-    <ul>
-        {% for b in breadcrumbs %}
-            <li><a href="{{ b.0 }}">{{ b.1 }}</a></li>
+<nav aria-label="breadcrumb" class="container-sm">
+    <ol class="breadcrumb py-1 smaller-text">
+        {% for page in breadcrumbs %}
+            <li class="breadcrumb-item"><a href="{{ page.0 }}">{{ page.1 }}</a></li>
         {% endfor %}
-        <li class="is-active"><a href="#" aria-current="page">{{ title }}</a></li>
-    </ul>
+        <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+    </ol>
 </nav>

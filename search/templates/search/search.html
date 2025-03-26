@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static wagtailcore_tags %}
+{% load static wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-searchresults{% endblock %}
 
@@ -7,41 +7,91 @@
 
 {% block content %}
 
-    <div class="container section search-results">
-        <h1>Search</h1>
-
-        <div class="container">
+	<div class="container-sm py-5">
+		<h1>Website Search</h1>
+       {% comment %} TODO: <span class="btn btn-danger">search bar</span>
+        <br>
+        <br>
+        <span class="btn btn-danger">search bar portal</span>
+        <br>
+        <br> {% endcomment %}
+        <div class="row">
+            <div class="col-12 col-sm-6 ">
+                <form action="{% url 'search' %}" method="get">
+                    <div class="input-group shadow-sm rounded-pill border border-primary ps-1 search-box">
+                        <label class="visually-hidden">Site Search</label>
+                        <input class="form-control border-0 rounded-pill me-1" placeholder="Website Search" type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
+                        <button class="btn btn-primary rounded-pill py-0 px-3" type="submit" value="Search" class="button" aria-label="search website"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-12 col-sm-6  d-flex flex-column">
+                <span class="ps-2 smaller-text order-sm-2">search archival collections instead</span>
+                <form class="order-sm-1" action="/portal/search/" method="get">
+                    <div class="input-group shadow-sm rounded-pill border border-dark-subtle ps-1 search-box">
+                        <label class="visually-hidden" for="portal-search-query">Finding Aid Search</label>
+                        <input class="form-control border-0 rounded-pill me-1" id="portal-search-query" placeholder="Collections Search" type="text" name="q"{% if search_query %} value="{{ search_query }}"{% endif %}>
+                        <button class="btn btn-outline-primary rounded-pill py-0 px-3" type="submit" value="Search" aria-label="search collections"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="">
             {% if search_results %}
-
-                <p class="search-term">Search results for "{{ search_query }}"</p>
-
+                <p>Showing {{search_results|length}}/{{total_results}} search results for "{{ search_query }}"</p>
                 {% for result in search_results %}
-                    <div class="result-item">
-                        <h2><a href="{% pageurl result %}">{{ result }}</a></h2>
-                        {% if result.search_description %}
-                            <p>{{ result.search_description }}</p>
-                        {% elif result.specific.excerpt %}
-                            <p> {{ result.specific.excerpt }}</p>
-                        {% endif %}
+
+                    <div class="row hover-gray mb-2">
+                        <div class="col" style="min-width:250px;">
+                            <div class="position-relative py-2">
+                                {% if result.page_type %}
+                                    <span class="text-blue fw-bold"> {{ result.page_type }}</span>
+                                {% endif %}
+                                <a class="text-decoration-none text-dark stretched-link d-block" href="{% pageurl result %}"><h2 class="h4">{{ result }}</h2></a>
+                                {% if result.search_description %}
+                                    <p>{{ result.search_description }}</p>
+                                {% elif result.specific.excerpt %}
+                                    <p> {{ result.specific.excerpt }}</p>
+                                {% elif result.body_excerpt %}
+                                    <p> {{ result.body_excerpt }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-auto">
+                            {% if result.specific.lead_image %}
+                                <figure class="figure">
+                                    {% image result.specific.lead_image  width-250 class="img-fluid" %}
+                                </figure>
+                            {% endif %}
+                        </div>
                     </div>
                 {% endfor %}
+				<nav aria-label="search list pagination">
+					<ul class="pagination">
+						{% if search_results.has_previous %}
+							<li class="page-item"><a class="page-link rounded-0 text-dark" href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}" aria-label="Previous">Previous results</a></li>
+						{% endif %}
+						
+						{% if search_results.has_next %}
+							<li class="page-item"><a class="page-link rounded-0 text-dark" href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}" aria-label="Next">More results</a></li>
+						{% endif %}
 
-                <nav class="pagination" role="navigation" aria-label="pagination">
-                    {% if search_results.has_previous %}
-                        <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}" class="pagination-previous" aria-label="Go to Previous Page">Previous</a>
-                    {% endif %}
+						{% comment %} 
+                        {% for page_num in search_results.paginator.page_range %}
+							<li class="page-item {% if page_num == search_results.number %}active{% endif %}">
+								<a class="page-link" href="?page={{ page_num }}" aria-label="Page {{ page_num }}" {% if page_num == search_results.number %}aria-current="page"{% endif %}>{{ page_num }}</a>
+							</li>
+						{% endfor %} 
+                        {% endcomment %}
 
-                    {% if search_results.has_next %}
-                        <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}" class="pagination-next" aria-label="Go to Next Page">Next</a>
-                    {% endif %}
-                </nav>
+					</ul>
+				</nav>
 
             {% elif search_query %}
                 <p class="no-results">No results found for "{{ search_query }}"</p>
-                <p>Did you want to search  <a href="/portal/">member collections</a>?</p>
-
+                <p>Did you want to search <a href="/portal/">the archival collection</a>?</p>
             {% endif %}
         </div>
-
     </div>
+
 {% endblock %}

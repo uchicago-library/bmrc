@@ -6,31 +6,28 @@
 
 {% block content %}
 
-<div class="container section">
-    <h1>{{self.title}}</h1>
-    <p class="news-date">{{ self.story_date|date:"F j, Y" }}</p>
-    <div class="columns is-desktop">
+	<div class="container-sm py-5 news-story-page">
+		<h1 class="h2">{{self.title}}</h1>
+        <p class="">{{ self.story_date|date:"F j, Y" }}</p>
+		<div class="row">
+            <div class="col-12 col-md-5 col-lg-4 order-md-2">
+                {% if self.lead_image %}
+                    <figure class="figure">
+                        {% image self.lead_image width-520 class="figure-img img-fluid" %}
+                    </figure>
+                {% endif %}
+            </div>
 
-	{% image self.lead_image original as img %}
-        <div class="column">
-        	{% if self.lead_image %}
-				<img src="{{ img.url }}" class="news-lead-img" alt="{{ img.alt }}">
-			{% endif %}
+            <div class="col-12 col-md-7 col-lg-8 order-md-1">
+                {% for block in page.body %}
+                    {% include_block block %}
+                {% endfor %}
+                <a href="/news/" class="btn btn-outline-primary">
+                    <i class="fa fa-angle-double-left"></i> 
+                    Return to News
+                </a>
+            </div>
 
-			{% for block in page.body %}
-	      		{% include_block block %}
-	      	{% endfor %}
-        </div>
-
-    </div>  <!-- // END columns -->
-
-    <div class="columns">
-        <div class="column return-news">
-            <hr>
-            <a href="/news/" class="return-link"><i class="fa fa-angle-double-left"></i> Return to News</a>
         </div>
     </div>
-
-</div>  <!-- // END container -->
-
 {% endblock %}

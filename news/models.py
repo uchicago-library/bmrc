@@ -1,19 +1,14 @@
 """News Index and Story Pages"""
+
 # from datetime import datetime
 
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.utils import timezone
-
 from modelcluster.fields import ParentalKey
-
-from wagtail.admin.panels import (
-    FieldPanel,
-    InlinePanel,
-    MultiFieldPanel,
-)
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.fields import RichTextField, StreamField
-from wagtail.models import Page, Orderable
+from wagtail.models import Orderable, Page
 from wagtail.search import index
 
 from streams import blocks
@@ -29,7 +24,13 @@ class NewsSideBar(Orderable):
         blank=True,
         null=True,
         features=[
-            "bold", "italic", "ol", "ul", "link", "document-link", "image"
+            "bold",
+            "italic",
+            "ol",
+            "ul",
+            "link",
+            "document-link",
+            "image",
         ],
     )
 
@@ -37,7 +38,7 @@ class NewsSideBar(Orderable):
         FieldPanel("sidebar_title"),
         FieldPanel("sidebar_text"),
     ]
-    heading = "Sidebar Section",
+    heading = ("Sidebar Section",)
 
 
 class NewsIndexPage(Page):
@@ -50,7 +51,9 @@ class NewsIndexPage(Page):
 
         context = super().get_context(request, *args, **kwargs)
         # Get all posts
-        child_posts = NewsStoryPage.objects.child_of(self).live().order_by('-story_date')
+        child_posts = (
+            NewsStoryPage.objects.child_of(self).live().order_by('-story_date')
+        )
 
         # Paginate all posts by 9 per page
         paginator = Paginator(child_posts, 9)
@@ -84,8 +87,6 @@ class NewsStoryPage(Page):
     subpage_types = []
     parent_page_types = ['news.NewsIndexPage']
 
-    search_fields = Page.search_fields + [index.SearchField('excerpt')]
-
     lead_image = models.ForeignKey(
         "wagtailimages.Image",
         blank=True,
@@ -109,8 +110,7 @@ class NewsStoryPage(Page):
     )
     story_date = models.DateField(
         default=timezone.now,
-        help_text=
-        'Defaults to date page was created. If you plan to publish in the future post, change to publish date here.'
+        help_text='Defaults to date page was created. If you plan to publish in the future post, change to publish date here.',
     )
 
     content_panels = Page.content_panels + [
@@ -118,6 +118,13 @@ class NewsStoryPage(Page):
         FieldPanel("excerpt"),
         FieldPanel("body"),
         FieldPanel('story_date'),
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField('excerpt'),
+        index.SearchField('body'),
+        # if you want to explicitly include the title
+        index.SearchField('title'),
     ]
 
     class Meta:
@@ -129,13 +136,13 @@ class NewsStoryPage(Page):
 class NewsletterSignupPage(Page):
     """Page for embedded Newsletter form code"""
 
+    # TODO: This is to be deleted
+
     max_count = 1
     subpage_types = []
-    parent_page_types = ['news.NewsIndexPage']
 
-    search_fields = Page.search_fields + [
-        index.SearchField('search_description')
-    ]
+    search_fields = Page.search_fields + \
+        [index.SearchField('search_description')]
 
     body = StreamField(
         [

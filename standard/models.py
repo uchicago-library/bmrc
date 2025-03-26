@@ -1,16 +1,10 @@
 """Standard / Basic page type"""
 
 from django.db import models
-
 from modelcluster.fields import ParentalKey
-
-from wagtail.admin.panels import (
-    FieldPanel,
-    InlinePanel,
-    MultiFieldPanel,
-)
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.fields import RichTextField, StreamField
-from wagtail.models import Page, Orderable
+from wagtail.models import Orderable, Page
 from wagtail.search import index
 
 from streams import blocks
@@ -25,26 +19,20 @@ class SideBar(Orderable):
     sidebar_text = RichTextField(
         blank=True,
         null=True,
-        features=[
-            "bold", "italic", "ol", "ul", "link", "document-link", "image"
-        ],
+        features=["bold", "italic", "ol", "ul", "link", "document-link", "image"],
     )
 
     panels = [
         FieldPanel("sidebar_title"),
         FieldPanel("sidebar_text"),
     ]
-    heading = "Sidebar Section",
+    heading = ("Sidebar Section",)
 
 
 class StandardPage(Page):
     """Standard page model"""
 
     template = "standard/standard_page.html"
-
-    search_fields = Page.search_fields + [
-        index.SearchField('search_description')
-    ]
 
     body = StreamField(
         [
@@ -66,6 +54,18 @@ class StandardPage(Page):
         MultiFieldPanel(
             [InlinePanel("sidebar", max_num=3, label="Sidebar Section")],
             heading="Sidebar",
+        ),
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField('body'),
+        index.SearchField('title'),  # if you want to explicitly include the title
+        index.RelatedFields(
+            'sidebar',
+            [
+                index.SearchField('sidebar_text'),
+                index.SearchField('sidebar_title'),
+            ],
         ),
     ]
 

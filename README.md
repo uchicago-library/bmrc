@@ -21,7 +21,7 @@ Mocks for approval process can be found at: [uchicago-library.github.io/bmrc](ht
 
 ## Pushing to Production
 - ssh to aerie
-- `cd /data/aerie/ ; source venv3.9/bin/activate ; cd sites/bmrc/bmrc`
+- `cd /data/local/ ; source venv/bin/activate ; cd sites/bmrc`
 - `git remote update`
 - `git status`
 - `git pull origin master`
@@ -33,7 +33,7 @@ Mocks for approval process can be found at: [uchicago-library.github.io/bmrc](ht
 ## Pushing to the Test Site
 The test instance should mirror the production site, less any features being tested at the time. The test server is bmrc-test ; it is hosted on crib
 - ssh to crib
-- `cd /data/crib/ ; source venv3.9/bin/activate ; cd sites/bmrc-test/bmrc`
+- `cd /data/local/ ; source venv/bin/activate ; cd sites/bmrc`
 - `git remote update`
 - `git status`
 - `git checkout {{ branch-name }}`

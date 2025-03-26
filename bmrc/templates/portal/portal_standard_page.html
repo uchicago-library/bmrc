@@ -4,40 +4,34 @@
 
 {% block body_class %}portal_standard_page{% endblock %}
 
-{% block extra_css %}
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'portal/css/portal.css' %}">
-{% endblock %}
+{% block extra_css %}{% endblock %}
 
 {% block extra_header %}
     {% include "portal/portal_searchbar.html" %}
 {% endblock %}
 
 {% block content %}
-    <div class="container section">
-        <div class="columns is-desktop">
-            <div class="column">
-                <h1>{{ self.title }}</h1>
+    {% include "portal/breadcrumbs.html" %}
 
-                {% for block in page.body %}
-                    {% include_block block %}
-                {% endfor %}
+	<div class="container-sm py-5">
+		<h1>{{self.title}}</h1>
+		<div class="row">
+			<div class="col-12 col-md-8 col-lg-9 mb-4">
+				{% for block in page.body %}
+					<div class="body-block-{{block.block_type}}">
+						{% include_block block %}
+					</div>
+				{% endfor %}
             </div>
-
-            {% if self.sidebar.all %}
-                <div class="column sidebar is-one-quarter" role="complementary">
-                    {% for item_set in self.sidebar.all %}
-                        <aside>
-                            <h2>{{ item_set.sidebar_title }}</h2>
-                            {{ item_set.sidebar_text|richtext }}
-                        </aside>
-                    {% endfor %}
-                </div>
-            {% endif %}
+			<aside class="col-12 col-md-4 col-lg-3">
+				{% if self.sidebar.all %}
+					{% with sidebar_sections=self.sidebar.all %}
+						{% include 'includes/sidebar.html' %}
+					{% endwith %}
+				{% endif %}
+            </aside>
         </div>
     </div>
 {% endblock %}
 
-{% block extra_footer %}
-    {% include "portal/portal_extrafooter.html" %}
-{% endblock %}
+{% block extra_footer %}{% endblock %}

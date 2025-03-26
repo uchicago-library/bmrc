@@ -1,4 +1,10 @@
-<div class="column">
-    <h2>{{ self.webfeed_title }}</h2>
-    {{ self.webfeed_code }}
-</div>
+{% if self.webfeed_code %}
+<section class="webfeed-block">
+    <div class="container-sm">
+        {% if self.webfeed_title %}
+        <h2>{{ self.webfeed_title }}</h2>
+        {% endif %}
+        {{ self.webfeed_code }}
+    </div>
+</section>
+{% endif %}

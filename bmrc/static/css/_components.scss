@@ -1,0 +1,263 @@
+/* 
+ * Isolate most components to their own files.
+ * Will attempt to create an abstraciton layer for the grid system,
+ * to improve documentation, and maintainability.
+    * ## Utility Classes 
+    * ## Fixes 
+    * ## Richtext 
+    * ## Components 
+    * ## Content Blocks 
+ */
+
+/* 
+ * --
+ * ## Utility Classes 
+ * --
+ */
+
+@mixin rounded-nav-button {
+    border-radius: 50px !important;
+    width: fit-content;
+    padding: 5px 12px;
+    border: 1px solid black;
+    line-height: 1;
+    // height: 30px;
+    border-width: 2px;
+}
+
+@mixin navbar-links {
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.smaller-text {
+    font-size: smaller;
+}
+
+.text-blue {
+    color: $bmrc-blue !important;
+}
+
+.hover-gray:hover,
+.hover-gray:focus {
+    @extend .bg-light;
+}
+
+
+/* 
+ * --
+ * ## Fixes 
+ * --
+ */
+a,
+button.btn {
+    @extend .focus-ring;
+    word-break: break-word;
+}
+
+p {
+
+    b,
+    strong {
+        font-size: 1.1em;
+    }
+}
+
+.display-1,
+.display-2,
+.display-3,
+.display-4,
+.display-5,
+.display-6 {
+
+    b,
+    strong {
+        font-size: 1em;
+        font-weight: 700;
+    }
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+.news-story-page figure {
+    margin-top: 0 !important;
+}
+
+figure.figure.mb-0 {
+    margin-bottom: 0 !important;
+}
+
+/* 
+ * --
+ * ## Richtext 
+ * --
+ */
+blockquote {
+    @extend .blockquote;
+    display: inline-block;
+    border-left: 4px solid var(--bs-secondary-border-subtle);
+    padding-left: .5em;
+}
+
+.richtext>ol,
+.richtext>ul {
+    list-style-position: inside;
+}
+
+img.richtext-image {
+    @extend .img-fluid;
+    @extend .mt-1;
+    @extend .mb-3;
+
+    &.left {
+        float: left;
+        @extend .me-2;
+    }
+
+    &.right {
+        float: right;
+        @extend .ms-2;
+    }
+
+}
+
+/* 
+ * --
+ * ## Components 
+ * --
+ */
+@import "navbar";
+@import "footer";
+@import "homepage";
+@import "portal_navbar";
+@import "portal";
+@import "portal_home";
+@import "portal_view";
+
+
+.card.news-item {
+    background: none;
+    border: none;
+    // border-radius: 0;
+    // @extend .shadow;
+
+    figure.card-img-top {
+        height: 12rem;
+        margin: 0;
+        @extend .mb-2;
+        background-size: cover;
+        border-radius: 0 !important;
+        // background-position: center;
+    }
+}
+
+/* 
+ * --
+ * ## Content Blocks 
+ * --
+ */
+.figure {
+    @extend .mt-1;
+    @extend .mb-3;
+
+    &.pull-left {
+        float: left;
+        @extend .me-2;
+    }
+
+    &.pull-right {
+        float: right;
+        @extend .ms-2;
+    }
+
+    img {
+        margin: 0;
+    }
+
+    figcaption>p {
+        margin: 0;
+    }
+}
+
+.alert {
+    display: inline-block;
+    border-width: 0;
+    width: 100%;
+
+    /* Pages edited before this update may have one of these values for the class of the info box.
+    * So we need to keep them for backwards compatibility.
+    ('warning-box', 'Warning'),
+    ('info-box', 'Informative'),
+    ('basic-box', 'Basic'),
+    ('general-box', 'General'),
+    
+    INFO = 'alert-info'
+    LOW = 'alert-low'
+    HIGH = 'alert-high'
+    ALERT_TYPES = (
+        (INFO, 'Informational Alert'),
+        (LOW, 'General Alert'),
+        (HIGH, 'Critical Alert'),
+    )*/
+    &.alert-high {
+        @extend .alert-danger;
+    }
+
+    &.warning-box {
+        @extend .alert-warning;
+    }
+
+    &.info-box {
+        @extend .alert-info;
+    }
+
+    &.basic-box,
+    &.alert-low {
+        @extend .alert-light;
+        border-width: 1px;
+    }
+
+    &.general-box {
+        @extend .alert-success;
+    }
+
+    &.alert-loud {
+        @extend .alert-info;
+        font-size: larger
+    }
+
+}
+
+.columns-block .col {
+    min-width: 17rem;
+}
+
+.fellows-block {
+    .fb-col-sm-img {
+        @extend .col-12, .col-sm-3;
+    }
+
+    .fb-col-md-img {
+        @extend .col-12, .col-sm-6, .col-md-5, .col-lg-4;
+    }
+
+    .fb-col-lg-img {
+        @extend .col-12, .col-lg-6;
+    }
+
+    // .fb-col-sm-txt,
+    // .fb-col-md-txt,
+    // .fb-col-lg-txt {
+    //     @extend .col;
+    // }
+}
+
+// .page-callout{
+//     background: var(--bs-secondary-bg);
+// }

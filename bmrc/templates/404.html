@@ -1,13 +1,27 @@
 {% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
-{% block body_class %}template-404{% endblock %}
+{% block body_class %}page-404{% endblock %}
 
 {% block content %}
 
-<div class="container section">
+	<div class="container-sm py-5">
+    	<h1>Page not found</h1>
+		<p>This page could not be found.</p>
+		<p>Please try:
+			<ul>
+				<li>Returning to our <a href="/">homepage</a></li>
+				<li>Searching <a href="/collections/">our collections</a></li>
+				<li>Reading about <a href="/programs/">our Fellowships</a></li>
+			</ul>
+		Feel free to <a href="/contact/">contact us</a> if you cannot find what you are looking for.</p>
+	</div>
+
+{% comment %} <div class="container section">
     <h1>Page not found</h1>
     
-    <div class="columns is-desktop">
+    <div class="columns ">
 		<div class="column">
 		    <p>This page could not be found.</p>
 		    <p>Please try:
@@ -20,6 +34,6 @@
 		</div>
     </div>  <!-- // END columns -->
 
-</div>  <!-- // END container -->
+</div>  <!-- // END container --> {% endcomment %}
 
 {% endblock %}

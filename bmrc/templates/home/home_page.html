@@ -1,56 +1,155 @@
 {% extends "base.html" %}
 {% load static %}
 {% load wagtailcore_tags wagtailimages_tags %}
-
 {% block body_class %}homepage{% endblock %}
 
+{% block extra_header %}
+
+    {% if self.banner_options.all|length > 0 %}
+        {% with self.banner_options.all|random as item_set %}
+            {% image item_set.banner_option_image width-900 as img %}
+            <section class="hero hero-home" style="background:var(--bmrc-gradient-transparent), linear-gradient(160deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65));background:linear-gradient(#ffffff50 15%, #ffffff00 37%), var(--bmrc-gradient-transparent), url({{img.url}}), black;">
+                <div class="hero-body pt-2 pt-md-5 container-sm">
+                <h1 class="h3">{{ item_set.banner_option_title }}</h1>
+                <div class="fs-5">{{ item_set.banner_option_text|richtext }}</div>
+                {% if item_set.button_link.url and item_set.button_label %}
+                    <a href="{{ item_set.button_link.url }}" class="btn btn-outline-dark rounded-pill fw-bold">{{ item_set.button_label }}</a>
+                {% endif %}
+                </div>
+            </section>
+        {% endwith %}
+    {% else %}
+        <!-- no Top banner -->
+        <div class="navbar-spacer"></div>
+    {% endif %}
+    
+{% endblock %}
 {% block content %}
-<section class="hero is-medium" style="background:linear-gradient(160deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65));background:linear-gradient(160deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65)), url({% static 'img/background_picture_womens_liberation.png' %});background-size: cover;background-position: center;">
-  <div class="hero-body container" style="max-width: 768px; padding-top: 6em; padding-bottom: 2em">
-    <h1 class="title" style="color: white;">The Black Metropolis Research Consortium</h1>
-    <p class="subtitle" style="font-weight: 600;color: white;">Connecting all who seek to document, share, understand and 
-      preserve Black experiences. <br><br>We're updating the website, stay tuned.</p>
-  </div>
-</section>
 
-  <section class="featured-news section">
-    <div class="container">
-      <h2>Recent News</h2>
-      <div class="columns">
-        {% for post in page.news_feed %}
-        <div class="column is-one-third-tablet is-one-third-desktop">
-          {% image post.lead_image width-500 as img %}
-          <article>
-            <a href="{{ post.url }}" aria-label="Read full post for {{post.title}}">
-              {% if post.lead_image %}
-              <figure>
-                <img src="{{ img.url }}" alt="{{ img.alt }}">
-              </figure>
-              {% endif %}
+    {% if self.about_title or self.about_paragraph %}
+        <section class="container-sm py-5" id="about-section">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-8">
+                    {% if self.about_title %}
+                        <h2 class="h3">{{ self.about_title }}</h2>
+                    {% endif %}
+                    {% if self.about_paragraph %}
+                        <p class="">{{ self.about_paragraph }}</p>
+                    {% endif %}
+                    {% if self.about_button_text and self.about_button_link %}
+                        <a class="btn btn-outline-primary rounded-pill mb-2" href="{{self.about_button_link.url}}">{{self.about_button_text}}</a>
+                    {% endif %}
+                </div>
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="d-flex flex-column">
+                        {% for button in self.about_section_shortcut.all %}
+                            {% if button.small_text and button.big_text and button.icon_name and button.link %}
+                            <a class="btn btn-primary shortcut-btn" href="{{ button.link.url }}">
+                                <div class="shortcut-btn-text">
+                                    {% if button.small_text %}
+                                        <span class="shortcut-btn-small-text">{{ button.small_text }}</span>
+                                    {% endif %}
+                                    <span class="shortcut-btn-big-text">{{ button.big_text }}</span>
+                                </div>
+                                <div class="shortcut-btn-icon">
+                                    {% if button.icon_name %}
+                                        <i class="fa-solid fa-{{ button.icon_name }}"></i>
+                                    {% endif %}
+                                </div>
+                            </a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% else %}
+        <!-- no about section -->
+    {% endif %}
+    
+    {% if page.body|length > 0 %}
+        <section class="page-body py-5">
+            {% for block in page.body %}
+                <div class="body-block-{{block.block_type}} {% if block.block_type != 'page_callout' %}container-sm{% endif %}">
+                    {% include_block block %}
+                </div>
+            {% endfor %}
+        </section>
+    {% else %}
+        <!-- no page body -->
+    {% endif %}
 
-              <h2 class="h3">{{post.title}}</h2>
-              <p>{{ post.excerpt }}</p>
-            </a>
-          </article>
-        </div>
-        {% endfor %}
-      </div>
+    {% if self.highlight_title or self.highlight_paragraph %}
+        {% if self.highlight_background %}
+            {% image self.highlight_background original as background %}
+        {% endif %}
 
-      <span class="centered"><a href="/news" class="button read-more">View all BMRC News</a></span>
+        <section class="py-5" id="highlight-section" {% if background.url %}style="background: linear-gradient(160deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65)), url({{background.url}}), black; background-size: cover; background-position: center; background-repeat: no-repeat;"{% endif %}>
+            <div class="container-sm py-md-4 text-center text-light">
+                {% if self.highlight_title %}
+                    <h2 class="">{{self.highlight_title|richtext}}</h2>
+                {% endif %}
+                {% if self.highlight_paragraph %}
+                    <p class="">{{self.highlight_paragraph}}</p>
+                {% endif %}
+                {% if self.highlight_button_link and self.highlight_button_text %}
+                    <a class="btn btn-outline-light rounded-pill" href="{{self.highlight_button_link.url}}">{{self.highlight_button_text}}</a>
+                {% endif %}
+            </div>
+        </section>
+    {% else %}
+        <!-- no highlight section -->
+    {% endif %}
 
-    </div>
-  </section>
+    <section class="news py-5">
+        <div class="container-sm">
+            <h2>Recent News</h2>
+            <div class="news-horizontal-scroll">
+                <div class="card-group">
+                    {% for post in page.news_feed %}
+                        <div class="card news-item">
+                            {% image post.lead_image width-350 as img %}
+                            {% if post.lead_image %}
+                                <figure class="card-img-top" style="background-image: url({{ img.url }})">
+                                    <img class="visually-hidden" src="{{ img.url }}" alt="{{ img.alt }}">
+                                </figure>
+                            {% endif %}
 
+                            <span class="text-body-secondary">{{ post.story_date|date:"F j, Y" }}</span>
+                            <a class="stretched-link text-dark text-decoration-none" href="{{ post.url }}" aria-label="Read full post for {{post.title}}">
+                                <h3 class="h5">{{post.title}}</h3>
+                            </a>
+                            <p class="">{{ post.excerpt }}</p>
+                        </div>  
+                    {% endfor %}
+                </div>  
+            </div>  
+            <a href="/news" class="btn btn-outline-primary rounded-pill mt-2">View all BMRC News</a>
+        </div>  
+    </section>
 
-  <section class="featured-modules section">
-    <div class="container">
-      <div class="columns is-desktop">
-      	{% for block in page.body %}
-      		{% include_block block %}
-      	{% endfor %}
-      </div>
-    </div>
-  </section>
+    {% if self.banner_title and self.banner_paragraph and self.banner_button_text and self.banner_button_link %}
+        <section class="bg-info-subtle" id="bottom-banner-section">
+            <div class="container-sm py-5">
+                <div class="row">
+                    <div class="col-12 col-sm-8">
 
-
+                        {% if self.banner_title %}
+                            <h2 class="">{{self.banner_title}}</h2>
+                        {% endif %}
+                        {% if self.banner_paragraph %}
+                            <p class="">{{self.banner_paragraph}}</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-12 col-sm-4 d-flex flex-column justify-content-center">
+                        {% if self.banner_button_link and self.banner_button_text %}
+                            <a class="btn btn-outline-primary rounded-pill w-100" href="{{self.banner_button_link.url}}">{{self.banner_button_text}}</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% else %}
+        <!-- no bottom banner -->
+    {% endif %}
 {% endblock %}

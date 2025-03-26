@@ -5,7 +5,6 @@ import urllib
 from django.conf import settings
 from django.db import models
 from modelcluster.fields import ParentalKey
-from streams import blocks
 from wagtail.admin.panels import (
     FieldPanel,
     HelpPanel,
@@ -14,11 +13,45 @@ from wagtail.admin.panels import (
     PageChooserPanel,
 )
 from wagtail.fields import RichTextField, StreamField
-from wagtail.models import Orderable, Page
 from wagtail.images.models import Image
+from wagtail.models import Orderable, Page
 from wagtail.search import index
 
+from streams import blocks
+
 from . import get_collections
+
+
+class PortalBasePage(Page):
+    """Base page class for BMRC portal pages.
+    This makes it easier to pass on these dictionaries
+    for multiple portal pages.
+    These are useful for navigation and facets. """
+
+    portal_facets = {
+        # key: singular, plural
+        'topics': ('Topic', 'Topics'),
+        'people': ('Person', 'People'),
+        'places': ('Place', 'Places'),
+        'organizations': ('Organization', 'Organizations'),
+        'decades': ('Decade', 'Decades'),
+        'archives': ('Archive', 'Archives'),
+    }
+    sort_options = [
+        {'key': 'relevance', 'label': 'Relevance'},
+        {'key': 'alpha', 'label': 'A-Z'},
+        {'key': 'alpha-dsc', 'label': 'Z-A'},
+        {'key': 'shuffle', 'label': 'Shuffle'},
+    ]
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context['portal_facets'] = self.portal_facets
+        context['sort_options'] = self.sort_options
+        return context
+
+    class Meta:
+        abstract = True
 
 
 class Archive(models.Model):
@@ -89,7 +122,7 @@ class Archive(models.Model):
         return Archive.featured_archive_by_date(d)
 
 
-class CuratedTopicIndexPage(Page):
+class CuratedTopicIndexPage(PortalBasePage):
     """ """
 
     search_fields = Page.search_fields + [index.SearchField('body')]
@@ -148,7 +181,7 @@ class CuratedTopicIndexSideBar(Orderable):
     heading = ('Sidebar Section',)
 
 
-class CuratedTopicPage(Page):
+class CuratedTopicPage(PortalBasePage):
     """ """
 
     image = models.ForeignKey(
@@ -193,6 +226,7 @@ class CuratedTopicPage(Page):
         index.SearchField('body'),
         index.SearchField('byline'),
         index.SearchField('bottom_text'),
+        index.SearchField('title'),  # if you want to explicitly include the title
     ]
 
     parent_page_types = ['portal.CuratedTopicIndexPage']
@@ -210,7 +244,7 @@ class CuratedTopicPage(Page):
             return None
 
 
-class ExhibitIndexPage(Page):
+class ExhibitIndexPage(PortalBasePage):
     """ """
 
     search_fields = Page.search_fields + [index.SearchField('body')]
@@ -268,7 +302,7 @@ class ExhibitIndexSideBar(Orderable):
     heading = ('Sidebar Section',)
 
 
-class ExhibitPage(Page):
+class ExhibitPage(PortalBasePage):
     image = models.ForeignKey(
         "wagtailimages.Image",
         blank=True,
@@ -303,6 +337,18 @@ class ExhibitPage(Page):
         ),
     ]
 
+    search_fields = Page.search_fields + [
+        index.SearchField('body'),
+        index.SearchField('title'),  # if you want to explicitly include the title
+        index.RelatedFields(
+            'sidebar',
+            [
+                index.SearchField('sidebar_text'),
+                index.SearchField('sidebar_title'),
+            ],
+        ),
+    ]
+
     parent_page_types = [
         'portal.ExhibitIndexPage',
     ]
@@ -331,7 +377,7 @@ class ExhibitPageSideBar(Orderable):
     heading = "Sidebar Section"
 
 
-class PortalHomePage(Page):
+class PortalHomePage(PortalBasePage):
     """Portal home page model"""
 
     introduction = RichTextField(blank=True, null=True)
@@ -410,9 +456,8 @@ class PortalHomePage(Page):
     max_count = 1
 
     def get_context(self, request, *args, **kwargs):
-        discover_more_facet = random.choice(
-            ('topics', 'people', 'places', 'organizations', 'decades')
-        )
+        facets_options = ['topics', 'people', 'places', 'organizations', 'decades']
+        discover_more_facet = random.choice(facets_options)
         discover_more_facet_uri = 'https://bmrc.lib.uchicago.edu/{}/'.format(
             discover_more_facet
         )
@@ -436,10 +481,18 @@ class PortalHomePage(Page):
             **super().get_context(request, *args, **kwargs),
             **{
                 'discover_more_facet': discover_more_facet,
+                'discover_more_facet_singular': PortalBasePage.portal_facets[
+                    discover_more_facet
+                ][0],
+                'discover_more_facet_plural': PortalBasePage.portal_facets[
+                    discover_more_facet
+                ][1],
                 'discover_more_facet_image': discover_more_facet_image,
                 'discover_more_facet_uri': discover_more_facet_uri,
                 'discover_more_topic': discover_more_topic,
-                'discover_more_topic_uri': discover_more_topic_uri,
+                'discover_more_topic_uri': '/portal/search/?f='
+                + urllib.parse.quote(discover_more_topic_uri),
+                'discover_more_browse_uri': '/portal/browse/?b=' + discover_more_facet,
             },
         }
 
@@ -464,7 +517,7 @@ class PortalHomePage(Page):
         return CuratedTopicPage.featured_curated_topic
 
 
-class PortalStandardPage(Page):
+class PortalStandardPage(PortalBasePage):
     body = StreamField(
         [
             ("richtext", blocks.RichtextBlock(group="Format and Text")),
@@ -488,6 +541,18 @@ class PortalStandardPage(Page):
         ),
     ]
 
+    search_fields = Page.search_fields + [
+        index.SearchField('body'),
+        index.SearchField('title'),  # if you want to explicitly include the title
+        index.RelatedFields(
+            'sidebar',
+            [
+                index.SearchField('sidebar_text'),
+                index.SearchField('sidebar_title'),
+            ],
+        ),
+    ]
+
     parent_page_types = [
         'portal.ExhibitPage',
         'portal.PortalHomePage',
@@ -495,6 +560,9 @@ class PortalStandardPage(Page):
     ]
 
     subpage_types = ['portal.PortalStandardPage']
+
+    class Meta:
+        verbose_name = "Standard Page"
 
 
 class PortalStandardSideBar(Orderable):

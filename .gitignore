@@ -15,3 +15,5 @@ local.py
 /media/
 
 sftp-config.json
+
+.vscode/

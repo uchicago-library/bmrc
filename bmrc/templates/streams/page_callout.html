@@ -1,8 +1,15 @@
-<div class="column">
-    <h2>{{ self.callout_title }}</h2>
-    {{ self.callout_text }}
-	
-	{% if self.button_link.url %}
-	    <a class="button read-more" href="{{ self.button_link.url }}">{{ self.button_label }}</a>
-    {% endif %}
+{% if self.callout_title or self.callout_text %}
+<div class="page-callout bg-dark text-white py-5 my-5">
+    <div class="container-sm">
+        {% if self.callout_title %}
+            <h2>{{ self.callout_title }}</h2>
+        {% endif %}
+
+        {{ self.callout_text }}
+        
+        {% if self.button_link.url %}
+            <a class="btn btn-outline-light" href="{{ self.button_link.url }}">{{ self.button_label }}</a>
+        {% endif %}
+    </div>
 </div>
+{% endif %}

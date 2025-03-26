@@ -1,10 +1,28 @@
-@import url('https://fonts.googleapis.com/css?family=Muli:300,400,700&display=swap');
+/* 
+  * Custom variables for the website theme
+  * and to override Bootstrap variables.
+  * Some BS variables have been included commented for reference.
+  * 
+  Table of contents
+  * ## TYPOGRAPHY
+  * ## COLORS
+  * ## ELEMENTS 
+  * ## COMPONENTS
+ */
+
+
+/* 
+ * --
+ * ## TYPOGRAPHY
+ * --
+ */
 @font-face {
   font-family: 'Trade Gothic Lt Std';
   src: url('/static/fonts/trade-gothic-lt-std.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'Trade Gothic Lt Std';
   src: url('/static/fonts/trade-gothic-lt-std-bold-condensed.otf') format('opentype');
@@ -12,80 +30,88 @@
   font-style: normal;
 }
 
+$font-size-base: 1.2rem !default; // Assumes the browser default, typically `16px`
+$font-family-base: 'Trade Gothic Lt Std', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+// $line-height-base: 1.5;
+$nav-link-font-size: 1rem;
+
+$h1-font-size: $font-size-base * 3 !default;
+$h2-font-size: $font-size-base * 2.3 !default;
+$h3-font-size: $font-size-base * 1.8 !default;
+$h4-font-size: $font-size-base * 1.4 !default;
+$h5-font-size: $font-size-base * 1.1 !default;
+$h6-font-size: $font-size-base * 1 !default;
+// $headings-margin-bottom:      $spacer * .5 !default;
+// $headings-font-family:        null !default;
+// $headings-font-style:         null !default;
+$headings-font-weight: 600;
+// $headings-line-height:        1.2 !default;
+// $headings-color:              inherit !default; 
 
 
-$family-primary: 'Trade Gothic Lt Std','Helvetica Neue',Helvetica,Arial,sans-serif;
-$text: #232323;
+/* 
+ * --
+ * ## COLORS
+ * --
+ */
 
-$bmrc-blue: #2aa9e0; 
+// BMRC palette
+$bmrc-blue: #2aa9e0;
 $bmrc-dark-green: #0d331f;
 $bmrc-dark-gray: #241f21;
-$bmrc-yellow: #fdd900;	
-$bmrc-white: #ffffff;	
+$bmrc-yellow: #fdd900;
+$bmrc-white: #ffffff;
 
 $primary: $bmrc-dark-gray;
 $secondary: $bmrc-dark-green;
-$accent: $bmrc-yellow;
+// $body-tertiary-color:       rgba($body-color, .5) !default;
+// $body-tertiary-bg:          $gray-100 !default;
 
-$link: darken($bmrc-blue, 10%); //#1f9cd2
-$accentlink: darken($primary, 5%);
-$link-hover: $bmrc-blue;
+$success: #789D4A; // Custom success color
+$info: #17a2b8; // Custom info color
+$warning: #ffc107; // Custom warning color
+$danger: #dc3545; // Custom danger color
+$light: #f8f9fa; // Custom light color
+$dark: #343a40; // Custom dark color
 
+$link-color: #007396;
 
-/*
- * Media Queries
- * --------------------------------------------------
- *
- * Use as: @include respond-to(small) { ... }
- *		@include respond-to(medium) { ... }
- *		@include respond-to(large) { ... }
+$bmrc-gradient: linear-gradient(257.92deg, rgba(250, 205, 15, 1) 30%, rgba(36, 169, 224, 1) 60%);
+$bmrc-gradient-transparent: linear-gradient(257.92deg, rgba(250, 205, 15, 0.7) 30%, rgba(36, 169, 224, 0.7) 60%);
+$bmrc-gradient-portal: linear-gradient(257.92deg, rgba(250, 205, 15, 1) 80%, rgba(36, 169, 224, 1) 96%);
+$bmrc-gradient-portal-transparent: linear-gradient(257.92deg, rgba(250, 205, 15, 0.7) 80%, rgba(36, 169, 224, 0.7) 96%);
+
+/* 
+ * --
+ * ## ELEMENTS 
+ * --
  */
+$focus-ring-width: .25rem;
+$focus-ring-opacity: .85;
+$focus-ring-color: rgba($info, $focus-ring-opacity);
+$focus-ring-blur: 0;
+$focus-ring-box-shadow: 0 0 $focus-ring-blur $focus-ring-width $focus-ring-color;
 
-@mixin respond-to($breakpoint) {
-  // Extra small devices (phones, 544px and up)
-  @if $breakpoint == "xsmall" {
-    @media (min-width: 34em) {
-      @content;
-    }
-  }
+$alert-border-radius: 0;
+// $alert-border-width: 0;
 
-  // Small devices (landscape phones, 768px and up)
-  @else if $breakpoint == "small" {
-    @media (min-width: 48em) {
-      @content;
-    }
-  }
-  // Medium devices (crappy laptops, tablets, 992px and up)
-  @else if $breakpoint == "medium" {
-    @media (min-width: 62em) {
-      @content;
-    }
-  }
-  // Large devices (desktops, 1200px and up)
-  @else if $breakpoint == "large" {
-    @media (min-width: 75em) {
-      @content;
-    }
-  }
+$btn-border-radius: 0;
+$btn-border-radius-sm: 0;
+$btn-border-radius-lg: 0;
 
-  //Extra large devices (large desktops, 1900px and up)
-  @else if $breakpoint == "xlarge" {
-    @media (min-width: 118em) {
-      @content;
-    }
-  }
-  
-  // Short-cut to target extra small devices *only* (544px and below)
-  @else if $breakpoint == "smallonly" {
-    @media (max-width: 34em) {
-      @content;
-    }
-  }
+/* 
+ * --
+ * ## COMPONENTS 
+ * --
+ */
+$breadcrumb-divider: quote(">");
 
-  // Short-cut to target extra small AND small devices *only* (768px and below)
-  @else if $breakpoint == "mobileonly" {
-    @media (max-width: 48em) {
-      @content;
-    }
-  }
-}
+$pagination-font-size: 1rem;
+$pagination-color: var(--bs-body-color);
+$pagination-focus-color: var(--bs-body-color);
+$pagination-active-color: var(--bs-body-color);
+$pagination-focus-bg: $bmrc-yellow;
+$pagination-active-bg: $bmrc-yellow;
+// $pagination-active-border-color: var(--bs-border-color);
+$pagination-border-radius: 0;
+$pagination-margin-start: .5rem;

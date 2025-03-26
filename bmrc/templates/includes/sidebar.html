@@ -1,0 +1,9 @@
+{% load wagtailcore_tags %}
+
+<div class="sidebar bg-info-subtle px-2 py-4 mb-4" role="complementary">
+    <h2 class="visually-hidden">Sidebar</h2>
+    {% for item_set in sidebar_sections %}
+        <h3 class="h4">{{ item_set.sidebar_title }}</h3>
+        {{ item_set.sidebar_text|richtext }}
+    {% endfor %}
+</div>

@@ -1,0 +1,74 @@
+// Cannot do this because using a new row to break float 
+// forces two rich text blocks into different sections.
+// body.homepage{
+//     section:nth-child(even) {
+//         background: var(--bs-secondary-bg);
+//     }
+// }
+body.homepage {
+    #about-section {
+
+        .shortcut-btn {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            @extend .mb-4, .p-3;
+            $shortcut-lg-size: 1.5em;
+
+            .shortcut-btn-text {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                height: 6em;
+                text-align: left;
+                // font-size: .9em;
+
+                .shortcut-btn-big-text {
+                    text-transform: uppercase;
+                    font-weight: 700;
+                    font-size: $shortcut-lg-size
+                }
+            }
+
+            .shortcut-btn-icon {
+                font-size: $shortcut-lg-size
+            }
+        }
+    }
+
+    #highlight-section {
+        h2 {
+
+            b,
+            strong {
+                @extend .text-blue;
+            }
+        }
+
+        background-color: black;
+    }
+
+    .news {
+
+        background: var(--bs-secondary-bg);
+
+        .news-horizontal-scroll {
+            overflow-x: scroll;
+            flex-wrap: nowrap;
+
+            .card-group {
+                min-width: 822px;
+                display: flex;
+                // flex-direction: row;
+
+                @extend .gap-4;
+
+                .card.news-item {
+                    width: 250px;
+                }
+            }
+
+        }
+    }
+}
