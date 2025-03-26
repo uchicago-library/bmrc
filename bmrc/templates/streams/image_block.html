@@ -11,6 +11,6 @@
     <img class="figure-img img-fluid" src="{{ tmp_img.url }}" alt="{{ value.image }}" />
    
     {% if value.caption %}
-        <figcaption class="figure-caption p-2">{{value.caption}}</figcaption>
+        <figcaption class="figure-caption p-2" {% if value.alignment != 'fullwidth' %}style="max-width:300px"{% endif %}>{{value.caption}}</figcaption>
     {% endif %}
 </figure>
