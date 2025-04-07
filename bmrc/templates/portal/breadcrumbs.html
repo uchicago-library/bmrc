@@ -1,8 +1,10 @@
-<nav aria-label="breadcrumb" class="container-sm">
-    <ol class="breadcrumb py-1 smaller-text">
-        {% for page in breadcrumbs %}
-            <li class="breadcrumb-item"><a href="{{ page.0 }}">{{ page.1 }}</a></li>
-        {% endfor %}
-        <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
-    </ol>
-</nav>
+{% if breadcrumbs %}
+    <nav aria-label="breadcrumb" class="container-sm" id="portalBreadcrumbs">
+        <ol class="breadcrumb py-1 smaller-text">
+            {% for page in breadcrumbs %}
+                <li class="breadcrumb-item"><a href="{{ page.0 }}">{{ page.1 }}</a></li>
+            {% endfor %}
+            <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+        </ol>
+    </nav>
+{% endif %}
