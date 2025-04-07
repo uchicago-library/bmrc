@@ -49,7 +49,7 @@
                     <div class="search-results list-group list-group-flush mb-4" role="list">
                         {% for r in search_results.results %}
                             <div class="search-result hover-gray position-relative py-2 mb-2" role="listitem">
-                                <a class="stretched-link text-dark text-decoration-none" href="/portal/view/?id={{ r.uri }}">
+                                <a class="stretched-link text-dark text-decoration-none d-block" href="/portal/view/?id={{ r.uri }}">
                                     <h3 class="h4">{{ r.title }}</h3>
                                 </a>
                                 <p class="result-description">{{ r.abstract }}</p>
