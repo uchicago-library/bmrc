@@ -1,3 +1,25 @@
+@media (min-width: 768px) {
+
+    #portal-hero {
+        margin-bottom: 150px !important; 
+
+        .hero-body {
+            bottom: -160px !important; 
+            margin-top: -150px;
+
+            #portal-navbar {
+                #portalNavigation {
+                    position: relative !important;
+                    top: unset !important;
+                    left: unset !important;
+                    right: unset !important;
+                }
+            }
+        }
+    }
+
+}
+
 #portal-hero {
 
     .hero-body {
@@ -5,75 +27,79 @@
         flex-direction: column;
         justify-content: end;
         position: relative;
-        bottom: -20px;
-    }
+        bottom: -40px;
 
-    #portal-navbar {
-        background-color: white;
-        border-radius: 200px;
-        width: 100%;
-        // bottom: -20px;
-        // @extend .px-3, .py-1; @extend .border, .border-light; @extend .shadow-sm;
+        #portal-navbar {
+            width: 100%;
+            flex-direction: column;
 
+            .navbar-portal-search-and-button {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                width: 100%;
+                background-color: white;
+                border-radius: 200px;
+                @extend .mb-2;
 
-        .navbar-toggler {
-            border: none;
-
-            // .fa-circle-chevron-up {
-            //     transition: transform 0.3s ease-in-out;
-            // }
-
-            &.collapsed .fa-circle-chevron-up {
-                transform: rotate(-180deg);
-            }
-
-            & .fa-bars-staggered {
-                transform: rotate(-90deg);
-            }
-
-            &.collapsed .fa-bars-staggered {
-                transform: rotate(0);
-            }
-        }
-
-        #portalNavigation {
-            position: absolute;
-            top: 110%;
-            left: 0;
-            right: 0;
-            background-color: white;
-            border-radius: 8px;
-
-            &>ul.portal-nav-001>li.nav-item {
-                // text-align: center;
-                flex-grow: 1 !important;
-
-                &:last-child {
-                    flex-basis: 100%;
+                form {
+                    flex-grow: 1;
                 }
 
-                &>a.nav-link {
-                    @include navbar-links;
-                    @extend .px-2;
-                }
+                .navbar-toggler {
+                    border: none;
 
-                .portal-nav-browse {
-                    li.nav-item {
-                        flex-grow: 1 !important;
+                    & .fa-bars-staggered {
+                        transform: rotate(-90deg);
+                    }
 
-                        a.nav-link {
-                            @extend .px-2, .ps-4;
-
-                            &.active {
-                                color: $bmrc-dark-green;
-                                border-bottom: 1px solid $bmrc-dark-green;
-                            }
-                        }
+                    &.collapsed .fa-bars-staggered {
+                        transform: rotate(0);
                     }
                 }
             }
 
+            #portalNavigation {
+                width: 100%;
+                background-color: white;
+                border-radius: 8px;
+                position: absolute;
+                top: 110%;
+                left: 0;
+                right: 0;
 
+                &>ul.portal-nav-001>li.nav-item {
+                    // text-align: center;
+                    flex-grow: 1 !important;
+
+                    &:last-child {
+                        flex-basis: 100%;
+                    }
+
+                    &>a.nav-link {
+                        @include navbar-links;
+                        @extend .px-2;
+                    }
+
+                    .portal-nav-browse {
+                        li.nav-item {
+                            flex-grow: 1 !important;
+
+                            a.nav-link {
+                                @extend .px-2, .ps-4;
+
+                                &.active {
+                                    color: $bmrc-dark-green;
+                                    border-bottom: 1px solid $bmrc-dark-green;
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+            }
         }
+
     }
 }
