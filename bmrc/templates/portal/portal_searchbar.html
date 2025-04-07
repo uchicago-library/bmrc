@@ -6,18 +6,20 @@
     background:linear-gradient(#ffffff50 15%, #ffffff00 37%), var(--bmrc-gradient-portal-transparent), url({% static 'img/background_picture_womens_liberation.png' %}), black;" id="portal-hero">
     <div class="hero-body pt-2 pt-md-5 container-sm">
         <a href="/portal" class="hero-display-title display-4 link-dark text-decoration-none"><p>Explore the <b>BMRC ARCHIVAL COLLECTION</b></p></a>
-        <nav class="navbar navbar-portal flex-nowrap align-items-stretch px-2 py-1 border border-light shadow-sm" aria-label="BMRC Archives Portal" id="portal-navbar">
-            <form class="flex-grow-1" action="/portal/search/" method="get">
-                <div class="input-group">
-                    <label class="visually-hidden" for="portal-search-query">Finding Aid Search</label>
-                    <input class="form-control border-0 rounded-pill me-1" id="portal-search-query" placeholder="search archival collections" type="text" name="q"{% if search_results.q %} value="{{ search_results.q }}"{% endif %}>
-                    <button type="submit" value="Search" class="btn btn-dark rounded-pill py-0 px-3" aria-label="search collections"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </div>
-            </form>
-            <button class="navbar-toggler collapsed text-dark rounded-pill px-3 focus-ring" type="button" data-bs-toggle="collapse" data-bs-target="#portalNavigation" aria-controls="portalNavigation" aria-expanded="false" aria-label="Toggle navigation">
-                {% comment %} <i class="fa-solid fa-circle-chevron-up"></i> {% endcomment %}
-                <i class="fa-solid fa-bars-staggered"></i>
-            </button>
+        <nav class="navbar navbar-expand-md navbar-portal" aria-label="BMRC Archives Portal" id="portal-navbar">
+            <div class="navbar-portal-search-and-button px-2 py-1 border border-light shadow-sm">
+                <form class="" action="/portal/search/" method="get">
+                    <div class="input-group">
+                        <label class="visually-hidden" for="portal-search-query">Finding Aid Search</label>
+                        <input class="form-control border-0 rounded-pill me-1" id="portal-search-query" placeholder="search archival collections" type="text" name="q"{% if search_results.q %} value="{{ search_results.q }}"{% endif %}>
+                        <button type="submit" value="Search" class="btn btn-dark rounded-pill py-0 px-3" aria-label="search collections"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </form>
+                <button class="navbar-toggler collapsed text-white bg-dark rounded-pill px-3 ms-1 focus-ring" type="button" data-bs-toggle="collapse" data-bs-target="#portalNavigation" aria-controls="portalNavigation" aria-expanded="false" aria-label="Toggle navigation">
+                    {% comment %} <i class="fa-solid fa-circle-chevron-up"></i> {% endcomment %}
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
             <div class="collapse navbar-collapse border border-light shadow p-2 mb-4" id="portalNavigation">
                 <ul class="portal-nav-001 navbar-nav flex-md-row flex-wrap">
                     {% comment %} <a class="nav-link active" aria-current="page" href="#">Exhibits</a> {% endcomment %}
@@ -36,7 +38,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/portal/help/">Research Help</a>
                     </li>
-                    <li class="nav-item d-md-flex">
+                    <li class="nav-item d-md-flex border-top border-light">
                         <a class="nav-link" href="#">Browse By</a>
                         <ul class="portal-nav-browse navbar-nav flex-md-row flex-grow-1">
                             {% for slug, names in portal_facets.items %}
