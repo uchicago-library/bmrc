@@ -162,12 +162,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATICFILES_FINDERS = [
+COMPRESS_ENABLED = True
+COMPRESS_OFFLINE = False
+COMPRESS_OFFLINE_TIMEOUT = 3
+COMPRESS_REBUILD_TIMEOUT = 3
+
+STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
     'static_precompiler.finders.StaticPrecompilerFinder',
-]
+)
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, 'static'),

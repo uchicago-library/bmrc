@@ -26,7 +26,6 @@ Mocks for approval process can be found at: [uchicago-library.github.io/bmrc](ht
 - `git status`
 - `git pull origin master`
 - `./manage.py migrate` _only needed if made migrations_
-- `./manage.py compress`
 - `./manage.py collectstatic`
 - `sudo service apache24 restart`
 
@@ -39,13 +38,12 @@ The test instance should mirror the production site, less any features being tes
 - `git checkout {{ branch-name }}`
 - `git pull origin {{ branch-name }}`
 - `./manage.py migrate` _only needed if made migrations_
-- `./manage.py compress`
 - `./manage.py collectstatic`
 - `sudo service apache24 restart`
 
 ### Caching Issues
 If your changes aren't loading into production, try:
-- Compress, collectstatic, and restart apache again
+- Collectstatic, and restart apache again
 - Clear the Wagtail cache in Wagtail settings
 - Clear the Django cache manually
 ```
