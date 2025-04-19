@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ElementTree
 
 import lxml.etree as etree
 from django.conf import settings
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
 
 from . import get_collections, get_findingaid, get_search
@@ -194,8 +194,11 @@ def browse(request):
         'topics': 'Browse Topics',
     }
 
-    assert b in titles.keys()
-    assert sort in ('alpha', 'alpha-dsc', 'relevance', 'shuffle')
+    if b not in titles.keys():
+        return HttpResponseRedirect('/portal/')
+
+    if sort not in ('alpha', 'alpha-dsc', 'relevance', 'shuffle'):
+        sort = 'relevance'
 
     collections = get_collections(
         *server_args + ('https://bmrc.lib.uchicago.edu/{}/'.format(b),)
@@ -514,7 +517,8 @@ def view(request):
         lambda m: (
             f'''<hgroup class="ead_titleproper_group">'''
             f'''<h1 class="ead_titleproper h2">{m.group(1)}{":" if m.group(2) else ""}</h1>'''
-            f'''{f"<p class='ead_titleproper_subtitle fs-4'>{m.group(2)}</p>" if m.group(2) else ""}'''
+            f'''{f"<p class='ead_titleproper_subtitle fs-4'>{m.group(2)}</p>" if m.group(
+                2) else ""}'''
             f'''</hgroup>'''
         ),
         findingaid,
