@@ -11,3 +11,4 @@ requests_toolbelt
 wagtail-django-recaptcha
 wagtailmedia==0.15.2
 -e git+https://github.com/rev138/django-shibboleth-remoteuser.git#egg=django_shibboleth_remoteuser
+git+https://github.com/bbusenius/django-turnstile-site-protect.git#egg=django_turnstile_site_protect

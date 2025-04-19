@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'memb_collections',
     'shibboleth',
     'compressor',
+    'django_turnstile_site_protect',
     'wagtail.contrib.forms',
     'wagtail.search.backends.database',
     'wagtail.contrib.redirects',
@@ -67,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'django_turnstile_site_protect.middleware.TurnstileMiddleware',
 
     # Required for shibboleth
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -188,6 +190,24 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+# Cloudflare Turnstile settings (using test keys that always pass)
+TURNSTILE_SITE_KEY = '3x00000000000000000000FF'
+TURNSTILE_SECRET_KEY = '1x0000000000000000000000000000000AA'
+TURNSTILE_MODE = 'managed'  # Options: 'managed', 'non-interactive', 'invisible'
+TURNSTILE_APPEARANCE = 'always'
+
+# 1 day (in seconds)
+SESSION_COOKIE_AGE = 86400
+
+# Exclude admin, static files, etc. from Turnstile protection
+TURNSTILE_EXCLUDED_PATHS = [
+    r'^/admin/.*$',
+    r'^/django-admin/.*$',
+    r'^/static/.*$',
+    r'^/media/.*$',
+    r'^/shib/.*$',
+]
 
 # django-compressor settings
 COMPRESS_PRECOMPILERS = (('text/x-scss', 'django_libsass.SassCompiler'), )
