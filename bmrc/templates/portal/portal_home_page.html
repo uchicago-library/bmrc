@@ -23,51 +23,54 @@
     </div>
 
     <!-- CURATE TOPIC -->
-    {% include "portal/featured_block.html" with 
-        image=self.featured_curated_topic.image 
-        title=self.featured_curated_topic.title 
-        headline="Featured Curated Topic" 
-        link_text="Explore this Curated Topic" 
-        link=self.featured_curated_topic.url 
-        link_plural_text="Explore all Curated Topics" 
+    {% include "portal/featured_block.html" with
+        image=self.featured_curated_topic.image
+        title=self.featured_curated_topic.title
+        headline="Featured Curated Topic"
+        link_text="Explore this Curated Topic"
+        link=self.featured_curated_topic.url
+        link_plural_text="Explore all Curated Topics"
         link_plural=self.curated_topic_index_page.url
         %}
 
     <!-- EXHIBIT -->
-    {% include "portal/featured_block.html" with 
-        image=self.featured_exhibit.image 
-        title=self.featured_exhibit.title 
-        headline="Featured Exhibit" 
-        link_text="Explore this Exhibit" 
-        link=self.featured_exhibit.url 
-        link_plural_text="Explore all Exhibits" 
+    {% include "portal/featured_block.html" with
+        image=self.featured_exhibit.image
+        title=self.featured_exhibit.title
+        headline="Featured Exhibit"
+        link_text="Explore this Exhibit"
+        link=self.featured_exhibit.url
+        link_plural_text="Explore all Exhibits"
         link_plural=self.exhibit_index_page.url
         %}
-    
+
     <!-- FACET -->
-    {% comment %} {% include "portal/featured_block.html" with 
-        image=discover_more_facet_image 
-        title=discover_more_topic 
-        headline="Facet Highlight" 
-        link_text="Explore this "|add:discover_more_facet_singular 
-        link=discover_more_topic_uri 
-        link_plural_text="Explore all "|add:discover_more_facet_plural 
-        link_plural=discover_more_browse_uri 
+    {% comment %} {% include "portal/featured_block.html" with
+        image=discover_more_facet_image
+        title=discover_more_topic
+        headline="Facet Highlight"
+        link_text="Explore this "|add:discover_more_facet_singular
+        link=discover_more_topic_uri
+        link_plural_text="Explore all "|add:discover_more_facet_plural
+        link_plural=discover_more_browse_uri
         %} {% endcomment %}
 
     <!-- MEMBER -->
-    {% with encoded_member_uri=self.featured_archive.uri|urlencode %}
-
-    {% include "portal/featured_block.html" with 
-        image=self.featured_archive.logo 
-        title=self.featured_archive.name 
-        headline="Member Highlight" 
-        link_text="View collections from "|add:self.featured_archive.name 
-        link="/portal/search/?f="|add:encoded_member_uri
-        link_plural_text=false 
-        link_plural=false 
-        %}
-    {% endwith %}
+    {% if self.featured_archive %}
+        {% with encoded_member_uri=self.featured_archive.uri|urlencode %}
+            {% include "portal/featured_block.html" with
+                image=self.featured_archive.logo
+                title=self.featured_archive.name
+                headline="Member Highlight"
+                link_text="View collections from "|add:self.featured_archive.name
+                link="/portal/search/?f="|add:encoded_member_uri
+                link_plural_text=false
+                link_plural=false
+                %}
+        {% endwith %}
+    {% else %}
+        <p>No featured archive available.</p>
+    {% endif %}
 
     <div class="container-sm py-5">
         <h1 class="visually-hidden">{{self.title}}</h1>
