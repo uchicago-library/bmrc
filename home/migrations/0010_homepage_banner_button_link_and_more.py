@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("home", "0009_alter_homepage_body"),
-        ("wagtailcore", "0094_query_searchpromotion_querydailyhits"),
+        #("wagtailcore", "0094_query_searchpromotion_querydailyhits"),
     ]
 
     operations = [

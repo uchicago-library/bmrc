@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("home", "0010_homepage_banner_button_link_and_more"),
-        ("wagtailcore", "0094_query_searchpromotion_querydailyhits"),
+        # ("wagtailcore", "0094_query_searchpromotion_querydailyhits"),
         ("wagtailimages", "0026_delete_uploadedimage"),
     ]
 
