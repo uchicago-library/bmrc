@@ -189,7 +189,7 @@ MEDIA_URL = '/media/'
 # Cloudflare Turnstile settings (using test keys that always pass)
 TURNSTILE_SITE_KEY = '3x00000000000000000000FF'
 TURNSTILE_SECRET_KEY = '1x0000000000000000000000000000000AA'
-TURNSTILE_MODE = 'managed'  # Options: 'managed', 'non-interactive', 'invisible'
+TURNSTILE_MODE = 'non-interactive'  # Options: 'managed', 'non-interactive', 'invisible'
 TURNSTILE_APPEARANCE = 'always'
 
 # 2 weeks (in seconds)
