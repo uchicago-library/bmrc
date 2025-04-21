@@ -197,6 +197,7 @@ SESSION_COOKIE_AGE = 1209600
 
 # Exclude admin, static files, etc. from Turnstile protection
 TURNSTILE_EXCLUDED_PATHS = [
+    r'^/(?!portal/).*$',
     r'^/admin/.*$',
     r'^/django-admin/.*$',
     r'^/static/.*$',
