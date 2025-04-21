@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'memb_collections',
     'shibboleth',
     'compressor',
+    'django_turnstile_site_protect',
     'wagtail.contrib.forms',
     'wagtail.search.backends.database',
     'wagtail.contrib.redirects',
@@ -67,7 +68,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-
+    'django_turnstile_site_protect.middleware.TurnstileMiddleware',
     # Required for shibboleth
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'shibboleth.middleware.ShibbolethRemoteUserMiddleware',
@@ -129,20 +130,16 @@ WAGTAILSEARCH_BACKENDS = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME':
-        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME':
-        'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME':
-        'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME':
-        'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -189,15 +186,38 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+# Cloudflare Turnstile settings (using test keys that always pass)
+TURNSTILE_SITE_KEY = '3x00000000000000000000FF'
+TURNSTILE_SECRET_KEY = '1x0000000000000000000000000000000AA'
+TURNSTILE_MODE = 'non-interactive'  # Options: 'managed', 'non-interactive', 'invisible'
+TURNSTILE_APPEARANCE = 'always'
+
+# 2 weeks (in seconds)
+SESSION_COOKIE_AGE = 1209600
+
+# Exclude admin, static files, etc. from Turnstile protection
+TURNSTILE_EXCLUDED_PATHS = [
+    r'^/(?!portal/).*$',
+    r'^/admin/.*$',
+    r'^/django-admin/.*$',
+    r'^/static/.*$',
+    r'^/media/.*$',
+    r'^/shib/.*$',
+]
+
 # django-compressor settings
-COMPRESS_PRECOMPILERS = (('text/x-scss', 'django_libsass.SassCompiler'), )
+COMPRESS_PRECOMPILERS = (('text/x-scss', 'django_libsass.SassCompiler'),)
 
 # django-static-precompilers
-STATIC_PRECOMPILER_COMPILERS = (('static_precompiler.compilers.libsass.SCSS', {
-    'load_paths': [os.path.join(BASE_DIR, 'static/css')],
-    'output_style':
-    'compressed'
-}), )
+STATIC_PRECOMPILER_COMPILERS = (
+    (
+        'static_precompiler.compilers.libsass.SCSS',
+        {
+            'load_paths': [os.path.join(BASE_DIR, 'static/css')],
+            'output_style': 'compressed',
+        },
+    ),
+)
 
 # Wagtail settings
 
