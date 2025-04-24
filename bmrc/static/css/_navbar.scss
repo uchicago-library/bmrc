@@ -33,6 +33,10 @@ $navbar-height: 70px;
 
                     a.nav-link {
                         @include navbar-links;
+                        .dropdown-menu {
+                            --bs-dropdown-item-padding-y: 0.5rem;
+                            text-wrap: auto;
+                        }
                     }
 
                     a.btn {
