@@ -30,13 +30,12 @@ $navbar-height: 70px;
             ul.navbar-nav {
                 li.nav-item {
                     text-align: center;
-
+                    .dropdown-menu {
+                        --bs-dropdown-item-padding-y: 0.5rem;
+                        text-wrap: auto;
+                    }
                     a.nav-link {
                         @include navbar-links;
-                        .dropdown-menu {
-                            --bs-dropdown-item-padding-y: 0.5rem;
-                            text-wrap: auto;
-                        }
                     }
 
                     a.btn {
