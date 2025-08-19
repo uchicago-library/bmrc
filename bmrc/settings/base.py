@@ -25,12 +25,14 @@ WAGTAIL_ENABLE_UPDATE_CHECK = 'lts'
 # Application definition
 
 INSTALLED_APPS = [
+    'base',
     'home',
     'portal',
     'search',
     'streams',
     'standard',
     'news',
+    'programs',
     'site_settings',
     'memb_collections',
     'shibboleth',
