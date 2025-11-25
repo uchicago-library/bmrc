@@ -26,6 +26,26 @@
 {% endblock %}
 {% block content %}
 
+    {% if settings.site_settings.PromoBanner.enable and settings.site_settings.PromoBanner.desktop_image and settings.site_settings.PromoBanner.link_url and settings.site_settings.PromoBanner.alt_text %}
+        <section class="promo-banner" id="promo-banner-section">
+            <div class="container-sm py-3">
+                <a href="{{ settings.site_settings.PromoBanner.link_url }}" class="promo-banner-link d-block">
+                    <picture>
+                        {% if settings.site_settings.PromoBanner.mobile_image %}
+                            {% image settings.site_settings.PromoBanner.mobile_image width-600 as mobile_img %}
+                            <source media="(max-width: 576px)" srcset="{{ mobile_img.url }}">
+                        {% endif %}
+                        {% image settings.site_settings.PromoBanner.desktop_image width-1200 as desktop_img %}
+                        <img src="{{ desktop_img.url }}" 
+                             alt="{{ settings.site_settings.PromoBanner.alt_text }}" 
+                             class="img-fluid w-100 rounded"
+                             loading="eager">
+                    </picture>
+                </a>
+            </div>
+        </section>
+    {% endif %}
+
     {% if self.about_title or self.about_paragraph %}
         <section class="container-sm py-5" id="about-section">
             <div class="row">
