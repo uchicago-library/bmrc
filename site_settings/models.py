@@ -78,8 +78,8 @@ class PromoBanner(BaseSiteSetting):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
-        help_text='The banner image for desktop displays. '
-                  'Recommended width: 1200px or wider.'
+        help_text='Required for the banner to display. Upload a wide banner '
+                  'image (recommended: 1200px or wider).'
     )
     mobile_image = models.ForeignKey(
         'wagtailimages.Image',
@@ -94,14 +94,14 @@ class PromoBanner(BaseSiteSetting):
     alt_text = models.CharField(
         max_length=500,
         blank=True,
-        help_text='Required for accessibility. Describe the image and include '
-                  'ALL text visible in the image. This helps screen reader '
-                  'users understand the promotional content.'
+        help_text='Required for the banner to display. Describe the image and '
+                  'include ALL text visible in the image for accessibility. '
+                  'Screen reader users rely on this description.'
     )
     link_url = models.URLField(
         blank=True,
-        help_text='Required. The URL where users will be directed when '
-                  'they click the banner.'
+        help_text='Required for the banner to display. The URL where users '
+                  'will be directed when they click the banner.'
     )
 
     panels = [
@@ -111,18 +111,20 @@ class PromoBanner(BaseSiteSetting):
                      border-radius: 5px; margin-bottom: 15px;">
                     <h3 style="margin-top: 0;">Promotional Banner Guidelines</h3>
                     <p>This banner appears at the top of the home page,
-                       below any alert messages and above the About section.</p>
+                       below any alert messages and above the About section.
+                       The banner will only display when <strong>all required
+                       fields</strong> are filled in and enabled.</p>
                     <ul>
-                        <li><strong>Desktop Image:</strong> Upload a wide banner
-                            image (recommended: 1200px or wider).</li>
+                        <li><strong>Desktop Image:</strong> Required - Upload a
+                            wide banner image (recommended: 1200px or wider).</li>
                         <li><strong>Mobile Image:</strong> Optional - upload a
                             smaller or differently cropped version for mobile
                             devices.</li>
-                        <li><strong>Alt Text:</strong> IMPORTANT - Include ALL
-                            text that appears in the image for accessibility.
-                            Screen reader users rely on this description.</li>
-                        <li><strong>Link URL:</strong> The destination page when
-                            users click the banner.</li>
+                        <li><strong>Alt Text:</strong> Required - IMPORTANT:
+                            Include ALL text that appears in the image for
+                            accessibility. Screen reader users rely on this.</li>
+                        <li><strong>Link URL:</strong> Required - The destination
+                            page when users click the banner.</li>
                     </ul>
                 </div>
             '''),
