@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import (
@@ -133,6 +134,42 @@ class HomePage(Page):
         help_text="Page to which the banner button will link.",
     )
 
+
+    # PROMOTIONAL BANNER
+    promo_banner_show = models.BooleanField(
+        default=False,
+        help_text='Check to display the promotional banner on the home page. At least one image, alt text, and a link are also required to show the banner.'
+    )
+    promo_banner_desktop_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='Wide banner image for desktop (recommended: 1200px or wider). '
+                  'Either desktop or mobile image is required.'
+    )
+    promo_banner_mobile_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='Square banner image for mobile, around 600px, typically the same used '
+                  'for social media. If not provided, the desktop image will be used.'
+    )
+    promo_banner_alt_text = models.CharField(
+        max_length=500,
+        blank=True,
+        help_text='Describe the image and include ALL text visible in the image '
+                  'for accessibility. Screen reader users rely on this description.'
+    )
+    promo_banner_link_url = models.URLField(
+        blank=True,
+        help_text='The URL where users will be directed when they click the banner.'
+    )
+
+
     # HIGHLIGHT SECTION
     highlight_title = RichTextField(
         features=["bold"],  # Restrict to only bold formatting
@@ -189,39 +226,28 @@ class HomePage(Page):
         help_text="Page to which the banner button will link.",
     )
 
-    # PROMOTIONAL BANNER
-    promo_banner_show = models.BooleanField(
-        default=False,
-        help_text='Check to display the promotional banner on the home page.'
-    )
-    promo_banner_desktop_image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text='Wide banner image for desktop (recommended: 1200px or wider). '
-                  'Either desktop or mobile image is required.'
-    )
-    promo_banner_mobile_image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text='Square banner image for mobile, around 600px, typically the same used '
-                  'for social media. If not provided, the desktop image will be used.'
-    )
-    promo_banner_alt_text = models.CharField(
-        max_length=500,
-        blank=True,
-        help_text='Describe the image and include ALL text visible in the image '
-                  'for accessibility. Screen reader users rely on this description.'
-    )
-    promo_banner_link_url = models.URLField(
-        blank=True,
-        help_text='The URL where users will be directed when they click the banner.'
-    )
+    def clean(self):
+        """Validate promotional banner fields when enabled."""
+        super().clean()
+        
+        if self.promo_banner_show:
+            errors = {}
+            
+            # Check if at least one image is provided
+            if not self.promo_banner_desktop_image and not self.promo_banner_mobile_image:
+                errors['promo_banner_desktop_image'] = 'At least one image (desktop or mobile) is required when promotional banner is enabled.'
+                errors['promo_banner_mobile_image'] = 'At least one image (desktop or mobile) is required when promotional banner is enabled.'
+            
+            # Check if alt text is provided
+            if not self.promo_banner_alt_text:
+                errors['promo_banner_alt_text'] = 'Alt text is required when promotional banner is enabled. Please describe the image and include ALL text visible in it.'
+            
+            # Check if link URL is provided
+            if not self.promo_banner_link_url:
+                errors['promo_banner_link_url'] = 'Link URL is required when promotional banner is enabled.'
+            
+            if errors:
+                raise ValidationError(errors)
 
     # CONTENT PANELS
     content_panels = Page.content_panels + [
@@ -232,29 +258,6 @@ class HomePage(Page):
         ),
         MultiFieldPanel(
             [
-                HelpPanel(content='''
-                    <div style="background-color: #f0f4f8; padding: 15px;
-                         border-radius: 5px; margin-bottom: 15px;">
-                        <h3 style="margin-top: 0;">Promotional Banner Guidelines</h3>
-                        <p>This banner appears at the top of the home page,
-                           below any alert messages and above the About section.
-                           The banner will only display when enabled and at least
-                           one image is provided along with alt text and a link.</p>
-                        <ul>
-                            <li><strong>Desktop Image:</strong> Wide banner image
-                                (recommended: 1200px or wider).</li>
-                            <li><strong>Mobile Image:</strong> Square image around
-                                400px, typically used for social media. If only
-                                mobile image is provided, it will be used for all
-                                screen sizes.</li>
-                            <li><strong>Alt Text:</strong> IMPORTANT: Include ALL
-                                text that appears in the image for accessibility.
-                                Screen reader users rely on this.</li>
-                            <li><strong>Link URL:</strong> The destination page
-                                when users click the banner.</li>
-                        </ul>
-                    </div>
-                '''),
                 FieldPanel("promo_banner_show"),
                 FieldPanel("promo_banner_desktop_image"),
                 FieldPanel("promo_banner_mobile_image"),
