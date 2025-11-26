@@ -158,8 +158,7 @@ class HomePage(Page):
         help_text='Banner image for mobile (recommended: square 600px), typically the same used '
                   'for social media. Either desktop or mobile image is required.'
     )
-    promo_banner_alt_text = models.CharField(
-        max_length=500,
+    promo_banner_alt_text = models.TextField(
         blank=True,
         help_text='Include ALL TEXT visible in the image (and describe the image if relevant) '
                   'for accessibility and SEO. Screen reader users rely on this description.'
