@@ -209,7 +209,7 @@ class HomePage(Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
-        help_text='Square banner image for mobile, around 400px, typically used '
+        help_text='Square banner image for mobile, around 600px, typically the same used '
                   'for social media. If not provided, the desktop image will be used.'
     )
     promo_banner_alt_text = models.CharField(
@@ -229,38 +229,6 @@ class HomePage(Page):
             [InlinePanel("banner_options", max_num=3, label="Option")],
             heading="Top Banner Content",
             help_text="If more than one option is set, one is chosen at random to be used for the banner. So every page reload can show a different image, text, title, and button.",
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("about_title"),
-                FieldPanel("about_paragraph"),
-                FieldPanel("about_button_text"),
-                PageChooserPanel("about_button_link"),
-                InlinePanel("about_section_shortcut", max_num=3, label="Shortcut"),
-            ],
-            heading="About Section with shortcuts",
-            help_text="Section below the top banner with a paragraph and shortcuts. Needs a title and text or nothing will be shown. Shortcuts intended to link to Collections(magnifying-glass), Programs(table-columns), Members(building-columns)",
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("highlight_title"),
-                FieldPanel("highlight_paragraph"),
-                FieldPanel("highlight_button_text"),
-                PageChooserPanel("highlight_button_link"),
-                FieldPanel("highlight_background"),
-            ],
-            heading="Highlight Section",
-            help_text="Intended to highlight the Portal. Needs a title and text or nothing will be shown. ",
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("banner_title"),
-                FieldPanel("banner_paragraph"),
-                FieldPanel("banner_button_text"),
-                PageChooserPanel("banner_button_link"),
-            ],
-            heading="Bottom Banner Content",
-            help_text="Configure the banner displayed above the footer. This was intended to link to the newsletter signup but can be used for other things. Better to keep it short. Needs a title, text, a button text, and a button link or nothing will be shown. ",
         ),
         MultiFieldPanel(
             [
@@ -296,6 +264,38 @@ class HomePage(Page):
             heading="Promotional Banner",
             help_text="Promotional image banner displayed below alerts and above "
                       "the About section. Useful for campaigns like Giving Tuesday.",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("about_title"),
+                FieldPanel("about_paragraph"),
+                FieldPanel("about_button_text"),
+                PageChooserPanel("about_button_link"),
+                InlinePanel("about_section_shortcut", max_num=3, label="Shortcut"),
+            ],
+            heading="About Section with shortcuts",
+            help_text="Section below the top banner with a paragraph and shortcuts. Needs a title and text or nothing will be shown. Shortcuts intended to link to Collections(magnifying-glass), Programs(table-columns), Members(building-columns)",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("highlight_title"),
+                FieldPanel("highlight_paragraph"),
+                FieldPanel("highlight_button_text"),
+                PageChooserPanel("highlight_button_link"),
+                FieldPanel("highlight_background"),
+            ],
+            heading="Highlight Section",
+            help_text="Intended to highlight the Portal. Needs a title and text or nothing will be shown. ",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("banner_title"),
+                FieldPanel("banner_paragraph"),
+                FieldPanel("banner_button_text"),
+                PageChooserPanel("banner_button_link"),
+            ],
+            heading="Bottom Banner Content",
+            help_text="Configure the banner displayed above the footer. This was intended to link to the newsletter signup but can be used for other things. Better to keep it short. Needs a title, text, a button text, and a button link or nothing will be shown. ",
         ),
         FieldPanel("body"),
     ]
