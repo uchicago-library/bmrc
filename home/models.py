@@ -146,7 +146,7 @@ class HomePage(Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
-        help_text='Wide banner image for desktop (recommended: 1200px or wider). '
+        help_text='Wide banner image for desktop (recommended: 1200 x 420 px). '
                   'Either desktop or mobile image is required.'
     )
     promo_banner_mobile_image = models.ForeignKey(
@@ -155,14 +155,14 @@ class HomePage(Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
-        help_text='Square banner image for mobile, around 600px, typically the same used '
-                  'for social media. If not provided, the desktop image will be used.'
+        help_text='Banner image for mobile (recommended: square 600px), typically the same used '
+                  'for social media. Either desktop or mobile image is required.'
     )
     promo_banner_alt_text = models.CharField(
         max_length=500,
         blank=True,
-        help_text='Describe the image and include ALL text visible in the image '
-                  'for accessibility. Screen reader users rely on this description.'
+        help_text='Include ALL TEXT visible in the image (and describe the image if relevant) '
+                  'for accessibility and SEO. Screen reader users rely on this description.'
     )
     promo_banner_link_page = models.ForeignKey(
         'wagtailcore.Page',
