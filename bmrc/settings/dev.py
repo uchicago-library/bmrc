@@ -11,13 +11,6 @@ ALLOWED_HOSTS = ['*']
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# MarkLogic settings (placeholder values for development)
-# These are overridden in local.py for actual development/production use
-MARKLOGIC_SERVER = ''
-MARKLOGIC_USERNAME = ''
-MARKLOGIC_PASSWORD = ''
-PROXY_SERVER = ''
-
 try:
     from .local import *
 except ImportError:

@@ -26,24 +26,35 @@
 {% endblock %}
 {% block content %}
 
-    {% if settings.site_settings.PromoBanner.enable and settings.site_settings.PromoBanner.desktop_image and settings.site_settings.PromoBanner.link_url and settings.site_settings.PromoBanner.alt_text %}
+    {% if self.promo_banner_show and self.promo_banner_link_url and self.promo_banner_alt_text %}
+        {% if self.promo_banner_desktop_image or self.promo_banner_mobile_image %}
         <section class="promo-banner" id="promo-banner-section">
             <div class="container-sm py-3">
-                <a href="{{ settings.site_settings.PromoBanner.link_url }}" class="promo-banner-link d-block">
+                <a href="{{ self.promo_banner_link_url }}" 
+                   class="promo-banner-link d-block"
+                   aria-label="{{ self.promo_banner_alt_text }}">
                     <picture>
-                        {% if settings.site_settings.PromoBanner.mobile_image %}
-                            {% image settings.site_settings.PromoBanner.mobile_image width-600 as mobile_img %}
+                        {% if self.promo_banner_mobile_image %}
+                            {% image self.promo_banner_mobile_image width-600 as mobile_img %}
                             <source media="(max-width: 576px)" srcset="{{ mobile_img.url }}">
                         {% endif %}
-                        {% image settings.site_settings.PromoBanner.desktop_image width-1200 as desktop_img %}
-                        <img src="{{ desktop_img.url }}" 
-                             alt="{{ settings.site_settings.PromoBanner.alt_text }}" 
-                             class="img-fluid w-100 rounded"
-                             loading="eager">
+                        {% if self.promo_banner_desktop_image %}
+                            {% image self.promo_banner_desktop_image width-1200 as desktop_img %}
+                            <img src="{{ desktop_img.url }}" 
+                                 alt="{{ self.promo_banner_alt_text }}" 
+                                 class="img-fluid w-100 rounded"
+                                 loading="eager">
+                        {% elif self.promo_banner_mobile_image %}
+                            <img src="{{ mobile_img.url }}" 
+                                 alt="{{ self.promo_banner_alt_text }}" 
+                                 class="img-fluid w-100 rounded"
+                                 loading="eager">
+                        {% endif %}
                     </picture>
                 </a>
             </div>
         </section>
+        {% endif %}
     {% endif %}
 
     {% if self.about_title or self.about_paragraph %}
