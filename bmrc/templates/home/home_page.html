@@ -26,6 +26,39 @@
 {% endblock %}
 {% block content %}
 
+    {% if self.promo_banner_show and self.promo_banner_url and self.promo_banner_alt_text %}
+        {% if self.promo_banner_desktop_image or self.promo_banner_mobile_image %}
+        <section class="promo-banner" id="promo-banner-section">
+            <div class="container-sm py-3">
+                <a href="{{ self.promo_banner_url }}" 
+                   class="promo-banner-link d-block"
+                   aria-label="{{ self.promo_banner_alt_text }}">
+                    <picture>
+                        {% if self.promo_banner_mobile_image %}
+                            {% image self.promo_banner_mobile_image width-600 as mobile_img %}
+                            <source media="(max-width: 576px)" srcset="{{ mobile_img.url }}">
+                        {% endif %}
+                        {% if self.promo_banner_desktop_image %}
+                            {% image self.promo_banner_desktop_image width-1200 as desktop_img %}
+                            <img src="{{ desktop_img.url }}" 
+                                 alt="{{ self.promo_banner_alt_text }}" 
+                                 class="img-fluid w-100"
+                                 loading="eager">
+                        {% else %}
+                            {# Only mobile image provided - use it as the main image #}
+                            {% image self.promo_banner_mobile_image width-600 as mobile_only_img %}
+                            <img src="{{ mobile_only_img.url }}" 
+                                 alt="{{ self.promo_banner_alt_text }}" 
+                                 class="img-fluid w-100"
+                                 loading="eager">
+                        {% endif %}
+                    </picture>
+                </a>
+            </div>
+        </section>
+        {% endif %}
+    {% endif %}
+
     {% if self.about_title or self.about_paragraph %}
         <section class="container-sm py-5" id="about-section">
             <div class="row">
@@ -153,3 +186,4 @@
         <!-- no bottom banner -->
     {% endif %}
 {% endblock %}
+
