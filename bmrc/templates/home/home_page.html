@@ -26,11 +26,11 @@
 {% endblock %}
 {% block content %}
 
-    {% if self.promo_banner_show and self.promo_banner_link_url and self.promo_banner_alt_text %}
+    {% if self.promo_banner_show and self.promo_banner_url and self.promo_banner_alt_text %}
         {% if self.promo_banner_desktop_image or self.promo_banner_mobile_image %}
         <section class="promo-banner" id="promo-banner-section">
             <div class="container-sm py-3">
-                <a href="{{ self.promo_banner_link_url }}" 
+                <a href="{{ self.promo_banner_url }}" 
                    class="promo-banner-link d-block"
                    aria-label="{{ self.promo_banner_alt_text }}">
                     <picture>

@@ -164,9 +164,17 @@ class HomePage(Page):
         help_text='Describe the image and include ALL text visible in the image '
                   'for accessibility. Screen reader users rely on this description.'
     )
-    promo_banner_link_url = models.URLField(
+    promo_banner_link_page = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
         blank=True,
-        help_text='The URL where users will be directed when they click the banner.'
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='Select an internal page to link to. If external URL is provided below, it will override this.'
+    )
+    promo_banner_external_url = models.URLField(
+        blank=True,
+        help_text='External URL (e.g., https://example.com). If provided, this overrides the page link above.'
     )
 
 
@@ -242,12 +250,22 @@ class HomePage(Page):
             if not self.promo_banner_alt_text:
                 errors['promo_banner_alt_text'] = 'Alt text is required when promotional banner is enabled. Please describe the image and include ALL text visible in it.'
             
-            # Check if link URL is provided
-            if not self.promo_banner_link_url:
-                errors['promo_banner_link_url'] = 'Link URL is required when promotional banner is enabled.'
+            # Check if either a page link or external URL is provided
+            if not self.promo_banner_link_page and not self.promo_banner_external_url:
+                errors['promo_banner_link_page'] = 'Either a page link or external URL is required when promotional banner is enabled.'
+                errors['promo_banner_external_url'] = 'Either a page link or external URL is required when promotional banner is enabled.'
             
             if errors:
                 raise ValidationError(errors)
+    
+    @property
+    def promo_banner_url(self):
+        """Return the promotional banner URL, preferring external URL over page link."""
+        if self.promo_banner_external_url:
+            return self.promo_banner_external_url
+        if self.promo_banner_link_page:
+            return self.promo_banner_link_page.url
+        return None
 
     # CONTENT PANELS
     content_panels = Page.content_panels + [
@@ -262,7 +280,8 @@ class HomePage(Page):
                 FieldPanel("promo_banner_desktop_image"),
                 FieldPanel("promo_banner_mobile_image"),
                 FieldPanel("promo_banner_alt_text"),
-                FieldPanel("promo_banner_link_url"),
+                PageChooserPanel("promo_banner_link_page"),
+                FieldPanel("promo_banner_external_url"),
             ],
             heading="Promotional Banner",
             help_text="Promotional image banner displayed below alerts and above "
