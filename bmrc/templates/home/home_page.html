@@ -44,8 +44,10 @@
                                  alt="{{ self.promo_banner_alt_text }}" 
                                  class="img-fluid w-100 rounded"
                                  loading="eager">
-                        {% elif self.promo_banner_mobile_image %}
-                            <img src="{{ mobile_img.url }}" 
+                        {% else %}
+                            {# Only mobile image provided - use it as the main image #}
+                            {% image self.promo_banner_mobile_image width-600 as mobile_only_img %}
+                            <img src="{{ mobile_only_img.url }}" 
                                  alt="{{ self.promo_banner_alt_text }}" 
                                  class="img-fluid w-100 rounded"
                                  loading="eager">
