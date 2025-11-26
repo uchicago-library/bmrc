@@ -17,6 +17,3 @@ local.py
 sftp-config.json
 
 .vscode/
-
-# pip editable installs
-src/
