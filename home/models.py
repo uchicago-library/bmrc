@@ -1,7 +1,9 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import (
     FieldPanel,
+    HelpPanel,
     InlinePanel,
     MultiFieldPanel,
     PageChooserPanel,
@@ -132,6 +134,49 @@ class HomePage(Page):
         help_text="Page to which the banner button will link.",
     )
 
+
+    # PROMOTIONAL BANNER
+    promo_banner_show = models.BooleanField(
+        default=False,
+        help_text='Check to display the promotional banner on the home page. At least one image, alt text, and a link are also required to show the banner.'
+    )
+    promo_banner_desktop_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='Wide banner image for desktop (recommended: 1200 x 420 px). '
+                  'Either desktop or mobile image is required.'
+    )
+    promo_banner_mobile_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='Banner image for mobile (recommended: square 600px), typically the same used '
+                  'for social media. Either desktop or mobile image is required.'
+    )
+    promo_banner_alt_text = models.TextField(
+        blank=True,
+        help_text='Include ALL TEXT visible in the image (and describe the image if relevant) '
+                  'for accessibility and SEO. Screen reader users rely on this description.'
+    )
+    promo_banner_link_page = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='Select an internal page to link to. If external URL is provided below, it will override this.'
+    )
+    promo_banner_external_url = models.URLField(
+        blank=True,
+        help_text='External URL (e.g., https://example.com). If provided, this overrides the page link above.'
+    )
+
+
     # HIGHLIGHT SECTION
     highlight_title = RichTextField(
         features=["bold"],  # Restrict to only bold formatting
@@ -188,12 +233,58 @@ class HomePage(Page):
         help_text="Page to which the banner button will link.",
     )
 
+    def clean(self):
+        """Validate promotional banner fields when enabled."""
+        super().clean()
+        
+        if self.promo_banner_show:
+            errors = {}
+            
+            # Check if at least one image is provided
+            if not self.promo_banner_desktop_image and not self.promo_banner_mobile_image:
+                errors['promo_banner_desktop_image'] = 'At least one image (desktop or mobile) is required when promotional banner is enabled.'
+                errors['promo_banner_mobile_image'] = 'At least one image (desktop or mobile) is required when promotional banner is enabled.'
+            
+            # Check if alt text is provided
+            if not self.promo_banner_alt_text:
+                errors['promo_banner_alt_text'] = 'Alt text is required when promotional banner is enabled. Please describe the image and include ALL text visible in it.'
+            
+            # Check if either a page link or external URL is provided
+            if not self.promo_banner_link_page and not self.promo_banner_external_url:
+                errors['promo_banner_link_page'] = 'Either a page link or external URL is required when promotional banner is enabled.'
+                errors['promo_banner_external_url'] = 'Either a page link or external URL is required when promotional banner is enabled.'
+            
+            if errors:
+                raise ValidationError(errors)
+    
+    @property
+    def promo_banner_url(self):
+        """Return the promotional banner URL, preferring external URL over page link."""
+        if self.promo_banner_external_url:
+            return self.promo_banner_external_url
+        if self.promo_banner_link_page:
+            return self.promo_banner_link_page.url
+        return None
+
     # CONTENT PANELS
     content_panels = Page.content_panels + [
         MultiFieldPanel(
             [InlinePanel("banner_options", max_num=3, label="Option")],
             heading="Top Banner Content",
             help_text="If more than one option is set, one is chosen at random to be used for the banner. So every page reload can show a different image, text, title, and button.",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("promo_banner_show"),
+                FieldPanel("promo_banner_desktop_image"),
+                FieldPanel("promo_banner_mobile_image"),
+                FieldPanel("promo_banner_alt_text"),
+                PageChooserPanel("promo_banner_link_page"),
+                FieldPanel("promo_banner_external_url"),
+            ],
+            heading="Promotional Banner",
+            help_text="Promotional image banner displayed below alerts and above "
+                      "the About section. Useful for campaigns like Giving Tuesday.",
         ),
         MultiFieldPanel(
             [
