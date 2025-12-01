@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("home", "0015_homepage_promo_banner_alt_text_and_more"),
-        ("wagtailcore", "0094_alter_page_locale"),
+        # ("wagtailcore", "0094_alter_page_locale"), # Removed - forces migration ordering that breaks fresh builds (home/0002)
         ("wagtailimages", "0027_image_description"),
     ]
 
