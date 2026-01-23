@@ -5,6 +5,7 @@
 db.sqlite3
 *.sqlite3
 *.djcache
+*bot_ips_config.py
 
 .vagrant/
 /.vagrant/
