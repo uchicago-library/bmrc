@@ -177,3 +177,9 @@ of order indexes for all archives, see the following management command:
 
 ```console
 python manage.py report-member-highlight-monthly-display
+```
+
+### Bot IP Management
+The portal uses the [Good-Bots package](https://github.com/bbusenius/Good-Bots) to automatically manage IP exclusions for legitimate search engine bots and crawlers. This ensures they aren't blocked by Turnstile protection.
+
+The package generates a `bot_ips_config.py` file with ~1,700 bot IP ranges that gets updated daily via cron. This file is automatically imported in Django settings and excluded from version control.
