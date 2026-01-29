@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.urls import include, re_path
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
 
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
@@ -8,6 +9,12 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 from portal import views as portal_views
 from search import views as search_views
+from .sitemap import WagtailSitemap
+
+# Define sitemaps
+sitemaps = {
+    'pages': WagtailSitemap,
+}
 
 urlpatterns = [
     re_path(r'^django-admin/', admin.site.urls),
@@ -26,6 +33,9 @@ urlpatterns = [
 
     # Cloudflare Turnstile URLs
     re_path(r'^turnstile/', include('django_turnstile_site_protect.urls')),
+    
+    # Sitemap
+    re_path(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
