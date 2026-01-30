@@ -1,7 +1,7 @@
 """Custom sitemap for BMRC site"""
 
 from django.contrib.sitemaps import Sitemap
-from wagtail.models import Page, Site
+from wagtail.models import Page
 
 from news.models import NewsIndexPage, NewsStoryPage
 from home.models import HomePage
@@ -12,10 +12,8 @@ class WagtailSitemap(Sitemap):
     
     def items(self):
         """Return all pages that should be in the sitemap"""
-        site = Site.objects.get(is_default_site=True)
-        
         # Get all live, public pages
-        pages = Page.objects.live().public().in_site(site)
+        pages = Page.objects.live().public()
         
         # Note: /admin/, /search/, /portal/search/, /portal/browse/, /turnstile/, /shib/
         # are Django views (not Wagtail pages), so they won't appear in this query
@@ -25,7 +23,8 @@ class WagtailSitemap(Sitemap):
         # exists as a single Page object in the database, and pagination is handled in
         # the view/template layer.
         
-        return pages
+        # Filter out pages without a proper URL (like the root page)
+        return [page for page in pages if page.url]
     
     def location(self, page):
         """Return the URL for the page"""
@@ -56,19 +55,19 @@ class WagtailSitemap(Sitemap):
     
     def priority(self, page):
         """Return priority based on page type and location"""
-        url_path = page.url_path.lower().rstrip('/')
+        # Use page.url (actual URL) instead of page.url_path (internal Wagtail path)
+        url = page.url.lower().rstrip('/') if page.url else ''
         
         # Highest priority pages (1.0)
-        high_priority_paths = ['/', '/about/', '/donate/', '/programs/', '/portal/', '/portal/about/']
-        for path in high_priority_paths:
-            if url_path == path.rstrip('/'):
-                return 1.0
+        high_priority_paths = ['', '/about', '/donate', '/programs', '/portal', '/portal/about']
+        if url in high_priority_paths:
+            return 1.0
         
         # Second highest priority (0.8) - pages under these sections
         second_priority_sections = ['/programs/', '/news/', '/events/']
         for section in second_priority_sections:
             # Check if URL is under this section but not the section itself
-            if url_path.startswith(section.rstrip('/')) and url_path != section.rstrip('/'):
+            if url.startswith(section.rstrip('/')):
                 return 0.8
         
         # NewsStoryPage gets higher priority
