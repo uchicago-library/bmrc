@@ -31,8 +31,7 @@
         <section class="promo-banner" id="promo-banner-section">
             <div class="container-sm py-3">
                 <a href="{{ self.promo_banner_url }}" 
-                   class="promo-banner-link d-block"
-                   aria-label="{{ self.promo_banner_alt_text }}">
+                   class="promo-banner-link d-block">
                     <picture>
                         {% if self.promo_banner_mobile_image %}
                             {% image self.promo_banner_mobile_image width-600 as mobile_img %}
@@ -41,18 +40,20 @@
                         {% if self.promo_banner_desktop_image %}
                             {% image self.promo_banner_desktop_image width-1200 as desktop_img %}
                             <img src="{{ desktop_img.url }}" 
-                                 alt="{{ self.promo_banner_alt_text }}" 
+                                 alt="" 
                                  class="img-fluid w-100"
                                  loading="eager">
                         {% else %}
                             {# Only mobile image provided - use it as the main image #}
                             {% image self.promo_banner_mobile_image width-600 as mobile_only_img %}
                             <img src="{{ mobile_only_img.url }}" 
-                                 alt="{{ self.promo_banner_alt_text }}" 
+                                 alt="" 
                                  class="img-fluid w-100"
                                  loading="eager">
                         {% endif %}
                     </picture>
+                    {# The image will typically have a lot of baked-in text, so we use a visually hidden span for accessibility. #}
+                    <span class="visually-hidden">{{ self.promo_banner_alt_text }}</span>
                 </a>
             </div>
         </section>
