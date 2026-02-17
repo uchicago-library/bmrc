@@ -1,10 +1,10 @@
 @media (min-width: 768px) {
 
     #portal-hero {
-        margin-bottom: 150px !important; 
+        margin-bottom: 150px !important;
 
         .hero-body {
-            bottom: -160px !important; 
+            bottom: -160px !important;
             margin-top: -150px;
 
             #portal-navbar {
@@ -67,6 +67,7 @@
                 top: 110%;
                 left: 0;
                 right: 0;
+                z-index: 1;
 
                 &>ul.portal-nav-001>li.nav-item {
                     // text-align: center;
