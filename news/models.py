@@ -2,6 +2,7 @@
 
 # from datetime import datetime
 
+from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.utils import timezone
@@ -12,6 +13,7 @@ from wagtail.models import Orderable, Page
 from wagtail.search import index
 
 from streams import blocks
+from streams.validators import validate_alt_text
 
 
 class NewsSideBar(Orderable):
@@ -94,6 +96,20 @@ class NewsStoryPage(Page):
         related_name="+",
         on_delete=models.SET_NULL,
     )
+    lead_image_alt_text = models.CharField(
+        max_length=400,
+        blank=True,
+        help_text=(
+            "Required when a featured image is selected (unless marked as decorative). Describe the image and include any visible text."
+        ),
+    )
+    lead_image_is_decorative = models.BooleanField(
+        default=False,
+        help_text=(
+            "Check if this image is purely decorative (no meaningful content). "
+            "Decorative images will have empty alt text for screen readers."
+        ),
+    )
     excerpt = models.TextField(max_length=300, blank=True, null=True)
     body = StreamField(
         [
@@ -115,10 +131,30 @@ class NewsStoryPage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("lead_image"),
+        FieldPanel("lead_image_alt_text"),
+        FieldPanel("lead_image_is_decorative"),
         FieldPanel("excerpt"),
         FieldPanel("body"),
         FieldPanel('story_date'),
     ]
+
+    def clean(self):
+        super().clean()
+        errors = {}
+
+        if self.lead_image and not self.lead_image_is_decorative:
+            if not self.lead_image_alt_text:
+                errors["lead_image_alt_text"] = (
+                    "Alt text is required when a featured image is selected (or mark as decorative)."
+                )
+            else:
+                try:
+                    validate_alt_text(self.lead_image_alt_text)
+                except ValidationError as exc:
+                    errors["lead_image_alt_text"] = exc
+
+        if errors:
+            raise ValidationError(errors)
 
     search_fields = Page.search_fields + [
         index.SearchField('excerpt'),

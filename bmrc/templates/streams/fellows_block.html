@@ -7,11 +7,14 @@
             <div class="fb-col-{{self.size|lower}}-img">
                     <figure class="image mt-3">
                         {% if self.size == 'SM' %}
-                            {% image value.image width-100 class="img-fluid" %}
+                            {% image value.image width-100 as img %}
+                            <img class="img-fluid" src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}" alt="{% if value.is_decorative %}{% else %}{{ value.alt_text|default:'' }}{% endif %}" />
                         {% elif self.size == 'MD' %}
-                            {% image value.image width-200 class="img-fluid" %}
+                            {% image value.image width-200 as img %}
+                            <img class="img-fluid" src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}" alt="{% if value.is_decorative %}{% else %}{{ value.alt_text|default:'' }}{% endif %}" />
                         {% else %}
-                            {% image value.image width-400 class="img-fluid" %}
+                            {% image value.image width-400 as img %}
+                            <img class="img-fluid" src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}" alt="{% if value.is_decorative %}{% else %}{{ value.alt_text|default:'' }}{% endif %}" />
                         {% endif %}
                     </figure>
             </div>

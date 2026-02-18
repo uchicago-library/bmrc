@@ -1,6 +1,7 @@
 """Streamfields live in here"""
 
 from django import forms
+from django.core.exceptions import ValidationError
 from django.core.validators import validate_slug
 from wagtail import blocks
 from wagtail.blocks import (
@@ -10,12 +11,20 @@ from wagtail.blocks import (
     RawHTMLBlock,
     StaticBlock,
     StreamBlock,
+    StructBlockValidationError,
 )
 from wagtail.images.blocks import ImageChooserBlock
+
+from .validators import validate_alt_text, validate_richtext_images_alt_text
 
 
 class RichtextBlock(blocks.RichTextBlock):
     """Richtext WYSIWYG."""
+
+    def clean(self, value):
+        cleaned = super().clean(value)
+        validate_richtext_images_alt_text(cleaned)
+        return cleaned
 
     class Meta:  # noqa
         template = "streams/richtext_block.html"
@@ -93,7 +102,44 @@ class ImageBlock(blocks.StructBlock):
         features=["bold", "italic", "link"],
         label='Caption',
     )
+    alt_text = blocks.CharBlock(
+        required=False,
+        help_text=(
+            "Required when an image is selected (unless marked as decorative). Describe the image and include any visible text."
+        ),
+    )
+    is_decorative = blocks.BooleanBlock(
+        required=False,
+        default=False,
+        help_text=(
+            "Check if this image is purely decorative (no meaningful content). "
+            "Decorative images will have empty alt text for screen readers."
+        ),
+    )
     alignment = ImageFormatChoiceBlock(required=False)
+
+    def clean(self, value):
+        cleaned = super().clean(value)
+        errors = {}
+        image = cleaned.get("image")
+        alt_text = cleaned.get("alt_text")
+        is_decorative = cleaned.get("is_decorative", False)
+
+        if image and not is_decorative:
+            if not alt_text:
+                errors["alt_text"] = ValidationError(
+                    "Alt text is required when an image is selected (or mark as decorative)."
+                )
+            else:
+                try:
+                    validate_alt_text(alt_text)
+                except ValidationError as exc:
+                    errors["alt_text"] = exc
+
+        if errors:
+            raise StructBlockValidationError(errors)
+
+        return cleaned
 
     class Meta:
         icon = 'image'
@@ -134,6 +180,43 @@ class FellowsBlock(blocks.StructBlock):
         features=["h2", "h3", "bold", "italic", "link"],
         label='Text',
     )
+    alt_text = blocks.CharBlock(
+        required=False,
+        help_text=(
+            "Required when an image is selected (unless marked as decorative). Describe the image and include any visible text."
+        ),
+    )
+    is_decorative = blocks.BooleanBlock(
+        required=False,
+        default=False,
+        help_text=(
+            "Check if this image is purely decorative (no meaningful content). "
+            "Decorative images will have empty alt text for screen readers."
+        ),
+    )
+
+    def clean(self, value):
+        cleaned = super().clean(value)
+        errors = {}
+        image = cleaned.get("image")
+        alt_text = cleaned.get("alt_text")
+        is_decorative = cleaned.get("is_decorative", False)
+
+        if image and not is_decorative:
+            if not alt_text:
+                errors["alt_text"] = ValidationError(
+                    "Alt text is required when an image is selected (or mark as decorative)."
+                )
+            else:
+                try:
+                    validate_alt_text(alt_text)
+                except ValidationError as exc:
+                    errors["alt_text"] = exc
+
+        if errors:
+            raise StructBlockValidationError(errors)
+
+        return cleaned
 
     class Meta:
         icon = 'image'

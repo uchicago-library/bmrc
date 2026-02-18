@@ -13,7 +13,8 @@
             <div class="col-12 col-md-5 col-lg-4 order-md-2">
                 {% if self.lead_image %}
                     <figure class="figure">
-                        {% image self.lead_image width-520 class="figure-img img-fluid" %}
+                        {% image self.lead_image width-520 as img %}
+                        <img class="figure-img img-fluid" src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}" alt="{% if self.lead_image_is_decorative %}{% else %}{{ self.lead_image_alt_text|default:'' }}{% endif %}">
                     </figure>
                 {% endif %}
             </div>

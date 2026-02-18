@@ -20,7 +20,7 @@
 									{% if post.lead_image %}
 										{% image post.lead_image width-520 as img %}
 										<figure class="card-img-top" style="background-image: url({{ img.url }})">
-											<img class="visually-hidden" src="{{ img.url }}" alt="{{ img.alt }}">
+											<img class="visually-hidden" src="{{ img.url }}" alt="{% if post.lead_image_is_decorative %}{% else %}{{ post.lead_image_alt_text|default:'' }}{% endif %}">
 										</figure>
 									{% endif %}
 

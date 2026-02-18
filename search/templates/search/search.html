@@ -60,7 +60,8 @@
                         <div class="col-12 col-md-auto">
                             {% if result.specific.lead_image %}
                                 <figure class="figure">
-                                    {% image result.specific.lead_image  width-250 class="img-fluid" %}
+                                    {% image result.specific.lead_image width-250 as img %}
+                                    <img class="img-fluid" src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}" alt="{% if result.specific.lead_image_is_decorative %}{% else %}{{ result.specific.lead_image_alt_text|default:'' }}{% endif %}">
                                 </figure>
                             {% endif %}
                         </div>
