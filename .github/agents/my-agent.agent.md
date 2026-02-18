@@ -11,4 +11,4 @@ description: Creates a branch and pull request to solve an issue.
 # My Agent
 If there is none, create a branch with the issue number and name as the new branch name. 
 Analyze the issue and implement the best solution, going along the current approaches of the repo.
-Create a pull request with a short summary of the changes made, a list of the changes made, and instructions on how to test that the new changes work as intended. If there is a chance that the new changes breaks another feature of the website, instruct on how to check for that too.
+Do NOT run `makemigrations` or `migrate` if there are changes to the models. Instead, notify the human to run them after the implementation is done.
