@@ -1,4 +1,4 @@
-{% load cache compress static wagtailuserbar wagtailcore_tags %}
+{% load cache compress static wagtailuserbar wagtailcore_tags seo_tags %}
 {% wagtail_site as current_site %}
 
 <!DOCTYPE html>
@@ -13,7 +13,7 @@
                 | {{ current_site.site_name }}
             {% endif %}
         </title>
-        <meta name="description" content="" />
+        <meta name="description" content="{{ self|get_page_description }}" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {# Global stylesheets #}
