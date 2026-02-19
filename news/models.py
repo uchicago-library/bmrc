@@ -130,9 +130,14 @@ class NewsStoryPage(Page):
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel("lead_image"),
-        FieldPanel("lead_image_alt_text"),
-        FieldPanel("lead_image_is_decorative"),
+        MultiFieldPanel(
+            [
+                FieldPanel("lead_image"),
+                FieldPanel("lead_image_alt_text"),
+                FieldPanel("lead_image_is_decorative"),
+            ],
+            heading="Featured Image",
+        ),
         FieldPanel("excerpt"),
         FieldPanel("body"),
         FieldPanel('story_date'),
