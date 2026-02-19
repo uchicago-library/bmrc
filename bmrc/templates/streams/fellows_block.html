@@ -1,4 +1,4 @@
-{% load wagtailimages_tags %}
+{% load wagtailimages_tags accessibility_tags %}
 
 
 <div class="fellows-block mb-3" {% if self.anchor %}id={{ self.anchor }}{% endif %}>
@@ -8,13 +8,13 @@
                     <figure class="image mt-3">
                         {% if self.size == 'SM' %}
                             {% image value.image width-100 as img %}
-                            <img class="img-fluid" src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}" alt="{% if value.is_decorative %}{% else %}{{ value.alt_text|default:'' }}{% endif %}" />
+                            <img class="img-fluid" src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}" alt="{{ value|alt_text_attr }}" />
                         {% elif self.size == 'MD' %}
                             {% image value.image width-200 as img %}
-                            <img class="img-fluid" src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}" alt="{% if value.is_decorative %}{% else %}{{ value.alt_text|default:'' }}{% endif %}" />
+                            <img class="img-fluid" src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}" alt="{{ value|alt_text_attr }}" />
                         {% else %}
                             {% image value.image width-400 as img %}
-                            <img class="img-fluid" src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}" alt="{% if value.is_decorative %}{% else %}{{ value.alt_text|default:'' }}{% endif %}" />
+                            <img class="img-fluid" src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}" alt="{{ value|alt_text_attr }}" />
                         {% endif %}
                     </figure>
             </div>

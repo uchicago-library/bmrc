@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags accessibility_tags %}
 
 {% block body_class %}news_story{% endblock %}
 
@@ -14,7 +14,7 @@
                 {% if self.lead_image %}
                     <figure class="figure">
                         {% image self.lead_image width-520 as img %}
-                        <img class="figure-img img-fluid" src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}" alt="{% if self.lead_image_is_decorative %}{% else %}{{ self.lead_image_alt_text|default:'' }}{% endif %}">
+                        <img class="figure-img img-fluid" src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}" alt="{{ self|alt_text_attr }}">
                     </figure>
                 {% endif %}
             </div>
