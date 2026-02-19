@@ -102,28 +102,14 @@ def validate_alt_text(value):
 class _RichTextImageParser(HTMLParser):
     def __init__(self):
         super().__init__()
-        self.images = []  # Store (alt, is_decorative, is_richtext_image) tuples
-
-    def _is_truthy(self, value):
-        return str(value).lower() in {"1", "true", "yes", "on"}
-
-    def _is_decorative(self, attr_map):
-        for key, value in attr_map.items():
-            if "decorative" in key and self._is_truthy(value):
-                return True
-        if "decorative" in attr_map.get("class", "").lower():
-            return True
-        return False
+        self.images = []  # Store alt text values from image tags
 
     def handle_starttag(self, tag, attrs):
         normalized_tag = tag.lower()
         attr_map = {key.lower(): value for key, value in attrs}
 
         if normalized_tag == "img":
-            is_decorative = self._is_decorative(attr_map)
-            class_value = attr_map.get("class", "")
-            is_richtext_image = "richtext-image" in class_value.lower()
-            self.images.append((attr_map.get("alt"), is_decorative, is_richtext_image))
+            self.images.append(attr_map.get("alt"))
             return
 
         embed_type = (
@@ -132,10 +118,7 @@ class _RichTextImageParser(HTMLParser):
             or attr_map.get("data-wagtail-embedtype")
         )
         if normalized_tag == "embed" and embed_type == "image":
-            is_decorative = self._is_decorative(attr_map)
-            class_value = attr_map.get("class", "")
-            is_richtext_image = "richtext-image" in class_value.lower()
-            self.images.append((attr_map.get("alt"), is_decorative, is_richtext_image))
+            self.images.append(attr_map.get("alt"))
 
 
 def validate_richtext_images_alt_text(value):
@@ -147,9 +130,7 @@ def validate_richtext_images_alt_text(value):
     parser = _RichTextImageParser()
     parser.feed(html)
 
-    for index, (alt, _is_decorative, _is_richtext_image) in enumerate(
-        parser.images, start=1
-    ):
+    for index, alt in enumerate(parser.images, start=1):
         if alt is None or not alt.strip():
             continue
 

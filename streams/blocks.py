@@ -91,7 +91,34 @@ class ImageFormatChoiceBlock(FieldBlock):
     )
 
 
-class ImageBlock(blocks.StructBlock):
+class AltTextValidationMixin:
+    """Shared alt-text validation for image struct blocks."""
+
+    def clean(self, value):
+        cleaned = super().clean(value)
+        errors = {}
+        image = cleaned.get("image")
+        alt_text = cleaned.get("alt_text")
+        is_decorative = cleaned.get("is_decorative", False)
+
+        if image and not is_decorative:
+            if not alt_text:
+                errors["alt_text"] = ValidationError(
+                    "Alt text is required when an image is selected (or mark as decorative)."
+                )
+            else:
+                try:
+                    validate_alt_text(alt_text)
+                except ValidationError as exc:
+                    errors["alt_text"] = exc
+
+        if errors:
+            raise StructBlockValidationError(errors)
+
+        return cleaned
+
+
+class ImageBlock(AltTextValidationMixin, blocks.StructBlock):
     """Image streamfield block."""
 
     image = ImageChooserBlock(
@@ -118,29 +145,6 @@ class ImageBlock(blocks.StructBlock):
     )
     alignment = ImageFormatChoiceBlock(required=False)
 
-    def clean(self, value):
-        cleaned = super().clean(value)
-        errors = {}
-        image = cleaned.get("image")
-        alt_text = cleaned.get("alt_text")
-        is_decorative = cleaned.get("is_decorative", False)
-
-        if image and not is_decorative:
-            if not alt_text:
-                errors["alt_text"] = ValidationError(
-                    "Alt text is required when an image is selected (or mark as decorative)."
-                )
-            else:
-                try:
-                    validate_alt_text(alt_text)
-                except ValidationError as exc:
-                    errors["alt_text"] = exc
-
-        if errors:
-            raise StructBlockValidationError(errors)
-
-        return cleaned
-
     class Meta:
         icon = 'image'
         template = 'streams/image_block.html'
@@ -156,7 +160,7 @@ class ClearBlock(blocks.StaticBlock):
         admin_text = 'Stops text floating around images where placed. Use with floating images and Rich Text blocks.'
 
 
-class FellowsBlock(blocks.StructBlock):
+class FellowsBlock(AltTextValidationMixin, blocks.StructBlock):
     """Image streamfield block."""
 
     image = ImageChooserBlock(required=False, label='Image')
@@ -194,29 +198,6 @@ class FellowsBlock(blocks.StructBlock):
             "Decorative images will have empty alt text for screen readers."
         ),
     )
-
-    def clean(self, value):
-        cleaned = super().clean(value)
-        errors = {}
-        image = cleaned.get("image")
-        alt_text = cleaned.get("alt_text")
-        is_decorative = cleaned.get("is_decorative", False)
-
-        if image and not is_decorative:
-            if not alt_text:
-                errors["alt_text"] = ValidationError(
-                    "Alt text is required when an image is selected (or mark as decorative)."
-                )
-            else:
-                try:
-                    validate_alt_text(alt_text)
-                except ValidationError as exc:
-                    errors["alt_text"] = exc
-
-        if errors:
-            raise StructBlockValidationError(errors)
-
-        return cleaned
 
     class Meta:
         icon = 'image'
