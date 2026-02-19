@@ -27,6 +27,11 @@ _FILE_EXTENSION_PATTERN = re.compile(
     r"\.(jpe?g|png|gif|bmp|svg|webp|tiff?|ico)$", re.IGNORECASE
 )
 
+_URL_PATTERN = re.compile(
+    r"\bhttps?://\S+|\bwww\.\S+",
+    re.IGNORECASE,
+)
+
 
 def _normalize_alt_text(value):
     text = re.sub(r"\s+", " ", str(value or "")).strip()
@@ -35,12 +40,26 @@ def _normalize_alt_text(value):
 
 def _normalized_alt_words(value):
     cleaned = re.sub(r"[^a-z0-9\s]", "", value.lower()).strip()
-    return [word for word in cleaned.split() if word]
+    return [
+        word for word in cleaned.split()
+        if word and len(word) >= 3
+    ]
 
 
 def validate_alt_text(value):
     """Validate that alt text is present and minimally descriptive."""
     text = _normalize_alt_text(value)
+# Types of invalid alt text to catch:
+# - Is invalid. Equal to: ("", "-", "--", ".", "na", "n/a", "none", "null", "untitled")
+# - Has fewer than 3 letters after removing numbers/special characters
+# - Ends on an image file extension
+# - Is a URL. Fail ex:
+#   - "https://example.com/image.jpg"
+#   - "www.example.org/logo"     
+#   - "Photo from https://example.com/gallery"
+# - All words(>3 chars) are generic (e.g. "image", "photo", "icon")
+#   - FAILS  "a photo of an image and a logo"
+#   - PASSES "a photo of an image with a logo"
     
     # Check for empty or placeholder values
     if text.lower() in _INVALID_ALT_VALUES:
@@ -49,35 +68,29 @@ def validate_alt_text(value):
             code="alt_text_required",
         )
 
-    # Check minimum length
-    if len(text) < 3:
+    # Require at least 3 letters after stripping numbers/special characters
+    letters_only = re.sub(r"[^a-z]", "", text, flags=re.IGNORECASE)
+    if len(letters_only) < 3:
         raise ValidationError(
-            _("Alt text must be at least 3 characters long."),
+            _("Alt text must include at least 3 letters. Describe what the image shows."),
             code="alt_text_too_short",
         )
 
-    # Check if it's only numbers
-    if text.replace(" ", "").isdigit():
-        raise ValidationError(
-            _("Alt text cannot be only numbers. Describe what the image shows."),
-            code="alt_text_only_numbers",
-        )
-
-    # Check for file extensions
+    # Check for if it ends on an image file extension
     if _FILE_EXTENSION_PATTERN.search(text):
         raise ValidationError(
             _("Alt text should not contain file names or extensions. Describe what the image shows."),
             code="alt_text_filename",
         )
 
-    # Check if it looks like a URL or file path
-    if any(pattern in text.lower() for pattern in ["http://", "https://", "www.", ".com", "\\", "/"]):
+    # Check if it looks like a URL
+    if _URL_PATTERN.search(text):
         raise ValidationError(
-            _("Alt text should not contain URLs or file paths. Describe what the image shows."),
+            _("Alt text should not contain URLs. Describe what the image shows."),
             code="alt_text_url",
         )
 
-    # Check if all words are generic
+    # Check if all words bigger than 3 chars are generic
     words = _normalized_alt_words(text)
     if words and set(words).issubset(_GENERIC_ALT_WORDS):
         raise ValidationError(
