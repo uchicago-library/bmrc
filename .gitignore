@@ -18,4 +18,4 @@ local.py
 sftp-config.json
 
 .vscode/
-.github/
+/.github
