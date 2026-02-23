@@ -1,3 +1,5 @@
+import json
+
 from django.apps import apps
 from django.core.management.base import BaseCommand
 
@@ -66,7 +68,7 @@ class Command(BaseCommand):
 
         for app_label, model_name, field_name in TARGETS:
             model = apps.get_model(app_label, model_name)
-            queryset = model.objects.all().only("id", field_name)
+            queryset = model.objects.values("id", field_name)
 
             rows_seen = 0
             rows_changed = 0
@@ -75,17 +77,31 @@ class Command(BaseCommand):
                 rows_seen += 1
                 total_rows_seen += 1
 
-                value = getattr(row, field_name)
-                if hasattr(value, "raw_data"):
-                    value = value.raw_data
+                row_id = row["id"]
+                value = row[field_name]
+
+                if value is None:
+                    continue
+
+                original_is_string = isinstance(value, str)
+                if original_is_string:
+                    try:
+                        value = json.loads(value)
+                    except json.JSONDecodeError:
+                        self.stdout.write(
+                            self.style.WARNING(
+                                f"- {app_label}.{model_name} id={row_id}: invalid JSON, skipped"
+                            )
+                        )
+                        continue
 
                 if rename_block_type(value, from_type, to_type):
                     rows_changed += 1
                     total_rows_changed += 1
 
                     if not dry_run:
-                        setattr(row, field_name, value)
-                        row.save(update_fields=[field_name])
+                        saved_value = json.dumps(value) if original_is_string else value
+                        model.objects.filter(id=row_id).update(**{field_name: saved_value})
 
             self.stdout.write(
                 f"- {app_label}.{model_name}: scanned={rows_seen}, changed={rows_changed}"
