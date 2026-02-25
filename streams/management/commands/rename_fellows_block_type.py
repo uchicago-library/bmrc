@@ -3,6 +3,7 @@ import json
 from django.apps import apps
 from django.core.management.base import BaseCommand
 
+# ./manage.py rename_fellows_block_type --debug
 
 FROM_BLOCK = "fellows_block"
 TO_BLOCK = "image_and_text_block"
@@ -91,32 +92,42 @@ class Command(BaseCommand):
 
             if debug:
                 self.stdout.write(
-                    f"[debug] Scanning {app_label}.{model_name}.{field_name}"
+                    f"[debug] ### Scanning {app_label}.{model_name}.{field_name}"
                 )
 
             rows_seen = 0
             rows_changed = 0
 
+            # Iterate lazily so large tables do not load fully into memory.
             for row in queryset.iterator():
-                if debug:
-                    self.stdout.write(
-                        f"[debug] looking at row."
-                    )
 
+                # Global and per-model counters for summary output.
                 rows_seen += 1
                 total_rows_seen += 1
 
+                # `values(...)` rows are dicts, so we read fields by key.
                 row_id = row["id"]
                 value = row[field_name]
 
+                if debug:
+                    self.stdout.write(
+                        f"[debug] looking at row id={row['id']}, field={field_name}, value={value}, value type={type(value)}."
+                    )
+
+                # Empty body -> nothing to inspect for block-type rename.
                 if value is None:
                     continue
 
+                # Depending on DB/backend/version, the JSON payload may be either:
+                # - a raw JSON string, or
+                # - an already parsed Python list/dict.
                 original_is_string = isinstance(value, str)
                 if original_is_string:
                     try:
+                        # Parse once so the recursive rename function can walk it.
                         value = json.loads(value)
                     except json.JSONDecodeError:
+                        # Keep going if one row is malformed instead of failing entire run.
                         self.stdout.write(
                             self.style.WARNING(
                                 f"- {app_label}.{model_name} id={row_id}: invalid JSON, skipped"
@@ -128,6 +139,7 @@ class Command(BaseCommand):
                         f"[debug] {app_label}.{model_name} id={row_id}: value is already parsed JSON"
                     )
 
+                # Deep-scan nested block data and rename matching block types.
                 if rename_block_type(value, from_type, to_type):
                     rows_changed += 1
                     total_rows_changed += 1
@@ -138,6 +150,8 @@ class Command(BaseCommand):
                         )
 
                     if not dry_run:
+                        # Preserve original storage shape (string vs parsed object)
+                        # so we do not introduce type surprises across environments.
                         saved_value = json.dumps(value) if original_is_string else value
                         model.objects.filter(id=row_id).update(**{field_name: saved_value})
                     elif debug:
