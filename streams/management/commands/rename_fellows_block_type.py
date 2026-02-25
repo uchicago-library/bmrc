@@ -127,6 +127,15 @@ class Command(BaseCommand):
                 if value is None:
                     continue
 
+                # Wagtail can return StreamValue objects; convert those to plain
+                # JSON-like data so recursive traversal can inspect `type` keys.
+                if hasattr(value, "raw_data"):
+                    value = value.raw_data
+                    if debug:
+                        self.stdout.write(
+                            f"[debug] {app_label}.{model_name} id={row_id}: converted StreamValue to raw_data"
+                        )
+
                 # Depending on DB/backend/version, the JSON payload may be either:
                 # - a raw JSON string, or
                 # - an already parsed Python list/dict.
