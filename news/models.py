@@ -118,7 +118,7 @@ class NewsStoryPage(Page):
             ("info_box_block", blocks.InfoBoxBlock(group="Format and Text")),
             ("footnote_block", blocks.FootnoteBlock(group="Format and Text")),
             ("image_block", blocks.ImageBlock(group="Layout and Images")),
-            ("fellows_block", blocks.FellowsBlock(group="Layout and Images")),
+            ("image_and_text_block", blocks.ImageAndTextBlock(group="Layout and Images")),
             ("clear_block", blocks.ClearBlock(group="Layout and Images")),
         ],
         null=True,
