@@ -110,8 +110,17 @@ class Command(BaseCommand):
                 value = row[field_name]
 
                 if debug:
+                    value_type = type(value).__name__
+                    if isinstance(value, str):
+                        value_summary = f"str(len={len(value)})"
+                    elif isinstance(value, list):
+                        value_summary = f"list(len={len(value)})"
+                    elif isinstance(value, dict):
+                        value_summary = f"dict(keys={list(value.keys())[:5]})"
+                    else:
+                        value_summary = value_type
                     self.stdout.write(
-                        f"[debug] looking at row id={row['id']}, field={field_name}, value={value}, value type={type(value)}."
+                        f"[debug] looking at row id={row_id}, field={field_name}, value={value_summary}, value_type={value_type}."
                     )
 
                 # Empty body -> nothing to inspect for block-type rename.
