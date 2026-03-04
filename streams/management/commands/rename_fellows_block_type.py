@@ -18,6 +18,37 @@ TARGETS = [
 ]
 
 
+def safe_repr(value, max_len=1200):
+    """Best-effort repr for debug logs that never crashes the command."""
+    try:
+        text = repr(value)
+    except Exception as exc:
+        text = f"<repr failed: {exc.__class__.__name__}: {exc}>"
+
+    if len(text) > max_len:
+        return text[:max_len] + "...<truncated>"
+    return text
+
+
+def collect_block_types(value, found=None):
+    """Collect all nested `type` values from StreamField-like JSON."""
+    if found is None:
+        found = set()
+
+    if isinstance(value, list):
+        for item in value:
+            if isinstance(item, dict):
+                block_type = item.get("type")
+                if block_type:
+                    found.add(block_type)
+                collect_block_types(item.get("value"), found)
+    elif isinstance(value, dict):
+        for nested in value.values():
+            collect_block_types(nested, found)
+
+    return found
+
+
 def rename_block_type(value, from_type, to_type):
     """Recursively walk JSON-like data and rename StreamField block types.
 
@@ -66,6 +97,18 @@ class Command(BaseCommand):
             action="store_true",
             help="Print per-model and per-row debug information.",
         )
+        parser.add_argument(
+            "--focus-id",
+            type=int,
+            default=10,
+            help="When --debug is enabled, print exhaustive internals for this row id.",
+        )
+        parser.add_argument(
+            "--debug-max-len",
+            type=int,
+            default=1200,
+            help="Maximum characters printed for repr() values in debug output.",
+        )
 
     def handle(self, *args, **options):
         # --reverse flips the rename direction.
@@ -73,6 +116,8 @@ class Command(BaseCommand):
         to_type = FROM_BLOCK if options["reverse"] else TO_BLOCK
         dry_run = options["dry_run"]
         debug = options["debug"]
+        focus_id = options["focus_id"]
+        debug_max_len = options["debug_max_len"]
 
         self.stdout.write(
             self.style.WARNING(
@@ -80,7 +125,11 @@ class Command(BaseCommand):
             )
         )
         if debug:
-            self.stdout.write(self.style.WARNING("Debug mode enabled"))
+            self.stdout.write(
+                self.style.WARNING(
+                    f"Debug mode enabled (focus_id={focus_id}, debug_max_len={debug_max_len})"
+                )
+            )
 
         total_rows_seen = 0
         total_rows_changed = 0
@@ -123,6 +172,35 @@ class Command(BaseCommand):
                         f"[debug] looking at row id={row_id}, field={field_name}, value={value_summary}, value_type={value_type}."
                     )
 
+                if debug and row_id == focus_id:
+                    self.stdout.write(
+                        self.style.WARNING(
+                            f"[debug][focus] id={row_id}: exhaustive inspect start"
+                        )
+                    )
+                    self.stdout.write(
+                        f"[debug][focus] value repr: {safe_repr(value, debug_max_len)}"
+                    )
+                    if hasattr(value, "value"):
+                        self.stdout.write(
+                            f"[debug][focus] value.value type={type(value.value).__name__}"
+                        )
+                        self.stdout.write(
+                            f"[debug][focus] value.value repr: {safe_repr(value.value, debug_max_len)}"
+                        )
+                    else:
+                        self.stdout.write("[debug][focus] value.value: <attribute missing>")
+
+                    if hasattr(value, "raw_data"):
+                        self.stdout.write(
+                            f"[debug][focus] value.raw_data type={type(value.raw_data).__name__}"
+                        )
+                        self.stdout.write(
+                            f"[debug][focus] value.raw_data repr: {safe_repr(value.raw_data, debug_max_len)}"
+                        )
+                    else:
+                        self.stdout.write("[debug][focus] value.raw_data: <attribute missing>")
+
                 # Empty body -> nothing to inspect for block-type rename.
                 if value is None:
                     continue
@@ -142,10 +220,8 @@ class Command(BaseCommand):
                 original_is_string = isinstance(value, str)
                 if original_is_string:
                     try:
-                        # Parse once so the recursive rename function can walk it.
                         value = json.loads(value)
                     except json.JSONDecodeError:
-                        # Keep going if one row is malformed instead of failing entire run.
                         self.stdout.write(
                             self.style.WARNING(
                                 f"- {app_label}.{model_name} id={row_id}: invalid JSON, skipped"
@@ -156,6 +232,25 @@ class Command(BaseCommand):
                     self.stdout.write(
                         f"[debug] {app_label}.{model_name} id={row_id}: value is already parsed JSON"
                     )
+
+                if debug and row_id == focus_id:
+                    normalized_type = type(value).__name__
+                    self.stdout.write(
+                        f"[debug][focus] normalized_type={normalized_type}, normalized_repr={safe_repr(value, debug_max_len)}"
+                    )
+                    discovered_types = sorted(collect_block_types(value))
+                    self.stdout.write(
+                        f"[debug][focus] discovered_types_count={len(discovered_types)}, has_{from_type}={from_type in discovered_types}"
+                    )
+                    self.stdout.write(
+                        f"[debug][focus] discovered_types={discovered_types}"
+                    )
+                    self.stdout.write(
+                        self.style.WARNING(
+                            f"[debug][focus] id={row_id}: exhaustive inspect end"
+                        )
+                    )
+
 
                 # Deep-scan nested block data and rename matching block types.
                 if rename_block_type(value, from_type, to_type):
