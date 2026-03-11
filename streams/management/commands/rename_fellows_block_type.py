@@ -4,7 +4,7 @@ from collections.abc import Mapping
 from django.apps import apps
 from django.core.management.base import BaseCommand
 
-# ./manage.py rename_fellows_block_type --debug --focus-id 10
+# ./manage.py rename_fellows_block_type --dry-run --debug --focus-id 10
 
 FROM_BLOCK = "fellows_block"
 TO_BLOCK = "image_and_text_block"
@@ -128,8 +128,8 @@ class Command(BaseCommand):
         parser.add_argument(
             "--focus-id",
             type=int,
-            default=10,
-            help="When --debug is enabled, print exhaustive internals for this row id.",
+            default=None,
+            help="When set with --debug, print row-level debug only for this row id.",
         )
         parser.add_argument(
             "--debug-max-len",
@@ -185,8 +185,10 @@ class Command(BaseCommand):
                 # `values(...)` rows are dicts, so we read fields by key.
                 row_id = row["id"]
                 value = row[field_name]
+                is_focus_row = focus_id is not None and row_id == focus_id
+                log_row_debug = debug and (focus_id is None or is_focus_row)
 
-                if debug:
+                if log_row_debug:
                     value_type = type(value).__name__
                     if isinstance(value, str):
                         value_summary = f"str(len={len(value)})"
@@ -200,7 +202,7 @@ class Command(BaseCommand):
                         f"[debug] looking at row id={row_id}, field={field_name}, value={value_summary}, value_type={value_type}."
                     )
 
-                if debug and row_id == focus_id:
+                if is_focus_row and debug:
                     self.stdout.write(
                         self.style.WARNING(
                             f"[debug][focus] id={row_id}: exhaustive inspect start"
@@ -237,7 +239,7 @@ class Command(BaseCommand):
                 # JSON-like data so recursive traversal can inspect `type` keys.
                 if hasattr(value, "raw_data"):
                     value = value.raw_data
-                    if debug:
+                    if log_row_debug:
                         self.stdout.write(
                             f"[debug] {app_label}.{model_name} id={row_id}: converted StreamValue to raw_data"
                         )
@@ -245,7 +247,7 @@ class Command(BaseCommand):
                 # RawDataView and similar wrappers are iterable but not list/dict.
                 # Normalize them so traversal code can inspect nested block types.
                 value = normalize_json_like(value)
-                if debug and row_id == focus_id:
+                if is_focus_row and debug:
                     self.stdout.write(
                         f"[debug][focus] normalized_json_like_type={type(value).__name__}"
                     )
@@ -264,12 +266,12 @@ class Command(BaseCommand):
                             )
                         )
                         continue
-                elif debug:
+                elif log_row_debug:
                     self.stdout.write(
                         f"[debug] {app_label}.{model_name} id={row_id}: value is already parsed JSON"
                     )
 
-                if debug and row_id == focus_id:
+                if is_focus_row and debug:
                     normalized_type = type(value).__name__
                     self.stdout.write(
                         f"[debug][focus] normalized_type={normalized_type}, normalized_repr={safe_repr(value, debug_max_len)}"
@@ -293,7 +295,7 @@ class Command(BaseCommand):
                     rows_changed += 1
                     total_rows_changed += 1
 
-                    if debug:
+                    if log_row_debug:
                         self.stdout.write(
                             f"[debug] {app_label}.{model_name} id={row_id}: renamed block type"
                         )
@@ -303,7 +305,7 @@ class Command(BaseCommand):
                         # so we do not introduce type surprises across environments.
                         saved_value = json.dumps(value) if original_is_string else value
                         model.objects.filter(id=row_id).update(**{field_name: saved_value})
-                    elif debug:
+                    elif log_row_debug:
                         self.stdout.write(
                             f"[debug] {app_label}.{model_name} id={row_id}: dry-run, no DB update"
                         )
