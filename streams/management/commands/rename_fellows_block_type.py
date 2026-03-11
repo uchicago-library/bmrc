@@ -3,6 +3,7 @@ from collections.abc import Mapping
 
 from django.apps import apps
 from django.core.management.base import BaseCommand
+from django.db import connection
 
 # ./manage.py rename_fellows_block_type --dry-run --debug --focus-id 10
 
@@ -17,6 +18,29 @@ TARGETS = [
     ("portal", "ExhibitPage", "body"),
     ("portal", "PortalStandardPage", "body"),
 ]
+
+
+def iter_raw_field_rows(model, field_name, chunk_size=200):
+    """Yield raw `(id, field_value)` rows directly from the model table.
+
+    We intentionally bypass the model field's normal deserialization path here.
+    After the codebase renames a StreamField block key, Wagtail may deserialize
+    rows using the *current* block definition and hide legacy keys that still
+    exist in the stored JSON. Reading straight from SQL lets us inspect the
+    actual persisted payload.
+    """
+    pk_column = connection.ops.quote_name(model._meta.pk.column)
+    field_column = connection.ops.quote_name(model._meta.get_field(field_name).column)
+    table_name = connection.ops.quote_name(model._meta.db_table)
+
+    query = f"SELECT {pk_column}, {field_column} FROM {table_name}"
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        while True:
+            rows = cursor.fetchmany(chunk_size)
+            if not rows:
+                break
+            yield from rows
 
 
 def safe_repr(value, max_len=1200):
@@ -165,26 +189,22 @@ class Command(BaseCommand):
         for app_label, model_name, field_name in TARGETS:
             # Access each target model dynamically so this command stays app-agnostic.
             model = apps.get_model(app_label, model_name)
-            queryset = model.objects.values("id", field_name)
 
             if debug:
                 self.stdout.write(
-                    f"[debug] ### Scanning {app_label}.{model_name}.{field_name}"
+                    f"[debug] ### Scanning {app_label}.{model_name}.{field_name} via raw SQL table read"
                 )
 
             rows_seen = 0
             rows_changed = 0
 
             # Iterate lazily so large tables do not load fully into memory.
-            for row in queryset.iterator():
+            for row_id, value in iter_raw_field_rows(model, field_name):
 
                 # Global and per-model counters for summary output.
                 rows_seen += 1
                 total_rows_seen += 1
 
-                # `values(...)` rows are dicts, so we read fields by key.
-                row_id = row["id"]
-                value = row[field_name]
                 is_focus_row = focus_id is not None and row_id == focus_id
                 log_row_debug = debug and (focus_id is None or is_focus_row)
 
@@ -235,17 +255,8 @@ class Command(BaseCommand):
                 if value is None:
                     continue
 
-                # Wagtail can return StreamValue objects; convert those to plain
-                # JSON-like data so recursive traversal can inspect `type` keys.
-                if hasattr(value, "raw_data"):
-                    value = value.raw_data
-                    if log_row_debug:
-                        self.stdout.write(
-                            f"[debug] {app_label}.{model_name} id={row_id}: converted StreamValue to raw_data"
-                        )
-
-                # RawDataView and similar wrappers are iterable but not list/dict.
-                # Normalize them so traversal code can inspect nested block types.
+                # Normalize DB-adapter values (which may arrive as strings, Python
+                # containers, or JSON-adjacent wrappers) before traversing them.
                 value = normalize_json_like(value)
                 if is_focus_row and debug:
                     self.stdout.write(
