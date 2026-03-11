@@ -1,9 +1,10 @@
 import json
+from collections.abc import Mapping
 
 from django.apps import apps
 from django.core.management.base import BaseCommand
 
-# ./manage.py rename_fellows_block_type --debug
+# ./manage.py rename_fellows_block_type --debug --focus-id 10
 
 FROM_BLOCK = "fellows_block"
 TO_BLOCK = "image_and_text_block"
@@ -28,6 +29,33 @@ def safe_repr(value, max_len=1200):
     if len(text) > max_len:
         return text[:max_len] + "...<truncated>"
     return text
+
+
+def normalize_json_like(value):
+    """Convert StreamField-adjacent containers (e.g. RawDataView) to list/dict.
+
+    This keeps strings/bytes untouched while recursively normalizing mappings and
+    generic iterables into plain Python containers so recursive walkers can work.
+    """
+    if isinstance(value, (str, bytes, bytearray)):
+        return value
+
+    if isinstance(value, Mapping):
+        return {key: normalize_json_like(nested) for key, nested in value.items()}
+
+    if isinstance(value, list):
+        return [normalize_json_like(item) for item in value]
+
+    if isinstance(value, tuple):
+        return [normalize_json_like(item) for item in value]
+
+    if hasattr(value, "__iter__"):
+        try:
+            return [normalize_json_like(item) for item in value]
+        except TypeError:
+            return value
+
+    return value
 
 
 def collect_block_types(value, found=None):
@@ -213,6 +241,14 @@ class Command(BaseCommand):
                         self.stdout.write(
                             f"[debug] {app_label}.{model_name} id={row_id}: converted StreamValue to raw_data"
                         )
+
+                # RawDataView and similar wrappers are iterable but not list/dict.
+                # Normalize them so traversal code can inspect nested block types.
+                value = normalize_json_like(value)
+                if debug and row_id == focus_id:
+                    self.stdout.write(
+                        f"[debug][focus] normalized_json_like_type={type(value).__name__}"
+                    )
 
                 # Depending on DB/backend/version, the JSON payload may be either:
                 # - a raw JSON string, or
