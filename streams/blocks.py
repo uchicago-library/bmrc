@@ -160,19 +160,19 @@ class ClearBlock(blocks.StaticBlock):
         admin_text = 'Stops text floating around images where placed. Use with floating images and Rich Text blocks.'
 
 
-class FellowsBlock(AltTextValidationMixin, blocks.StructBlock):
+class ImageAndTextBlock(AltTextValidationMixin, blocks.StructBlock):
     """Image streamfield block."""
 
     image = ImageChooserBlock(required=False, label='Image')
     LARGE = 'LG'
     MEDIUM = 'MD'
     SMALL = 'SM'
-    FELLOW_SIZE_CHOICES = [
+    IMAGE_AND_TEXT_SIZE_CHOICES = [
         (LARGE, 'Large'),
         (MEDIUM, 'Medium'),
         (SMALL, 'Small'),
     ]
-    size = ChoiceBlock(choices=FELLOW_SIZE_CHOICES, default=MEDIUM, label='Image Size')
+    size = ChoiceBlock(choices=IMAGE_AND_TEXT_SIZE_CHOICES, default=MEDIUM, label='Image Size')
     anchor = CharBlock(
         required=False,
         max_length=50,
@@ -201,7 +201,7 @@ class FellowsBlock(AltTextValidationMixin, blocks.StructBlock):
 
     class Meta:
         icon = 'image'
-        template = 'streams/fellows_block.html'
+        template = 'streams/image_and_text_block.html'
         label = 'Image and Text Block'
         help_text = 'Content box with image to left and text to right.'
 

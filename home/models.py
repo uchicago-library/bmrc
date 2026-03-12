@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import (
     FieldPanel,
@@ -175,6 +176,11 @@ class HomePage(Page):
         blank=True,
         help_text='External URL (e.g., https://example.com). If provided, this overrides the page link above.'
     )
+    promo_banner_expiry_date = models.DateField(
+        blank=True,
+        null=True,
+        help_text='Optional. Banner stops displaying after this date (site local date). Leave blank for no expiry.'
+    )
 
 
     # HIGHLIGHT SECTION
@@ -266,6 +272,15 @@ class HomePage(Page):
             return self.promo_banner_link_page.url
         return None
 
+    @property
+    def show_promo_banner(self):
+        """Return whether the promotional banner should be displayed."""
+        if not self.promo_banner_show:
+            return False
+        if self.promo_banner_expiry_date and timezone.localdate() > self.promo_banner_expiry_date:
+            return False
+        return True
+
     # CONTENT PANELS
     content_panels = Page.content_panels + [
         MultiFieldPanel(
@@ -281,6 +296,7 @@ class HomePage(Page):
                 FieldPanel("promo_banner_alt_text"),
                 PageChooserPanel("promo_banner_link_page"),
                 FieldPanel("promo_banner_external_url"),
+                FieldPanel("promo_banner_expiry_date"),
             ],
             heading="Promotional Banner",
             help_text="Promotional image banner displayed below alerts and above "
