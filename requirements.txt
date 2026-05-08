@@ -1,5 +1,5 @@
 Django==5.2.13
-wagtail==7.0.6
+wagtail==7.0.7
 django-compressor
 django-libsass
 django-static-precompiler
