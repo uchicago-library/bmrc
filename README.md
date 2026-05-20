@@ -8,6 +8,20 @@ Mocks for approval process can be found at: [uchicago-library.github.io/bmrc](ht
 - [Page type and fields spreadsheet](https://docs.google.com/spreadsheets/d/1XU3JF7Jg0Jmz4B1g-nnjS_5EVP10BqgrcqcazXWHzLM/edit?usp=sharing)
 
 ## Running an Instance of the Site
+
+### With Docker (recommended)
+1. From the root of the project directory, build and start the container: `docker compose up -d --build`
+2. Start the Django dev server: `docker compose exec web ./manage.py runserver 0.0.0.0:3000`
+3. Visit http://localhost:3000/
+
+To shell into the container (venv auto-activates, working dir is `/app`, and `vim` is preconfigured with ALE):
+```
+docker compose exec web bash
+```
+
+To stop the environment: `docker compose down`. The PostgreSQL data is kept in a named volume (`postgres_data`) so the dev database survives restarts. To wipe it and start fresh, run `docker compose down -v`.
+
+### With Vagrant (fallback)
 1. Start the dev environment from the root of the project directory: `vagrant up`
 2. ssh to the guest machine: `vagrant ssh`. The virualenv will automatically be activated and you will be dropped into the working directory.
 3. Start the Django dev server: `./manage.py runserver 0.0.0.0:3000`

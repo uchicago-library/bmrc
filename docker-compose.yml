@@ -1,0 +1,21 @@
+services:
+  web:
+    build: .
+    volumes:
+      - .:/app                          # Bind mount for live code editing
+      - postgres_data:/var/lib/postgresql
+    ports:
+      - "3000:3000"
+    environment:
+      - POSTGRES_DB=bmrc_dev
+      - POSTGRES_USER=bmrc
+      - POSTGRES_PASSWORD=
+      - POSTGRES_HOST=localhost
+      - POSTGRES_PORT=5432
+      - DJANGO_SETTINGS_MODULE=bmrc.settings.docker
+    # Keep container running for development
+    tty: true
+    stdin_open: true
+
+volumes:
+  postgres_data:
