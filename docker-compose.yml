@@ -1,5 +1,6 @@
 services:
   web:
+    network_mode: "host"
     build: .
     volumes:
       - .:/app                          # Bind mount for live code editing
