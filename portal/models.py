@@ -461,9 +461,6 @@ class PortalHomePage(PortalBasePage):
         discover_more_facet_uri = 'https://bmrc.lib.uchicago.edu/{}/'.format(
             discover_more_facet
         )
-        # discover_more_facet_image = Image.objects.get(
-            # title='homepage_facet_image_{}.jpg'.format(discover_more_facet)
-        # )
         collections = get_collections(
             settings.MARKLOGIC_SERVER,
             settings.MARKLOGIC_USERNAME,
@@ -487,7 +484,6 @@ class PortalHomePage(PortalBasePage):
                 'discover_more_facet_plural': PortalBasePage.portal_facets[
                     discover_more_facet
                 ][1],
-                # 'discover_more_facet_image': discover_more_facet_image,
                 'discover_more_facet_uri': discover_more_facet_uri,
                 'discover_more_topic': discover_more_topic,
                 'discover_more_topic_uri': '/portal/search/?f='
