@@ -1,12 +1,12 @@
 services:
   web:
-    network_mode: "host"
     build: .
     volumes:
       - .:/app                          # Bind mount for live code editing
       - postgres_data:/var/lib/postgresql
     ports:
       - "3000:3000"
+      - "8029:8029"
     environment:
       - POSTGRES_DB=bmrc_dev
       - POSTGRES_USER=bmrc
