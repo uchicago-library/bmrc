@@ -33,6 +33,7 @@ $navbar-height: 70px;
 
                     ul.dropdown-menu {
                         --bs-dropdown-item-padding-y: 0.5rem;
+                        --bs-dropdown-min-width: 20rem;
                     }
 
                     a.nav-link {
