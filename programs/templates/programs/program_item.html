@@ -1,0 +1,16 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<div class="columns is-mobile fellows-block">
+    <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+        {% if program.thumbnail %}
+            {% image program.thumbnail fill-500x500 as img %}
+            <figure class="image">
+                <img src="{{ img.url }}" alt="{{ img.alt }}">
+            </figure>
+        {% endif %}
+    </div>
+    <div class="column content">
+        <h3><a href="{{ program.url }}">{{ program.title }}</a></h3>
+        <p>{{ program.excerpt|richtext }}</p>
+    </div>
+</div>
+
