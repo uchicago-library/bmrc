@@ -1,0 +1,343 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags wagtailimages_tags cache %}
+
+{% block body_class %}portal_homepage finding_aid_page{% endblock %}
+
+{% block extra_css %}
+<style>
+.finding-aid-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.finding-aid-nav {
+    flex: 0 0 240px;
+    position: sticky;
+    top: 1.5rem;
+    background-color: #f3f3f3;
+    padding: 1.25rem;
+}
+
+.finding-aid-nav h2 {
+    margin: 0 0 1rem;
+    font-size: 1rem;
+    line-height: 1.25;
+}
+
+.finding-aid-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.finding-aid-nav li {
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.finding-aid-nav li a {
+    display: block;
+    padding: 0.7rem 0;
+    text-decoration: none;
+}
+
+.finding-aid-nav li a:hover,
+.finding-aid-nav li a.active {
+    text-decoration: underline;
+}
+
+.finding-aid-main {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.finding-aid-title {
+    margin: 0 0 2rem;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.05;
+    font-weight: 700;
+}
+
+.finding-aid-main section {
+    margin-bottom: 3rem;
+    scroll-margin-top: 2rem;
+}
+
+.finding-aid-main section h2 {
+    margin: 0 0 1.25rem;
+    font-size: clamp(1.8rem, 3vw, 2.75rem);
+    line-height: 1.1;
+}
+
+.descriptive-summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 2.5rem;
+}
+
+.descriptive-summary-table th,
+.descriptive-summary-table td {
+    text-align: left;
+    vertical-align: top;
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.descriptive-summary-table th {
+    width: 220px;
+    font-weight: 600;
+}
+
+.finding-aid-main p {
+    line-height: 1.6;
+}
+
+.finding-aid-main ul,
+.finding-aid-main ol {
+    padding-left: 1.5rem;
+}
+
+.finding-aid-main li {
+    margin-bottom: 0.4rem;
+}
+
+@media (max-width: 768px) {
+    .finding-aid-layout {
+        display: block;
+    }
+
+    .finding-aid-nav {
+        position: static;
+        margin-bottom: 2.5rem;
+    }
+
+    .finding-aid-title {
+        font-size: 2.5rem;
+    }
+
+    .finding-aid-main section h2 {
+        font-size: 2rem;
+    }
+
+    .descriptive-summary-table th {
+        width: 35%;
+    }
+
+    .descriptive-summary-table th,
+    .descriptive-summary-table td {
+        padding: 0.55rem 0.65rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_header %}
+    {% include "portal/portal_searchbar.html" %}
+{% endblock %}
+
+{% block content %}
+
+<div class="finding-aid-layout">
+
+    <nav class="finding-aid-nav" aria-label="Contents">
+        <h2>Contents</h2>
+
+        <ul>
+            <li>
+                <a href="#descriptive-summary">
+                    Descriptive Summary
+                </a>
+            </li>
+
+            {% if page.historical_note %}
+                <li>
+                    <a href="#historical-note">
+                        Historical Note
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if page.scope_and_contents %}
+                <li>
+                    <a href="#scope-and-contents">
+                        Scope and Contents note
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if page.processing_information %}
+                <li>
+                    <a href="#processing-information">
+                        Processing Information note
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if page.conditions_governing_access %}
+                <li>
+                    <a href="#conditions-governing-access">
+                        Conditions Governing Access note
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if page.conditions_governing_use %}
+                <li>
+                    <a href="#conditions-governing-use">
+                        Conditions Governing Use note
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if page.related_archival_materials %}
+                <li>
+                    <a href="#related-archival-materials">
+                        Related Archival Materials note
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if page.indexed_terms %}
+                <li>
+                    <a href="#indexed-terms">
+                        Indexed Terms
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <main class="finding-aid-main">
+
+        <h1 class="finding-aid-title">
+            {{ page.title }}
+        </h1>
+
+        <section id="descriptive-summary">
+            <h2>Descriptive Summary</h2>
+
+            <table class="descriptive-summary-table">
+                <tbody>
+                    <tr>
+                        <th scope="row">Title</th>
+                        <td>{{ page.title }}</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Identifier</th>
+                        <td>{{ page.identifier }}</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Repository</th>
+                        <td>{{ page.repository }}</td>
+                    </tr>
+
+                    {% if page.archive %}
+                        <tr>
+                            <th scope="row">Archive</th>
+                            <td>
+                                <a href="{{ page.archive.uri }}">
+                                    {{ page.archive.name }}
+                                </a>
+                            </td>
+                        </tr>
+                    {% endif %}
+
+                    {% if page.language %}
+                        <tr>
+                            <th scope="row">Language</th>
+                            <td>{{ page.language }}</td>
+                        </tr>
+                    {% endif %}
+
+                    {% if page.size %}
+                        <tr>
+                            <th scope="row">Size</th>
+                            <td>{{ page.size }}</td>
+                        </tr>
+                    {% endif %}
+
+                    {% if page.predominant_dates %}
+                        <tr>
+                            <th scope="row">Predominant Dates</th>
+                            <td>{{ page.predominant_dates }}</td>
+                        </tr>
+                    {% endif %}
+
+                    <tr>
+                        <th scope="row">Dates</th>
+                        <td>{{ page.date_range }}</td>
+                    </tr>
+
+                    {% if page.abstract %}
+                        <tr>
+                            <th scope="row">Abstract</th>
+                            <td>{{ page.abstract|richtext }}</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </section>
+
+        {% if page.historical_note %}
+            <section id="historical-note">
+                <h2>Historical Note</h2>
+                {{ page.historical_note|richtext }}
+            </section>
+        {% endif %}
+
+        {% if page.scope_and_contents %}
+            <section id="scope-and-contents">
+                <h2>Scope and Contents note</h2>
+                {{ page.scope_and_contents|richtext }}
+            </section>
+        {% endif %}
+
+        {% if page.processing_information %}
+            <section id="processing-information">
+                <h2>Processing Information note</h2>
+                {{ page.processing_information|richtext }}
+            </section>
+        {% endif %}
+
+        {% if page.conditions_governing_access %}
+            <section id="conditions-governing-access">
+                <h2>Conditions Governing Access note</h2>
+                {{ page.conditions_governing_access|richtext }}
+            </section>
+        {% endif %}
+
+        {% if page.conditions_governing_use %}
+            <section id="conditions-governing-use">
+                <h2>Conditions Governing Use note</h2>
+                {{ page.conditions_governing_use|richtext }}
+            </section>
+        {% endif %}
+
+        {% if page.related_archival_materials %}
+            <section id="related-archival-materials">
+                <h2>Related Archival Materials note</h2>
+                {{ page.related_archival_materials|richtext }}
+            </section>
+        {% endif %}
+
+        {% if page.indexed_terms %}
+            <section id="indexed-terms">
+                <h2>Indexed Terms</h2>
+                {{ page.indexed_terms|richtext }}
+            </section>
+        {% endif %}
+
+    </main>
+</div>
+
+{% endblock %}
+
+{% block extra_footer %}{% endblock %}

@@ -381,6 +381,7 @@ class PortalHomePage(PortalBasePage):
     """Portal home page model"""
 
     introduction = RichTextField(blank=True, null=True)
+    introduction2 = RichTextField(blank=True, null=True)
     featured_exhibit = models.ForeignKey(
         'portal.ExhibitPage',
         blank=True,
@@ -447,11 +448,11 @@ class PortalHomePage(PortalBasePage):
 
     parent_page_types = ['home.HomePage']
 
-    #subpage_types = [
-        #'portal.CuratedTopicIndexPage',
-        #'portal.ExhibitIndexPage',
-        #'portal.PortalStandardPage',
-    #]
+    subpage_types = [
+        'portal.CuratedTopicIndexPage',
+        'portal.ExhibitIndexPage',
+        'portal.PortalStandardPage',
+    ]
 
     max_count = 1
 
@@ -460,6 +461,9 @@ class PortalHomePage(PortalBasePage):
         discover_more_facet = random.choice(facets_options)
         discover_more_facet_uri = 'https://bmrc.lib.uchicago.edu/{}/'.format(
             discover_more_facet
+        )
+        discover_more_facet_image = Image.objects.get(
+            title='homepage_facet_image_{}.jpg'.format(discover_more_facet)
         )
         collections = get_collections(
             settings.MARKLOGIC_SERVER,
@@ -484,6 +488,7 @@ class PortalHomePage(PortalBasePage):
                 'discover_more_facet_plural': PortalBasePage.portal_facets[
                     discover_more_facet
                 ][1],
+                'discover_more_facet_image': discover_more_facet_image,
                 'discover_more_facet_uri': discover_more_facet_uri,
                 'discover_more_topic': discover_more_topic,
                 'discover_more_topic_uri': '/portal/search/?f='
@@ -549,11 +554,11 @@ class PortalStandardPage(PortalBasePage):
         ),
     ]
 
-   # parent_page_types = [
-       # 'portal.ExhibitPage',
-       # 'portal.PortalHomePage',
-       # 'portal.PortalStandardPage',
-   # ]
+    parent_page_types = [
+        'portal.ExhibitPage',
+        'portal.PortalHomePage',
+        'portal.PortalStandardPage',
+    ]
 
     subpage_types = ['portal.PortalStandardPage']
 
@@ -579,147 +584,88 @@ class PortalStandardSideBar(Orderable):
     ]
     heading = "Sidebar Section"
 
-class WagtailifiedPage(Page):
+class PortalWagtailifiedPage(Page):
+    from django.db import models
+
+from wagtail.models import Page
+from wagtail.fields import RichTextField
+from wagtail.admin.panels import FieldPanel
+
+
+class ArchivePage(Page):
     identifier = models.CharField(max_length=255)
     repository = models.CharField(max_length=255)
-    language = models.CharField(max_length=100, blank=True, default="English")
-    size = models.CharField(
-        max_length=255,
-        blank=True,
-    )
-    predominant_dates = models.CharField(
-        max_length=255,
-        blank=True,
-    )
-    date_range = models.CharField(
-        max_length=255,
-        blank=True,
-        help_text='e.g. "1870-1992, bulk dates 1961-1963"',
-    )
-    abstract = RichTextField(blank=True)
-    archive = models.ForeignKey(
-        Archive,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
+    date_range = models.CharField(max_length=255)
 
     historical_note = RichTextField(blank=True)
-    scope_and_contents = RichTextField(blank=True)
-    processing_information = RichTextField(blank=True)
-    conditions_governing_access = RichTextField(blank=True)
-    conditions_governing_use = RichTextField(blank=True)
-    related_archival_materials = RichTextField(blank=True)
-    indexed_terms = RichTextField(blank=True)
+    scope_contents = RichTextField(blank=True)
 
     content_panels = Page.content_panels + [
-        MultiFieldPanel(
-            [
-                FieldPanel("identifier"),
-                FieldPanel("repository"),
-                FieldPanel("language"),
-                FieldPanel("size"),
-                FieldPanel("predominant_dates"),
-                FieldPanel("date_range"),
-                FieldPanel("abstract"),
-            ],
-            heading="Descriptive Summary",
-        ),
+        FieldPanel("identifier"),
+        FieldPanel("repository"),
+        FieldPanel("date_range"),
         FieldPanel("historical_note"),
-        FieldPanel("scope_and_contents"),
-        FieldPanel("processing_information"),
-        FieldPanel("conditions_governing_access"),
-        FieldPanel("conditions_governing_use"),
-        FieldPanel("related_archival_materials"),
-        FieldPanel("indexed_terms"),
-        FieldPanel('archive'),
+        FieldPanel("scope_contents"),
     ]
+    
+class CuratedTopicPage2(PortalBasePage):
+    """ """
 
-
-class WagtailifiedPage(Page):
-    identifier = models.CharField(max_length=255)
-    repository = models.CharField(max_length=255)
-    language = models.CharField(max_length=100, blank=True, default="English")
-    size = models.CharField(
-        max_length=255,
+    image = models.ForeignKey(
+        "wagtailimages.Image",
         blank=True,
-    )
-    predominant_dates = models.CharField(
-        max_length=255,
-        blank=True,
-    )
-    date_range = models.CharField(
-        max_length=255,
-    )
-    abstract = RichTextField(blank=True)
-    archive = models.ForeignKey(
-        Archive,
+        help_text='A small version of this image will display on the portal \
+                   homepage, and a large version will display at the top of \
+                   each curated topic page.',
         null=True,
-        blank=True,
         on_delete=models.SET_NULL,
-        related_name='+',
+        related_name="+",
     )
 
-    historical_note = RichTextField(blank=True)
-    scope_and_contents = RichTextField(blank=True)
-    processing_information = RichTextField(blank=True)
-    conditions_governing_access = RichTextField(blank=True)
-    conditions_governing_use = RichTextField(blank=True)
-    related_archival_materials = RichTextField(blank=True)
-    indexed_terms = RichTextField(blank=True)
+    caption = models.CharField(
+        blank=True,
+        help_text='Displays underneath the image on the curated topic page \
+                   and as alt text.',
+        max_length=400,
+    )
+
+    body = RichTextField(blank=True, null=True)
+
+    byline = models.CharField(
+        blank=True, help_text='Author name, appears below the body.', max_length=200
+    )
+
+    search_url = models.URLField(blank=False, max_length=2000)
+
+    bottom_text = RichTextField(blank=True, null=True)
 
     content_panels = Page.content_panels + [
-        MultiFieldPanel(
-            [
-                FieldPanel("identifier"),
-                FieldPanel("repository"),
-                FieldPanel("language"),
-                FieldPanel("size"),
-                FieldPanel("predominant_dates"),
-                FieldPanel("date_range"),
-                FieldPanel("abstract"),
-            ],
-            heading="Descriptive Summary",
-        ),
-        FieldPanel("historical_note"),
-        FieldPanel("scope_and_contents"),
-        FieldPanel("processing_information"),
-        FieldPanel("conditions_governing_access"),
-        FieldPanel("conditions_governing_use"),
-        FieldPanel("related_archival_materials"),
-        FieldPanel("indexed_terms"),
-        FieldPanel('archive'),
+        FieldPanel('image'),
+        FieldPanel('caption'),
+        FieldPanel('body'),
+        FieldPanel('byline'),
+        FieldPanel('search_url'),
+        FieldPanel('bottom_text'),
     ]
 
-class FindingAidComponent(models.Model):
-    """A single <c>/<c01>-<c12> component from an EAD <dsc> tree (e.g. a Series, Subseries, File, or Item)."""
+    search_fields = Page.search_fields + [
+        index.SearchField('caption'),
+        index.SearchField('body'),
+        index.SearchField('byline'),
+        index.SearchField('bottom_text'),
+        index.SearchField('title'),  # if you want to explicitly include the title
+    ]
 
-    page = models.ForeignKey(
-        'portal.WagtailifiedPage',
-        related_name='components',
-        on_delete=models.CASCADE,
-    )
-    parent = models.ForeignKey(
-        'self',
-        null=True,
-        blank=True,
-        related_name='children',
-        on_delete=models.CASCADE,
-    )
-    sort_order = models.PositiveIntegerField(default=0)
+    parent_page_types = ['portal.CuratedTopicIndex2Page']
 
-    level = models.CharField(max_length=50, blank=True)
-    unitid = models.CharField(max_length=255, blank=True)
-    unittitle = models.CharField(max_length=500, blank=True)
-    unitdate = models.CharField(max_length=255, blank=True)
-    extent = models.CharField(max_length=255, blank=True)
-    scope_and_contents = RichTextField(blank=True)
-    container_type = models.CharField(max_length=100, blank=True)
-    container_number = models.CharField(max_length=100, blank=True)
+    subpage_types = []
 
-    class Meta:
-        ordering = ['sort_order']
-
-    def __str__(self):
-        return f"{self.level}: {self.unittitle}"
+    @classmethod
+    def featured_curated_topic(cls):
+        """Rotate the featured curated topic once a week."""
+        week_number = abs(datetime.date.today() - datetime.date(1970, 1, 1)).days // 7
+        try:
+            i = week_number % len(cls.objects.live())
+            return cls.objects.live()[i]
+        except ZeroDivisionError:
+            return None

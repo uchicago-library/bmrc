@@ -280,3 +280,18 @@ img.richtext-image {
 // .page-callout{
 //     background: var(--bs-secondary-bg);
 // }
+.finding-aid {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.finding-aid__nav {
+    position: sticky;
+    top: 2rem;
+}
+
+.finding-aid__content {
+    max-width: 900px;
+}
