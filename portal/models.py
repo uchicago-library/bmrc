@@ -583,14 +583,8 @@ class WagtailifiedPage(Page):
     identifier = models.CharField(max_length=255)
     repository = models.CharField(max_length=255)
     language = models.CharField(max_length=100, blank=True, default="English")
-    size = models.CharField(
-        max_length=255,
-        blank=True,
-    )
-    predominant_dates = models.CharField(
-        max_length=255,
-        blank=True,
-    )
+    size = models.CharField(max_length=255, blank=True)
+    predominant_dates = models.CharField(max_length=255, blank=True)
     date_range = models.CharField(
         max_length=255,
         blank=True,
@@ -636,69 +630,15 @@ class WagtailifiedPage(Page):
         FieldPanel('archive'),
     ]
 
-
-class WagtailifiedPage(Page):
-    identifier = models.CharField(max_length=255)
-    repository = models.CharField(max_length=255)
-    language = models.CharField(max_length=100, blank=True, default="English")
-    size = models.CharField(
-        max_length=255,
-        blank=True,
-    )
-    predominant_dates = models.CharField(
-        max_length=255,
-        blank=True,
-    )
-    date_range = models.CharField(
-        max_length=255,
-    )
-    abstract = RichTextField(blank=True)
-    archive = models.ForeignKey(
-        Archive,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-
-    historical_note = RichTextField(blank=True)
-    scope_and_contents = RichTextField(blank=True)
-    processing_information = RichTextField(blank=True)
-    conditions_governing_access = RichTextField(blank=True)
-    conditions_governing_use = RichTextField(blank=True)
-    related_archival_materials = RichTextField(blank=True)
-    indexed_terms = RichTextField(blank=True)
-
-    content_panels = Page.content_panels + [
-        MultiFieldPanel(
-            [
-                FieldPanel("identifier"),
-                FieldPanel("repository"),
-                FieldPanel("language"),
-                FieldPanel("size"),
-                FieldPanel("predominant_dates"),
-                FieldPanel("date_range"),
-                FieldPanel("abstract"),
-            ],
-            heading="Descriptive Summary",
-        ),
-        FieldPanel("historical_note"),
-        FieldPanel("scope_and_contents"),
-        FieldPanel("processing_information"),
-        FieldPanel("conditions_governing_access"),
-        FieldPanel("conditions_governing_use"),
-        FieldPanel("related_archival_materials"),
-        FieldPanel("indexed_terms"),
-        FieldPanel('archive'),
-    ]
-
 class FindingAidComponent(models.Model):
-    """A single <c>/<c01>-<c12> component from an EAD <dsc> tree (e.g. a Series, Subseries, File, or Item)."""
+    """A single <c>/<c01>-<c12> component from an EAD <dsc> tree
+    (e.g. a Series, Subseries, File, or Item)."""
 
     page = models.ForeignKey(
         'portal.WagtailifiedPage',
         related_name='components',
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        null=True,
     )
     parent = models.ForeignKey(
         'self',

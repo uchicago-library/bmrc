@@ -29,6 +29,16 @@ CONTROLACCESS_FACET_MAP = {
     "title": "topics",
 }
 
+BLOCK_CHILD_TAGS = {
+    "p",
+    "list",
+    "chronlist",
+    "table",
+    "head",
+    "head01",
+    "head02",
+    "note",
+}
 
 PORTAL_BASE_URI = "https://bmrc.lib.uchicago.edu/"
 
@@ -44,6 +54,7 @@ def bmrc_search_url(namespace_uri, term):
 
 
 def strip_ns(tag):
+    """strips namespace from a tag"""
     return tag.split("}")[-1] if "}" in tag else tag
 
 
@@ -55,53 +66,10 @@ def text_of(elem):
     return "".join(elem.itertext()).strip()
 
 
-def paragraphs_to_html(elems):
-    """
-    converts content tagged as a paragraph to html
-    """
-
-    if elems is None:
-        return ""
-
-    if not isinstance(elems, list):
-        elems = [elems]
-
-    html_parts = []
-
-    for elem in elems:
-        if elem is None:
-            continue
-
-        paras = [
-            child
-            for child in elem
-            if strip_ns(child.tag) == "p"
-        ]
-
-        if not paras:
-            content = text_of(elem)
-
-            if content:
-                html_parts.append(
-                    f"<p>{html.escape(content)}</p>"
-                )
-
-        else:
-            for p in paras:
-                content = text_of(p)
-
-                if content:
-                    html_parts.append(
-                        f"<p>{html.escape(content)}</p>"
-                    )
-
-    return "".join(html_parts)
-
-
 def ead_element_to_html(elem):
     """
-    generic ead to html conversion, 
-    allows for the mapping to be more generalized and easier to update
+    generic ead-to-html conversion, allows for the mapping to be
+    more generalized and easier to update.
     """
 
     if elem is None:
@@ -109,14 +77,11 @@ def ead_element_to_html(elem):
 
     tag = strip_ns(elem.tag)
 
-
     if tag == "p":
-        return f"<p>{text_of(elem)}</p>"
-
+        return f"<p>{html.escape(text_of(elem))}</p>"
 
     if tag in {"head", "head01", "head02"}:
-        return f"<h3>{text_of(elem)}</h3>"
-
+        return f"<h3>{html.escape(text_of(elem))}</h3>"
 
     if tag == "list":
         items = []
@@ -124,7 +89,7 @@ def ead_element_to_html(elem):
         for child in elem:
             if strip_ns(child.tag) == "item":
                 items.append(
-                    f"<li>{text_of(child)}</li>"
+                    f"<li>{html.escape(text_of(child))}</li>"
                 )
 
         if items:
@@ -145,13 +110,21 @@ def ead_element_to_html(elem):
             f"{html.escape(term)}"
             f"</a>"
         )
+    block_children = [
+        child for child in elem if strip_ns(child.tag) in BLOCK_CHILD_TAGS
+    ]
+
+    if block_children:
+        return "".join(
+            ead_element_to_html(child) for child in block_children
+        )
 
     content = text_of(elem)
 
     if not content:
         return ""
 
-    return f"<div class=\"ead-{tag}\">{html.escape(content)}</div>"
+    return f'<div class="ead-{tag}">{html.escape(content)}</div>'
 
 
 def elements_to_html(elems):
@@ -172,38 +145,45 @@ def elements_to_html(elems):
     )
 
 
-def controlaccess_to_html(elem):
+def controlaccess_to_html(elems):
     """
-    should be the same as the xslt... creates the links
+    builds the link list... should work the same as the xslt transform
     """
 
-    if elem is None:
+    if elems is None:
         return ""
+
+    if not isinstance(elems, list):
+        elems = [elems]
 
     items_html = []
 
-    for child in elem.iter():
-        tag = strip_ns(child.tag)
-
-        if tag not in CONTROLACCESS_FACET_MAP:
+    for elem in elems:
+        if elem is None:
             continue
 
-        term = text_of(child)
+        for child in elem.iter():
+            tag = strip_ns(child.tag)
 
-        if not term:
-            continue
+            if tag not in CONTROLACCESS_FACET_MAP:
+                continue
 
-        facet = CONTROLACCESS_FACET_MAP[tag]
-        namespace_uri = f"{PORTAL_BASE_URI}{facet}/"
-        url = bmrc_search_url(namespace_uri, term)
+            term = text_of(child)
 
-        items_html.append(
-            f'<li>'
-            f'<a href="{html.escape(url, quote=True)}">'
-            f'{html.escape(term)}'
-            f'</a>'
-            f'</li>'
-        )
+            if not term:
+                continue
+
+            facet = CONTROLACCESS_FACET_MAP[tag]
+            namespace_uri = f"{PORTAL_BASE_URI}{facet}/"
+            url = bmrc_search_url(namespace_uri, term)
+
+            items_html.append(
+                f'<li>'
+                f'<a href="{html.escape(url, quote=True)}">'
+                f'{html.escape(term)}'
+                f'</a>'
+                f'</li>'
+            )
 
     if not items_html:
         return ""
@@ -218,7 +198,7 @@ COMPONENT_TAGS = {"c"} | {
 
 
 def get_child_components(elem):
-    """Direct child <c>/<c01>-<c12> elements, in document order."""
+    """gets direct child <c>/<c01>-<c12> elements, in document order."""
     return [
         child
         for child in elem
@@ -262,7 +242,7 @@ def import_component(
         else ""
     )
 
-    scope_and_contents = paragraphs_to_html(
+    scope_and_contents = elements_to_html(
         c_elem.findall("{*}scopecontent")
     )
 
@@ -270,15 +250,14 @@ def import_component(
     container_number = ""
 
     if did is not None:
-        container = did.find("{*}container")
+        containers = did.findall("{*}container")
 
-        if container is not None:
-            container_type = container.get(
-                "type",
-                "",
-            )
-
-            container_number = text_of(container)
+        container_type = ", ".join(
+            c.get("type", "") for c in containers if c.get("type", "")
+        )
+        container_number = ", ".join(
+            text_of(c) for c in containers if text_of(c)
+        )
 
     component = FindingAidComponent.objects.create(
         page=page,
@@ -336,8 +315,8 @@ class Command(BaseCommand):
             "--publish",
             action="store_true",
             help=(
-                "Publish the page immediately "
-                "(default: save as draft revision only)."
+                "Publish the page "
+                "(default: save as draft only)."
             ),
         )
 
@@ -411,7 +390,6 @@ class Command(BaseCommand):
             )
         )
 
-
         inclusive_dates = ""
         bulk_dates = ""
         fallback_date = ""
@@ -478,11 +456,9 @@ class Command(BaseCommand):
                 elements_to_html(elements)
             )
 
-
         indexed_terms = controlaccess_to_html(
-            archdesc.find("{*}controlaccess")
+            archdesc.findall("{*}controlaccess")
         )
-
 
         archive = None
 
