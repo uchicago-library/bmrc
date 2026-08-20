@@ -1,0 +1,98 @@
+* ingestion instructions
+** copy the EAD into the project, so that the Docker image can see it
+#+begin_example
+  $ cp /path/to/EAD.xml tmp_imports
+#+end_example
+** to ingest a new EAD:
+#+begin_example
+  $ docker compose exec web ./manage.py new_import_aids "tmp_imports/EAD.xml" --publish
+#+end_example
+** this reads in an EAD XML file, and creates a new Wagtail page based on it
+** it is a =WagtailifiedPage=, which inherits from =Page=
+** it may or may not ask you to do migrations
++ (not sure whether that was because I accidentally ran this import
+  command too soon)
+** error handling
++ no duplicates (i.e. it will error out if the wagtailified page for
+  this EAD is already in the Wagtail DB)
++ required to have =archdesc=
++ must be syntactically valid XML
+* demo
++ run the =new_import_aids= management command to ingest a fresh EAD
++ to find it, first fire up the dev site
+  #+begin_example
+    $ docker compose exec web ./manage.py runserver 0.0.0.0:3000
+  #+end_example
++ then click on the Portal (Archival Collections link)
++ search for the finding aid you just ingested in the upper right hand
+  search box (which is Wagtail search), *not* the big search box that
+  says "search archival collections" (that's Mark Logic search)
++ enjoy
+* walking tour of the code
++ all new code exists inside the =portal= Django app
++ there are two new files: =new_import_aids.py=, and
+  =wagtailified_page.html=
++ and =portal/models.py= has new code in it
+** =new_import_aids.py=
++ path: =portal/management/commandsnew_import_aids.py=
++ this is the management command that performs the ingestion
++ opens with some dictionaries, like =LANGUAGE_MAP=
++ =LANGUAGE_MAP= resolves language shortcodes from the EAD to actual
+  words
++ =CONTROLACCESS_FACET_MAP= controls which keywords in the EAD are
+  going to become those nifty crossreferenced Mark Logic-y links
++ =BLOCK_CHILD_TAGS= is for the code that's going to process each rich
+  text field and turn it into html
++ =FIELD_MAP=, defined in =Command.handle=,
+** =wagtailified_page.html=
++ path: =bmrc/templates/portal/wagtailified_page.html=
++ this is the template that renders every =WagtailifiedPage=
++ it checks for every field in a =WagtailifiedPage=
++ they're all optional, so if any of them are not present, that's a
+  noop
++ anything that is repeatable came from a =FindingAidComponent= as a
+  list and gets looped over
+** =models.py=
++ path: =portal/models.py=
++ new stuff in this module includes the =WagtailifiedPage= class, and
+  the =FindingAidComponent= class
++ =WagtailifiedPage=
+  + long list of fields to be extracted from the EAD
+  + e.g. =historical_note= or =scope_and_contents=
+  + they are all optional
+  + mostly rich text fields, a couple char fields
++ =FindingAidComponent=
+  + one of the fields that could be "under" any of the fields in a
+    =WagtailifiedPage=
+  + they tend to be repeatable
+  + mostly char fields
+* workflow for having this be able to pull an additional field out of an EAD
++ suppose it currently ignores "legal status"
++ check:
+  https://www.loc.gov/ead/tglib/element_index.html
++ if "legal status" is not present in that list, the data from the EAD
+  might exist in some other kind of custom element, such as:
+  #+begin_src xml
+    <odd id="ref2">
+        <head>Provenance</head>
+        <p>The Ruby Banks diplomas were donated to the Bronzeville Historical Society by Oyekunle Oyebemi, who worked for the Chicago Public School System with Ruby Banks. The collection was given to Oyebemi by Ruby Banks’ daughters in the 1990s.</p>
+    </odd>
+  #+end_src
++ first, in =new_import_aids.py=, edit =FIELD_MAP=
+  + add ="legal_status" : [ "legalstatus" ], ]=
+  + the name of the wagtail element in the model is the key, and a
+    singleton list with the EAD name from that website is the value
+  + if you wanted to have two different EAD names map to the same type
+    of wagtail element, there would be more than one thing in the
+    singleton list
++ next, in =new_import_aids.py=, all the way at the bottom of the
+  definition of =Command.handle=, edit =new_page=
+  + add =legal_status=mapped_fields["legal_status"],=
++ next, in =models.py=, in =WagtailifiedPage=:
+  + add =legal_status = RichTextField(blank=True)=
+  + add a new =FieldPanel= in =content_panels= for legal status
++ finally, update =wagtailified_page.html=:
+  + add ={%if page.legal_status %} etc. etc.= for the sidebar
+  + then, down below, add ={%if page.legal_status %}= etc. etc. for
+    the actual content of the legal status for the main page
+
