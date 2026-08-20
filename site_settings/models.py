@@ -2,7 +2,9 @@ from django.db import models
 
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
-from wagtail.fields import RichTextField
+from wagtail.fields import RichTextField, StreamField
+
+from .blocks import NavDropdownBlock
 
 
 @register_setting
@@ -62,3 +64,21 @@ class AlertBanner(BaseSiteSetting):
         ],
                         heading="Alert Banner")
     ]
+
+
+@register_setting(icon="list-ul")
+class MainNavigation(BaseSiteSetting):
+    """Editable dropdown menus for the main navigation bar."""
+
+    id = models.AutoField(primary_key=True)
+    menus = StreamField(
+        [("dropdown", NavDropdownBlock())],
+        blank=True,
+        help_text="Dropdown menus shown in the main navigation bar. The "
+        "buttons and search box are not configurable here.",
+    )
+
+    panels = [FieldPanel("menus")]
+
+    class Meta:
+        verbose_name = "Main Navigation"

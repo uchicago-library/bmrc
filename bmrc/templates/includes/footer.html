@@ -28,51 +28,19 @@
             </div>
 
             <nav class="col-12 col-md-6" aria-label="Footer">
-                <div class="row">
-                    <div class="col col-md-6 mb-3">
-                        <h3 class="h5">About</h3>
-                        <ul class="nav flex-column">
-                            <li class="nav-item mb-2"><a href="/about/" class="nav-link p-0">About the BMRC</a></li>
-                            <li class="nav-item mb-2"><a href="/about/membership-information/" class="nav-link p-0">Membership Information</a></li>
-                            <li class="nav-item mb-2"><a href="/about/membership" class="nav-link p-0">Current Members</a></li>
-                            <li class="nav-item mb-2"><a href="/about/partnerships/" class="nav-link p-0">Partnerships</a></li>
-                            <li class="nav-item mb-2"><a href="/about/board-committees/" class="nav-link p-0">Board & Committees</a></li>
-                            <li class="nav-item mb-2"><a href="/about/staff/" class="nav-link p-0">Staff</a></li>
-                            <li class="nav-item mb-2"><a href="/contact/" class="nav-link p-0">Contact</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="col col-md-6 mb-3">
-                        <h3 class="h5">Information</h3>
-                        <ul class="nav flex-column">
-                            <li class="nav-item mb-2"><a href="/news/" class="nav-link p-0">News</a></li>
-                            <li class="nav-item mb-2"><a href="/events/" class="nav-link p-0">Events</a></li>
-                            <li class="nav-item mb-2"><a href="/research-notes/" class="nav-link p-0">Research Notes</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row">
-
-                    <div class="col col-md-6 mb-3">
-                        <h3 class="h5">Programs</h3>
-                        <ul class="nav flex-column">
-                            <li class="nav-item mb-2"><a href="/programs/summer-short-term-fellowship/" class="nav-link p-0">Summer Short-term Fellowship</a></li>
-                            <li class="nav-item mb-2"><a href="/programs/archie-motley-archival-internship-program/" class="nav-link p-0">Archie Motley Internship</a></li>
-                            <li class="nav-item mb-2"><a href="/programs/color-curtain-processing-project/" class="nav-link p-0">Color Curtain Project</a></li>
-                            <li class="nav-item mb-2"><a href="/programs/survey-initiative/" class="nav-link p-0">Survey Initiative</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="col col-md-6 mb-3">
-                        <h3 class="h5">Resources</h3>
-                        <ul class="nav flex-column">
-                            <li class="nav-item mb-2"><a href="/resources/archives-awareness/" class="nav-link p-0">Archives Awareness</a></li>
-                            <li class="nav-item mb-2"><a href="/resources/legacy-management-resources-portal/" class="nav-link p-0">Legacy Management</a></li>
-                            <li class="nav-item mb-2"><a href="/resources/protest-archives/" class="nav-link p-0">Protest in the Archives</a></li>
-                            <li class="nav-item mb-2"><a href="/resources/workshops" class="nav-link p-0">Workshops</a></li>
-                            <li class="nav-item mb-2"><a href="/resources/jobs" class="nav-link p-0">Jobs and Opportunities</a></li>
-                        </ul>
-                    </div>
+                <div class="row row-cols-1 row-cols-md-2">
+                    {% for menu in settings.site_settings.MainNavigation.menus %}
+                        {% if menu.value.items %}
+                            <div class="col mb-3">
+                                <h3 class="h5">{{ menu.value.title }}</h3>
+                                <ul class="nav flex-column">
+                                    {% for item in menu.value.items %}
+                                        <li class="nav-item mb-2"><a href="{% if item.page %}{% pageurl item.page %}{% elif item.url %}{{ item.url }}{% else %}#{% endif %}" class="nav-link p-0">{{ item.title }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </nav>
         </div>
